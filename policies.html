@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policies | HousingHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
+body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
+#cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
+#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
+body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:5px;height:5px}
+body.cursor-click #cur-ring{width:28px;height:28px}
+.page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
+@keyframes atmo{0%{filter:brightness(1)}100%{filter:brightness(1.1) hue-rotate(6deg)}}
+.page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
+.ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
+@keyframes pdrift{0%{transform:translateY(100vh) scale(0);opacity:0}5%{opacity:1}95%{opacity:.5}100%{transform:translateY(-10vh) translateX(50px) scale(1.4);opacity:0}}
+.z{position:relative;z-index:10}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:9000;display:flex;justify-content:space-between;align-items:center;padding:18px 60px;background:var(--gold);border-bottom:1px solid var(--border);animation:fadeDown .8s ease both;overflow:visible}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.header-logo{display:flex;align-items:center;gap:14px}
+.logo-circle{width:65px;height:65px;border-radius:50%;object-fit:cover;border:2px solid var(--gb)}
+.logo-text{font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
+.logo-slogan{font-size:14px;color:darkblue;font-style:italic;display:block;margin-top:3px}
+nav{display:flex;align-items:center;gap:4px;overflow:visible;position:relative;z-index:9001}
+nav > a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--white);text-decoration:none;padding:8px 14px;transition:color .3s}
+nav > a:hover{opacity:.8}
+.dropdown{position:relative;overflow:visible;z-index:9002}
+.dd-btn{display:block;font-family:"Outfit",sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:darkblue;background:none;border:none;padding:8px 14px;white-space:nowrap;cursor:pointer;transition:color .3s}
+.dd-btn:hover,.dd-btn.open{color:var(--white)}
+.dd-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:230px;z-index:99999;background:rgba(4,9,26,.99);border:1px solid var(--gb);border-radius:5px;padding:6px 0;box-shadow:0 24px 60px rgba(0,0,0,.85)}
+.dd-menu.open{display:block}
+.dd-menu a{display:block;font-size:12px;font-weight:400;letter-spacing:1px;color:var(--muted);text-decoration:none;padding:11px 22px;transition:color .2s,background .2s;white-space:nowrap}
+.dd-menu a:hover{color:var(--gold);background:rgba(200,164,60,.08)}
+.dd-divider{height:1px;background:var(--border);margin:5px 0}
+
+/* PAGE HERO */
+.page-hero{position:relative;z-index:10;text-align:center;padding:100px 60px 70px;border-bottom:1px solid var(--border)}
+.page-eyebrow{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:20px}
+.page-eyebrow::before,.page-eyebrow::after{content:"";width:36px;height:1px;background:var(--gold)}
+.page-hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,80px);font-weight:700;color:var(--white);line-height:1;margin-bottom:20px}
+.page-hero h1 em{color:var(--gold);font-style:italic}
+.page-hero p{font-size:16px;color:var(--muted);max-width:580px;margin:0 auto;line-height:1.8}
+
+/* TOC */
+.toc-wrap{position:relative;z-index:10;padding:48px 60px;border-bottom:1px solid var(--border)}
+.toc-title{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px}
+.toc-grid{display:flex;flex-wrap:wrap;gap:10px}
+.toc-link{font-size:12px;padding:8px 16px;border:1px solid var(--border);border-radius:4px;color:var(--muted);text-decoration:none;transition:all .3s;letter-spacing:.5px}
+.toc-link:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,164,60,.06)}
+
+/* POLICIES */
+.policies-wrap{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:60px 60px 80px}
+.policy-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:36px 40px;margin-bottom:24px;transition:border-color .4s}
+.policy-card:hover{border-color:var(--gb)}
+.policy-card-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.policy-icon{width:44px;height:44px;border-radius:10px;background:rgba(200,164,60,.1);border:1px solid rgba(200,164,60,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.policy-card h3{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:var(--white)}
+.policy-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.policy-card ul li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--muted);line-height:1.6}
+.policy-card ul li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+
+/* LAST UPDATED */
+.last-updated{position:relative;z-index:10;text-align:center;padding:0 60px 20px;font-size:12px;color:rgba(255,255,255,.2);letter-spacing:1px}
+
+/* CTA */
+.cta-block{position:relative;z-index:10;margin:0 60px 80px;background:linear-gradient(135deg,rgba(200,164,60,.1),rgba(14,90,200,.08));border:1px solid var(--border);border-radius:14px;padding:56px;text-align:center}
+.cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--white);margin-bottom:12px}
+.cta-block h2 em{color:var(--gold);font-style:italic}
+.cta-block p{font-size:15px;color:var(--muted);max-width:460px;margin:0 auto 28px;line-height:1.7}
+.btn-primary{padding:14px 32px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .3s;display:inline-block}
+.btn-primary:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 10px 28px rgba(200,164,60,.3)}
+
+footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;font-size:12px;letter-spacing:1.5px;color:rgba(255,255,255,.2);position:relative;z-index:10}
+
+@media(max-width:900px){
+  header,footer{padding-left:24px;padding-right:24px}
+  .page-hero,.toc-wrap,.policies-wrap,.cta-block,.last-updated{padding-left:24px;padding-right:24px}
+  .cta-block{margin-left:24px;margin-right:24px;padding:36px 24px}
+  body{cursor:auto}
+  #cur-dot,#cur-ring,#cur-trail{display:none}
+}
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+body { padding-top: 106px !important; }
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+  box-shadow: 0 2px 28px rgba(0,0,0,.28) !important;
+}
+nav { position: relative !important; z-index: 100000 !important; }
+.dropdown { z-index: 100001 !important; }
+.dd-menu { z-index: 100002 !important; }
+@media(max-width:900px){ body { padding-top: 80px !important; } }
+</style>
+</head>
+<body>
+<div id="cur-dot"></div><div id="cur-ring"></div><div id="cur-trail"></div>
+<div class="page-bg"></div><div class="page-grid"></div>
+
+<!-- HEADER -->
+<header class="z">
+  <div class="header-logo">
+    <img src="image/hub.jpg" alt="Logo" class="logo-circle">
+    <div>
+      <h1 class="logo-text">HOUSING HUB</h1>
+      <span class="logo-slogan">"Your Property, Our Priority"</span>
+    </div>
+  </div>
+  <nav>
+    <div class="dropdown">
+      <button class="dd-btn">Home &#9660;</button>
+      <div class="dd-menu">
+        <a href="index.html#welcome">Welcome</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="index.html#testimonials">Testimonials</a>
+        <a href="index.html#our-stats">Our Stats</a>
+        <a href="index.html#faqs">FAQs</a>
+        <a href="index.html#contact-us">Contact Us</a>
+        <a href="index.html#latest-news">Latest News</a>
+        <a href="index.html#current-offers">Current Offers</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dd-btn">Features &#9660;</button>
+      <div class="dd-menu">
+        <a href="virtual.php">Virtual Property Tours</a>
+        <a href="visitor.php">Visitor/Guest Management</a>
+        <a href="applications.php">Online Tenant Applications</a>
+        <a href="reporting.php">Rent/Buy Reporting</a>
+        <a href="lease.php">Online Lease</a>
+        <a href="maintenance.php">Maintenance</a>
+        <a href="rent_collection.php">Rent Collection</a>
+        <a href="notifications.php">Smart Notification Center</a>
+        <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+        <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="policies.html">Policies</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dd-btn">Use Cases &#9660;</button>
+      <div class="dd-menu">
+        <a href="tenants.php">Tenants</a>
+        <a href="propertyowners.php">Property Owners</a>
+        <a href="broker.php">Broker</a>
+        <a href="employment.php">Employment</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dd-btn">Properties &#9660;</button>
+      <div class="dd-menu">
+        <a href="properties.php">All Properties</a>
+        <div class="dd-divider"></div>
+        <a href="properties.php?type=Commercial">Commercial</a>
+        <a href="properties.php?type=Residential">Residential</a>
+        <a href="properties.php?type=Industrial">Industrial</a>
+        <a href="properties.php?type=Agricultural">Agricultural</a>
+        <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+        <a href="properties.php?type=Land">Land</a>
+      </div>
+    </div>
+    <a href="index.php">Login</a>
+    <div class="dropdown">
+      <button class="dd-btn">About Us &#9660;</button>
+      <div class="dd-menu">
+        <a href="who.php">Who We Are</a>
+        <a href="what.php">What We Do</a>
+        <a href="vision.php">Our Vision</a>
+        <a href="values.php">Core Values</a>
+        <a href="contact.php">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="page-hero z">
+  <div class="page-eyebrow">Legal &amp; Guidelines</div>
+  <h1>HousingHub <em>Policies</em></h1>
+  <p>Our policies exist to protect tenants, landlords, brokers, and staff. Read through them carefully to understand your rights and responsibilities on the platform.</p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-wrap z reveal">
+  <div class="toc-title">Jump To Section</div>
+  <div class="toc-grid">
+    <a href="#tenant-resp" class="toc-link">Tenant Responsibilities</a>
+    <a href="#owner-resp" class="toc-link">Property Owner &amp; Broker</a>
+    <a href="#commission" class="toc-link">Broker Commission</a>
+    <a href="#inspection" class="toc-link">Property Inspection</a>
+    <a href="#tenancy" class="toc-link">Tenancy &amp; Payments</a>
+    <a href="#employment" class="toc-link">Employment &amp; Staff</a>
+    <a href="#discipline" class="toc-link">Staff Discipline</a>
+    <a href="#payment" class="toc-link">Payment &amp; Fees</a>
+    <a href="#maintenance" class="toc-link">Maintenance &amp; Repairs</a>
+    <a href="#privacy" class="toc-link">Privacy &amp; Data</a>
+    <a href="#legal" class="toc-link">Legal &amp; Compliance</a>
+    <a href="#feedback" class="toc-link">Feedback &amp; Complaints</a>
+  </div>
+</div>
+
+<!-- POLICIES -->
+<div class="policies-wrap">
+
+  <div class="policy-card reveal" id="tenant-resp">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128104;&#8205;&#127968;</div>
+      <h3>Tenant Responsibilities</h3>
+    </div>
+    <ul>
+      <li>Timely payment of rent and utilities as agreed in the lease</li>
+      <li>Maintaining property cleanliness, hygiene, and safety at all times</li>
+      <li>Reporting maintenance issues promptly through the HousingHub platform</li>
+      <li>Respecting neighbours, building rules, and community standards</li>
+      <li>Not making unauthorized alterations, modifications, or damage to the property</li>
+      <li>Giving proper notice before vacating as specified in the lease agreement</li>
+      <li>Allowing authorized property inspections with reasonable notice</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="owner-resp">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#127968;</div>
+      <h3>Property Owner &amp; Broker Responsibilities</h3>
+    </div>
+    <ul>
+      <li>Providing accurate, truthful property listings with no misleading information</li>
+      <li>Ensuring all properties meet safety, health, and legal housing standards</li>
+      <li>Responding promptly to tenant inquiries, applications, and maintenance requests</li>
+      <li>Respecting tenant privacy and providing proper notice before property visits</li>
+      <li>Following fair housing practices without discrimination of any kind</li>
+      <li>Maintaining clear lease agreements with transparent and honest rental terms</li>
+      <li>Keeping proper records of payments, contracts, and tenant communications</li>
+      <li>Brokers must act professionally and avoid unauthorized fees or fraudulent activity</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="commission">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128176;</div>
+      <h3>Broker Commission Rules</h3>
+    </div>
+    <ul>
+      <li>Brokers earn commissions that are clearly stated and agreed upon in writing</li>
+      <li>Commission fees are transparent and only disclosed after tenant payments are confirmed</li>
+      <li>No broker is permitted to collect hidden, unauthorized, or inflated charges</li>
+      <li>All commission payments must be documented through official HousingHub receipts</li>
+      <li>Brokers must comply with local laws and regulations governing agency and rental commissions</li>
+      <li>Any disputes regarding commission amounts or timing will be reviewed by HousingHub management</li>
+      <li>Repeated commission violations may result in suspension or permanent removal from the platform</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="inspection">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128269;</div>
+      <h3>Property Inspection Rules</h3>
+    </div>
+    <ul>
+      <li>All property inspections must be scheduled and agreed upon with tenants in advance</li>
+      <li>Owners and brokers must provide at least 24&ndash;48 hours notice before any visit</li>
+      <li>Emergency inspections are only permitted when urgent safety or structural risks exist</li>
+      <li>Inspections must respect tenant privacy and cause minimal disruption to daily life</li>
+      <li>Inspection findings, reports, and photos must be recorded and shared via HousingHub</li>
+      <li>Tenants may report improper, unannounced, or harassing inspections to HousingHub support</li>
+      <li>Move-in and move-out inspection checklists must be completed and signed by both parties</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="tenancy">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128203;</div>
+      <h3>Tenancy &amp; Rent Agreement Policy</h3>
+    </div>
+    <ul>
+      <li>A user becomes an official tenant only after a successful and verified payment on HousingHub</li>
+      <li>Tenancy records are created automatically in the system upon payment confirmation</li>
+      <li>Each tenancy is linked to a specific property, payment reference, and action (rent/buy/lease)</li>
+      <li>Active tenants have access to their lease, payment history, and maintenance portal</li>
+      <li>Tenancy status may be set to active, expired, or terminated by the landlord or admin</li>
+      <li>Tenants must be formally offboarded when vacating, with all outstanding balances cleared</li>
+      <li>Sub-letting or transferring tenancy without landlord approval is strictly prohibited</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="employment">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128084;</div>
+      <h3>Employment &amp; Staff Conduct Policies</h3>
+    </div>
+    <ul>
+      <li>All HousingHub staff must maintain professionalism when dealing with tenants and property owners</li>
+      <li>Employees must protect tenant and landlord data and honour all confidentiality agreements</li>
+      <li>Staff must provide timely, accurate, and respectful support to all platform users</li>
+      <li>Unethical behaviour, corruption, bribery, or harassment is strictly prohibited and actionable</li>
+      <li>All employees must follow company procedures for complaints and dispute resolution</li>
+      <li>System administrators must ensure platform security and enforce proper access control</li>
+      <li>Staff are expected to communicate openly, respectfully, and transparently at all times</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="discipline">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#9878;&#65039;</div>
+      <h3>Termination &amp; Staff Discipline Procedures</h3>
+    </div>
+    <ul>
+      <li>All HousingHub staff must comply with professional, ethical, and legal standards</li>
+      <li>Policy violations may result in formal warnings, suspension, or contract termination</li>
+      <li>Serious misconduct such as fraud, harassment, or data misuse leads to immediate dismissal</li>
+      <li>Every employee has the right to a fair and documented investigation before any disciplinary action</li>
+      <li>Repeated negligence, poor performance, or customer complaints may result in contract termination</li>
+      <li>All disciplinary actions are formally documented and reviewed by senior management</li>
+      <li>Departing staff must return all company credentials, devices, and access rights immediately</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="payment">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128178;</div>
+      <h3>Payment &amp; Fees</h3>
+    </div>
+    <ul>
+      <li>Rent is due on the first day of each month unless otherwise specified in the lease</li>
+      <li>Late payments may incur penalty fees as clearly outlined in the signed lease agreement</li>
+      <li>Security deposits are fully refundable upon lease completion subject to satisfactory inspection</li>
+      <li>Utility bills (water, electricity, internet) are the tenant&rsquo;s responsibility unless stated otherwise</li>
+      <li>All payment receipts are issued and stored digitally through the HousingHub platform</li>
+      <li>Payments may be made via MTN MoMo, Airtel Money, debit/credit card, or bank transfer</li>
+      <li>Disputes on payments must be raised within 7 days of the transaction for review</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="maintenance">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128295;</div>
+      <h3>Maintenance &amp; Repairs</h3>
+    </div>
+    <ul>
+      <li>All maintenance requests must be submitted through the HousingHub maintenance portal</li>
+      <li>Emergency repairs such as electrical faults and burst pipes will be prioritised and addressed within 24 hours</li>
+      <li>Non-emergency requests will be scheduled within 72 hours based on technician availability</li>
+      <li>Tenants are responsible for minor upkeep and must report damages promptly to avoid escalation</li>
+      <li>Property managers must document all repair progress, costs, and completion status on the platform</li>
+      <li>Repairs caused by tenant negligence or misuse may be charged to the tenant&rsquo;s account</li>
+      <li>Tenants can track the live status of their maintenance requests from their dashboard</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="privacy">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128274;</div>
+      <h3>Privacy &amp; Data Protection</h3>
+    </div>
+    <ul>
+      <li>All tenant, landlord, and broker information is securely stored using encryption</li>
+      <li>Personal data is only shared with authorised personnel or when required by law</li>
+      <li>HousingHub fully complies with local and applicable data protection regulations</li>
+      <li>Tenant documents, lease agreements, and payment records are kept strictly confidential</li>
+      <li>Access logs and audit trails are maintained for security and accountability purposes</li>
+      <li>Users may request deletion or amendment of their personal data by contacting support</li>
+      <li>HousingHub will never sell or share user data with third parties for commercial purposes</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="legal">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#9878;&#65039;</div>
+      <h3>Legal &amp; Compliance</h3>
+    </div>
+    <ul>
+      <li>All lease agreements and property contracts comply with Ugandan housing and tenancy laws</li>
+      <li>Evictions are only carried out following proper legal procedures and adequate notice periods</li>
+      <li>Security deposit handling adheres strictly to local housing and financial regulations</li>
+      <li>Non-compliance with platform rules may result in account suspension or legal referral</li>
+      <li>HousingHub reserves the right to remove listings or accounts that violate legal standards</li>
+      <li>Disputes that cannot be resolved on the platform may be referred to relevant Ugandan authorities</li>
+    </ul>
+  </div>
+
+  <div class="policy-card reveal" id="feedback">
+    <div class="policy-card-header">
+      <div class="policy-icon">&#128172;</div>
+      <h3>Feedback &amp; Complaint Handling</h3>
+    </div>
+    <ul>
+      <li>Tenants, landlords, and brokers may submit complaints anonymously or with identification</li>
+      <li>All complaints are logged, tracked, and followed up until full resolution</li>
+      <li>Response times and follow-ups are actively monitored through the HousingHub platform</li>
+      <li>Feedback surveys are issued regularly to all users to improve platform quality and service</li>
+      <li>Management will communicate all resolutions transparently to the parties involved</li>
+      <li>Unresolved or escalated complaints may be reviewed by senior HousingHub management</li>
+      <li>Malicious, false, or abusive complaints may result in account review or suspension</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="last-updated z">Last Updated: January 2026 &mdash; HousingHub Uganda</div>
+
+<!-- CTA -->
+<div class="cta-block z reveal">
+  <h2>Questions About Our <em>Policies?</em></h2>
+  <p>Our support team is available to clarify any of our policies or help you understand your rights and responsibilities on the platform.</p>
+  <a href="contact.php" class="btn-primary">Contact Support</a>
+</div>
+
+<footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>
+
+<script>
+function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(function(m){m.classList.remove('open')});document.querySelectorAll('.dd-btn.open').forEach(function(b){b.classList.remove('open')})}
+document.querySelectorAll('.dropdown').forEach(function(dd){var btn=dd.querySelector('.dd-btn');var menu=dd.querySelector('.dd-menu');if(!btn||!menu)return;btn.addEventListener('click',function(e){e.stopPropagation();var isOpen=menu.classList.contains('open');closeAllMenus();if(!isOpen){menu.classList.add('open');btn.classList.add('open')}});menu.addEventListener('mousedown',function(e){e.stopPropagation()});menu.addEventListener('click',function(e){e.stopPropagation()})});
+document.addEventListener('click',closeAllMenus);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllMenus()});
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail');
+let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;tx+=(mx-tx)*.06;ty+=(my-ty)*.06;ring.style.left=rx+'px';ring.style.top=ry+'px';trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.policy-card,.toc-link').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));});
+document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
+for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.15).toFixed(2)});animation-duration:${Math.random()*22+10}s;animation-delay:${Math.random()*18}s;`;document.body.appendChild(p);}
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>

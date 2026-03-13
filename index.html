@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HousingHub | Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+body { padding-top: 106px !important; }
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+  box-shadow: 0 2px 28px rgba(0,0,0,.28) !important;
+}
+nav { position: relative !important; z-index: 100000 !important; }
+.dropdown { z-index: 100001 !important; }
+.dd-menu { z-index: 100002 !important; }
+@media(max-width:900px){ body { padding-top: 80px !important; } }
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="cur-trail"></div>
+<div id="cur-label"></div>
+<div class="page-bg"></div>
+<div class="page-grid"></div>
+
+<div class="grid-images">
+  <div class="gi-card gi-up gi-1"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+  <div class="gi-card gi-up gi-2"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+  <div class="gi-card gi-up gi-3"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+  <div class="gi-card gi-dn gi-6"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+  <div class="gi-card gi-dn gi-7"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+  <div class="gi-card gi-dn gi-8"><div class="gi-inner"><img src="image/hhome.png" alt="House"></div></div>
+</div>
+
+<!-- HEADER -->
+<header class="z">
+  <div class="header-logo">
+    <img src="image/hub.jpg" alt="Logo" class="logo-circle">
+    <div>
+      <h1 class="logo-text">HOUSING HUB</h1>
+      <span class="logo-slogan">"Your Property, Our Priority"</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="dropdown">
+      <button class="dd-btn">Home &#9660;</button>
+      <div class="dd-menu">
+        <a href="index.html">Welcome</a>
+        <a href="works.php">How It Works</a>
+        
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dd-btn">Features &#9660;</button>
+      <div class="dd-menu">
+        <a href="virtual.php">Virtual Property Tours</a>
+        <a href="visitor.php">Visitor/Guest Management</a>
+        <a href="applications.php">Online Tenant Applications</a>
+        <a href="reporting.php">Rent/Buy Reporting</a>
+        <a href="lease.php">Online Lease</a>
+        <a href="maintenance.php">Maintenance</a>
+        <a href="rent_collection.php">Rent Collection</a>
+        <a href="notifications.php">Smart Notification Center</a>
+        <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+        <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="policies.html">Policies</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dd-btn">Use Cases &#9660;</button>
+      <div class="dd-menu">
+        <a href="tenants.php">Tenants</a>
+        <a href="propertyowners.php">Property Owners</a>
+        <a href="broker.php">Broker</a>
+        <a href="employment.php">Employment</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dd-btn">Properties &#9660;</button>
+      <div class="dd-menu">
+        <a href="properties.php">All Properties</a>
+        <div class="dd-divider"></div>
+        <a href="properties.php?type=Commercial">Commercial</a>
+        <a href="properties.php?type=Residential">Residential</a>
+        <a href="properties.php?type=Industrial">Industrial</a>
+        <a href="properties.php?type=Agricultural">Agricultural</a>
+        <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+        <a href="properties.php?type=Land">Land</a>
+      </div>
+    </div>
+
+    <a href="index.php" data-label="Login">Login</a>
+
+    <div class="dropdown">
+      <button class="dd-btn">About Us &#9660;</button>
+      <div class="dd-menu">
+        <a href="who.php">Who We Are</a>
+        <a href="what.php">What We Do</a>
+        <a href="vision.php">Our Vision</a>
+        <a href="values.php">Core Values</a>
+        <a href="contact.php">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="info z" id="home">
+  <div class="info-content">
+    <div class="info-eyebrow">Uganda's Premier Property Platform</div>
+    <h2>No More Stress<br>Every Housing<br><span class="stroke"><em>Challenge, Solved.</em></span></h2>
+    <p class="info-sub">HousingHub makes finding, renting, buying, leasing and managing properties effortless.
+       Built for landlords, tenants, and property managers across Uganda.</p>
+    <div class="info-buttons">
+      <a href="index.php" class="more-info" data-label="Let's Go!">Get Started</a>
+      <a href="works.php" class="more-secondary" data-label="Learn">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip z">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span>Property Management</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Rent &middot; Buy &middot; Lease</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Verified Listings</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Transparent Pricing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Uganda-Focused</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>24/7 Availability</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Smart Notifications</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Online Lease</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Maintenance Tracking</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Property Management</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Rent &middot; Buy &middot; Lease</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Verified Listings</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Transparent Pricing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Uganda-Focused</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>24/7 Availability</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Smart Notifications</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Online Lease</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Maintenance Tracking</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="motivate z reveal">
+  <h4>Various <em>Ratings</em></h4>
+  <div class="motivate-grid">
+    <div class="motivate-item"><h3 class="counter" data-target="80" data-type="percent">0%</h3><p>Property Management</p></div>
+    <div class="motivate-item"><h3 class="counter" data-target="90" data-type="percent">0%</h3><p>Reliability</p></div>
+    <div class="motivate-item"><h3 class="counter" data-target="99.9" data-type="percent">0%</h3><p>User Friendly</p></div>
+    <div class="motivate-item"><h3 class="counter" data-target="24" data-type="hours">0/7</h3><p>Availability</p></div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="outcomes z reveal">
+  <div class="outcomes-container">
+    <h3 class="section-title-white">Measurable Results <em>You Can Expect</em></h3>
+    <p class="section-subtitle-white">Join thousands who've transformed their pursuits with HousingHub</p>
+    <div class="outcomes-grid">
+      <div class="outcome-item"><div class="outcome-icon">&#x2197;</div><h4>95%</h4><p>Increase in total revenue</p></div>
+      <div class="outcome-item"><div class="outcome-icon">&#x23F0;</div><h4>10 hrs/day</h4><p>Time Saving</p></div>
+      <div class="outcome-item"><div class="outcome-icon">&#128512;</div><h4>40%</h4><p>Reduction in tenant turnover</p></div>
+      <div class="outcome-item"><div class="outcome-icon">&#x23E9;</div><h4>3x Faster</h4><p>Maintenance response times</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BROKERS -->
+<section class="brokers z" id="brokers" style="display:none;">
+  <div class="brokers-container">
+    <a href="javascript:history.back()" class="back-link">&#8592; Previous</a>
+    <h2>Are you a <em>Broker</em> or Property Owner?</h2>
+    <p>List your properties on <strong style="color:var(--gold)">HousingHub</strong> and earn commissions while we manage everything for you securely! Reach more tenants, track your earnings, and enjoy a hustle-free property management experience.</p>
+    <div class="broker-buttons"><a href="register.php" class="cta-btn" data-label="Join!">JOIN US</a></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about z reveal">
+  <h3>About Our <em>System</em></h3>
+  <p>HousingHub is a modern housing management system designed for landlords, property managers, and housing organizations to streamline operations, improve transparency, enhance tenant satisfaction and reduce manual work.</p>
+</section>
+
+<!-- CTA -->
+<section class="cta z reveal">
+  <h3>Ready to <em>Manage Smarter?</em></h3>
+  <p>Join a growing community of smart property managers across Uganda.</p>
+  <a href="index.php" data-label="Join!">Create an Account</a>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="quick-links z reveal">
+  <div class="quick-container">
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+      <a href="testimonials.php">Testimonials</a>
+      <a href="whyus.php">Why Choose Us</a>
+      <a href="pricing.php">Pricing</a>
+      <h3 style="margin-top:30px">Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor Management</a>
+      <a href="applications.php">Tenant Applications</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+    </div>
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenants.php">Tenants</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker</a>
+      <a href="employment.php">Employment</a>
+      <h3 style="margin-top:30px">Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+      <a href="policies.html">Policies</a>
+      <h3 style="margin-top:30px">About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>
+
+<script>
+function closeAllMenus(){
+  document.querySelectorAll('.dd-menu.open').forEach(function(m){m.classList.remove('open');});
+  document.querySelectorAll('.dd-btn.open').forEach(function(b){b.classList.remove('open');});
+}
+document.querySelectorAll('.dropdown').forEach(function(dd){
+  var btn=dd.querySelector('.dd-btn'),menu=dd.querySelector('.dd-menu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var isOpen=menu.classList.contains('open');
+    closeAllMenus();
+    if(!isOpen){menu.classList.add('open');btn.classList.add('open');}
+  });
+  menu.addEventListener('mousedown',function(e){e.stopPropagation();});
+  menu.addEventListener('click',function(e){e.stopPropagation();});
+});
+document.addEventListener('click',closeAllMenus);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllMenus();});
+
+/* CURSOR */
+var dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail'),lbl=document.getElementById('cur-label');
+var mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+  lbl.style.left=(mx+18)+'px';lbl.style.top=(my-10)+'px';
+});
+(function tick(){
+  rx+=(mx-rx)*.15;ry+=(my-ry)*.15;
+  tx+=(mx-tx)*.06;ty+=(my-ty)*.06;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  trail.style.left=tx+'px';trail.style.top=ty+'px';
+  requestAnimationFrame(tick);
+})();
+document.querySelectorAll('a,button,.motivate-item,.outcome-item,.job-card').forEach(function(el){
+  el.addEventListener('mouseenter',function(){
+    document.body.classList.add('cursor-hover');
+    var l=el.getAttribute('data-label');
+    if(l){lbl.textContent=l;lbl.classList.add('visible');}
+  });
+  el.addEventListener('mouseleave',function(){
+    document.body.classList.remove('cursor-hover');
+    lbl.classList.remove('visible');
+  });
+});
+document.addEventListener('mousedown',function(){document.body.classList.add('cursor-click');});
+document.addEventListener('mouseup',function(){document.body.classList.remove('cursor-click');});
+
+/* PARTICLES */
+for(var i=0;i<20;i++){
+  var p=document.createElement('div');p.classList.add('ptcl');
+  var sz=Math.random()*3+1;
+  p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;background:rgba(200,164,60,'+(Math.random()*.5+.15).toFixed(2)+');animation-duration:'+(Math.random()*22+10)+'s;animation-delay:'+(Math.random()*18)+'s;';
+  document.body.appendChild(p);
+}
+
+/* SCROLL REVEAL */
+var ro=new IntersectionObserver(function(entries,obs){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+
+/* COUNTERS */
+var counterStates = {};
+document.querySelectorAll('.counter').forEach(function(c, i) {
+  var target = parseFloat(c.dataset.target);
+  var type = c.dataset.type;
+  // Set final value immediately on load
+  c.innerText = type === 'hours' ? target + '/7' : target + '%';
+  counterStates[i] = { running: false };
+  c.dataset.idx = i;
+});
+
+function animateCounter(c, state) {
+  if (state.running) return;
+  state.running = true;
+  var target = parseFloat(c.dataset.target);
+  var type = c.dataset.type;
+  var steps = 60, step = 0;
+  function tick() {
+    step++;
+    var eased = 1 - Math.pow(1 - step / steps, 3);
+    var val = target * eased;
+    if (type === 'hours') {
+      c.innerText = Math.floor(val) + '/7';
+    } else {
+      c.innerText = (target % 1 ? val.toFixed(1) : Math.floor(val)) + '%';
+    }
+    if (step < steps) {
+      requestAnimationFrame(tick);
+    } else {
+      c.innerText = type === 'hours' ? target + '/7' : target + '%';
+      state.running = false;
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+var PROXIMITY = 140;
+var proximityActive = {};
+document.addEventListener('mousemove', function(e) {
+  document.querySelectorAll('.counter').forEach(function(c) {
+    var idx = c.dataset.idx;
+    var state = counterStates[idx];
+    var rect = c.closest('.motivate-item').getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var dist = Math.sqrt(Math.pow(e.clientX - cx, 2) + Math.pow(e.clientY - cy, 2));
+    var item = c.closest('.motivate-item');
+
+    if (dist < PROXIMITY) {
+      if (!proximityActive[idx]) {
+        proximityActive[idx] = true;
+        item.classList.add('proximity-active');
+        animateCounter(c, state);
+      }
+    } else {
+      if (proximityActive[idx]) {
+        proximityActive[idx] = false;
+        item.classList.remove('proximity-active');
+      }
+    }
+  });
+});
+
+/* OUTCOMES — always show final value, re-animate on proximity */
+var outcomeStates = {};
+var outcomeProximityActive = {};
+
+document.querySelectorAll('.outcome-item').forEach(function(item, i) {
+  outcomeStates[i] = { running: false };
+  outcomeProximityActive[i] = false;
+  item.dataset.outcomeIdx = i;
+});
+
+function animateOutcome(item, state) {
+  if (state.running) return;
+  var h4 = item.querySelector('h4');
+  if (!h4) return;
+  var finalText = h4.dataset.final;
+  if (!finalText) return;
+
+  state.running = true;
+
+  // Parse the number and any surrounding text (e.g. "95%", "10 hrs/day", "40%", "3x Faster")
+  var match = finalText.match(/([\d.]+)(.*)/);
+  if (!match) { state.running = false; return; }
+
+  var target = parseFloat(match[1]);
+  var suffix = match[2];
+  var steps = 60, step = 0;
+
+  function tick() {
+    step++;
+    var eased = 1 - Math.pow(1 - step / steps, 3);
+    var val = target * eased;
+    var display = (target % 1 ? val.toFixed(1) : Math.floor(val)) + suffix;
+    h4.innerText = display;
+    if (step < steps) {
+      requestAnimationFrame(tick);
+    } else {
+      h4.innerText = finalText;
+      state.running = false;
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+// Store final values on load
+document.querySelectorAll('.outcome-item h4').forEach(function(h4) {
+  h4.dataset.final = h4.innerText.trim();
+});
+
+var OUTCOME_PROXIMITY = 150;
+document.addEventListener('mousemove', function(e) {
+  document.querySelectorAll('.outcome-item').forEach(function(item) {
+    var i = item.dataset.outcomeIdx;
+    var state = outcomeStates[i];
+    var rect = item.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var dist = Math.sqrt(Math.pow(e.clientX - cx, 2) + Math.pow(e.clientY - cy, 2));
+
+    if (dist < OUTCOME_PROXIMITY) {
+      if (!outcomeProximityActive[i]) {
+        outcomeProximityActive[i] = true;
+        item.classList.add('proximity-active');
+        animateOutcome(item, state);
+      }
+    } else {
+      if (outcomeProximityActive[i]) {
+        outcomeProximityActive[i] = false;
+        item.classList.remove('proximity-active');
+      }
+    }
+  });
+});
+
+/* TOGGLES */
+function toggleBrokers(){
+  var b=document.getElementById('brokers');
+  var show=(b.style.display==='none'||b.style.display==='');
+  b.style.display=show?'block':'none';
+  if(show)setTimeout(function(){b.scrollIntoView({behavior:'smooth'});},10);
+}
+function showEmployment(){
+  var s=document.getElementById('employmentSection');
+  if(!s)return;
+  var show=(s.style.display==='none'||s.style.display==='');
+  s.style.display=show?'block':'none';
+  if(show)setTimeout(function(){s.scrollIntoView({behavior:'smooth'});},10);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+/* GRID LAYOUTS */
+.feature-grid, .outcomes-grid, .motivate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+/* FEATURE CARDS */
+.feature-card, .outcome-item, .motivate-item {
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 30px 30px rgba(11, 15, 24, 0.959);
+    text-align: center;
+}
+
+/* COLORS for sections */
+.outcomes-grid .outcome-item {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.motivate-item {
+    background: #1e3a8a;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.features {
+    padding: 80px 8%;
+}
+
+.cta {
+    padding: 60px 8%;
+    text-align: center;
+}
+
+.learn-hero h2 {
+    font-size: 48px;
+}
+
+.learn-hero p {
+    font-size: 18px;
+}
+section img {
+    transition: transform 0.4s ease;
+}
+section img:hover {
+    transform: scale(1.05);
+}
+h1 {
+    display: flex;
+    align-items: center; /* vertically center text with logo */
+    gap: 10px;           /* space between logo and text */
+    font-family: 'Times New Roman', Times, serif;
+    color: #0f172a;
+}
+
+.logo-placeholder {
+    width: 70px;            /* size of the circle */
+    height: 70px;
+    border-radius: 50%;     /* makes it circular */
+    overflow: hidden;        /* crop the image to the circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #38bdf8; /* optional border for styling */
+    background-color: #f0f4f8; /* optional placeholder background */
+}
+
+.logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ensures the image fills the circle nicely */
+}
+</style>
+</head>
+<body>
+    
+
+<div class="learn-hero" style="background: linear-gradient(to right, #0f172a, #1e3a8a); color:white; padding: 80px 8%; text-align:center;">
+    <h2 style="font-size:48px; margin-bottom:20px;">Discover Why Thousands Trust HousingHub</h2>
+    <p style="font-size:18px; margin-bottom:30px;">From managing properties to tracking payments and maintenance, HousingHub makes everything simple and efficient.</p>
+    <a href="index.php" style="display:inline-block; padding:16px 32px; border-radius:30px; background:#38bdf8; color:#0f172a; font-weight:bold; text-decoration:none;">Get Started</a>
+</div>
+
+<!-- FEATURES CORNER -->
+<div class="features" style="padding:80px 8%; text-align:center;border: 2px solid blue;">
+    <h3>All-In-One Features</h3>
+    <div class="feature-grid">
+        <div class="feature-card"><p>Centralized Operations Hub</p></div>
+        <div class="feature-card"><p>Time-Saving Smart Workflows</p></div>
+        <div class="feature-card"><p>Instant Search & Filters</p></div>
+        <div class="feature-card"><p>Priority Task Monitoring</p></div>
+        <div class="feature-card"><p>Controlled System Access</p></div>
+        <div class="feature-card"><p>Automated System Backups</p></div>
+        <div class="feature-card"><p>Seamless Workflow Integration</p></div>
+        <div class="feature-card"><p> One-Click Data Exports</p></div>
+        <div class="feature-card"><p> Customizable System Modules</p></div>
+        <div class="feature-card"><p> Fast Load Performance</p></div>
+        <div class="feature-card"><p>Built-In Communication Tools</p></div>
+        <div class="feature-card"><p>Manage everything seamlessly.</p></div>
+    </div>
+</div>
+
+<!-- HOUSING IMAGE SHOWCASE -->
+<section style="padding:80px 8%; background:#05155a; text-align:center;">
+    <h3 style="color:white; margin-bottom:15px;">Our Housing Portfolio</h3>
+    <p style="color:#c7d2fe; margin-bottom:50px;">
+        A glimpse of the modern, well-managed housing environments supported by our platform
+    </p>
+
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        gap:30px;
+    ">
+        <div>
+            <img src="image/bed3.png" alt="Modern Apartments"
+                 style="width:100%; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+            <p style="color:white; margin-top:12px;">Modern Apartment Blocks</p>
+        </div>
+
+        <div>
+            <img src="image/bed5.png" alt="Residential Housing"
+                 style="width:100%; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+            <p style="color:white; margin-top:12px;">Residential Housing</p>
+        </div>
+
+        <div>
+            <img src="image/bed1.png" alt="commercial Housing"
+                 style="width:90%; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+            <p style="color:white; margin-top:12px;">Urban Housing Developments</p>
+        </div>
+
+        <div style="margin-bottom:40px;">
+        <img src="image/bed4.png" alt="Classy Housing"
+             style="width:80%; max-width:600px; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+        <p style="color:white; margin-top:12px;">Classy Housing</p>
+    </div>
+
+    <div style="margin-bottom:40px;">
+        <img src="image/bed7.png" alt="Mesmerizing Views"
+             style="width:90%; max-width:600px; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+        <p style="color:white; margin-top:12px;">Nature disposure</p>
+    </div>
+
+    <div style="margin-bottom:40px;">
+        <img src="image/bed2.png" alt="Mesmerizing View"
+             style="width:80%; max-width:600px; border-radius:18px; box-shadow:0 15px 30px rgba(0,0,0,0.3);">
+        <p style="color:white; margin-top:12px;">Mesmerizing View</p>
+    </div>
+
+</section>
+
+<!-- TESTIMONIES WITH  PROFILE PHOTOS -->
+<section class="testimonials" style="padding:80px 8%; background:#e0f2fe; box-shadow:0 15px 30px rgba(4, 71, 194, 0.973);text-align:center;">
+    <h3 style="margin-bottom:40px;">What Our Users Say</h3>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px;">
+
+        <div style="background:white; width:280px; border-radius:20px; padding:25px; box-shadow:0 10px 25px rgba(0,0,0,0.15); text-align:center;border: 2px solid blue;">
+            <!-- Profile Photo Placeholder -->
+            <div style="width:80px; height:80px; margin:0 auto 15px auto; border-radius:50%; background:#cbd5e1; overflow:hidden;">
+                <img src="image/pic.jpg" alt="Sarah K." style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <strong>Vivian Nawz.</strong>
+            <p style="font-style:italic; margin:15px 0;">HousingHub simplified our entire rental workflow and saved us hours every week!&#9786;&#9786;&#9786;</p>
+            <small>Property Manager</small>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div style="background:white; width:280px; border-radius:20px; padding:25px; box-shadow:0 10px 25px rgba(0,0,0,0.15); text-align:center;border: 2px solid blue;">
+            <div style="width:80px; height:80px; margin:0 auto 15px auto; border-radius:50%; background:#cbd5e1; overflow:hidden;">
+                <img src="image/pic2.jpg" alt="John M." style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <strong>Posh.M</strong>
+            <p style="font-style:italic; margin:15px 0;">Getting a home to rent is nolonger hard.</p>
+            <small>Tenant</small>
+        </div>
+        
+        <div style="background:white; width:280px; border-radius:20px; padding:25px; box-shadow:0 10px 25px rgba(0,0,0,0.15); text-align:center;border: 2px solid blue;">
+            <div style="width:80px; height:80px; margin:0 auto 15px auto; border-radius:50%; background:#cbd5e1; overflow:hidden;">
+                <img src="image/naume.jpg" alt="Emily R." style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <strong>Naume k.</strong>
+            <p style="font-style:italic; margin:15px 0;">"The automated reminders and analytics make managing multiple properties stress-free! </p>
+            <small>Housing Admin</small>
+        </div>
+
+    </div>
+</section>
+
+<!-- PLANS -->
+ <section class="testimonials" style="padding:80px 8%; background:rgb(12, 12, 71); color:white; text-align:center;">
+ <div class="outcomes" style="padding:80px 8%; text-align:center;">
+    <h3 class="section-title-white">Affordable Plans</h3>
+    <div class="outcomes-grid">
+        <div class="outcome-item"><h4>Free</h4><p>property marketing & financial management</p></div>
+        <div class="outcome-item"><h4>Pro</h4><p>client acquisition and sales strategies </p></div>
+        <div class="outcome-item"><h4>Ace</h4><p>vaccany reduction plans</p></div>
+    </div>
+</div>
+</section>
+
+<!-- STEP-BY-STEP GUIDE -->
+<div class="cta" style="padding:60px 8%; text-align:center;">
+    <h3>How HousingHub Works</h3>
+    <div class="feature-grid">
+        <div class="feature-card"><h4>1</h4><p>Create an account and add your login profile.</p></div>
+        <div class="feature-card"><h4>2 </h4> <p>Get a view of details in the Hub.</p></div>
+        <div class="feature-card"><h4>3 </h4> <p>Logout.</p></div>
+    </div>
+</div>
+
+<!-- VIDEO / IMAGE  -->
+<div class="features" style="padding:80px 8%; text-align:center; background:#f0f9ff;">
+    <h3>See HousingHub in Action</h3>
+    <div style="margin-top:30px;">
+        <video width="80%" controls style="border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            <source src="video/demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<!-- FAQS -->
+ <section class="FAQS" style="padding:80px 8%; background:rgb(12, 12, 71); color:rgb(17, 1, 1); text-align:center;">
+   <div class="about" style="padding:80px 8%; text-align:center;">
+    <h3 style="color: white;">Frequently Asked Questions</h3>
+    <div class="feature-grid">
+        <div class="feature-card"><h4>How secure is my data?</h4><p>Bank-level encryption and secure cloud storage.</p></div>
+        <div class="feature-card"><h4>Can I manage multiple properties?</h4><p>Yes, multi-property management is supported.</p></div>
+        <div class="feature-card"><h4>Can I track maintenance online?</h4><p>Yes, submit and monitor requests in real-time.</p></div>
+    </div>
+</div>
+</section>
+
+<!-- AWARDS / RECOGNITIONS -->
+<div class="outcomes" style="padding:80px 8%; text-align:center;">
+    <h3 class="section-title-white">Awards & Recognitions</h3>
+    <div class="outcomes-grid">
+        <div class="outcome-item"><h4> Best SaaS 2025</h4><p>Recognized for innovation in property management.</p></div>
+        <div class="outcome-item"><h4>***Top Rated</h4><p>Users rate us 5/5 for support and usability.</p></div>
+        <div class="outcome-item"><h4>Industry Leader</h4><p>Leading housing management solution in the region.</p></div>
+    </div>
+</div>
+
+<!-- FINAL CALL-TO-ACTION -->
+<div class="cta" style="padding:80px 8%; background:#0f172a; color:white; text-align:center;">
+    <h3>Ready to Get Started?</h3>
+    <p>Join thousands of happy landlords and property managers.</p>
+    <a href="index.php" style="display:inline-block; padding:16px 32px; background:#38bdf8; color:#0f172a; border-radius:30px; text-decoration:none; font-weight:bold;">Create Your Account</a>
+</div>
+</body>
+</html>

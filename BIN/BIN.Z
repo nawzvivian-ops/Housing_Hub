@@ -1,0 +1,2567 @@
+<section class="properties" id="properties">
+     <nav>
+        <a href="index.html" style="color: #020617;">⬅PREVIOUS</a>
+    </nav>
+    <div class="section-nav">
+    
+
+    </div>
+
+    <h2 style="font-family: 'Times New Roman', Times, serif";>Our Properties</h2>
+    <p class="section-intro">Explore some of the properties we handle for living.</p>
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>Residential</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>Various house types we manage.</p>
+            <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/bed7.png" alt="Apartment">
+        <p>Apartment</p>
+        <a href="image/bed7.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/house07.png" alt="Houses">
+        <p>Houses</p>
+        <a href="image/house07.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/bed1.png" alt="Rentals">
+        <p>Rentals</p>
+        <a href="image/bed1.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/villa.png" alt="Villas">
+        <p>Villas</p>
+        <a href="image/villa.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/house09.png" alt="Estates">
+        <p>Estates</p>
+        <a href="image/house09.png" download class="download-btn">Download</a>
+        </div>
+       </div>
+    
+        </div>
+    </div>
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>Commercial</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>For business income.</p>
+            <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/house0.png" alt="shopping malls">
+        <p>Shopping malls</p>
+        <a href="image/house0.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/office.png" alt="Offices">
+        <p>Offices</p>
+        <a href="image/office.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/super.png" alt="Supermarkets">
+        <p>Supermarkets</p>
+        <a href="image/super.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/shop.png" alt="shops">
+        <p>Shops</p>
+        <a href="image/shop.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/house09.png" alt="Hotels">
+        <p>Hotels</p>
+        <a href="image/house09.png" download class="download-btn">Download</a>
+        </div>
+       </div>
+    
+        </div>
+        </div>
+    </div>
+
+    
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>industrial</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>Land, warehouses or buildings used for manufacturing, production, or storage of goods..</p>
+            <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/house05.png" alt="warehouses">
+        <p>warehouses</p>
+        <a href="image/house05.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/bare.png" alt="land">
+        <p>land</p>
+        <a href="image/bare.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/indy.png" alt="factories">
+        <p>factories</p>
+        <a href="image/indy.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/w.png" alt="wkshps">
+        <p>workshops</p>
+        <a href="image/w.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/fac.png" alt="powerplants">
+        <p>powerplants</p>
+        <a href="image/fac.png" download class="download-btn">Download</a>
+        </div>
+       </div>
+            
+        </div>
+    </div>
+
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>Agricultural</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>Land used for farming or raising livestock.</p>
+            <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/land1.png" alt="farming">
+        <p>farming</p>
+        <a href="image/land1.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/li.png" alt="livestock">
+        <p>livestock</p>
+        <a href="image/li.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/fi.png" alt="fishfarms">
+        <p>fishfarms</p>
+        <a href="image/fi.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/o.png" alt="orchard">
+        <p>orchads</p>
+        <a href="image/o.png" download class="download-btn">Download</a>
+    </div>
+        </div>
+    </div>
+
+    </div>
+
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>Special purpose</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>Hired places or rented or leased .</p>
+            <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/g.png" alt="gvt buildinds">
+        <p>Gorvement buildings</p>
+        <a href="image/g.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/r.png" alt="church/mosques">
+        <p>religious buildings</p>
+        <a href="image/r.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/s.png" alt="sports">
+        <p>sports complex</p>
+        <a href="image/s.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/b.png" alt="hthcare">
+        <p>healthcare buildings</p>
+        <a href="image/b.png" download class="download-btn">Download</a>
+    </div>
+       </div>
+        </div>
+    </div>
+
+
+    <div class="property-card">
+        <div class="property-header" onclick="toggleProperty(this)">
+            <h3>Land</h3>
+            <span class="arrow">&#9660;</span>
+        </div>
+        <div class="property-details">
+            <p>Vacant or undeveloped land, which needs renting or buying or leasing.</p>
+           <div class="property-gallery">
+    <div class="gallery-item">
+        <img src="image/bare.png" alt="bareplots">
+        <p>bare plots</p>
+        <a href="image/bare.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/land1.png" alt="land">
+        <p>renting</p>
+        <a href="image/land1.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/sell.png" alt="selling">
+        <p>selling</p>
+        <a href="image/sell.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/by.png" alt="buying">
+        <p>buying</p>
+        <a href="image/by.png" download class="download-btn">Download</a>
+    </div>
+
+    <div class="gallery-item">
+        <img src="image/land.png" alt="lease">
+        <p>lease</p>
+        <a href="image/land.png" download class="download-btn">Download</a>
+        </div>
+       </div>
+        </div>
+    
+     </div>
+</section>
+
+
+
+// ----- PROPERTIES FUNCTION -----
+function toggleProperty(element) {
+    const details = element.nextElementSibling; // property-details div
+    const arrow = element.querySelector('.arrow');
+
+    // Close other open properties
+    document.querySelectorAll('.property-details').forEach(d => {
+        if (d !== details) d.classList.remove('active');
+    });
+
+    document.querySelectorAll('.property-header .arrow').forEach(a => {
+        if (a !== arrow) a.classList.remove('active');
+    });
+
+    // Toggle current property
+    details.classList.toggle('active');
+    arrow.classList.toggle('active');
+}
+//hides the properties to be visible once clicked on
+function toggleProperties() {
+    const props = document.getElementById('properties');
+    if (props.style.display === "block") {
+        props.style.display = "none";
+    } else {
+        props.style.display = "block";
+        // Optional: scroll to it
+        props.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+
+<div class="features" id="features">
+    <h3 style="font-family: 'Times New Roman', Times, serif;">Why HousingHub!!!</h3>
+    <div class="feature-grid">
+
+        <div class="feature-card" id="housing-management">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/hme.png" alt="Photo" width="70px" height="60px"> 
+                    <span>Housing Management</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Easily manage houses, apartments, occupancy, and availability.</p>
+            <div class="feature-details">
+                <h5>Core Features:</h5>
+                <ul>
+                    <li>Unlimited property and unit listings with detailed specifications</li>
+                    <li>Photo galleries, videos, screenshorts and 360° virtual tour support</li>
+                    <li>Real-time availability calendar and vacancy tracking</li>
+                    <li>Digital move-in/move-out inspection checklists</li>
+                    <li>Property documents (deeds, insurance, warranties)</li>
+                </ul>
+                <h5>Advanced Tools:</h5>
+                <ul>
+                    <li>Automated property valuation tracking</li>
+                    <li>Amenities and utilities management</li>
+                    <li>Multi-property portfolio dashboard</li>
+                    <li>Property performance analytics</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="tenant-records">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/tenant.PNG" alt="Photo" width="70px" height="90px">
+                    <span>Tenant Records</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Self-service access for tenants to manage their rental experience.</p>
+            <div class="feature-details">
+                <h5>Tenant Portal:</h5>
+                <ul>
+                    <li>Complete digital tenant profiles with history</li>
+                    <li>Online lease agreements and digital signatures</li>
+                    <li>Tenant screening and background verification</li>
+                    <li>Document sharing and storage (ID, contracts, notices)</li>
+                    <li>Lease renewal automation and reminders</li>
+                </ul>
+                <h5>Communication:</h5>
+                <ul>
+                    <li>Direct messaging with property managers</li>
+                    <li>Emergency contact management</li>
+                    <li>Tenant satisfaction surveys</li>
+                    <li>Notice board for community updates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="payments-tracking">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/cash.PNG" alt="Photo" width="70px" height="90px">
+                    <span>Payments Tracking</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Automated rent collection and comprehensive financial management.</p>
+            <div class="feature-details">
+                <h5>Payment Processing:</h5>
+                <ul>
+                    <li>Multiple payment methods (Credit/Debit, Bank Transfer, Mobile Money)</li>
+                    <li>Automated recurring rent payments</li>
+                    <li>One-time payment links for utilities and fees</li>
+                    <li>Payment receipts and invoicing automation</li>
+                    <li>Late fee calculation and grace period management</li>
+                </ul>
+                <h5>Financial Tools:</h5>
+                <ul>
+                    <li>Security deposit tracking and interest calculation</li>
+                    <li>Expense categorization and tracking</li>
+                    <li>Income vs. expense reports</li>
+                    <li>Tax document generation</li>
+                    <li>Cash flow forecasting</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="maintenance-requests">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/maintenance.PNG" alt="Photo" width="70px" height="90px">
+                    <span>Maintenance Requests</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Streamlined maintenance workflow from request to completion.</p>
+            <div class="feature-details">
+                <h5>Request Management:</h5>
+                <ul>
+                    <li>Online submission with photo/video attachments</li>
+                    <li>Priority classification (Emergency, High, Medium, Low)</li>
+                    <li>Automated assignment to maintenance staff</li>
+                    <li>Real-time status tracking and updates</li>
+                    <li>Tenant notification system</li>
+                </ul>
+                <h5>Vendor & Scheduling:</h5>
+                <ul>
+                    <li>Vendor database with ratings and specializations</li>
+                    <li>Work order creation and dispatch</li>
+                    <li>Preventive maintenance scheduling</li>
+                    <li>Before/after photo documentation</li>
+                    <li>Cost tracking per property/unit</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="notification-center">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/notif.png" alt="Photo" width="70px" height="80px">
+                    <span>Smart Notification Center</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Stay ahead with automated alerts delivered instantly.</p>
+            <div class="feature-details">
+                <h5>Automated Alerts:</h5>
+                <ul>
+                    <li>Rent due reminders (customizable timing)</li>
+                    <li>Payment received confirmations</li>
+                    <li>Lease expiration warnings (30/60/90 days)</li>
+                    <li>Maintenance request status updates</li>
+                    <li>Property inspection reminders</li>
+                    <li>Movein/out reminders</li>
+                </ul>
+                <h5>Communication Channels:</h5>
+                <ul>
+                    <li>Email notifications with custom templates</li>
+                    <li>SMS alerts for urgent matters</li>
+                    <li>In-app push notifications</li>
+                    <li>Scheduled announcements broadcasting</li>
+                    <li>Emergency alert system</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="complaints-feedback">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/complaint.PNG" alt="Photo" width="80px" height="90px">
+                    <span>Complaints & Feedback HUB</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Direct channel for tenant voices with trackable resolution.</p>
+            <div class="feature-details">
+                <h5>Complaint Management:</h5>
+                <ul>
+                    <li>Anonymous or identified submission options</li>
+                    <li>Category-based routing (Noise, Safety, Property, Staff)</li>
+                    <li>Priority escalation for serious issues</li>
+                    <li>Resolution timeline tracking with SLA monitoring</li>
+                    <li>Staff task assignment and accountability</li>
+                </ul>
+                <h5>Feedback System:</h5>
+                <ul>
+                    <li>Tenant satisfaction surveys (quarterly/annual)</li>
+                    <li>Service quality ratings</li>
+                    <li>Suggestion box for improvements</li>
+                    <li>Response tracking and follow-ups</li>
+                    <li>Analytics dashboard for trends</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="owner-portal">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/report.PNG" alt="Photo" width="70px" height="80px">
+                    <span>Owner Portal & Reporting</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Secure access to financial and performance insights.</p>
+            <div class="feature-details">
+                <h5>Owner Dashboard:</h5>
+                <ul>
+                    <li>Real-time financial statements (P&L, Balance Sheet)</li>
+                    <li>Rent collection status and arrears tracking</li>
+                    <li>Property occupancy rates and trends</li>
+                    <li>Maintenance cost breakdowns</li>
+                    <li>ROI and performance analytics</li>
+                </ul>
+                <h5>Custom Reports:</h5>
+                <ul>
+                    <li>Monthly/quarterly/annual summaries</li>
+                    <li>Tax-ready financial documents</li>
+                    <li>Tenant turnover analysis</li>
+                    <li>Market comparison reports</li>
+                    <li>Export to PDF, Excel, and CSV</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-card" id="legal-compliance">
+            <h4 onclick="toggleDropdown(this)">
+                <span class="title-content">
+                    <img src="image/legal.PNG" alt="Photo" width="70px" height="80px">
+                    <span>Legal & Compliance</span>
+                </span>
+                <span class="dropdown-icon">&#9660;</span>
+            </h4>
+            <p class="descriptions">Stay legally protected with automated compliance tools.</p>
+            <div class="feature-details">
+                <h5>Legal Documentation:</h5>
+                <ul>
+                    <li>Automated lease agreement generation with standard clauses</li>
+                    <li>Local regulation updates and compliance alerts</li>
+                    <li>Notice templates (rent increase, lease termination, eviction)</li>
+                    <li>Digital signature integration for legal validity</li>
+                    <li>Document version control and audit trails</li>
+                </ul>
+                <h5>Compliance Tools:</h5>
+                <ul>
+                    <li>Security deposit handling per local laws</li>
+                    <li>Eviction process tracking and documentation</li>
+                    <li>Fair housing compliance checklist</li>
+                    <li>Insurance policy management and renewals</li>
+                    <li>Risk assessment and mitigation alerts</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+<section class="brochure-trifold-full" id="about us">
+   <h1 style="font-family: 'Times New Roman', Times, serif;;">ABOUT US</h1>
+  <!-- WATERMARK -->
+  <div class="watermark">HOUSINGHUB</div>
+
+  <!-- TRI-FOLD PANELS (FRONT) -->
+  <div class="tri-grid front">
+    <!-- Left Panel (Back Outer) -->
+    <div class="tri-panel left">
+      <h3>Contact Us</h3>
+      <p class="drop-cap">Reach out to HousingHub for support, inquiries, or partnership opportunities. We are available to provide guidance and solutions for your property management needs.</p>
+      <p>Email: housinghub@yahoo.com</p>
+      <p>Phone: +256 741 035 928</p>
+      <p>Website: www.housinghub.com</p>
+    </div>
+
+    <!-- Center Panel (Front Cover) -->
+    <div class="tri-panel center tone">
+        <img src="image/hub.jpg" alt="Photo" class="logo-circle">
+      <h3>HousingHub</h3>
+      <p class="drop-cap">No More Stress. Manage properties, tenants, payments, maintenance, and reports—all in one powerful platform.</p>
+      <p>Experience smarter property management and streamline your workflow like never before.</p>
+      <a href="index.php" class="cta-btn">EXPLORE</a>
+    </div>
+
+    <!-- Right Panel (Back Inner) -->
+    <div class="tri-panel right">
+      <h3>Who We Are</h3>
+      <p class="drop-cap">HousingHub is a modern housing management system designed to simplify property operations and improve transparency for landlords, tenants, and property managers.</p>
+      <p>We support residential, commercial, industrial, agricultural, and special-purpose properties with ease and efficiency.</p>
+    </div>
+  </div>
+
+  <!-- TRI-FOLD PANELS (BACK) -->
+  <div class="tri-grid back">
+    <!-- Left Panel (Inner Left) -->
+    <div class="tri-panel left tone">
+      <h3>Our Vision</h3>
+      <p class="drop-cap">To become a trusted solution for managing houses, 
+        tenants and payments with accuracy and ease guided by transparency, security, 
+        innovation, and simplicity.<br>
+         HousingHub empowers housing organizations to manage efficiently 
+         and responsibly.<br>Thus becoming a trusted housing solution in Africa and beyond.</p>
+    </div>
+
+    <!-- Center Panel (Inner Center) -->
+    <div class="tri-panel center">
+      <h3>What We Do</h3>
+      <p class="drop-cap">We integrate property listings, tenant records, rent tracking, maintenance management, reporting, 
+        and communication into one easy-to-use platform.</p>
+      <blockquote>“Smart housing management begins with clarity, efficiency, and trust.”</blockquote>
+    </div>
+
+    <!-- Right Panel (Inner Right) -->
+    <div class="tri-panel right tone">
+      <h3>Core Values</h3>
+      <p class="drop-cap">HousingHub believes in innovation, reliability, user-friendliness, and round-the-clock support.</p>
+      <p>We continuously improve our system to deliver measurable results for landlords, tenants, and housing organizations.</p>
+    </div>
+  </div>
+
+               
+               <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HousingHub | Find Your Perfect Property</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a14;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --blue-deep: #0d2345;
+    --blue-mid: #1a3a6b;
+    --blue-accent: #2563eb;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left 0.12s ease, top 0.12s ease, width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 60px;
+    background: linear-gradient(to bottom, rgba(10,10,20,0.9), transparent);
+    animation: fadeDown 1s ease 0.3s both;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Animated gradient background */
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37,99,235,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(201,168,76,0.10) 0%, transparent 55%),
+      linear-gradient(160deg, #0a0a14 0%, #0d1e3d 50%, #0a0a14 100%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+  }
+  @keyframes bgPulse {
+    0%   { opacity: 1; }
+    100% { opacity: 0.85; filter: brightness(1.1); }
+  }
+
+  /* Grid overlay */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: orbFloat 10s ease-in-out infinite alternate;
+  }
+  .orb-1 { width: 400px; height: 400px; background: rgba(37,99,235,0.15); top: -100px; right: 10%; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: rgba(201,168,76,0.10); bottom: 10%; left: 5%; animation-delay: 3s; }
+  .orb-3 { width: 200px; height: 200px; background: rgba(37,99,235,0.12); top: 40%; right: 30%; animation-delay: 6s; }
+  @keyframes orbFloat {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(30px, -40px) scale(1.1); }
+  }
+
+  /* Diagonal accent bar */
+  .hero-accent-bar {
+    position: absolute;
+    right: -80px; top: 0; bottom: 0;
+    width: 520px;
+    background: linear-gradient(160deg, rgba(13,35,69,0.7), rgba(26,58,107,0.4));
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    border-left: 1px solid rgba(201,168,76,0.2);
+  }
+
+  /* Building silhouette */
+  .building-silhouette {
+    position: absolute;
+    right: 5%; bottom: 0;
+    width: 420px; height: 70vh;
+    opacity: 0.07;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect x='60' y='100' width='120' height='500' fill='white'/%3E%3Crect x='200' y='0' width='140' height='600' fill='white'/%3E%3Crect x='0' y='200' width='70' height='400' fill='white'/%3E%3Crect x='80' y='120' width='15' height='20' fill='%23ccc'/%3E%3Crect x='105' y='120' width='15' height='20' fill='%23ccc'/%3E%3Crect x='130' y='120' width='15' height='20' fill='%23ccc'/%3E%3Crect x='80' y='160' width='15' height='20' fill='%23ccc'/%3E%3Crect x='215' y='30' width='20' height='25' fill='%23ccc'/%3E%3Crect x='250' y='30' width='20' height='25' fill='%23ccc'/%3E%3Crect x='285' y='30' width='20' height='25' fill='%23ccc'/%3E%3C/svg%3E") no-repeat bottom center/contain;
+    animation: silhouetteRise 2s ease-out 0.5s both;
+  }
+  @keyframes silhouetteRise {
+    from { transform: translateY(60px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 0.07; }
+  }
+
+  /* Hero content */
+  .hero-content {
+    position: relative; z-index: 10;
+    padding: 0 60px;
+    max-width: 700px;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7vw, 90px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.8s both;
+  }
+  .hero-title .gold { color: var(--gold); font-style: italic; }
+  .hero-title .outline {
+    -webkit-text-stroke: 1.5px var(--white);
+    color: transparent;
+  }
+
+  .hero-subtitle {
+    margin-top: 28px;
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.6);
+    max-width: 480px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.0s both;
+  }
+
+  /* Search bar */
+  .hero-search {
+    margin-top: 44px;
+    display: flex; gap: 0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.2s both;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .hero-search:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+  .hero-search input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 18px 24px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+  }
+  .hero-search input::placeholder { color: rgba(255,255,255,0.35); }
+  .search-divider { width: 1px; background: rgba(201,168,76,0.2); margin: 12px 0; }
+  .hero-search select {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 18px 20px;
+    color: rgba(255,255,255,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .hero-search select option { background: var(--ink); color: var(--white); }
+  .search-btn {
+    background: var(--gold);
+    border: none;
+    padding: 18px 32px;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .search-btn:hover { background: var(--gold-light); transform: scaleX(1.03); }
+
+  /* Stats row */
+  .hero-stats {
+    margin-top: 52px;
+    display: flex; gap: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.4s both;
+  }
+  .stat-item {}
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-top: 6px;
+  }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.1); }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 60px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    opacity: 0;
+    animation: fadeUp 1s ease 2s both;
+  }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: rgba(255,255,255,0.2);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: var(--gold);
+    animation: scrollLine 2s ease-in-out 2.5s infinite;
+  }
+  @keyframes scrollLine {
+    0%   { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* ===== CATEGORIES SECTION ===== */
+  .categories {
+    padding: 120px 60px;
+    position: relative;
+  }
+  .categories::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .section-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(201,168,76,0.3), transparent);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 700;
+    margin-top: 18px;
+    line-height: 1.15;
+  }
+  .section-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 15px; font-weight: 300;
+    margin-top: 12px;
+    max-width: 420px;
+  }
+
+  .categories-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 56px;
+  }
+
+  /* Category cards */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+  }
+
+  .cat-card {
+    position: relative;
+    padding: 36px 28px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.4s, transform 0.4s, background 0.4s;
+    animation: fadeUp 0.6s ease both;
+  }
+  .cat-card:nth-child(1) { animation-delay: 0.1s; }
+  .cat-card:nth-child(2) { animation-delay: 0.2s; }
+  .cat-card:nth-child(3) { animation-delay: 0.3s; }
+  .cat-card:nth-child(4) { animation-delay: 0.4s; }
+  .cat-card:nth-child(5) { animation-delay: 0.5s; }
+  .cat-card:nth-child(6) { animation-delay: 0.6s; }
+
+  .cat-card::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .cat-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-6px);
+    background: rgba(201,168,76,0.04);
+  }
+  .cat-card:hover::before { opacity: 1; }
+
+  .cat-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 18px;
+    filter: grayscale(0.3);
+    transition: transform 0.4s;
+  }
+  .cat-card:hover .cat-icon { transform: scale(1.15) rotate(-5deg); }
+
+  .cat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cat-desc {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+  .cat-arrow {
+    position: absolute; bottom: 24px; right: 24px;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .cat-card:hover .cat-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ===== WHY SECTION ===== */
+  .why-section {
+    padding: 100px 60px;
+    background: rgba(255,255,255,0.018);
+    position: relative;
+  }
+  .why-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: center;
+  }
+
+  .why-features { display: flex; flex-direction: column; gap: 36px; }
+
+  .why-feature {
+    display: flex; gap: 22px; align-items: flex-start;
+  }
+  .feature-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px; font-weight: 900;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    min-width: 52px;
+    transition: color 0.3s;
+  }
+  .why-feature:hover .feature-num { color: rgba(201,168,76,0.5); }
+  .feature-content h4 {
+    font-size: 17px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .feature-content p {
+    font-size: 14px; font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+  }
+
+  /* Big quote box */
+  .why-quote-box {
+    background: linear-gradient(135deg, rgba(13,35,69,0.8), rgba(26,58,107,0.4));
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    padding: 52px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .why-quote-box::before {
+    content: '"';
+    position: absolute; top: -20px; left: 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 180px; font-weight: 900;
+    color: rgba(201,168,76,0.07);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .why-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-style: italic;
+    line-height: 1.6;
+    color: var(--white);
+    position: relative; z-index: 1;
+  }
+  .why-quote-author {
+    margin-top: 28px;
+    font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ===== CTA SECTION ===== */
+  .cta-section {
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(37,99,235,0.12) 0%, transparent 70%);
+  }
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 66px);
+    font-weight: 900;
+    position: relative;
+  }
+  .cta-sub {
+    margin-top: 18px;
+    font-size: 16px; font-weight: 300;
+    color: rgba(255,255,255,0.5);
+  }
+  .cta-buttons {
+    margin-top: 44px;
+    display: flex; gap: 18px; justify-content: center;
+  }
+  .cta-primary {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 18px 48px;
+    border: none;
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .cta-primary:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
+  .cta-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 18px 48px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .cta-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 900; color: var(--gold);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .footer-logo span { color: rgba(255,255,255,0.4); }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px; }
+    .hero-stats { gap: 24px; }
+    .categories, .why-section, .cta-section { padding: 80px 24px; }
+    .why-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 30px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    .categories-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Housing<span>Hub</span></div>
+  <ul class="nav-links">
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="properties.php">Browse All</a></li>
+  </ul>
+  <a href="login.php" class="nav-cta">Sign In</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-accent-bar"></div>
+  <div class="building-silhouette"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Uganda's Premier Property Platform</div>
+    <h1 class="hero-title">
+      Find Your<br>
+      <span class="gold">Perfect</span><br>
+      <span class="outline">Space.</span>
+    </h1>
+    <p class="hero-subtitle">
+      Discover commercial, residential, industrial and agricultural properties across Uganda. 
+      Rent, buy or lease with confidence through our trusted marketplace.
+    </p>
+
+    <form class="hero-search" action="properties.php" method="GET">
+      <input type="text" name="search" placeholder="Search by name, address, or type…">
+      <div class="search-divider"></div>
+      <select name="type">
+        <option value="">All Types</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Residential">Residential</option>
+        <option value="Industrial">Industrial</option>
+        <option value="Agricultural">Agricultural</option>
+        <option value="Special Purpose">Special Purpose</option>
+        <option value="Land">Land</option>
+      </select>
+      <button type="submit" class="search-btn">Search →</button>
+    </form>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number" id="stat1">0</div>
+        <div class="stat-label">Properties</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number" id="stat2">0</div>
+        <div class="stat-label">Property Types</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number" id="stat3">0</div>
+        <div class="stat-label">Locations</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="categories-header">
+    <div>
+      <div class="section-label">Browse by Type</div>
+      <h2 class="section-title">Every Property<br>Category, Covered</h2>
+    </div>
+    <p class="section-sub">From city offices to countryside farms — find the space that matches your vision.</p>
+  </div>
+
+  <div class="cat-grid">
+    <a href="properties.php?type=Commercial" class="cat-card">
+      <span class="cat-icon">🏢</span>
+      <div class="cat-name">Commercial</div>
+      <div class="cat-desc">Offices, retail spaces, and business premises in prime locations.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+    <a href="properties.php?type=Residential" class="cat-card">
+      <span class="cat-icon">🏠</span>
+      <div class="cat-name">Residential</div>
+      <div class="cat-desc">Comfortable homes and apartments for families and individuals.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+    <a href="properties.php?type=Industrial" class="cat-card">
+      <span class="cat-icon">🏭</span>
+      <div class="cat-name">Industrial</div>
+      <div class="cat-desc">Warehouses, factories, and manufacturing facilities.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+    <a href="properties.php?type=Agricultural" class="cat-card">
+      <span class="cat-icon">🌾</span>
+      <div class="cat-name">Agricultural</div>
+      <div class="cat-desc">Fertile farmland and plantation properties across Uganda.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+    <a href="properties.php?type=Special Purpose" class="cat-card">
+      <span class="cat-icon">🏛️</span>
+      <div class="cat-name">Special Purpose</div>
+      <div class="cat-desc">Schools, hospitals, religious, and government-purpose spaces.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+    <a href="properties.php?type=Land" class="cat-card">
+      <span class="cat-icon">🗺️</span>
+      <div class="cat-name">Land</div>
+      <div class="cat-desc">Open plots and parcels ready for development or investment.</div>
+      <div class="cat-arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section" id="why">
+  <div class="section-label">Why HousingHub</div>
+  <h2 class="section-title" style="margin-top:18px;">Built for Uganda's<br>Property Market</h2>
+
+  <div class="why-grid">
+    <div class="why-features">
+      <div class="why-feature">
+        <div class="feature-num">01</div>
+        <div class="feature-content">
+          <h4>Verified Listings</h4>
+          <p>Every property is reviewed and verified before going live, so you browse with confidence.</p>
+        </div>
+      </div>
+      <div class="why-feature">
+        <div class="feature-num">02</div>
+        <div class="feature-content">
+          <h4>Transparent Pricing</h4>
+          <p>Rent amounts, sale prices and lease terms displayed upfront — no hidden surprises.</p>
+        </div>
+      </div>
+      <div class="why-feature">
+        <div class="feature-num">03</div>
+        <div class="feature-content">
+          <h4>Multiple Amenities Listed</h4>
+          <p>View every included amenity before you commit, from parking to power backup.</p>
+        </div>
+      </div>
+      <div class="why-feature">
+        <div class="feature-num">04</div>
+        <div class="feature-content">
+          <h4>Instant Transactions</h4>
+          <p>Rent, buy, or lease directly through the platform with our seamless payment flow.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-quote-box">
+      <div class="why-quote">
+        "Finding the right property shouldn't be a struggle. HousingHub puts Uganda's best real estate right at your fingertips."
+      </div>
+      <div class="why-quote-author">— The HousingHub Team</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">Your Next<br><span style="color:var(--gold); font-style:italic;">Space</span> Awaits.</h2>
+  <p class="cta-sub">Browse hundreds of properties available for rent, sale & lease across Uganda.</p>
+  <div class="cta-buttons">
+    <a href="properties.php" class="cta-primary">Browse Properties</a>
+    <a href="register.php" class="cta-secondary">Create Account</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Housing<span>Hub</span></div>
+  <div class="footer-copy">&copy; 2025 HousingHub. Uganda.</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    ring.style.left   = e.clientX + 'px';
+    ring.style.top    = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, input, select').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.width = '52px'; ring.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px'; cursor.style.height = '12px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Counter animation for stats
+  function animateCount(el, target, suffix = '') {
+    let start = 0;
+    const duration = 2000;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start) + suffix;
+    }, 16);
+  }
+
+  // Trigger when stats come into view
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCount(document.getElementById('stat1'), 500, '+');
+        animateCount(document.getElementById('stat2'), 6);
+        animateCount(document.getElementById('stat3'), 40, '+');
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  statsObserver.observe(document.querySelector('.hero-stats'));
+
+  // Scroll-triggered fade-in for sections
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.animation = 'fadeUp 0.7s ease both';
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.why-feature, .why-quote-box').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
+
+
+home page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Housing Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<header>
+    <div class="header-logo">
+        <img src="image/hub.jpg" alt="Photo" class="logo-circle">
+        <div class="logo-text-container">
+            <h1 class="logo-text">HOUSING HUB</h1>
+            <span class="logo-slogan">“Your Property, Our Priority”</span>
+        </div>
+    </div>
+     <nav>
+            
+          <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-toggle">Home ▾</a>
+    <div class="dropdown-menu">
+        <a href="#welcome"> Welcome</a>
+        <a href="#how-it-works"> How It Works</a>
+        <a href="#testimonials"> Testimonials</a>
+        <a href="#our-stats">Our Stats</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#contact-us">Contact Us</a>
+        <a href="#latest-news">Latest News</a>
+        <a href="#current-offers">Current Offers</a>
+    </div>
+</div>
+           <!-- Features Dropdown -->
+<div class="dropdown">
+    <a href="#" class="dropdown-toggle">Features ▾</a>
+
+    <div class="dropdown-menu">
+        <a href="virtual.php">Virtual Property Tours</a>
+        <a href="visitor.php">Visitor/Guest Management</a>
+        <a href="applications.php">Online Tenant Applications</a>
+        <a href="reporting.php">Rent/Buy Reporting</a>
+        <a href="lease.php">Online Lease</a>
+        <a href="maintenance.php">Maintenance</a>
+        <a href="rent_collection.php">Rent Collection</a>
+        <a href="notifications.php">Smart Notification Center</a>
+        <a href="complaints.php">Complaints & Feedback HUB</a>
+        <a href="owner_portal.php">Owner Portal & Reporting</a>
+        <a href="policies.html">Policies</a>
+    </div>
+</div>
+         <!-- Use Cases Dropdown -->
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases ▾</a>
+            <div class="dropdown-menu">
+                <a href="#landlord"> Landlord</a>
+                <a href="#property-owner">Property Owner</a>
+                 <a href="javascript:void(0)" onclick="toggleBrokers()">Brokers/Propertyowners</a>
+                <a href="#broker"> Broker</a>
+                <a href="javascript:void(0)" onclick="showEmployment()">Employment</a>
+                
+            </div>
+        </div>
+        <!-- Properties Dropdown -->
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle">Properties ▾</a>
+            <div class="dropdown-menu">
+                <a href="properties.php" class="dropdown-all">All Properties</a>
+                <div class="dropdown-divider"></div>
+                <a href="properties.php?type=Commercial">Commercial</a>
+                <a href="properties.php?type=Residential"> Residential</a>
+                <a href="properties.php?type=Industrial">Industrial</a>
+                <a href="properties.php?type=Agricultural">Agricultural</a>
+                <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+                <a href="properties.php?type=Land">Land</a>
+            </div>
+        </div>
+        
+        <a href="index.php">Login</a>
+         <!-- About Dropdown -->
+          <div class="dropdown">
+    <a href="about.php" class="dropdown-toggle">About Us ▾</a>
+    <div class="dropdown-menu">
+        <a href="who.php">Who We Are</a>
+        <a href="what.php">What We Do</a>
+        <a href="vision.php">Our Vision</a>
+        <a href="values.php">Core Values</a>
+        <a href="contact.php">Contact Us</a>
+    </div>
+</div>
+    
+    </nav>
+</header>
+
+<div class="info" id="home">
+    <div class="info-content">
+        <br><br>
+        <h2 style="font-family: 'Times New Roman', Times, serif;">No More Stress, 
+            With Us Every Hadle About Housing Is Made Easy</h2>
+
+        <div class="info-buttons">
+            <br><br><br>
+            <a href="index.php" class="more-info">Get Started</a>
+            <a href="learn.html" class="more-secondary">Learn More</a>
+        </div>
+    </div>
+    <!-- IMAGE SIDE -->
+    <div class="info-image">
+        <img src="image/laaa.jpg" alt="Housing Image">
+    </div>
+</div>
+      
+    
+
+            <section class="motivate">
+    <h4 style="justify-content: left;font-size: 30px; font-family: 'Times New Roman', Times, serif;">All These From Various Ratings</h4><br><br>
+
+    <div class="motivate-grid">
+        <div class="motivate-item">
+            <h3 class="counter" data-target="80" data-type="percent">0%</h3>
+            <p>Property Management</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="90" data-type="percent">0%</h3>
+            <p>Reliability</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="99.9" data-type="percent">0%</h3>
+            <p>User Friendly</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="24" data-type="hours">0/7</h3>
+            <p>Availability</p>
+        </div>
+    </div>
+</section>
+    
+</section>
+ 
+    <section class="outcomes">
+       <div class="outcomes-container">
+        <h3 class="section-title-white">Measurable Results You Can Expect</h3>
+        <p class="section-subtitle-white">Join thousands who've transformed their Pursuits with HousingHub</p>
+        
+        <div class="outcomes-grid">
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x2197;</div>
+                <h4>95%</h4>
+                <p>Increase in total revenue</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x23F0;</div>
+                <h4>10 hrs/day</h4>
+                <p>Time Saving</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#128512;</div>
+                <h4>40%</h4>
+                <p>Reduction in tenant turnover</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x23E9;</div>
+                <h4>3x Faster</h4>
+                <p>Maintenance response times</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="brokers" id="brokers" style="display: none;">
+    <div class="brokers-container">
+        <nav>
+        <a href="index.html" style="color: hsl(228, 26%, 96%);">⬅PREVIOUS</a>
+    </nav>
+        <h2>Are you a Broker or Property Owner?</h2>
+        <p>
+            List your properties on <strong>HousingHub</strong> and earn commissions while 
+            we manage everything for you securely! <br>Reach more tenants, track your earnings, 
+            and enjoy a hustle free property management experience.<br>
+            With us everything is made easy, earn smart, work smart<br>
+            We call upon each to
+        </p>
+        <div class="broker-buttons">
+            <a href="register.php" class="cta-btn">JOIN US</a>
+        </div>
+    </div>
+</section>
+
+<!-- Employment Section (hidden by default) -->
+<section id="employmentSection" style="display:none; padding: 80px 8%; background: lightskyblue; color: #1e3a8a;">
+    <nav>
+        <a href="index.html" style="color: black;">⬅PREVIOUS</a>
+    </nav>
+    <h2 style="text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 50px; margin-bottom: 10px; color:#020617">Join Our Team</h2>
+    <p style="text-align: center; font-size: 18px; color: black; margin-bottom: 50px;">
+        HousingHub is always looking for talented, motivated, and hardworking individuals.
+    </p>
+
+    <div class="employment-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+
+        <!-- Entry-Level Job Card 1 -->
+         <div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20, 5, 235, 0.767); transition:2.3s; position: relative;">
+    
+    <!-- Status Badge -->
+    <span class="job-status filled">Filled</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Cleaner / Janitor</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Maintain cleanliness of offices and properties. No formal education required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Meals provided, on-the-job training, friendly work environment.</p>
+    
+    <!-- Disabled Apply Button -->
+    <a href="#" style="display:inline-block; padding: 10px 20px; border-radius: 30px; 
+        background:#ccc; color:#fff; text-decoration:none; pointer-events:none;">Position Filled</a>
+</div>
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20, 5, 235, 0.767); transition:0.3s; position: relative;">
+    
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Security Guard</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Ensure safety of properties and staff. No formal education required; training provided.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Night shift</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Training, uniform provided, stable monthly pay.</p>
+    <a href="apply.php?job=security-guard" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Entry-Level Job Card 3 -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(8, 3, 78, 0.767); transition:0.3s; position: relative;">
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Field / Delivery Assistant</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Assist with deliveries, errands, and property visits. Basic literacy preferred, but not required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance, on-the-job training, friendly team.</p>
+    <a href="apply.php?job=field-assistant" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Entry-Level Job Card 4 -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20,5,235,0.767); transition:0.3s; position: relative;">
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Receptionist / Office Assistant</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Greet visitors, answer calls, and support office tasks. Basic communication skills required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Friendly environment, on-the-job training, opportunity to grow.</p>
+    <a href="apply.php?job=receptionist" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Electricians -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(5, 2, 41, 0.767); transition:0.3s; position: relative;">
+
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Electricians</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        For electricity solutions.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Jinja, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time/Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance, friendly team.</p>
+    <a href="apply.php?job=electricians" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Plumbers -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20,5,235,0.767); transition:0.3s; position: relative;">
+
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Plumbers</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Assist with water blockages and other related water challenges
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Mukono, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance.</p>
+       <a href="apply.php?job=plumbers" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+     </div>
+
+ </div>
+
+    <p style="text-align:center; margin-top:50px; font-size:14px; color:#0f172a;">
+        At HousingHub, we value dedication and hard work.<br>
+        No need to worry about formal qualifications your effort and attitude matter most!<br>
+        Or Send us a speculative application at <br><strong>careers@housinghub.com</strong>.
+    </p>
+</section>
+
+<section class="about">
+    <h3 style="font-family: 'Times New Roman', Times, serif;">About Our System</h3>
+    <p>
+        HousingHub is a modern housing management system designed for landlords,
+        property managers, and housing organizations to streamline operations,
+        improve transparency, enhance tenant satisfaction and reduce manual work.
+    </p>
+</section>
+
+<section class="cta">
+    <h3 style="font-family: 'Times New Roman', Times, serif;">Ready to Manage Smarter?</h3>
+    <p>Join Creativity</p>
+    <a href="index.php">Create an Account</a>
+</section>
+
+<!-- QUICK ACCESS / SITE MAP -->
+<section class="quick-links">
+    <div class="quick-container">
+
+        <!-- COLUMN 1 -->
+        <div class="quick-col">
+            <h3>Home</h3>
+            <a href="#welcome">Welcome</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#our-stats">Our Stats</a>
+            <a href="#faqs">FAQs</a>
+            <a href="#contact-us">Contact Us</a>
+
+            <h3 style="margin-top:30px;">Features</h3>
+            <a href="#features">Virtual Property Tours</a>
+            <a href="#features">Visitor Management</a>
+            <a href="#features">Tenant Applications</a>
+            <a href="#features">Maintenance</a>
+            <a href="#features">Rent Collection</a>
+        </div>
+
+        <!-- COLUMN 2 -->
+        <div class="quick-col">
+            <h3>Use Cases</h3>
+            <a href="#landlord">Landlord</a>
+            <a href="#property-owner">Property Owner</a>
+            <a href="#broker">Broker</a>
+            <a href="#brokers">Brokers / Property Owners</a>
+            <a href="#employmentSection">Employment</a>
+
+            <h3 style="margin-top:30px;">Properties</h3>
+            <a href="properties.php">All Properties</a>
+            <a href="properties.php?type=Commercial">Commercial</a>
+            <a href="properties.php?type=Residential">Residential</a>
+            <a href="properties.php?type=Industrial">Industrial</a>
+            <a href="properties.php?type=Agricultural">Agricultural</a>
+            <a href="properties.php?type=Land">Land</a>
+        </div>
+
+        <!-- COLUMN 3 -->
+        <div class="quick-col">
+            <h3>Account</h3>
+            <a href="index.php">Login</a>
+            <a href="register.php">Register</a>
+            <a href="policies.html">Policies</a>
+
+            <h3 style="margin-top:30px;">About HousingHub</h3>
+            <a href="#about-us">About Us</a>
+            <a href="#contact-us">Contact</a>
+            <a href="#faqs">FAQs</a>
+        </div>
+
+    </div>
+</section>
+<footer>
+    © 2026 HousingHub | All Rights Reserved
+</footer>
+<script>
+    const counters = document.querySelectorAll('.counter');
+
+counters.forEach(counter => {
+    const target = parseFloat(counter.dataset.target);
+    const type = counter.dataset.type;
+    let count = 0;
+
+    const updateCounter = () => {
+        const increment = target / 360;
+
+        if (count < target) {
+            count += increment;
+
+            if (type === "percent") {
+                counter.innerText = 
+                    (target % 1 !== 0 ? count.toFixed(1) : Math.floor(count)) + "%";
+            } else if (type === "hours") {
+                counter.innerText = Math.floor(count) + "/7";
+            }
+
+            requestAnimationFrame(updateCounter);
+        } else {
+            if (type === "percent") {
+                counter.innerText = target + "%";
+            } else if (type === "hours") {
+                counter.innerText = target + "/7";
+            }
+        }
+    };
+
+    updateCounter();
+});
+    
+    function toggleDropdown(element) {
+        const card = element.parentElement;
+        const details = card.querySelector('.feature-details');
+        const icon = element.querySelector('.dropdown-icon');
+        
+        // Close all other dropdowns
+        document.querySelectorAll('.feature-details').forEach(detail => {
+            if (detail !== details) {
+                detail.classList.remove('active');
+            }
+        });
+        
+        document.querySelectorAll('.dropdown-icon').forEach(ico => {
+            if (ico !== icon) {
+                ico.classList.remove('active');
+            }
+        });
+        
+        // Toggle current dropdown
+        details.classList.toggle('active');
+        icon.classList.toggle('active');
+        function toggleProperty(element) {
+       const details = element.nextElementSibling;
+        const arrow = element.querySelector('.arrow');
+
+      // Close other open properties
+     document.querySelectorAll('.property-details').forEach(d => {
+        if (d !== details) d.classList.remove('active');
+     });
+     document.querySelectorAll('.property-header .arrow').forEach(a => {
+        if (a !== arrow) a.classList.remove('active');
+     });
+
+     // Toggle current property
+     details.classList.toggle('active');
+     arrow.classList.toggle('active');
+     }
+     }
+     function toggleDropdown(element) {
+    const card = element.parentElement;
+    const details = card.querySelector('.feature-details');
+    const icon = element.querySelector('.dropdown-icon');
+
+    // Close all other dropdowns
+    document.querySelectorAll('.feature-details').forEach(detail => {
+        if (detail !== details) {
+            detail.classList.remove('active');
+        }
+    });
+
+    document.querySelectorAll('.dropdown-icon').forEach(ico => {
+        if (ico !== icon) {
+            ico.classList.remove('active');
+        }
+    });
+
+    // Toggle current dropdown
+    details.classList.toggle('active');
+    icon.classList.toggle('active');
+}
+
+function toggleBrokers() {
+    const brokers = document.getElementById("brokers");
+    if (brokers.style.display === "none" || brokers.style.display === "") {
+        brokers.style.display = "block";           // Show section
+        brokers.scrollIntoView({behavior: "smooth"}); // Scroll smoothly
+    } else {
+        brokers.style.display = "none";            // Hide section
+    }
+}
+const btn = document.getElementById('showEmploymentBtn');
+    const section = document.getElementById('employmentSection');
+
+    btn.addEventListener('click', () => {
+        section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        btn.textContent = section.style.display === 'block' ? 'Hide Employment Opportunities' : 'View Employment Opportunities';
+    });
+    // Get the button and employment section
+    const showEmploymentBtn = document.getElementById('showEmploymentBtn');
+    const employmentSection = document.getElementById('employmentSection');
+
+    // Add click event
+    showEmploymentBtn.addEventListener('click', () => {
+        if (employmentSection.style.display === 'none') {
+            employmentSection.style.display = 'block';
+            // Scroll to it
+            employmentSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            employmentSection.style.display = 'none';
+        }
+    });
+const navLink = document.querySelector('a[href="#employmentSection"]');
+
+navLink.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent default jump
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth' });
+});
+function showEmployment() {
+    const section = document.getElementById('employmentSection');
+    if (section.style.display === 'none' || section.style.display === '') {
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        section.style.display = 'none';
+    }
+}
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Housing Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<header>
+    <div class="header-logo">
+        <img src="image/hub.jpg" alt="Photo" class="logo-circle">
+        <div class="logo-text-container">
+            <h1 class="logo-text">HOUSING HUB</h1>
+            <span class="logo-slogan">“Your Property, Our Priority”</span>
+        </div>
+    </div>
+     <nav>
+            
+          <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-toggle">Home ▾</a>
+    <div class="dropdown-menu">
+        <a href="#welcome"> Welcome</a>
+        <a href="#how-it-works"> How It Works</a>
+        <a href="#testimonials"> Testimonials</a>
+        <a href="#our-stats">Our Stats</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#contact-us">Contact Us</a>
+        <a href="#latest-news">Latest News</a>
+        <a href="#current-offers">Current Offers</a>
+    </div>
+</div>
+           <!-- Features Dropdown -->
+<div class="dropdown">
+    <a href="#" class="dropdown-toggle">Features ▾</a>
+
+    <div class="dropdown-menu">
+        <a href="virtual.php">Virtual Property Tours</a>
+        <a href="visitor.php">Visitor/Guest Management</a>
+        <a href="applications.php">Online Tenant Applications</a>
+        <a href="reporting.php">Rent/Buy Reporting</a>
+        <a href="lease.php">Online Lease</a>
+        <a href="maintenance.php">Maintenance</a>
+        <a href="rent_collection.php">Rent Collection</a>
+        <a href="notifications.php">Smart Notification Center</a>
+        <a href="complaints.php">Complaints & Feedback HUB</a>
+        <a href="owner_portal.php">Owner Portal & Reporting</a>
+        <a href="policies.html">Policies</a>
+    </div>
+</div>
+         <!-- Use Cases Dropdown -->
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases ▾</a>
+            <div class="dropdown-menu">
+                <a href="#landlord"> Landlord</a>
+                <a href="#property-owner">Property Owner</a>
+                 <a href="javascript:void(0)" onclick="toggleBrokers()">Brokers/Propertyowners</a>
+                <a href="#broker"> Broker</a>
+                <a href="javascript:void(0)" onclick="showEmployment()">Employment</a>
+                
+            </div>
+        </div>
+        <!-- Properties Dropdown -->
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle">Properties ▾</a>
+            <div class="dropdown-menu">
+                <a href="properties.php" class="dropdown-all">All Properties</a>
+                <div class="dropdown-divider"></div>
+                <a href="properties.php?type=Commercial">Commercial</a>
+                <a href="properties.php?type=Residential"> Residential</a>
+                <a href="properties.php?type=Industrial">Industrial</a>
+                <a href="properties.php?type=Agricultural">Agricultural</a>
+                <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+                <a href="properties.php?type=Land">Land</a>
+            </div>
+        </div>
+        
+        <a href="index.php">Login</a>
+         <!-- About Dropdown -->
+          <div class="dropdown">
+    <a href="about.php" class="dropdown-toggle">About Us ▾</a>
+    <div class="dropdown-menu">
+        <a href="who.php">Who We Are</a>
+        <a href="what.php">What We Do</a>
+        <a href="vision.php">Our Vision</a>
+        <a href="values.php">Core Values</a>
+        <a href="contact.php">Contact Us</a>
+    </div>
+</div>
+    
+    </nav>
+</header>
+
+<div class="info" id="home">
+    <div class="info-content">
+        <br><br>
+        <h2 style="font-family: 'Times New Roman', Times, serif;">No More Stress, 
+            With Us Every Hadle About Housing Is Made Easy</h2>
+
+        <div class="info-buttons">
+            <br><br><br>
+            <a href="index.php" class="more-info">Get Started</a>
+            <a href="learn.html" class="more-secondary">Learn More</a>
+        </div>
+    </div>
+    <!-- IMAGE SIDE -->
+    <div class="info-image">
+        <img src="image/laaa.jpg" alt="Housing Image">
+    </div>
+</div>
+      
+    
+
+            <section class="motivate">
+    <h4 style="justify-content: left;font-size: 30px; font-family: 'Times New Roman', Times, serif;">All These From Various Ratings</h4><br><br>
+
+    <div class="motivate-grid">
+        <div class="motivate-item">
+            <h3 class="counter" data-target="80" data-type="percent">0%</h3>
+            <p>Property Management</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="90" data-type="percent">0%</h3>
+            <p>Reliability</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="99.9" data-type="percent">0%</h3>
+            <p>User Friendly</p>
+        </div>
+
+        <div class="motivate-item">
+            <h3 class="counter" data-target="24" data-type="hours">0/7</h3>
+            <p>Availability</p>
+        </div>
+    </div>
+</section>
+    
+</section>
+ 
+    <section class="outcomes">
+       <div class="outcomes-container">
+        <h3 class="section-title-white">Measurable Results You Can Expect</h3>
+        <p class="section-subtitle-white">Join thousands who've transformed their Pursuits with HousingHub</p>
+        
+        <div class="outcomes-grid">
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x2197;</div>
+                <h4>95%</h4>
+                <p>Increase in total revenue</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x23F0;</div>
+                <h4>10 hrs/day</h4>
+                <p>Time Saving</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#128512;</div>
+                <h4>40%</h4>
+                <p>Reduction in tenant turnover</p>
+            </div>
+            <div class="outcome-item">
+                <div class="outcome-icon">&#x23E9;</div>
+                <h4>3x Faster</h4>
+                <p>Maintenance response times</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="brokers" id="brokers" style="display: none;">
+    <div class="brokers-container">
+        <nav>
+        <a href="index.html" style="color: hsl(228, 26%, 96%);">⬅PREVIOUS</a>
+    </nav>
+        <h2>Are you a Broker or Property Owner?</h2>
+        <p>
+            List your properties on <strong>HousingHub</strong> and earn commissions while 
+            we manage everything for you securely! <br>Reach more tenants, track your earnings, 
+            and enjoy a hustle free property management experience.<br>
+            With us everything is made easy, earn smart, work smart<br>
+            We call upon each to
+        </p>
+        <div class="broker-buttons">
+            <a href="register.php" class="cta-btn">JOIN US</a>
+        </div>
+    </div>
+</section>
+
+<!-- Employment Section (hidden by default) -->
+<section id="employmentSection" style="display:none; padding: 80px 8%; background: lightskyblue; color: #1e3a8a;">
+    <nav>
+        <a href="index.html" style="color: black;">⬅PREVIOUS</a>
+    </nav>
+    <h2 style="text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 50px; margin-bottom: 10px; color:#020617">Join Our Team</h2>
+    <p style="text-align: center; font-size: 18px; color: black; margin-bottom: 50px;">
+        HousingHub is always looking for talented, motivated, and hardworking individuals.
+    </p>
+
+    <div class="employment-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+
+        <!-- Entry-Level Job Card 1 -->
+         <div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20, 5, 235, 0.767); transition:2.3s; position: relative;">
+    
+    <!-- Status Badge -->
+    <span class="job-status filled">Filled</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Cleaner / Janitor</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Maintain cleanliness of offices and properties. No formal education required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Meals provided, on-the-job training, friendly work environment.</p>
+    
+    <!-- Disabled Apply Button -->
+    <a href="#" style="display:inline-block; padding: 10px 20px; border-radius: 30px; 
+        background:#ccc; color:#fff; text-decoration:none; pointer-events:none;">Position Filled</a>
+</div>
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20, 5, 235, 0.767); transition:0.3s; position: relative;">
+    
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Security Guard</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Ensure safety of properties and staff. No formal education required; training provided.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Night shift</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Training, uniform provided, stable monthly pay.</p>
+    <a href="apply.php?job=security-guard" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Entry-Level Job Card 3 -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(8, 3, 78, 0.767); transition:0.3s; position: relative;">
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Field / Delivery Assistant</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Assist with deliveries, errands, and property visits. Basic literacy preferred, but not required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance, on-the-job training, friendly team.</p>
+    <a href="apply.php?job=field-assistant" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Entry-Level Job Card 4 -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20,5,235,0.767); transition:0.3s; position: relative;">
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Receptionist / Office Assistant</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Greet visitors, answer calls, and support office tasks. Basic communication skills required.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Kampala, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time / Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Friendly environment, on-the-job training, opportunity to grow.</p>
+    <a href="apply.php?job=receptionist" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Electricians -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(5, 2, 41, 0.767); transition:0.3s; position: relative;">
+
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Electricians</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        For electricity solutions.
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Jinja, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Full-time/Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance, friendly team.</p>
+    <a href="apply.php?job=electricians" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+</div>
+
+<!-- Plumbers -->
+<div class="job-card" style="background: white; padding: 25px; border-radius: 15px; 
+    box-shadow: 0 40px 80px rgba(20,5,235,0.767); transition:0.3s; position: relative;">
+
+    <span class="job-status open">Open</span>
+
+    <h4 style="color: #1e3a8a; margin-bottom: 10px;">Plumbers</h4>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">
+        Assist with water blockages and other related water challenges
+    </p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Location:</strong> Mukono, Uganda</p>
+    <p style="font-size: 14px; margin-bottom: 10px;"><strong>Type:</strong> Part-time</p>
+    <p style="font-size: 14px; margin-bottom: 15px;"><strong>Freebies:</strong> Transport allowance.</p>
+       <a href="apply.php?job=plumbers" style="display:inline-block; padding: 10px 20px; 
+        border-radius: 30px; background:#38bdf8; color:#0f172a; text-decoration:none;">Apply Now</a>
+     </div>
+
+ </div>
+
+    <p style="text-align:center; margin-top:50px; font-size:14px; color:#0f172a;">
+        At HousingHub, we value dedication and hard work.<br>
+        No need to worry about formal qualifications your effort and attitude matter most!<br>
+        Or Send us a speculative application at <br><strong>careers@housinghub.com</strong>.
+    </p>
+</section>
+
+<section class="about">
+    <h3 style="font-family: 'Times New Roman', Times, serif;">About Our System</h3>
+    <p>
+        HousingHub is a modern housing management system designed for landlords,
+        property managers, and housing organizations to streamline operations,
+        improve transparency, enhance tenant satisfaction and reduce manual work.
+    </p>
+</section>
+
+<section class="cta">
+    <h3 style="font-family: 'Times New Roman', Times, serif;">Ready to Manage Smarter?</h3>
+    <p>Join Creativity</p>
+    <a href="index.php">Create an Account</a>
+</section>
+
+<!-- QUICK ACCESS / SITE MAP -->
+<section class="quick-links">
+    <div class="quick-container">
+
+        <!-- COLUMN 1 -->
+        <div class="quick-col">
+            <h3>Home</h3>
+            <a href="#welcome">Welcome</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#our-stats">Our Stats</a>
+            <a href="#faqs">FAQs</a>
+            <a href="#contact-us">Contact Us</a>
+
+            <h3 style="margin-top:30px;">Features</h3>
+            <a href="#features">Virtual Property Tours</a>
+            <a href="#features">Visitor Management</a>
+            <a href="#features">Tenant Applications</a>
+            <a href="#features">Maintenance</a>
+            <a href="#features">Rent Collection</a>
+        </div>
+
+        <!-- COLUMN 2 -->
+        <div class="quick-col">
+            <h3>Use Cases</h3>
+            <a href="#landlord">Landlord</a>
+            <a href="#property-owner">Property Owner</a>
+            <a href="#broker">Broker</a>
+            <a href="#brokers">Brokers / Property Owners</a>
+            <a href="#employmentSection">Employment</a>
+
+            <h3 style="margin-top:30px;">Properties</h3>
+            <a href="properties.php">All Properties</a>
+            <a href="properties.php?type=Commercial">Commercial</a>
+            <a href="properties.php?type=Residential">Residential</a>
+            <a href="properties.php?type=Industrial">Industrial</a>
+            <a href="properties.php?type=Agricultural">Agricultural</a>
+            <a href="properties.php?type=Land">Land</a>
+        </div>
+
+        <!-- COLUMN 3 -->
+        <div class="quick-col">
+            <h3>Account</h3>
+            <a href="index.php">Login</a>
+            <a href="register.php">Register</a>
+            <a href="policies.html">Policies</a>
+
+            <h3 style="margin-top:30px;">About HousingHub</h3>
+            <a href="#about-us">About Us</a>
+            <a href="#contact-us">Contact</a>
+            <a href="#faqs">FAQs</a>
+        </div>
+
+    </div>
+</section>
+<footer>
+    © 2026 HousingHub | All Rights Reserved
+</footer>
+<script>
+    const counters = document.querySelectorAll('.counter');
+
+counters.forEach(counter => {
+    const target = parseFloat(counter.dataset.target);
+    const type = counter.dataset.type;
+    let count = 0;
+
+    const updateCounter = () => {
+        const increment = target / 360;
+
+        if (count < target) {
+            count += increment;
+
+            if (type === "percent") {
+                counter.innerText = 
+                    (target % 1 !== 0 ? count.toFixed(1) : Math.floor(count)) + "%";
+            } else if (type === "hours") {
+                counter.innerText = Math.floor(count) + "/7";
+            }
+
+            requestAnimationFrame(updateCounter);
+        } else {
+            if (type === "percent") {
+                counter.innerText = target + "%";
+            } else if (type === "hours") {
+                counter.innerText = target + "/7";
+            }
+        }
+    };
+
+    updateCounter();
+});
+    
+    function toggleDropdown(element) {
+        const card = element.parentElement;
+        const details = card.querySelector('.feature-details');
+        const icon = element.querySelector('.dropdown-icon');
+        
+        // Close all other dropdowns
+        document.querySelectorAll('.feature-details').forEach(detail => {
+            if (detail !== details) {
+                detail.classList.remove('active');
+            }
+        });
+        
+        document.querySelectorAll('.dropdown-icon').forEach(ico => {
+            if (ico !== icon) {
+                ico.classList.remove('active');
+            }
+        });
+        
+        // Toggle current dropdown
+        details.classList.toggle('active');
+        icon.classList.toggle('active');
+        function toggleProperty(element) {
+       const details = element.nextElementSibling;
+        const arrow = element.querySelector('.arrow');
+
+      // Close other open properties
+     document.querySelectorAll('.property-details').forEach(d => {
+        if (d !== details) d.classList.remove('active');
+     });
+     document.querySelectorAll('.property-header .arrow').forEach(a => {
+        if (a !== arrow) a.classList.remove('active');
+     });
+
+     // Toggle current property
+     details.classList.toggle('active');
+     arrow.classList.toggle('active');
+     }
+     }
+     function toggleDropdown(element) {
+    const card = element.parentElement;
+    const details = card.querySelector('.feature-details');
+    const icon = element.querySelector('.dropdown-icon');
+
+    // Close all other dropdowns
+    document.querySelectorAll('.feature-details').forEach(detail => {
+        if (detail !== details) {
+            detail.classList.remove('active');
+        }
+    });
+
+    document.querySelectorAll('.dropdown-icon').forEach(ico => {
+        if (ico !== icon) {
+            ico.classList.remove('active');
+        }
+    });
+
+    // Toggle current dropdown
+    details.classList.toggle('active');
+    icon.classList.toggle('active');
+}
+
+function toggleBrokers() {
+    const brokers = document.getElementById("brokers");
+    if (brokers.style.display === "none" || brokers.style.display === "") {
+        brokers.style.display = "block";           // Show section
+        brokers.scrollIntoView({behavior: "smooth"}); // Scroll smoothly
+    } else {
+        brokers.style.display = "none";            // Hide section
+    }
+}
+const btn = document.getElementById('showEmploymentBtn');
+    const section = document.getElementById('employmentSection');
+
+    btn.addEventListener('click', () => {
+        section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        btn.textContent = section.style.display === 'block' ? 'Hide Employment Opportunities' : 'View Employment Opportunities';
+    });
+    // Get the button and employment section
+    const showEmploymentBtn = document.getElementById('showEmploymentBtn');
+    const employmentSection = document.getElementById('employmentSection');
+
+    // Add click event
+    showEmploymentBtn.addEventListener('click', () => {
+        if (employmentSection.style.display === 'none') {
+            employmentSection.style.display = 'block';
+            // Scroll to it
+            employmentSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            employmentSection.style.display = 'none';
+        }
+    });
+const navLink = document.querySelector('a[href="#employmentSection"]');
+
+navLink.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent default jump
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth' });
+});
+function showEmployment() {
+    const section = document.getElementById('employmentSection');
+    if (section.style.display === 'none' || section.style.display === '') {
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        section.style.display = 'none';
+    }
+}
+
+</script>
+
+</body>
+</html>
+<!-- EMPLOYMENT -->
+<section id="employmentSection" class="z" style="display:none;">
+  <a href="javascript:history.back()" class="back-link" style="display:inline-flex;margin:0 60px 32px;">&#8592; Previous</a>
+  <h2>Join <em>Our Team</em></h2>
+  <p>HousingHub is always looking for talented, motivated, and hardworking individuals.</p>
+  <div class="employment-grid">
+    <div class="job-card">
+      <span class="job-status filled">Filled</span>
+      <h4>Cleaner / Janitor</h4>
+      <p>Maintain cleanliness of offices and properties. No formal education required.</p>
+      <p><strong>Location:</strong> Kampala, Uganda</p>
+      <p><strong>Type:</strong> Full-time / Part-time</p>
+      <p><strong>Freebies:</strong> Meals provided, on-the-job training, friendly work environment.</p>
+      <a href="#" class="filled-btn">Position Filled</a>
+    </div>
+    <div class="job-card">
+      <span class="job-status open">Open</span>
+      <h4>Security Guard</h4>
+      <p>Ensure safety of properties and staff. No formal education required; training provided.</p>
+      <p><strong>Location:</strong> Kampala, Uganda</p>
+      <p><strong>Type:</strong> Full-time / Night shift</p>
+      <p><strong>Freebies:</strong> Training, uniform provided, stable monthly pay.</p>
+      <a href="apply.php?job=security-guard" class="apply-btn" data-label="Apply">Apply Now</a>
+    </div>
+    <div class="job-card">
+      <span class="job-status open">Open</span>
+      <h4>Field / Delivery Assistant</h4>
+      <p>Assist with deliveries, errands, and property visits. Basic literacy preferred.</p>
+      <p><strong>Location:</strong> Kampala, Uganda</p>
+      <p><strong>Type:</strong> Full-time / Part-time</p>
+      <p><strong>Freebies:</strong> Transport allowance, on-the-job training, friendly team.</p>
+      <a href="apply.php?job=field-assistant" class="apply-btn" data-label="Apply">Apply Now</a>
+    </div>
+    <div class="job-card">
+      <span class="job-status open">Open</span>
+      <h4>Receptionist / Office Assistant</h4>
+      <p>Greet visitors, answer calls, and support office tasks. Basic communication skills required.</p>
+      <p><strong>Location:</strong> Kampala, Uganda</p>
+      <p><strong>Type:</strong> Full-time / Part-time</p>
+      <p><strong>Freebies:</strong> Friendly environment, on-the-job training, opportunity to grow.</p>
+      <a href="apply.php?job=receptionist" class="apply-btn" data-label="Apply">Apply Now</a>
+    </div>
+    <div class="job-card">
+      <span class="job-status open">Open</span>
+      <h4>Electricians</h4>
+      <p>For electricity solutions and property electrical maintenance.</p>
+      <p><strong>Location:</strong> Jinja, Uganda</p>
+      <p><strong>Type:</strong> Full-time / Part-time</p>
+      <p><strong>Freebies:</strong> Transport allowance, friendly team.</p>
+      <a href="apply.php?job=electricians" class="apply-btn" data-label="Apply">Apply Now</a>
+    </div>
+    <div class="job-card">
+      <span class="job-status open">Open</span>
+      <h4>Plumbers</h4>
+      <p>Assist with water blockages and related water challenges.</p>
+      <p><strong>Location:</strong> Mukono, Uganda</p>
+      <p><strong>Type:</strong> Part-time</p>
+      <p><strong>Freebies:</strong> Transport allowance.</p>
+      <a href="apply.php?job=plumbers" class="apply-btn" data-label="Apply">Apply Now</a>
+    </div>
+  </div>
+  <p class="emp-footer">At HousingHub, we value dedication and hard work.<br>No need to worry about formal qualifications &mdash; your effort and attitude matter most!<br>Or send us a speculative application at <strong>careers@housinghub.com</strong>.</p>
+</section>
