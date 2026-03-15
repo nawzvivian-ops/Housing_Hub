@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include "db_connect.php";
@@ -9,21 +10,14 @@ if (!$admin || strtolower(trim($admin['role'])) !== 'admin') {
     header("Location: dashboard.php"); exit();
 }
  
-// ── Get the user ID ──
-// On first load it comes via GET (?id=123)
-// On form submit it comes via POST (hidden field)
+// ── Get the user ID — GET on load, POST on submit ──
 $edit_id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
+if ($edit_id <= 0) { echo "No user ID provided."; exit(); }
  
-if ($edit_id <= 0) {
-    echo "No user ID provided."; exit();
-}
- 
-// ── Fetch user to edit ──
-$edit_user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM users WHERE id='$edit_id' LIMIT 1"));
- 
-if (!$edit_user) {
-    echo "User not found (ID: $edit_id)."; exit();
-}
+// ── Fetch user ──
+$edit_user = mysqli_fetch_assoc(mysqli_query($conn,
+    "SELECT * FROM users WHERE id='$edit_id' LIMIT 1"));
+if (!$edit_user) { echo "User not found (ID: $edit_id)."; exit(); }
  
 // ── Handle form submission ──
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'])) {
@@ -36,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'])) {
         "UPDATE users SET fullname='$fullname', email='$email', role='$role', phone='$phone'
          WHERE id='$edit_id'");
  
-    // If role is tenant, also update the tenants table if linked
     if ($role === 'tenant') {
         mysqli_query($conn,
             "UPDATE tenants SET fullname='$fullname', email='$email', phone='$phone'
@@ -53,37 +46,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fullname'])) {
 <meta charset="UTF-8">
 <title>Edit User | HousingHub Admin</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Segoe UI",sans-serif;background:lightblue;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-.card{background:linear-gradient(145deg,#0c0c0c,#0ea5e9);padding:40px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.3);color:white;width:100%;max-width:460px}
-.card h2{text-align:center;margin-bottom:8px;font-size:24px;text-transform:uppercase;letter-spacing:1px}
-.card .sub{text-align:center;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:28px}
-label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;letter-spacing:.5px;opacity:.85}
-input,select{width:100%;padding:12px 14px;margin-bottom:18px;border-radius:8px;border:none;font-size:14px;outline:none;font-family:"Segoe UI",sans-serif}
-input:focus,select:focus{box-shadow:0 0 0 3px rgba(255,255,255,.3)}
-select option{background:#0c0c0c;color:white}
-.btn{width:100%;padding:13px;background:#080808;border:none;border-radius:10px;font-size:15px;color:white;font-weight:bold;cursor:pointer;transition:.3s;margin-top:4px}
-.btn:hover{background:#053896;transform:translateY(-2px)}
-.back{display:block;text-align:center;margin-top:16px;text-decoration:none;color:rgba(255,255,255,.8);font-size:13px;font-weight:600}
-.back:hover{color:white}
-.user-info{background:rgba(255,255,255,.08);border-radius:8px;padding:12px 16px;margin-bottom:22px;font-size:12px;color:rgba(255,255,255,.7)}
-.user-info strong{color:white}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.08);--gb:rgba(200,164,60,.25)}
+body{
+  font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(ellipse 80% 60% at 70% 10%,rgba(14,90,200,.18),transparent 55%),
+             radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12),transparent 50%),var(--ink)
+}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:72px 72px}
+.card{position:relative;z-index:10;width:100%;max-width:480px;
+  background:rgba(8,14,36,.96);border:1px solid var(--border);border-radius:16px;
+  padding:44px 40px;box-shadow:0 40px 80px rgba(0,0,0,.6);
+  animation:up .5s cubic-bezier(.23,1,.32,1) both}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.brand{font-family:"Cormorant Garamond",serif;font-size:11px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:rgba(200,164,60,.4);
+  text-align:center;margin-bottom:20px}
+h2{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:700;
+  color:var(--white);text-align:center;margin-bottom:6px}
+h2 em{color:var(--gold);font-style:italic}
+.sub{text-align:center;font-size:12px;color:var(--muted);margin-bottom:28px}
+.user-info{background:rgba(200,164,60,.07);border:1px solid var(--gb);border-radius:8px;
+  padding:12px 16px;margin-bottom:24px;font-size:12px;color:rgba(255,255,255,.65);line-height:1.7}
+.user-info strong{color:var(--gold)}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+input,select{width:100%;padding:12px 14px;margin-bottom:18px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;
+  font-size:14px;color:var(--white);font-family:"Outfit",sans-serif;
+  outline:none;transition:border-color .25s,background .25s}
+input:focus,select:focus{border-color:var(--gb);background:rgba(200,164,60,.04)}
+input::placeholder{color:var(--muted)}
+select option{background:#04091a;color:var(--white)}
+.btn{width:100%;padding:13px;background:var(--gold);border:none;border-radius:8px;
+  font-size:13px;font-weight:700;color:var(--ink);font-family:"Outfit",sans-serif;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:4px}
+.btn:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 8px 22px rgba(200,164,60,.3)}
+.back{display:block;text-align:center;margin-top:18px;text-decoration:none;
+  color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.5px;transition:color .2s}
+.back:hover{color:var(--white)}
 </style>
 </head>
 <body>
 <div class="card">
-  <h2>Edit User</h2>
-  <div class="sub">HousingHub Admin Panel</div>
+  <div class="brand">Housing Hub · Admin Panel</div>
+  <h2>Edit <em>User</em></h2>
+  <div class="sub">Update account details below</div>
  
   <div class="user-info">
     Editing: <strong><?= htmlspecialchars($edit_user['fullname']) ?></strong>
-    &nbsp;·&nbsp; ID: <strong><?= $edit_id ?></strong>
-    &nbsp;·&nbsp; Role: <strong><?= htmlspecialchars($edit_user['role']) ?></strong>
+    &nbsp;·&nbsp; ID: <strong>#<?= $edit_id ?></strong>
+    &nbsp;·&nbsp; Role: <strong><?= htmlspecialchars(ucfirst($edit_user['role'])) ?></strong>
   </div>
  
   <form method="POST">
-    <!-- Pass the ID through the form so it's available on POST -->
     <input type="hidden" name="id" value="<?= $edit_id ?>">
  
     <label>Full Name</label>

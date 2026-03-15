@@ -2,6 +2,12 @@
 session_start();
 include "db_connect.php";
  
+// ── Prevent browser caching so all users always see fresh data ──
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+ 
 // Redirect if not logged in or not admin
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -15,7 +21,7 @@ $user = mysqli_fetch_assoc($result);
 $role = strtolower(trim($user['role']));
  
 if ($role !== 'admin') {
-    header("Location: admin_dashboard.php");
+    header("Location: dashboard.php");
     exit();
 }
  
@@ -79,62 +85,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <meta charset="UTF-8">
 <title>Admin Dashboard | HousingHub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:"Segoe UI",sans-serif;margin:0;padding:0;background:#dde8f7;color:#333}
-.sidebar{position:fixed;left:0;top:0;width:250px;height:100%;background:#020816;color:white;display:flex;flex-direction:column;padding-top:20px;overflow-y:auto;z-index:1000}
-.sidebar h2{text-align:center;margin-bottom:20px;color:#38bdf8}
-.sidebar a{color:white;padding:15px 20px;text-decoration:none;display:block;transition:all 0.3s}
-.sidebar a:hover,.sidebar a.active{background:#38bdf8;color:#0f172a}
-.header{display:flex;justify-content:space-between;align-items:center;background:#020816;color:#fff;padding:15px 30px;position:sticky;top:0;z-index:100;margin-left:250px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-.header h1{font-size:24px;color:#38bdf8}
-.logout-btn{color:#fff;text-decoration:none;background:#dc2626;padding:10px 20px;border-radius:6px;transition:background 0.3s}
-.logout-btn:hover{background:#b91c1c}
-.main-content{margin-left:250px;padding:30px 40px;min-height:calc(100vh - 80px)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:40px}
-.card{background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:white;padding:25px;border-radius:15px;text-align:center;box-shadow:0 5px 15px rgba(56,189,248,0.3);transition:transform 0.3s,box-shadow 0.3s}
-.card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(56,189,248,0.4)}
-.card h3{margin-bottom:10px;font-size:16px;font-weight:500;opacity:0.9}
-.card p{font-size:32px;font-weight:bold}
-section h2{margin-bottom:20px;color:#0f172a;font-size:28px;border-bottom:3px solid #38bdf8;padding-bottom:10px}
-table{width:100%;border:3px solid #0c0c0c;border-collapse:collapse;margin-bottom:40px;background:white;box-shadow:0 4px 15px rgba(99,111,224,0.08)}
-table th,table td{padding:15px;text-align:left}
-table th{background:#0f172a;color:#fff;font-weight:600}
-table tr:nth-child(even){background:#87b4df}
-table tr:hover{background:#87b4df}
-.action-btn{display:inline-block;padding:8px 16px;border-radius:6px;text-decoration:none;color:white;background:#366d21;transition:0.3s;margin-right:5px;font-size:14px;border:none;cursor:pointer}
-.action-btn:hover{transform:translateY(-2px)}
-.chart-container{margin-bottom:40px;background:white;padding:30px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.08);--gb:rgba(200,164,60,.25);--red:#ef4444;--green:#16a34a;--sw:260px}
+html,body{height:100%;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 80% 5%,rgba(14,90,200,.15),transparent 55%),radial-gradient(ellipse 50% 70% at 5% 95%,rgba(180,140,40,.1),transparent 50%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:72px 72px}
+.sidebar{position:fixed;left:0;top:0;width:var(--sw);height:100%;background:rgba(4,9,26,.98);border-right:1px solid var(--border);color:var(--white);display:flex;flex-direction:column;overflow-y:auto;z-index:1000}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--gb);border-radius:2px}
+.sidebar h2{text-align:center;padding:24px 20px 20px;font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border)}
+.sidebar a{color:var(--muted);padding:11px 22px;text-decoration:none;display:block;transition:all .2s;font-size:13px;font-weight:500;border-left:3px solid transparent}
+.sidebar a:hover{color:var(--white);background:rgba(255,255,255,.04);border-left-color:var(--gb)}
+.sidebar a.active{color:var(--gold);background:rgba(200,164,60,.08);border-left-color:var(--gold)}
+.header{display:flex;justify-content:space-between;align-items:center;background:rgba(4,9,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);color:var(--white);padding:16px 36px;position:sticky;top:0;z-index:100;margin-left:var(--sw);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.header h1{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:1px}
+.logout-btn{color:var(--white);text-decoration:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);padding:9px 20px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s}
+.logout-btn:hover{background:rgba(239,68,68,.3)}
+.main-content{margin-left:var(--sw);padding:32px 40px;min-height:calc(100vh - 60px);position:relative;z-index:10}
+section h2{margin-bottom:24px;font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:700;color:var(--white);border-bottom:2px solid var(--gb);padding-bottom:12px}
 .overview-cards{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:40px}
-.circular-card{width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 8px 10px rgba(17,16,16,0.97);transition:transform 0.3s}
-.circular-card:hover{transform:scale(1.05)}
-.circular-card h3{margin:5px 0;font-size:14px;font-weight:500;opacity:0.9}
-.circular-card p{font-size:24px;font-weight:bold;margin:0}
- 
-/* ── LINK ACCOUNT STYLES ── */
+.circular-card{width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,rgba(200,164,60,.15),rgba(14,90,200,.15));border:2px solid var(--gb);color:var(--white);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s,box-shadow .3s}
+.circular-card:hover{transform:scale(1.06);box-shadow:0 12px 32px rgba(200,164,60,.2)}
+.circular-card h3{margin:0 0 6px;font-size:12px;font-weight:500;letter-spacing:.5px;color:var(--muted);padding:0 10px;line-height:1.3}
+.circular-card p{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:var(--gold);margin:0}
+table{width:100%;border-collapse:collapse;margin-bottom:36px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+table th{background:rgba(200,164,60,.1);color:var(--gold);font-weight:600;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}
+table td{padding:13px 16px;font-size:13px;color:rgba(255,255,255,.8);border-bottom:1px solid rgba(255,255,255,.04)}
+table tr:last-child td{border-bottom:none}
+table tr:hover td{background:rgba(200,164,60,.04)}
+.action-btn{display:inline-block;padding:7px 14px;border-radius:6px;text-decoration:none;color:var(--white);background:rgba(200,164,60,.2);border:1px solid var(--gb);transition:all .25s;margin-right:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:"Outfit",sans-serif}
+.action-btn:hover{background:rgba(200,164,60,.35);transform:translateY(-2px)}
+.chart-container{margin-bottom:36px;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:28px;border-radius:12px}
+.alert{padding:14px 20px;border-radius:8px;margin-bottom:20px;font-size:13px;font-weight:500}
+.alert.success{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.3);color:#86efac}
+.alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
 .link-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.5px}
-.link-badge.linked{background:#dcfce7;color:#16a34a;border:1px solid #86efac}
-.link-badge.unlinked{background:#fef9c3;color:#ca8a04;border:1px solid #fde047}
+.link-badge.linked{background:rgba(22,163,74,.1);color:#86efac;border:1px solid rgba(22,163,74,.3)}
+.link-badge.unlinked{background:rgba(200,164,60,.1);color:var(--gold);border:1px solid var(--gb)}
 .link-form{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
-.link-form select{padding:6px 10px;border-radius:6px;border:1px solid #ccc;font-size:13px;background:white;color:#333;min-width:180px}
-.link-form button{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:700;color:white}
-.btn-link{background:#0ea5e9}
-.btn-link:hover{background:#0284c7}
-.btn-unlink{background:#ef4444}
-.btn-unlink:hover{background:#dc2626}
-.alert{padding:14px 20px;border-radius:8px;margin-bottom:20px;font-size:14px;font-weight:500}
-.alert.success{background:#dcfce7;border:1px solid #86efac;color:#15803d}
-.alert.error{background:#fee2e2;border:1px solid #fca5a5;color:#dc2626}
-.unlinked-banner{background:#fffbeb;border:2px solid #fde047;border-radius:10px;padding:14px 20px;
-  margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:14px;color:#92400e}
-.unlinked-banner strong{color:#b45309}
- 
-@media(max-width:768px){
-  .sidebar{width:100%;height:auto;position:relative}
-  .main-content{margin-left:0}
-  .header{margin-left:0;flex-direction:column;gap:10px;padding:15px}
-  .cards{grid-template-columns:1fr}
-  table{font-size:14px}
+.link-form select{padding:6px 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;background:rgba(255,255,255,.06);color:var(--white);min-width:180px;font-family:"Outfit",sans-serif}
+.link-form select option{background:var(--ink)}
+.link-form button{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:700;color:var(--white);font-family:"Outfit",sans-serif}
+.btn-link{background:rgba(14,90,200,.4)}
+.btn-link:hover{background:rgba(14,90,200,.6)}
+.btn-unlink{background:rgba(239,68,68,.2);color:#fca5a5}
+.btn-unlink:hover{background:rgba(239,68,68,.35)}
+.unlinked-banner{background:rgba(200,164,60,.08);border:1px solid var(--gb);border-radius:10px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--gold)}
+.unlinked-banner strong{color:var(--gold-l)}
+input,select,textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--white);border-radius:6px;padding:10px 13px;font-family:"Outfit",sans-serif;font-size:13px;width:100%;outline:none;transition:border-color .25s;margin-bottom:12px}
+input:focus,select:focus,textarea:focus{border-color:var(--gb)}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+select option{background:var(--ink)}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+@media(max-width:900px){
+  :root{--sw:0px}
+  .sidebar{transform:translateX(-260px);width:260px}
+  .main-content,.header{margin-left:0}
+  table{font-size:12px}
   table th,table td{padding:10px}
+  .main-content{padding:20px 16px}
 }
 </style>
 </head>
@@ -207,13 +217,13 @@ endif;
         <div class="circular-card"><h3>Revenue Collected</h3><p>UGX <?= number_format($revenue ?? 0) ?></p></div>
     </div>
 </section>
-<hr style="color:#38bdf8">
+<hr style="border:none;border-top:1px solid var(--border);margin:20px 0">
  
 <?php elseif($page === 'users'): ?>
 <section id="users">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">USER MANAGEMENT</h2>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">USER MANAGEMENT</h2>
     <div style="text-align:center;margin-bottom:20px;">
-        <a href="add_user.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW USER</a>
+        <a href="add_user.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW USER</a>
     </div>
     <table>
         <tr>
@@ -254,7 +264,7 @@ endif;
                 <a href="edit_user.php?id=<?= $u['id'] ?>" class="action-btn">Edit</a>
                 <a href="delete_user.php?id=<?= $u['id'] ?>" class="action-btn"
                    onclick="return confirm('Are you sure you want to delete this user?')"
-                   style="background:#ef4444;">Delete</a>
+                   style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Delete</a>
             </td>
         </tr>
         <?php endwhile; ?>
@@ -263,7 +273,7 @@ endif;
  
 <?php elseif($page === 'tenants'): ?>
 <section id="tenants">
-    <h2 style="text-align:center;margin-bottom:20px;color:#366d21;">MANAGE TENANTS</h2>
+    <h2 style="text-align:center;margin-bottom:20px;color:var(--gold);">MANAGE TENANTS</h2>
  
     <?php if($unlinked_count > 0): ?>
     <div class="unlinked-banner">
@@ -273,7 +283,7 @@ endif;
     <?php endif; ?>
  
     <div style="text-align:center;margin-bottom:20px;">
-        <a href="add_tenant.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW TENANT</a>
+        <a href="add_tenant.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW TENANT</a>
     </div>
  
     <?php
@@ -336,7 +346,7 @@ endif;
                           onsubmit="return confirm('Remove account link? This tenant will see the pending screen.')">
                         <input type="hidden" name="action" value="unlink_account">
                         <input type="hidden" name="tenant_id" value="<?= $t['id'] ?>">
-                        <button type="submit" class="btn-unlink action-btn" style="background:#ef4444;font-size:12px;padding:6px 12px;">
+                        <button type="submit" class="btn-unlink action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:12px;padding:6px 12px;">
                             ✕ Unlink
                         </button>
                     </form>
@@ -354,7 +364,7 @@ endif;
                             </option>
                             <?php endforeach; ?>
                         </select>
-                        <button type="submit" class="btn-link action-btn" style="background:#0ea5e9;font-size:12px;padding:6px 12px;">
+                        <button type="submit" class="btn-link action-btn" style="background:rgba(14,90,200,.3);border:1px solid rgba(14,90,200,.4);font-size:12px;padding:6px 12px;">
                             ✓ Link
                         </button>
                     </form>
@@ -368,7 +378,7 @@ endif;
             <td>
                 <a href="edit_records.php?type=tenant&id=<?= $t['id'] ?>" class="action-btn">Edit</a>
                 <a href="delete_record.php?table=tenants&id=<?= $t['id'] ?>"
-                   class="action-btn" style="background:#ef4444;"
+                   class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;"
                    onclick="return confirm('Are you sure you want to delete this tenant?')">Delete</a>
             </td>
         </tr>
@@ -376,8 +386,8 @@ endif;
     </table>
  
     <!-- QUICK HOW-TO -->
-    <div style="background:white;border:1px solid #e2e8f0;border-radius:10px;padding:20px;max-width:600px;margin-top:10px">
-        <h4 style="color:#0f172a;margin-bottom:10px;font-size:15px">How tenant account linking works</h4>
+    <div style="background:rgba(255,255,255,.03);border:1px solid #e2e8f0;border-radius:10px;padding:20px;max-width:600px;margin-top:10px">
+        <h4 style="color:var(--white);margin-bottom:10px;font-size:15px">How tenant account linking works</h4>
         <ol style="font-size:13px;color:#555;line-height:1.8;padding-left:18px">
             <li>A person registers on the site → their account appears in <strong>Manage Users</strong> with role <em>tenant</em></li>
             <li>You add their details to <strong>Manage Tenants</strong> (or they already exist)</li>
@@ -405,7 +415,7 @@ endif;
             <td><?=htmlspecialchars($prop['created_at'])?></td>
             <td>
                 <a href="edit_records.php?type=property&id=<?=$prop['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=properties&id=<?=$prop['id']?>" class="action-btn" onclick="return confirm('Delete this property?')" style="background:#ef4444;">Delete</a>
+                <a href="delete_record.php?table=properties&id=<?=$prop['id']?>" class="action-btn" onclick="return confirm('Delete this property?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -427,18 +437,18 @@ endif;
             <td><?=htmlspecialchars($s['created_at']??'N/A')?></td>
             <td>
                 <a href="edit_records.php?type=staff&id=<?=$s['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=users&id=<?=$s['id']?>" class="action-btn" onclick="return confirm('Delete this staff member?')" style="background:#ef4444;">Delete</a>
+                <a href="delete_record.php?table=users&id=<?=$s['id']?>" class="action-btn" onclick="return confirm('Delete this staff member?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
     </table>
-    <div style="text-align:center;margin-top:20px"><a href="add_staff.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW STAFF</a></div>
+    <div style="text-align:center;margin-top:20px"><a href="add_staff.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW STAFF</a></div>
 </section>
  
 <?php elseif($page === 'inspections'): ?>
 <section id="inspections">
     <h2 style="text-align:center;">Property Inspections</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_inspection.php" class="action-btn" style="background:#0ea5e9;">+ Schedule New Inspection</a></div>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_inspection.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+ Schedule New Inspection</a></div>
     <table>
         <tr><th>Property</th><th>Tenant</th><th>Inspector</th><th>Date</th><th>Situation</th><th>Status</th><th>Notified</th><th>Actions</th></tr>
         <?php $inspections=mysqli_query($conn,"SELECT i.*,p.property_name,t.fullname AS tenant_name FROM inspections i LEFT JOIN properties p ON i.property_id=p.id LEFT JOIN tenants t ON i.tenant_id=t.id ORDER BY i.inspection_date DESC");
@@ -453,8 +463,8 @@ endif;
             <td><?=($i['notified']==1)?"Yes":"No"?></td>
             <td>
                 <a href="edit_records.php?type=inspection&id=<?=$i['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=inspections&id=<?=$i['id']?>" class="action-btn" onclick="return confirm('Delete?')" style="background:#ef4444;">Delete</a>
-                <?php if($i['status']!="Completed"):?><a href="mark_inspection_complete.php?id=<?=$i['id']?>" class="action-btn" style="background:#16a34a;">Complete</a><?php endif;?>
+                <a href="delete_record.php?table=inspections&id=<?=$i['id']?>" class="action-btn" onclick="return confirm('Delete?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Delete</a>
+                <?php if($i['status']!="Completed"):?><a href="mark_inspection_complete.php?id=<?=$i['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);">Complete</a><?php endif;?>
             </td>
         </tr>
         <?php endwhile;?>
@@ -464,7 +474,7 @@ endif;
 <?php elseif($page === 'staff_tasks'): ?>
 <section id="staff_tasks">
     <h2 style="text-align:center;">Staff Tasks & Schedule</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_task.php" class="action-btn" style="background:#0ea5e9;">+ Assign New Task</a></div>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_task.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+ Assign New Task</a></div>
     <table>
         <tr><th>Task Title</th><th>Staff Assigned</th><th>Due Date</th><th>Priority</th><th>Status</th><th>Assigned By</th><th>Actions</th></tr>
         <?php $tasks=mysqli_query($conn,"SELECT t.*,u.fullname AS staff_name FROM tasks t LEFT JOIN users u ON t.assigned_to=u.id ORDER BY t.due_date ASC");
@@ -478,8 +488,8 @@ endif;
             <td><?=htmlspecialchars($task['assigned_by'])?></td>
             <td>
                 <a href="edit_records.php?type=task&id=<?=$task['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=tasks&id=<?=$task['id']?>" class="action-btn" onclick="return confirm('Delete?')" style="background:#ef4444;">Delete</a>
-                <?php if($task['status']!='Completed'):?><a href="mark_task_complete.php?id=<?=$task['id']?>" class="action-btn" style="background:#16a34a;">Complete</a><?php endif;?>
+                <a href="delete_record.php?table=tasks&id=<?=$task['id']?>" class="action-btn" onclick="return confirm('Delete?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Delete</a>
+                <?php if($task['status']!='Completed'):?><a href="mark_task_complete.php?id=<?=$task['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);">Complete</a><?php endif;?>
             </td>
         </tr>
         <?php endwhile;?>
@@ -488,8 +498,8 @@ endif;
  
 <?php elseif($page === 'tenant_documents'): ?>
 <section id="tenant_documents">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">TENANT DOCUMENTS</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_document.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW DOCUMENT</a></div>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">TENANT DOCUMENTS</h2>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_document.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW DOCUMENT</a></div>
     <table>
         <tr><th>Tenant</th><th>Document Name</th><th>File</th><th>Uploaded At</th><th>Actions</th></tr>
         <?php $docs=mysqli_query($conn,"SELECT d.*,t.fullname AS tenant_name FROM tenant_documents d LEFT JOIN tenants t ON d.tenant_id=t.id ORDER BY d.uploaded_at DESC");
@@ -501,7 +511,7 @@ endif;
             <td><?=htmlspecialchars($doc['uploaded_at']??'-')?></td>
             <td>
                 <a href="edit_records.php?type=document&id=<?=$doc['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=tenant_documents&id=<?=$doc['id']?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete?')">Delete</a>
+                <a href="delete_record.php?table=tenant_documents&id=<?=$doc['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -511,23 +521,166 @@ endif;
 <?php elseif($page === 'jobs'): ?>
 <section id="jobs">
     <h2>Employment Applications</h2>
+ 
+    <?php
+    // ── Stats summary ──
+    $total_apps    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as c FROM job_applications"))['c'];
+    $pending_apps  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as c FROM job_applications WHERE status='pending'"))['c'];
+    $approved_apps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as c FROM job_applications WHERE status='approved'"))['c'];
+    $rejected_apps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as c FROM job_applications WHERE status='rejected'"))['c'];
+    ?>
+ 
+    <!-- Summary Cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px">
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--white)"><?= $total_apps ?></div>
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">Total Applications</div>
+        </div>
+        <div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:18px;text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold)"><?= $pending_apps ?></div>
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">Pending Review</div>
+        </div>
+        <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.25);border-radius:10px;padding:18px;text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#86efac"><?= $approved_apps ?></div>
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">Approved</div>
+        </div>
+        <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:18px;text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fca5a5"><?= $rejected_apps ?></div>
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">Rejected</div>
+        </div>
+    </div>
+ 
+    <!-- Filter tabs -->
+    <?php $filter = $_GET['filter'] ?? 'all'; ?>
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+        <?php
+        $filters = ['all'=>'All','pending'=>'Pending','approved'=>'Approved','rejected'=>'Rejected'];
+        foreach($filters as $k=>$label):
+            $active = $filter===$k;
+        ?>
+        <a href="admin_dashboard.php?page=jobs&filter=<?=$k?>"
+           style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:.5px;text-decoration:none;transition:all .2s;
+                  background:<?=$active?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;
+                  border:1px solid <?=$active?'var(--gb)':'var(--border)'?>;
+                  color:<?=$active?'var(--gold)':'var(--muted)'?>">
+            <?=$label?>
+            <?php if($k!=='all'): ?>
+            <?php
+            $kcount = mysqli_fetch_assoc(mysqli_query($conn,
+                "SELECT COUNT(*) as c FROM job_applications WHERE status='" . mysqli_real_escape_string($conn,$k) . "'"));
+            ?>
+            <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px">
+                <?= $kcount['c'] ?>
+            </span>
+            <?php endif; ?>
+        </a>
+        <?php endforeach; ?>
+    </div>
+ 
+    <!-- Applications Table -->
+    <?php
+    // Your table: job_applications(id, full_name, email, phone, position, resume, status, created_at)
+    $where = $filter !== 'all' ? "WHERE status='".mysqli_real_escape_string($conn,$filter)."'" : '';
+    $apps  = mysqli_query($conn,
+        "SELECT * FROM job_applications $where ORDER BY created_at DESC");
+    $app_count = $apps ? mysqli_num_rows($apps) : 0;
+    ?>
+ 
+    <?php if($app_count == 0): ?>
+    <div style="text-align:center;padding:48px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;color:var(--muted)">
+        No <?= $filter !== 'all' ? $filter : '' ?> applications found.
+    </div>
+    <?php else: ?>
     <table>
-        <tr><th>Applicant</th><th>Position</th><th>Status</th><th>Applied Date</th><th>Actions</th></tr>
-        <?php $apps=mysqli_query($conn,"SELECT * FROM job_applications ORDER BY created_at DESC");
-        while($app=mysqli_fetch_assoc($apps)):?>
         <tr>
-            <td><?=htmlspecialchars($app['full_name'])?></td>
-            <td><?=htmlspecialchars($app['position'])?></td>
-            <td><?=htmlspecialchars($app['status'])?></td>
-            <td><?=htmlspecialchars($app['created_at']??'N/A')?></td>
+            <th>#</th>
+            <th>Applicant</th>
+            <th>Position Applied</th>
+            <th>Phone</th>
+            <th>Applied</th>
+            <th>Resume</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        <?php $i=1; while($app=mysqli_fetch_assoc($apps)):
+            $st  = strtolower($app['status'] ?? 'pending');
+            $sc  = match($st) { 'approved'=>'#86efac', 'rejected'=>'#fca5a5', default=>'var(--gold)' };
+            $sbg = match($st) { 'approved'=>'rgba(22,163,74,.1)', 'rejected'=>'rgba(239,68,68,.1)', default=>'rgba(200,164,60,.1)' };
+            $sbd = match($st) { 'approved'=>'rgba(22,163,74,.3)', 'rejected'=>'rgba(239,68,68,.3)', default=>'var(--gb)' };
+        ?>
+        <tr>
+            <td style="color:var(--muted);font-size:12px"><?= $i++ ?></td>
             <td>
-                <a href="view_application.php?id=<?=$app['id']?>" class="action-btn">View</a>
-                <a href="approve_application.php?id=<?=$app['id']?>" class="action-btn">Approve</a>
-                <a href="reject_application.php?id=<?=$app['id']?>" class="action-btn">Reject</a>
+                <div style="font-weight:600;color:var(--white)"><?=htmlspecialchars($app['full_name'])?></div>
+                <div style="font-size:11px;color:var(--muted)"><?=htmlspecialchars($app['email']??'—')?></div>
+            </td>
+            <td style="font-weight:500;font-size:13px"><?=htmlspecialchars($app['position']??'N/A')?></td>
+            <td style="font-size:12px;color:var(--muted)"><?=htmlspecialchars($app['phone']??'—')?></td>
+            <td style="font-size:12px;color:var(--muted);white-space:nowrap">
+                <?= $app['created_at'] ? date('d M Y', strtotime($app['created_at'])) : 'N/A' ?>
+            </td>
+            <td>
+                <?php if(!empty($app['resume'])): ?>
+                    <a href="uploads/<?=htmlspecialchars($app['resume'])?>" target="_blank"
+                       style="font-size:12px;color:var(--gold);text-decoration:none">📄 View</a>
+                <?php else: ?>
+                    <span style="font-size:11px;color:var(--muted)">None</span>
+                <?php endif; ?>
+            </td>
+            <td>
+                <span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>">
+                    <?= ucfirst($st) ?>
+                </span>
+            </td>
+            <td style="white-space:nowrap">
+                <!-- View full application -->
+                <a href="view_application.php?id=<?=$app['id']?>"
+                   class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">
+                   👁 View
+                </a>
+ 
+                <?php if($st === 'pending'): ?>
+                <!-- Approve -->
+                <a href="approve_application.php?id=<?=$app['id']?>"
+                   class="action-btn"
+                   style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac"
+                   onclick="return confirm('Approve <?=htmlspecialchars(addslashes($app['full_name']))?> and send them a congratulations email?')">
+                   ✓ Approve
+                </a>
+                <!-- Reject -->
+                <a href="reject_application.php?id=<?=$app['id']?>"
+                   class="action-btn"
+                   style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5"
+                   onclick="return confirm('Reject this application and send a decline email to <?=htmlspecialchars(addslashes($app['email']))?> ?')">
+                   ✕ Reject
+                </a>
+                <?php elseif($st === 'approved'): ?>
+                <span style="font-size:11px;color:#86efac">✓ Hired</span>
+                <?php elseif($st === 'rejected'): ?>
+                <span style="font-size:11px;color:#fca5a5">✕ Declined</span>
+                <?php endif; ?>
+ 
+                <!-- Delete -->
+                <a href="delete_record.php?table=job_applications&id=<?=$app['id']?>"
+                   class="action-btn"
+                   style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);color:#fca5a5"
+                   onclick="return confirm('Permanently delete this application?')">
+                   🗑
+                </a>
             </td>
         </tr>
-        <?php endwhile;?>
+        <?php endwhile; ?>
     </table>
+    <?php endif; ?>
+ 
+    <!-- HOW TO MANAGE note -->
+    <div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:18px 22px;margin-top:10px;font-size:13px;color:var(--muted);line-height:1.8">
+        <strong style="color:var(--gold)">How to manage applications:</strong><br>
+        1. Click <strong style="color:var(--white)">👁 View</strong> to read the full application, experience details and resume.<br>
+        2. Click <strong style="color:#86efac">✓ Approve</strong> to hire — a congratulations email is sent to the applicant automatically.<br>
+        3. Click <strong style="color:#fca5a5">✕ Reject</strong> to decline — a polite rejection email is sent automatically.<br>
+        4. Use the <strong style="color:var(--white)">filter tabs</strong> above to sort by Pending / Approved / Rejected.
+    </div>
 </section>
  
 <?php elseif($page === 'maintenance'): ?>
@@ -554,8 +707,8 @@ endif;
  
 <?php elseif($page === 'tenant_payments'): ?>
 <section id="tenant_payments">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">TENANT PAYMENTS</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_payment.php" class="action-btn" style="background:#0ea5e9;">+++ RECORD NEW PAYMENT</a></div>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">TENANT PAYMENTS</h2>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_payment.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ RECORD NEW PAYMENT</a></div>
     <table>
         <tr><th>Tenant</th><th>Property</th><th>Amount (UGX)</th><th>Date</th><th>Status</th><th>Actions</th></tr>
         <?php $payments=mysqli_query($conn,"SELECT pay.*,t.fullname as tenant_name,p.property_name FROM payments pay LEFT JOIN tenants t ON pay.tenant_id=t.id LEFT JOIN properties p ON pay.property_id=p.id ORDER BY pay.date DESC");
@@ -568,7 +721,7 @@ endif;
             <td><?=htmlspecialchars($pay['status']??'Pending')?></td>
             <td>
                 <a href="edit_records.php?type=payment&id=<?=$pay['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=payments&id=<?=$pay['id']?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete?')">Delete</a>
+                <a href="delete_record.php?table=payments&id=<?=$pay['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -577,7 +730,7 @@ endif;
  
 <?php elseif($page === 'complaints'): ?>
 <section id="complaints">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">COMPLAINTS & FEEDBACK</h2>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">COMPLAINTS & FEEDBACK</h2>
     <table>
         <tr><th>Tenant</th><th>Category</th><th>Message</th><th>Status</th><th>Date</th><th>Actions</th></tr>
         <?php $complaints=mysqli_query($conn,"SELECT c.*,t.fullname as tenant_name FROM complaints c LEFT JOIN tenants t ON c.tenant_id=t.id ORDER BY c.created_at DESC");
@@ -589,9 +742,9 @@ endif;
             <td><?=htmlspecialchars($c['status']??'pending')?></td>
             <td><?=htmlspecialchars($c['created_at']??'N/A')?></td>
             <td>
-                <a href="view_complaint.php?id=<?=$c['id']?>" class="action-btn" style="background:#0ea5e9;">View</a>
-                <a href="resolve_complaint.php?id=<?=$c['id']?>" class="action-btn" style="background:#16a34a;" onclick="return confirm('Mark resolved?')">Resolve</a>
-                <a href="delete_record.php?table=complaints&id=<?=$c['id']?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete?')">Delete</a>
+                <a href="view_complaint.php?id=<?=$c['id']?>" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">View</a>
+                <a href="resolve_complaint.php?id=<?=$c['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);" onclick="return confirm('Mark resolved?')">Resolve</a>
+                <a href="delete_record.php?table=complaints&id=<?=$c['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -600,8 +753,8 @@ endif;
  
 <?php elseif($page === 'guests'): ?>
 <section id="guests">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">GUEST / VISITOR APPROVALS</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_guest.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW GUEST</a></div>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">GUEST / VISITOR APPROVALS</h2>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_guest.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW GUEST</a></div>
     <?php $guests=mysqli_query($conn,"SELECT g.*,t.fullname AS tenant_name,p.property_name FROM guests g LEFT JOIN tenants t ON g.tenant_id=t.id LEFT JOIN properties p ON g.property_id=p.id ORDER BY g.created_at DESC");?>
     <table>
         <tr><th>Guest Name</th><th>Email</th><th>Phone</th><th>Tenant</th><th>Property</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Actions</th></tr>
@@ -616,9 +769,9 @@ endif;
             <td><?=htmlspecialchars($g['check_out']??'-')?></td>
             <td><?=htmlspecialchars($g['status']??'Pending')?></td>
             <td>
-                <a href="approve_guest.php?id=<?=$g['id']?>" class="action-btn" style="background:#16a34a;">Approve</a>
-                <a href="reject_guest.php?id=<?=$g['id']?>" class="action-btn" style="background:#ef4444;">Reject</a>
-                <a href="delete_record.php?table=guests&id=<?=$g['id']?>" class="action-btn" style="background:#b91c1c;" onclick="return confirm('Delete?')">Delete</a>
+                <a href="approve_guest.php?id=<?=$g['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);">Approve</a>
+                <a href="reject_guest.php?id=<?=$g['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;">Reject</a>
+                <a href="delete_record.php?table=guests&id=<?=$g['id']?>" class="action-btn" style="background:rgba(239,68,68,.25);border:1px solid rgba(239,68,68,.4);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -627,8 +780,8 @@ endif;
  
 <?php elseif($page === 'brokers'): ?>
 <section id="brokers">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">MANAGE BROKERS / AGENTS</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_user.php?role=broker" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW BROKER</a></div>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">MANAGE BROKERS / AGENTS</h2>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_user.php?role=broker" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW BROKER</a></div>
     <table>
         <tr><th>Full Name</th><th>Email</th><th>Phone</th><th>Assigned Properties</th><th>Commission (UGX)</th><th>Actions</th></tr>
         <?php $brokers=mysqli_query($conn,"SELECT * FROM users WHERE role='broker' ORDER BY created_at DESC");
@@ -645,7 +798,7 @@ endif;
             <td><?=number_format($ct)?></td>
             <td>
                 <a href="edit_user.php?id=<?=$bid?>" class="action-btn">Edit</a>
-                <a href="delete_user.php?id=<?=$bid?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete broker?')">Delete</a>
+                <a href="delete_user.php?id=<?=$bid?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete broker?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -654,8 +807,8 @@ endif;
  
 <?php elseif($page === 'propertyowners'): ?>
 <section id="propertyowners">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">PROPERTY OWNERS</h2>
-    <div style="text-align:center;margin-bottom:20px;"><a href="add_propertyowner.php" class="action-btn" style="background:#0ea5e9;">+++ ADD NEW PROPERTY OWNER</a></div>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">PROPERTY OWNERS</h2>
+    <div style="text-align:center;margin-bottom:20px;"><a href="add_propertyowner.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4);">+++ ADD NEW PROPERTY OWNER</a></div>
     <table>
         <tr><th>Full Name</th><th>Email</th><th>Phone</th><th>Properties Owned</th><th>Actions</th></tr>
         <?php $owners=mysqli_query($conn,"SELECT u.*,COUNT(p.id) AS properties_count FROM users u LEFT JOIN properties p ON u.id=p.owner_id WHERE u.role='propertyowner' GROUP BY u.id ORDER BY u.created_at DESC");
@@ -667,7 +820,7 @@ endif;
             <td><?=(int)$owner['properties_count']?></td>
             <td>
                 <a href="edit_records.php?type=propertyowner&id=<?=$owner['id']?>" class="action-btn">Edit</a>
-                <a href="delete_record.php?table=users&id=<?=$owner['id']?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete?')">Delete</a>
+                <a href="delete_record.php?table=users&id=<?=$owner['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -716,13 +869,13 @@ endif;
  
 <?php elseif($page === 'revenue_reports'): ?>
 <section id="revenue_reports">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">REVENUE REPORTS</h2>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">REVENUE REPORTS</h2>
     <?php
     $total_rev=mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(amount) AS total FROM payments"))['total']??0;
     $pending_rev=mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(amount) AS total FROM payments WHERE status='pending'"))['total']??0;
     $collected=$total_rev-$pending_rev;
     ?>
-    <div class="overview-cards" style="justify-content:space-around;margin-bottom:40px">
+    <div class="overview-cards" style="justify-content:center;margin-bottom:40px">
         <div class="circular-card"><h3>Total Revenue</h3><p>UGX <?=number_format($total_rev)?></p></div>
         <div class="circular-card"><h3>Collected</h3><p>UGX <?=number_format($collected)?></p></div>
         <div class="circular-card"><h3>Pending</h3><p>UGX <?=number_format($pending_rev)?></p></div>
@@ -748,7 +901,7 @@ endif;
     $settingsQuery=mysqli_query($conn,"SELECT * FROM system_settings LIMIT 1");
     $settings=($settingsQuery&&mysqli_num_rows($settingsQuery)>0)?mysqli_fetch_assoc($settingsQuery):["site_name"=>"HousingHub","email"=>"","notification_email"=>"","backup_frequency"=>"weekly"];
     ?>
-    <form method="POST" action="save_settings.php" style="max-width:500px;margin:auto;color:black;border:4px solid #0ea5e9;padding:25px;border-radius:12px;background:linear-gradient(135deg,#3f4242,#0ea5e9);box-shadow:0 4px 15px rgba(0,0,0,.97)">
+    <form method="POST" action="save_settings.php" style="max-width:500px;margin:auto;color:var(--white);border:4px solid #0ea5e9;padding:25px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:0 4px 15px rgba(0,0,0,.97)">
         <label><b>Site Name</b></label>
         <input type="text" name="site_name" value="<?=htmlspecialchars($settings['site_name'])?>" required style="width:100%;padding:10px;margin:10px 0">
         <label><b>System Email</b></label>
@@ -767,7 +920,7 @@ endif;
  
 <?php elseif($page === 'notifications'): ?>
 <section id="notifications">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">NOTIFICATIONS</h2>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">NOTIFICATIONS</h2>
     <?php $notifs=mysqli_query($conn,"SELECT n.*,u.fullname AS sender_name,t.fullname AS tenant_name FROM notifications n LEFT JOIN users u ON n.user_id=u.id LEFT JOIN tenants t ON n.tenant_id=t.id ORDER BY n.date DESC");?>
     <table>
         <tr><th>Recipient</th><th>Tenant</th><th>Title</th><th>Message</th><th>Status</th><th>Date</th><th>Actions</th></tr>
@@ -780,8 +933,8 @@ endif;
             <td><?=htmlspecialchars(ucfirst($n['status']??'unread'))?></td>
             <td><?=htmlspecialchars($n['date']??'-')?></td>
             <td>
-                <?php if($n['status']==='unread'):?><a href="mark_notification_read.php?id=<?=$n['id']?>" class="action-btn" style="background:#16a34a;">Mark Read</a><?php endif;?>
-                <a href="delete_record.php?table=notifications&id=<?=$n['id']?>" class="action-btn" style="background:#ef4444;" onclick="return confirm('Delete?')">Delete</a>
+                <?php if($n['status']==='unread'):?><a href="mark_notification_read.php?id=<?=$n['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);">Mark Read</a><?php endif;?>
+                <a href="delete_record.php?table=notifications&id=<?=$n['id']?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;" onclick="return confirm('Delete?')">Delete</a>
             </td>
         </tr>
         <?php endwhile;?>
@@ -790,9 +943,9 @@ endif;
  
 <?php elseif($page === 'backups'): ?>
 <section id="backups">
-    <h2 style="text-align:center;margin-bottom:30px;color:#366d21;">BACKUP / EXPORT DATA</h2>
+    <h2 style="text-align:center;margin-bottom:30px;color:var(--gold);">BACKUP / EXPORT DATA</h2>
     <div style="text-align:center;margin-bottom:20px">
-        <a href="export_sql.php" class="action-btn" style="background:#0ea5e9;margin-bottom:10px">Export Full Database (SQL)</a><br>
+        <a href="export_sql.php" class="action-btn" style="background:rgba(14,90,200,.3);border:1px solid rgba(14,90,200,.4);margin-bottom:10px">Export Full Database (SQL)</a><br>
         <a href="export_csv.php?table=users" class="action-btn" style="background:#38bdf8;margin-bottom:10px">Export Users (CSV)</a><br>
         <a href="export_csv.php?table=tenants" class="action-btn" style="background:#38bdf8;margin-bottom:10px">Export Tenants (CSV)</a><br>
         <a href="export_csv.php?table=properties" class="action-btn" style="background:#38bdf8;margin-bottom:10px">Export Properties (CSV)</a><br>
