@@ -8,6 +8,7 @@ $jobQuery = mysqli_query($conn, "SELECT * FROM jobs WHERE slug='$slug'");
 if (mysqli_num_rows($jobQuery) == 0) {
     die("Job not found.");
 }
+
 $job = mysqli_fetch_assoc($jobQuery);
 $message = "";
 $success = false;
