@@ -1,9 +1,13 @@
-*.php        linguist-language=PHP
-*.html       linguist-language=HTML
-*.css        linguist-language=CSS
-*.js         linguist-language=JavaScript
-*.sql        linguist-language=SQL
- 
-# Ignore vendor/library folders from language stats
-vendor/*     linguist-vendored
+# Force correct language detection
+*.php linguist-language=PHP
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.js linguist-language=JavaScript
+*.sql linguist-language=SQL
+
+# Ignore dependency folders
+vendor/* linguist-vendored
 node_modules/* linguist-vendored
+
+# Ignore database dumps from language statistics
+database/* linguist-detectable=false
