@@ -2565,3 +2565,988 @@ function showEmployment() {
   </div>
   <p class="emp-footer">At HousingHub, we value dedication and hard work.<br>No need to worry about formal qualifications &mdash; your effort and attitude matter most!<br>Or send us a speculative application at <strong>careers@housinghub.com</strong>.</p>
 </section>
+dashboard.php
+<?php
+session_start();
+include "db_connect.php"; // missing in your previous dashboard.php
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'] ?? null;
+
+if ($user_id) {
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE id='$user_id'");
+    $user = mysqli_fetch_assoc($result);
+} else {
+    $user = ['fullname' => '']; // fallback if somehow user_id is missing
+}
+
+// ===== DASHBOARD COUNTS =====
+
+// Total Properties
+$properties_count = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM properties")
+)['total'];
+
+// Total Tenants
+$tenants_count = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM tenants")
+)['total'];
+
+// Total Staff
+$staff_count = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM staff")
+)['total'];
+
+// Total Guests
+$guests_count = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM guests")
+)['total'];
+
+// Language handling
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'en'; // Default language
+}
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+// Language translations
+$translations = [
+    'en' => [
+        'home' => 'HOME',
+        'properties' => 'Properties',
+        'tenants' => 'Tenants',
+        'guests' => 'Guests',
+        'staff' => 'Staff',
+        'brokers' => 'Brokers/Property Owners',
+        'admin' => 'Admin Panel',
+        'welcome' => 'Welcome to HousingHub',
+        'dashboard_desc' => 'Manage your properties efficiently'
+    ],
+    'fr' => [
+        'home' => 'ACCUEIL',
+        'properties' => 'Propriétés',
+        'tenants' => 'Locataires',
+        'guests' => 'Invités',
+        'staff' => 'Personnel',
+        'brokers' => 'Courtiers/Propriétaires',
+        'admin' => 'Panneau Admin',
+        'welcome' => 'Bienvenue à HousingHub',
+        'dashboard_desc' => 'Gérez vos propriétés efficacement'
+    ],
+    'sw' => [
+        'home' => 'NYUMBANI',
+        'properties' => 'Mali',
+        'tenants' => 'Wapangaji',
+        'guests' => 'Wageni',
+        'staff' => 'Wafanyakazi',
+        'brokers' => 'Madalali/Wamiliki',
+        'admin' => 'Paneli ya Msimamizi',
+        'welcome' => 'Karibu HousingHub',
+        'dashboard_desc' => 'Simamia mali zako kwa ufanisi'
+    ],
+    'es' => [
+        'home' => 'INICIO',
+        'properties' => 'Propiedades',
+        'tenants' => 'Inquilinos',
+        'guests' => 'Invitados',
+        'staff' => 'Personal',
+        'brokers' => 'Corredores/Propietarios',
+        'admin' => 'Panel de Admin',
+        'welcome' => 'Bienvenido a HousingHub',
+        'dashboard_desc' => 'Gestiona tus propiedades eficientemente'
+    ],
+    'de' => [
+        'home' => 'STARTSEITE',
+        'properties' => 'Immobilien',
+        'tenants' => 'Mieter',
+        'guests' => 'Gäste',
+        'staff' => 'Personal',
+        'brokers' => 'Makler/Eigentümer',
+        'admin' => 'Admin-Panel',
+        'welcome' => 'Willkommen bei HousingHub',
+        'dashboard_desc' => 'Verwalten Sie Ihre Immobilien effizient'
+    ],
+    'ar' => [
+        'home' => 'الرئيسية',
+        'properties' => 'العقارات',
+        'tenants' => 'المستأجرون',
+        'guests' => 'الضيوف',
+        'staff' => 'الموظفون',
+        'brokers' => 'الوسطاء/المالكون',
+        'admin' => 'لوحة الإدارة',
+        'welcome' => 'مرحبا بك في HousingHub',
+        'dashboard_desc' => 'إدارة الممتلكات الخاصة بك بكفاءة'
+    ],
+    'zh' => [
+        'home' => '首页',
+        'properties' => '物业',
+        'tenants' => '租户',
+        'guests' => '客人',
+        'staff' => '员工',
+        'brokers' => '经纪人/业主',
+        'admin' => '管理面板',
+        'welcome' => '欢迎来到HousingHub',
+        'dashboard_desc' => '高效管理您的物业'
+    ],
+    'lg' => [
+        'home' => 'EWAKA',
+        'properties' => 'Ebintu',
+        'tenants' => 'Abapangisa',
+        'guests' => 'Abagenyi',
+        'staff' => 'Abakozi',
+        'brokers' => 'Abatundaganyi/Bannannyini',
+        'admin' => 'Ekitebe kya Admin',
+        'welcome' => 'Tukusanyukidde ku HousingHub',
+        'dashboard_desc' => 'Ddukanya ebintu byo obulungi'
+    ]
+];
+
+$current_lang = $_SESSION['lang'];
+$t = $translations[$current_lang];
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $current_lang; ?>">
+<head>
+<meta charset="UTF-8">
+<title>HousingHub | Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* --- Reset & Base --- */
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; color: #333; display: flex; min-height: 100vh;}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    width: 250px;
+    background: black;
+    color: #fff;
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+.sidebar.collapsed {
+    width: 70px;
+}
+.sidebar.collapsed .sidebar-header h2,
+.sidebar.collapsed .sidebar-menu a span:not(.icon) {
+    display: none;
+}
+.sidebar.collapsed .sidebar-menu a {
+    justify-content: center;
+    padding: 12px 10px;
+}
+.sidebar.collapsed .sidebar-menu .icon {
+    margin-right: 0;
+}
+.sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sidebar-header h2 {
+    font-size: 22px;
+    color: #4f44ef;
+}
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+}
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+}
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background: black;
+    color: #fff;
+    border-left: 4px solid #4463ef;
+}
+.sidebar-menu .icon {
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+/* --- Main Content --- */
+.main-content {
+    margin-left: 250px;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+}
+.main-content.expanded {
+    margin-left: 70px;
+}
+
+/* --- Top Navigation Header --- */
+.top-nav {
+    background: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 998;
+}
+
+.top-nav .page-title {
+    font-size: 24px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* --- Language Switcher --- */
+.language-switcher {
+    position: relative;
+}
+
+.lang-btn {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+}
+
+.lang-btn i {
+    font-size: 16px;
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.language-switcher:hover .lang-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-dropdown a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s;
+    gap: 10px;
+}
+
+.lang-dropdown a:hover {
+    background: #f0f4f8;
+    color: #4f46e5;
+}
+
+.lang-dropdown a:first-child {
+    border-radius: 12px 12px 0 0;
+}
+
+.lang-dropdown a:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.lang-flag {
+    font-size: 20px;
+}
+
+.lang-dropdown a.active {
+    background: #e0e7ff;
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+/* --- Mobile Menu Toggle --- */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.menu-toggle:hover {
+    background: #334155;
+}
+
+/* --- Welcome Card --- */
+.welcome-card {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 30px;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+.welcome-card h2 {margin-bottom: 10px; font-size: 28px;}
+.welcome-card p {font-size: 16px; opacity: 0.9;}
+
+/* --- Dashboard Grid --- */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 30px 30px 30px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+    }
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    .sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+    .main-content, .main-content.expanded {
+        margin-left: 0;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    .top-nav {
+        padding: 15px;
+    }
+    .top-nav .page-title {
+        font-size: 18px;
+    }
+    .lang-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+}
+
+/* RTL Support for Arabic */
+[lang="ar"] {
+    direction: rtl;
+}
+[lang="ar"] .sidebar {
+    right: 0;
+    left: auto;
+}
+[lang="ar"] .main-content {
+    margin-right: 250px;
+    margin-left: 0;
+}
+[lang="ar"] .main-content.expanded {
+    margin-right: 70px;
+}
+[lang="ar"] .sidebar-menu a:hover,
+[lang="ar"] .sidebar-menu a.active {
+    border-left: none;
+    border-right: 4px solid #4463ef;
+}
+.slideshow-container {
+    width: 100%;
+    max-width: 900px;
+    height: 400px;
+    margin: 30px auto;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.slideshow-container .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slideshow-container .slide.active {
+    opacity: 1;
+}
+.card {
+    background: lightblue;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 6px 15px rgba(35, 13, 231, 0.97);
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(21, 43, 245, 0.97);
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 34px;
+    font-weight: bold;
+    color: #4f46e5;
+}
+</style>
+</head>
+<body>
+<!-- Mobile Menu Toggle -->
+<button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">☰</button>
+
+<!-- Sidebar Navigation -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>HOUSING HUB</h2>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="dashboard.php" class="active"><img src="image/hme.png" alt="Photo" width="40" height="30"><span class="icon"></span> <span><?php echo $t['home']; ?></span></a></li>
+        <li><a href="properties.php"><span class="icon"><img src="image/prpty.png" alt="Photo" width="60" height="50"></span> <span><?php echo $t['properties']; ?></span></a></li>
+        <li><a href="tenants.php"><span class="icon"><img src="image/tennt.png" alt="Photo" width="60" height="40"></span> <span><?php echo $t['tenants']; ?></span></a></li>
+        <li><a href="guests.php"><span class="icon"><img src="image/gust.png" alt="Photo" width="60" height="40"></span> <span><?php echo $t['guests']; ?></span></a></li>
+        <li><a href="brokers_propertyowners.php"><span class="icon"><img src="image/men.png" alt="Photo" width="70" height="50"></span> <span><?php echo $t['brokers']; ?></span></a></li>
+        <?php if(isset($user['role']) && $user['role'] === 'admin'): ?>
+        <li><a href="admin.php"><span class="icon"></span> <span><?php echo $t['admin']; ?></span></a></li>
+        <?php endif; ?>
+       
+    </ul>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content" id="mainContent">
+    <!-- Top Navigation Header -->
+    <div class="top-nav">
+        <div class="page-title">
+            <i class="fas fa-home"></i> Dashboard
+
+        </div>
+        <!-- Logout Button -->
+        <a href="logout.php" class="lang-btn" style="background:#ef4444;">
+           <i class="fas fa-sign-out-alt"></i> Logout
+         </a>
+         
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="lang-btn">
+                <i class="fas fa-globe"></i>
+                <span>
+                    <?php 
+                    $lang_names = [
+                        'en' => 'English',
+                        'fr' => 'Français',
+                        'sw' => 'Kiswahili',
+                        'es' => 'Español',
+                        'de' => 'Deutsch',
+                        'ar' => 'العربية',
+                        'zh' => '中文',
+                        'lg' => 'Oluganda'
+                    ];
+                    echo $lang_names[$current_lang];
+                    ?>
+                </span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown">
+                <a href="?lang=en" class="<?php echo $current_lang == 'en' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇬🇧</span> English
+                </a>
+                <a href="?lang=fr" class="<?php echo $current_lang == 'fr' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇫🇷</span> French
+                </a>
+                <a href="?lang=sw" class="<?php echo $current_lang == 'sw' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇰🇪</span> Kiswahili
+                </a>
+                <a href="?lang=es" class="<?php echo $current_lang == 'es' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇪🇸</span> spanish
+                </a>
+                <a href="?lang=de" class="<?php echo $current_lang == 'de' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇩🇪</span> German
+                </a>
+                <a href="?lang=ar" class="<?php echo $current_lang == 'ar' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇸🇦</span> العربية
+                </a>
+                <a href="?lang=zh" class="<?php echo $current_lang == 'zh' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇨🇳</span> 中文
+                </a>
+                <a href="?lang=lg" class="<?php echo $current_lang == 'lg' ? 'active' : ''; ?>">
+                    <span class="lang-flag">🇺🇬</span> luganda
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Card -->
+    <div class="welcome-card">
+        <h2>
+    <?php 
+        $name = isset($user['fullname']) ? htmlspecialchars($user['fullname']) : '';
+        echo $t['welcome'] . ($name ? ', ' . $name : '') . '!';
+    ?>
+</h2>
+    </div>
+
+       <!-- Video-like Slideshow -->
+<div class="slideshow-container">
+    <img src="property_media/bed2.png" class="slide active">
+    <img src="property_media/apartment.png" class="slide">
+    <img src="image/rrr.png" class="slide">
+    <img src="image/nm.png" class="slide">
+    <img src="images/b9.png" class="slide">
+    <img src="images/dd.png" class="slide">
+    <img src="images/ddd.png" class="slide">
+    <img src="property_media/pool.png" class="slide">
+    <img src="property_media/bed1.png" class="slide">
+    <img src="property_media/lvp.png" class="slide">
+</div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard">
+        <!-- Add your dashboard content here -->
+         <!-- Properties Card -->
+    <div class="card">
+        <h3> <?php echo $t['properties']; ?></h3>
+        <p><?php echo $properties_count; ?></p>
+    </div>
+
+    <!-- Tenants Card -->
+    <div class="card">
+        <h3><?php echo $t['tenants']; ?></h3>
+        <p><?php echo $tenants_count; ?></p>
+    </div>
+
+    <!-- Staff Card -->
+    <?php if($user['role'] === 'admin'): ?>
+<div class="card">
+    <h3><?php echo $t['staff']; ?></h3>
+    <p><?php echo $staff_count; ?></p>
+</div>
+<?php endif; ?>
+
+    <!-- Guests Card -->
+    <div class="card">
+        <h3><?php echo $t['guests']; ?></h3>
+        <p><?php echo $guests_count; ?></p>
+    </div>
+
+</div>
+
+</main>
+ 
+<script>
+// Sidebar collapse (desktop)
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+}
+
+// Mobile menu toggle
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+
+    sidebar.classList.toggle('active');
+
+    // Change button icon dynamically
+    menuToggle.textContent = sidebar.classList.contains('active') ? '✖' : '☰';
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+
+    if (window.innerWidth <= 768) {
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
+            menuToggle.textContent = '☰';
+        }
+    }
+});
+let slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function showNextSlide() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+}
+
+// Change image every 3 seconds (adjust as needed)
+setInterval(showNextSlide, 5000);
+</script>
+</body>
+</html>
+tenants.php
+<?php
+session_start();
+include "db_connect.php";
+
+// Ensure the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch tenant info using user_id
+$tenant_result = mysqli_query($conn, "SELECT * FROM tenants WHERE user_id='$user_id'");
+$tenant = mysqli_fetch_assoc($tenant_result);
+
+if (!$tenant) {
+    die("Tenant information not found. Please make sure your tenant profile is linked to your account.");
+}
+
+// Placeholder: fetch payments (later connect to actual payments table)
+$payments_result = mysqli_query($conn, "SELECT * FROM payments WHERE tenant_id='".$tenant['id']."' ORDER BY id DESC");
+
+// Placeholder: notifications/messages
+$tenant_id = $tenant['id']; // from session fetch
+
+$notif_result = mysqli_query($conn, "
+    SELECT * FROM notifications 
+    WHERE tenant_id='$tenant_id' 
+    ORDER BY date DESC
+");
+
+$notifications = mysqli_fetch_all($notif_result, MYSQLI_ASSOC);
+
+   $maintenance_result = mysqli_query($conn, "
+    SELECT * FROM maintenance_requests 
+    WHERE property_id='".$tenant['property_id']."' 
+    ORDER BY created_at DESC
+");
+$maintenance_requests = mysqli_fetch_all($maintenance_result, MYSQLI_ASSOC);
+   // Fetch tenant documents
+    $doc_result = mysqli_query($conn, "
+    SELECT * FROM tenant_documents 
+    WHERE tenant_id='$tenant_id' 
+    ORDER BY id DESC
+");
+
+$documents = mysqli_fetch_all($doc_result, MYSQLI_ASSOC);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tenant Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:lightblue;
+    margin:0;
+    color:#333;
+}
+.container {max-width:1200px; margin:30px auto; padding:0 20px;}
+h1 {color:#4f46e5; margin-bottom:20px; text-align:center;}
+.card {background:#fff; padding:20px; border-radius:12px; font-family: Times New Roman, Times, serif;border:3px solid blue; box-shadow:0 6px 15px rgba(223, 209, 23, 0.1); margin-bottom:20px;}
+.card h2 {margin-bottom:15px; color:#1e293b;}
+.card p {margin-bottom:10px; font-size:16px;}
+.card table {width:100%; border-collapse:collapse;}
+.card table th, .card table td {padding:10px; border-bottom:1px solid #ddd;}
+.card table th {background:lightblue; color:#fff;}
+.card table tr:hover {background:#f0f4f8;}
+.action-btn {padding:6px 12px; background:black; color:#fff; border:none; border-radius:5px; cursor:pointer; text-decoration:none;}
+.action-btn:hover {background:#3b36e0;}
+.logout-btn {display:block; width:150px; margin:20px auto 0; padding:10px; background:black; color:#fff; text-align:center; border:none; border-radius:8px; text-decoration:none;}
+.logout-btn:hover {background:#dc2626;}
+.section-grid {display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+body { padding-top: 106px !important; }
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+  box-shadow: 0 2px 28px rgba(0,0,0,.28) !important;
+}
+nav { position: relative !important; z-index: 100000 !important; }
+.dropdown { z-index: 100001 !important; }
+.dd-menu { z-index: 100002 !important; }
+@media(max-width:900px){ body { padding-top: 80px !important; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+     
+       <div class="card" style="border:3px solid #105ceb;">
+         <h1 style="color:black; max-width:1200px; margin:10px auto; padding:0 10px;"><img src="image/tenant.png" alt="Photo" width="70px" height="90px">TENANT DASHBOARD<img src="image/tenant.png" alt="Photo" width="70px" height="90px"></h1>
+        </div>
+
+       <div class="card" style="border:3px solid black;">
+        <h1 style="color:deepblue; font-size:30px;font-family: Times New Roman, Times, serif;border:1px solid #0e2ee7;">DELIGHTED, WELCOME: <?php echo htmlspecialchars($tenant['fullname']); ?></h1>
+        </div>
+
+    <!-- Personal Info -->
+    <div class="card"style="border:3px solid #105ceb;">
+        <h2 style="font-family: Times New Roman, Times, serif;">Personal Information</h2>
+        <p><strong>Full Name:</strong> <?php echo htmlspecialchars($tenant['fullname']); ?></p>
+        <p><strong>Email:</strong> <?php echo htmlspecialchars($tenant['email']); ?></p>
+        <p><strong>Phone:</strong> <?php echo htmlspecialchars($tenant['phone']); ?></p>
+        <p><strong>Date Joined:</strong> <?php echo htmlspecialchars($tenant['created_at'] ?? ''); ?></p>
+        <p><strong>Address:</strong> <?php echo htmlspecialchars($tenant['address'] ?? ''); ?></p>
+         <a href="edit_tenant.php" class="action-btn">Edit Profile</a>
+    </div>
+
+     <!-- Property / Lease / Rent / Buy Info -->
+<?php
+// Fetch property info for the tenant
+$property_result = mysqli_query($conn, "
+    SELECT * FROM properties 
+    WHERE id = '".$tenant['property_id']."'
+");
+$property = mysqli_fetch_assoc($property_result);
+
+// Determine what to show
+if ($property) {
+    echo "<div class='card'>";
+
+    switch($property['purpose']) {
+        case 'Lease':
+            echo "<h2>Lease Information</h2>";
+            echo "<p><strong>Property:</strong> ".$property['property_name']."</p>";
+            echo "<p><strong>Lease Start:</strong> ".$tenant['lease_start']."</p>";
+            echo "<p><strong>Lease End:</strong> ".$tenant['lease_end']."</p>";
+            echo "<p><strong>Rent Amount:</strong> $".$property['rent_amount']."</p>";
+            if ($property['purpose'] == 'Lease') {
+             echo '<a href="download_file.php?type=lease" class="action-btn">Download Lease</a>';
+                 }
+            break;
+
+        case 'Rent':
+            echo "<h2>Rental Information</h2>";
+            echo "<p><strong>Property:</strong> ".$property['property_name']."</p>";
+            echo "<p><strong>Monthly Rent:</strong> $".$property['rent_amount']."</p>";
+            echo "<p><strong>Next Payment Due:</strong> ".date('Y-m-d', strtotime('+30 days'))."</p>";
+              if ($property['purpose'] == 'Rent') {
+            echo '<a href="download_file.php?type=Rent" class="action-btn">Download Rent</a>';
+            }
+            break;
+
+        case 'Buy':
+            echo "<h2>Purchase Information</h2>";
+            echo "<p><strong>Property:</strong> ".$property['property_name']."</p>";
+            echo "<p><strong>Purchase Date:</strong> ".$tenant['lease_start']."</p>";
+            echo "<p><strong>Price Paid:</strong> $".$property['rent_amount']."</p>";
+            if ($property['purpose'] == 'Buy') {
+            echo '<a href="download_file.php?type=Buy" class="action-btn">Download Buy</a>';
+             }
+            break;
+
+        default:
+            echo "<p>No property info available.</p>";
+    }
+
+    echo "</div>";
+} else {
+    echo "<div class='card'><p>No property information found for this tenant.</p></div>";
+}
+?>
+
+    <!-- Payments Summary -->
+<div class="card"style="border:3px solid #105ceb;">
+    <h2 style="font-family: Times New Roman, Times, serif;">Payments Summary</h2>
+
+    <?php
+    // Calculate total paid
+    $total_paid = 0;
+    $payments_result = mysqli_query($conn, "SELECT * FROM payments WHERE tenant_id='".$tenant['id']."' ORDER BY date DESC");
+    $payments = mysqli_fetch_all($payments_result, MYSQLI_ASSOC);
+
+    foreach($payments as $p){
+        if($p['status'] == 'paid') $total_paid += $p['amount'];
+    }
+
+    $outstanding = ($tenant['rent_amount'] ?? 0) - $total_paid;
+    $next_due = date('Y-m-d', strtotime('+30 days'));
+    ?>
+
+    <p><strong>Total Paid:</strong> UGX <?= number_format($total_paid,2) ?></p>
+    <p><strong>Next Payment Due:</strong> <?= $next_due ?></p>
+    <p><strong>Outstanding Balance:</strong> UGX <?= number_format($outstanding,2) ?></p>
+
+    <!-- Button to view full payment history -->
+    <a href="payment_history.php" class="action-btn">View Payment History</a>
+</div>
+
+    <!-- Notifications / Messages -->
+    <div class="card"style="border:3px solid black;">
+        <h2 style="font-family: Times New Roman, Times, serif;">Notifications</h2>
+        <table>
+            <tr><th>Date</th><th>Title</th><th>Message</th></tr>
+            <?php foreach($notifications as $note): ?>
+                <tr>
+                    <td><?php echo $note['date']; ?></td>
+                    <td><?php echo $note['title']; ?></td>
+                    <td><?php echo $note['message']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>    
+         
+    <div class="section" style="background:white; padding: 20px; border:3px solid blue;font-family: Times New Roman, Times, serif; border: radius 20px;">
+  <h2 style="color:#1e293b;"> Maintenance Tips</h2>
+  <ul style="margin-left: 20px; line-height: 1.6;">
+    <li>Report any leaks or damage immediately.</li>
+    <li>Keep electrical appliances in good condition.</li>
+    <li>Avoid damaging walls, doors, or fixtures.</li>
+    <li>Follow proper trash disposal rules.</li>
+  </ul>
+</div><br>
+
+    <!-- Maintenance Requests -->
+    <div class="card"style="border:3px solid black;">
+        <h2 style="font-family: Times New Roman, Times, serif;">Maintenance Requests</h2>
+        <table>
+            <tr><th>Date</th><th>Title</th><th>Status</th></tr>
+            <?php foreach($maintenance_requests as $req): ?>
+                <tr>
+                    <td><?php echo $req['date']; ?></td>
+                    <td><?php echo $req['title']; ?></td>
+                    <td><?php echo $req['status']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <div style="margin-top: 15px; text-align: left;">
+        <a href="submit_request.php" class="action-btn">Submit New Request</a>
+    </div>
+    </div>
+
+    <!-- Optional Extras in Grid -->
+    <div class="section-grid">
+        <div class="card">
+    <h2 style="font-family: Times New Roman, Times, serif;">Documents</h2>
+    <?php if(count($documents) > 0): ?>
+        <ul>
+        <?php foreach($documents as $doc): ?>
+            <li>
+                <?= htmlspecialchars($doc['document_name'] ?? 'Unnamed Document') ?>
+                <a href="download_document.php?id=<?= $doc['id'] ?>" class="action-btn">Download</a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No documents uploaded yet.</p>
+    <?php endif; ?>
+</div>
+             <div class="card">
+    <h2 style="font-family: Times New Roman, Times, serif;">Support / Contact</h2>
+    <p>Contact or ask questions for assistance.</p>
+    <button class="action-btn" id="contactBtn">Send Message</button>
+
+    <!-- Contact Form (hidden by default) -->
+    <div id="contactForm" style="display:none; margin-top:20px;">
+        <form method="POST" action="send_message.php">
+            <label for="subject"><strong>Subject:</strong></label><br>
+            <input type="text" name="subject" id="subject" required style="width:100%; padding:8px; margin:5px 0; border-radius:6px;"><br>
+            
+            <label for="message"><strong>Message:</strong></label><br>
+            <textarea name="message" id="message" rows="5" required style="width:100%; padding:8px; margin:5px 0; border-radius:6px;"></textarea><br>
+            
+            <button type="submit" class="action-btn">Send</button>
+        </form>
+    </div>
+</div>
+        
+        <div class="card">
+    <h2 style="font-family: Times New Roman, Times, serif;">Profile Settings</h2>
+    <p>Update your personal information.</p>
+    <a href="change_password.php?id=<?= $tenant['id'] ?>" class="action-btn">Change Password</a>
+</div>
+        
+   <div class="section" style="background:#fef9c3;font-family: Times New Roman, Times, serif; border-radius:20px; padding:20px; border:3px solid blue">
+  <h3>Emergency Contacts</h3>
+  <ul style="line-height:1.6;">
+    <li>Security: +256 700 123 456</li>
+    <li>Fire Department: 999</li>
+    <li>Hospital: +256 701 234 567</li>
+    <li>Property Manager: +256 741 035 928</li>
+  </ul>
+</div>
+
+    <a href="logout.php" class="logout-btn"style="border:3px solid #105ceb;">Logout</a>
+</div>
+<script>
+document.getElementById('contactBtn').addEventListener('click', function() {
+    const form = document.getElementById('contactForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+});
+</script>
+</body>
+</html>
+
