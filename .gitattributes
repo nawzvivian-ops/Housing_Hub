@@ -1,0 +1,5 @@
+*.sql linguist-detectable=false
+*.log linguist-detectable=false
+*.json linguist-detectable=false
+*.md linguist-detectable=false
+database/* linguist-detectable=false
