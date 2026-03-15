@@ -8,6 +8,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
