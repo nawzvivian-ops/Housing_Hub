@@ -1,5 +1,9 @@
-*.sql linguist-detectable=false
-*.log linguist-detectable=false
-*.json linguist-detectable=false
-*.md linguist-detectable=false
-database/* linguist-detectable=false
+*.php        linguist-language=PHP
+*.html       linguist-language=HTML
+*.css        linguist-language=CSS
+*.js         linguist-language=JavaScript
+*.sql        linguist-language=SQL
+ 
+# Ignore vendor/library folders from language stats
+vendor/*     linguist-vendored
+node_modules/* linguist-vendored
