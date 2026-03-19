@@ -2,6 +2,7 @@
 <?php
 session_start();
 include "db_connect.php";
+require_once __DIR__ . "/send_mail.php";
 mysqli_report(MYSQLI_REPORT_OFF);
  
 // Admin only
@@ -93,11 +94,7 @@ if (!empty($email)) {
     $body .= "HousingHub HR Team\n";
     $body .= "careers@housinghuborg.ug";
  
-    $headers = "From: HousingHub HR <careers@housinghuborg.ug>\r\n"
-             . "Reply-To: careers@housinghuborg.ug\r\n"
-             . "X-Mailer: PHP/" . phpversion();
- 
-    mail($email, $subject, $body, $headers);
+    send_mail($email, $subject, $body);
  
     // Save notification if user account exists
     if ($new_user_id > 0) {

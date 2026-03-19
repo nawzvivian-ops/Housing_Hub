@@ -116,9 +116,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu">
-        <a href="index.html#welcome">Welcome</a><a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a><a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a><a href="index.html#contact-us">Contact Us</a>
+        <a href="index.html#welcome">Welcome</a>
+        <a href="works.php">How It Works</a>
+       
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
@@ -129,7 +129,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenants.php">Tenants</a><a href="propertyowners.php">Property Owners</a>
+        <a href="tenants.php">Tenants</a><a href="staff.php">Staff</a>
+        <a href="propertyowners.php">Property Owners</a>
         <a href="broker.php">Broker</a><a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
@@ -186,7 +187,69 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Apply for Your Next <em>Home Online.</em></h2>
     <p>Stop filling paper forms. Apply for any property on HousingHub in minutes from your phone or laptop.</p>
-    <a href="index.php" class="btn-primary">Get Started Free</a>
+    <a href="apply_online.php" class="btn-primary">Apply Online Free</a>
+  </div>
+</section>
+<!-- QUICK LINKS -->
+<section class="quick-links z reveal">
+  <div class="quick-container">
+ 
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor/Guest Management</a>
+      <a href="applications.php">Online Tenant Applications</a>
+      <a href="reporting.php">Rent/Buy Reporting</a>
+      <a href="lease.php">Online Lease</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+      <a href="notifications.php">Smart Notification Center</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="policies.html">Policies</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenant.php">Tenants</a>
+      <a href="staff.php">Staff</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker</a>
+      <a href="employment.php">Employment</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="vision.php">Our Vision</a>
+      <a href="values.php">Core Values</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+ 
   </div>
 </section>
 <footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>

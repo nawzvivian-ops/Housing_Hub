@@ -1,7 +1,7 @@
-
 <?php
 session_start();
 include "db_connect.php";
+require_once "send_mail.php";
  
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -29,6 +29,18 @@ $total_tenants       = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as
 $total_staff         = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='staff'"))['count'];
 $pending_applications= mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM job_applications WHERE status='pending'"))['count'];
 $pending_requests    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM maintenance_requests WHERE status='pending'"))['count'];
+// Safe check — tenant_applications table may not exist yet
+$pending_tenant_apps = 0;
+$_ta_check = mysqli_query($conn, "SHOW TABLES LIKE 'tenant_applications'");
+if ($_ta_check && mysqli_num_rows($_ta_check) > 0) {
+    $pending_tenant_apps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM tenant_applications WHERE status='pending'"))['count'] ?? 0;
+}
+// Safe check — lease_applications table
+$pending_lease_apps = 0;
+$_la_check = mysqli_query($conn, "SHOW TABLES LIKE 'lease_applications'");
+if ($_la_check && mysqli_num_rows($_la_check) > 0) {
+    $pending_lease_apps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM lease_applications WHERE status='pending'"))['count'] ?? 0;
+}
 $revenue             = mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(amount) as total FROM payments"))['total'];
 $unlinked_count      = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM tenants WHERE user_id IS NULL OR user_id = 0"))['count'];
  
@@ -75,6 +87,112 @@ if (isset($_GET['delete_notice'])) {
     mysqli_query($conn,"DELETE FROM notifications WHERE id=$nid AND user_id=0 AND tenant_id=0");
     $_SESSION['admin_success'] = "Notice deleted.";
     header("Location: admin_dashboard.php?page=notice_board"); exit();
+}
+ 
+// ── Tenant Application: status update ──
+if (isset($_GET['app_action']) && isset($_GET['app_id'])) {
+    $app_id     = (int)$_GET['app_id'];
+    $app_action = mysqli_real_escape_string($conn, $_GET['app_action']);
+    $valid_actions = ['approved','rejected','pending','reviewing'];
+    if (in_array($app_action, $valid_actions)) {
+        $reviewed_at = date('Y-m-d H:i:s');
+        $reviewed_by = mysqli_real_escape_string($conn, $user['fullname']);
+        mysqli_query($conn, "UPDATE tenant_applications SET status='$app_action', reviewed_by='$reviewed_by', reviewed_at='$reviewed_at' WHERE id=$app_id");
+        $app_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT fullname, email, property_id FROM tenant_applications WHERE id=$app_id LIMIT 1"));
+        if ($app_row) {
+            $aname      = $app_row['fullname'];
+            $aemail     = $app_row['email'] ?? '';
+            $aname_safe = mysqli_real_escape_string($conn, $aname);
+ 
+            if ($app_action === 'approved') {
+                $title      = "Application Approved";
+                $msg        = "Congratulations $aname_safe! Your rental application has been approved. Our team will contact you shortly to proceed with the lease signing.";
+                $email_subj = "Your HousingHub Application Has Been Approved!";
+                $email_body = "Dear $aname,\n\nGreat news!\n\nYour rental application submitted on HousingHub has been APPROVED.\n\n"
+                    . "================================================\n"
+                    . "APPLICATION APPROVED\n"
+                    . "================================================\n"
+                    . "Applicant  : $aname\n"
+                    . "Status     : APPROVED\n"
+                    . "Reviewed on: " . date('d M Y, H:i') . "\n"
+                    . "================================================\n\n"
+                    . "NEXT STEPS:\n"
+                    . "1. Our team will contact you within 24 hours to arrange lease signing.\n"
+                    . "2. Prepare your National ID and any required deposit.\n"
+                    . "3. Once the lease is signed, you will receive your move-in details.\n\n"
+                    . "If you have any questions, contact us at support@housinghuborg.ug\n\n"
+                    . "Welcome to HousingHub!\n\nWarm regards,\nHousingHub Team\nsupport@housinghuborg.ug";
+ 
+            } elseif ($app_action === 'rejected') {
+                $title      = "Application Update";
+                $msg        = "Dear $aname_safe, after careful review we regret to inform you that your application was not successful at this time. You are welcome to apply for other properties.";
+                $email_subj = "Update on Your HousingHub Application";
+                $email_body = "Dear $aname,\n\nThank you for applying through HousingHub.\n\n"
+                    . "After careful review, we regret to inform you that we are unable to proceed with your application at this time.\n\n"
+                    . "================================================\n"
+                    . "APPLICATION STATUS UPDATE\n"
+                    . "================================================\n"
+                    . "Applicant  : $aname\n"
+                    . "Status     : Unsuccessful\n"
+                    . "Reviewed on: " . date('d M Y, H:i') . "\n"
+                    . "================================================\n\n"
+                    . "This does not prevent you from applying for other properties on HousingHub.\n\n"
+                    . "Browse listings at: https://housinghuborg.ug/properties.php\n\n"
+                    . "For feedback, contact us at support@housinghuborg.ug\n\n"
+                    . "We wish you all the best.\n\nRegards,\nHousingHub Team\nsupport@housinghuborg.ug";
+ 
+            } elseif ($app_action === 'reviewing') {
+                $title      = "Application Under Review";
+                $msg        = "Dear $aname_safe, your application is currently under review. We will get back to you within 24-48 hours.";
+                $email_subj = "Your HousingHub Application Is Under Review";
+                $email_body = "Dear $aname,\n\nThank you for submitting your rental application through HousingHub.\n\n"
+                    . "================================================\n"
+                    . "APPLICATION UNDER REVIEW\n"
+                    . "================================================\n"
+                    . "Applicant  : $aname\n"
+                    . "Status     : Under Review\n"
+                    . "Updated on : " . date('d M Y, H:i') . "\n"
+                    . "================================================\n\n"
+                    . "Our team is reviewing your application. You can expect a decision within 24-48 hours.\n\n"
+                    . "We will contact you via email or phone once the review is complete.\n\n"
+                    . "If you have questions, reach us at support@housinghuborg.ug\n\n"
+                    . "Regards,\nHousingHub Team\nsupport@housinghuborg.ug";
+ 
+            } else {
+                $title      = "Application Status Update";
+                $msg        = "Your application status has been updated to: " . ucfirst($app_action) . ".";
+                $email_subj = "HousingHub Application Update";
+                $email_body = "Dear $aname,\n\nYour application status has been updated to: " . ucfirst($app_action) . ".\n\nRegards,\nHousingHub Team";
+            }
+ 
+            // ── Save portal notification ──
+            $msg_safe   = mysqli_real_escape_string($conn, $msg);
+            $title_safe = mysqli_real_escape_string($conn, $title);
+            mysqli_query($conn, "INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
+                VALUES (0, 0, '$title_safe', '$msg_safe', 'unread', NOW())");
+ 
+            // ── Send email ──
+            if (!empty($aemail)) {
+                $email_sent = send_mail($aemail, $email_subj, $email_body);
+                $_SESSION['admin_success'] = "Application #$app_id marked as <strong>" . ucfirst($app_action) . "</strong>."
+                    . ($email_sent ? " Email sent to <strong>$aemail</strong>." : " <em style='color:#fca5a5'>Email could not be sent (check PHP mail config).</em>");
+            } else {
+                $_SESSION['admin_success'] = "Application #$app_id marked as <strong>" . ucfirst($app_action) . "</strong>. No email on file.";
+            }
+        } else {
+            $_SESSION['admin_success'] = "Application #$app_id marked as <strong>" . ucfirst($app_action) . "</strong>.";
+        }
+    }
+    header("Location: admin_dashboard.php?page=tenant_applications"); exit();
+}
+ 
+// ── Tenant Application: save admin notes ──
+if (isset($_POST['save_app_notes'])) {
+    $app_id    = (int)$_POST['app_id'];
+    $app_notes = mysqli_real_escape_string($conn, trim($_POST['admin_notes'] ?? ''));
+    mysqli_query($conn, "UPDATE tenant_applications SET admin_notes='$app_notes' WHERE id=$app_id");
+    $_SESSION['admin_success'] = "Notes saved for application #$app_id.";
+    header("Location: admin_dashboard.php?page=tenant_applications"); exit();
 }
 ?>
 <!DOCTYPE html>
@@ -163,45 +281,54 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
 <div class="sidebar">
   <h2>ADMIN PANEL</h2>
   <div class="sb-section">Overview</div>
-  <a href="admin_dashboard.php?page=dashboard" <?php echo ($page==='dashboard')?'class="active"':''; ?>>Home</a>
+  <a href="admin_dashboard.php?page=dashboard" <?php echo ($page==='dashboard')?'class="active"':''; ?>>🏠 Home</a>
  
   <div class="sb-section">People</div>
-  <a href="admin_dashboard.php?page=users" <?php echo ($page==='users')?'class="active"':''; ?>> Manage Users</a>
+  <a href="admin_dashboard.php?page=users" <?php echo ($page==='users')?'class="active"':''; ?>>👤 Manage Users</a>
   <a href="admin_dashboard.php?page=tenants" <?php echo ($page==='tenants')?'class="active"':''; ?>>
-    Manage Tenants
+    🏘 Manage Tenants
     <?php if($unlinked_count > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $unlinked_count ?></span><?php endif; ?>
   </a>
-  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>>Brokers / Agents</a>
-  <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>> Property Owners</a>
+  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>>🤝 Brokers / Agents</a>
+  <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>>🏢 Property Owners</a>
  
   <div class="sb-section">Staff</div>
-  <a href="admin_dashboard.php?page=staff_roles" <?php echo ($page==='staff_roles')?'class="active"':''; ?>>Staff Roles & Payroll</a>
-  <a href="admin_dashboard.php?page=staff_tasks" <?php echo ($page==='staff_tasks')?'class="active"':''; ?>>Staff Tasks</a>
-  <a href="admin_dashboard.php?page=employee_performance" <?php echo ($page==='employee_performance')?'class="active"':''; ?>>Employee Performance</a>
+  <a href="admin_dashboard.php?page=staff_roles" <?php echo ($page==='staff_roles')?'class="active"':''; ?>>👥 Staff Roles & Payroll</a>
+  <a href="admin_dashboard.php?page=staff_tasks" <?php echo ($page==='staff_tasks')?'class="active"':''; ?>>✅ Staff Tasks</a>
+  <a href="admin_dashboard.php?page=employee_performance" <?php echo ($page==='employee_performance')?'class="active"':''; ?>>📊 Employee Performance</a>
   <a href="admin_dashboard.php?page=notice_board" <?php echo ($page==='notice_board')?'class="active"':''; ?>>📢 Notice Board</a>
   <a href="admin_dashboard.php?page=jobs" <?php echo ($page==='jobs')?'class="active"':''; ?>>
-    Employment Applications
+    💼 Employment Applications
     <?php if($pending_applications > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_applications ?></span><?php endif; ?>
   </a>
  
+  <a href="admin_dashboard.php?page=tenant_applications" <?php echo ($page==='tenant_applications')?'class="active"':''; ?>>
+    📋 Tenant Applications
+    <?php if(!empty($pending_tenant_apps) && $pending_tenant_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_tenant_apps ?></span><?php endif; ?>
+  </a>
+  <a href="admin_dashboard.php?page=lease_applications" <?php echo ($page==='lease_applications')?'class="active"':''; ?>>
+    📝 Lease Applications
+    <?php if(!empty($pending_lease_apps) && $pending_lease_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_lease_apps ?></span><?php endif; ?>
+  </a>
+ 
   <div class="sb-section">Properties</div>
-  <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>> Manage Properties</a>
-  <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>> Property Inspections</a>
-  <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>> Maintenance Requests</a>
+  <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>>🏠 Manage Properties</a>
+  <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>>🔍 Property Inspections</a>
+  <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>>🔧 Maintenance Requests</a>
  
   <div class="sb-section">Finance</div>
-  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>>Tenant Payments</a>
-  <a href="admin_dashboard.php?page=payments" <?php echo ($page==='payments')?'class="active"':''; ?>> Rent Tracking</a>
-  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>> Revenue Reports</a>
+  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>>💳 Tenant Payments</a>
+  <a href="admin_dashboard.php?page=payments" <?php echo ($page==='payments')?'class="active"':''; ?>>💰 Rent Tracking</a>
+  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>>📈 Revenue Reports</a>
  
   <div class="sb-section">Other</div>
   <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>>🪪 Guest Approvals</a>
-  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>> Complaints & Feedback</a>
-  <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>> Tenant Documents</a>
-  <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>>Notifications</a>
-  <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>> System Settings</a>
-  <a href="admin_dashboard.php?page=backups" <?php echo ($page==='backups')?'class="active"':''; ?>>Backup / Export</a>
-  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)"> Logout</a>
+  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>>📩 Complaints & Feedback</a>
+  <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>>📄 Tenant Documents</a>
+  <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>>🔔 Notifications</a>
+  <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>>⚙️ System Settings</a>
+  <a href="admin_dashboard.php?page=backups" <?php echo ($page==='backups')?'class="active"':''; ?>>💾 Backup / Export</a>
+  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)">🚪 Logout</a>
 </div>
  
 <div class="header">
@@ -282,7 +409,7 @@ endif;
       <a href="admin_dashboard.php?page=notice_board&delete_notice=<?= $n['id'] ?>"
          onclick="return confirm('Delete this notice?')"
          style="flex-shrink:0;padding:6px 12px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:6px;color:#fca5a5;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">
-         Delete
+        🗑 Delete
       </a>
     </div>
   <?php endwhile; endif; ?>
@@ -401,18 +528,31 @@ endif;
 <section id="staff_roles">
   <h2>Staff Roles & Payroll</h2>
   <div style="text-align:center;margin-bottom:20px"><a href="add_staff.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW STAFF</a></div>
+  <!-- PAYROLL INFO BOX -->
+  <div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:16px 20px;margin-bottom:20px;font-size:13px;color:var(--muted);line-height:1.8">
+    <strong style="color:var(--gold)">💰 How Payroll Works:</strong><br>
+    Click <strong style="color:var(--white)">📧 Send Payslip</strong> next to any staff member to email them their monthly payslip automatically.
+    The email includes their salary, pay period, and monthly task performance summary.
+    A notification is also saved to their staff portal.
+  </div>
+ 
   <table>
     <tr><th>Full Name</th><th>Role</th><th>Salary (UGX)</th><th>Email</th><th>Phone</th><th>Created At</th><th>Actions</th></tr>
     <?php $staff = mysqli_query($conn,"SELECT * FROM users WHERE role='staff' ORDER BY created_at DESC");
     while($s = mysqli_fetch_assoc($staff)): ?>
     <tr>
-      <td><?= htmlspecialchars($s['fullname']??'N/A') ?></td>
+      <td style="font-weight:600"><?= htmlspecialchars($s['fullname']??'N/A') ?></td>
       <td><?= htmlspecialchars($s['role']??'Staff') ?></td>
-      <td><?= number_format($s['salary']??0) ?></td>
-      <td><?= htmlspecialchars($s['email']??'N/A') ?></td>
-      <td><?= htmlspecialchars($s['phone']??'N/A') ?></td>
-      <td><?= htmlspecialchars($s['created_at']??'N/A') ?></td>
-      <td>
+      <td style="color:#86efac;font-weight:600">UGX <?= number_format($s['salary']??0) ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($s['email']??'N/A') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($s['phone']??'N/A') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= $s['created_at']?date('d M Y',strtotime($s['created_at'])):'N/A' ?></td>
+      <td style="white-space:nowrap">
+        <a href="send_payslip.php?id=<?= $s['id'] ?>" class="action-btn"
+           style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac"
+           onclick="return confirm('Send payslip email to <?= htmlspecialchars(addslashes($s['fullname'])) ?> at <?= htmlspecialchars(addslashes($s['email']??'')) ?>?')">
+           📧 Send Payslip
+        </a>
         <a href="edit_records.php?type=staff&id=<?= $s['id'] ?>" class="action-btn">Edit</a>
         <a href="delete_record.php?table=users&id=<?= $s['id'] ?>" class="action-btn" onclick="return confirm('Delete?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5">Delete</a>
       </td>
@@ -518,7 +658,7 @@ endif;
       <td><?= htmlspecialchars($app['position']??'N/A') ?></td>
       <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($app['phone']??'—') ?></td>
       <td style="font-size:12px;color:var(--muted);white-space:nowrap"><?= $app['created_at']?date('d M Y',strtotime($app['created_at'])):'N/A' ?></td>
-      <td><?php if(!empty($app['resume'])): ?><a href="uploads/<?= htmlspecialchars($app['resume']) ?>" target="_blank" style="font-size:12px;color:var(--gold);text-decoration:none">View</a><?php else: ?><span style="font-size:11px;color:var(--muted)">None</span><?php endif; ?></td>
+      <td><?php if(!empty($app['resume'])): ?><a href="uploads/<?= htmlspecialchars($app['resume']) ?>" target="_blank" style="font-size:12px;color:var(--gold);text-decoration:none">📄 View</a><?php else: ?><span style="font-size:11px;color:var(--muted)">None</span><?php endif; ?></td>
       <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span></td>
       <td style="white-space:nowrap">
         <a href="view_application.php?id=<?= $app['id'] ?>" class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">👁 View</a>
@@ -706,19 +846,89 @@ endif;
 <?php elseif($page === 'propertyowners'): ?>
 <section id="propertyowners">
   <h2 style="text-align:center;color:var(--gold)">PROPERTY OWNERS</h2>
-  <div style="text-align:center;margin-bottom:20px"><a href="add_propertyowner.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW PROPERTY OWNER</a></div>
+ 
+  <?php
+  // ── Stats ──
+  $total_owners_count    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM users WHERE role='propertyowner'"))['c'] ?? 0;
+  $verified_owners_count = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(DISTINCT owner_id) AS c FROM properties WHERE owner_id IS NOT NULL AND owner_id > 0"))['c'] ?? 0;
+  $pending_owners_count  = $total_owners_count - $verified_owners_count;
+  ?>
+ 
+  <!-- STAT ROW -->
+  <div class="stat-row" style="margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $total_owners_count ?></div><div class="stat-box-lbl">Total Owners</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $verified_owners_count ?></div><div class="stat-box-lbl">Verified (Have Properties)</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val" style="color:var(--gold)"><?= $pending_owners_count ?></div><div class="stat-box-lbl">Pending Verification</div></div>
+    <div class="stat-box"><div class="stat-box-val"><?= $total_properties ?></div><div class="stat-box-lbl">Total Properties</div></div>
+  </div>
+ 
+  <!-- INFO BOX -->
+  <div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:14px 20px;margin-bottom:20px;font-size:13px;color:var(--muted);line-height:1.8">
+    <strong style="color:var(--gold)">ℹ️ How Property Owner Verification Works:</strong><br>
+    An owner is <strong style="color:#86efac">Verified</strong> the moment you assign at least one property to their account.
+    Owners with <strong style="color:var(--gold)">no properties</strong> see a pending screen when they log in.
+    To activate an owner's dashboard — assign a property to them using the <strong style="color:var(--white)">Assign Property</strong> button below or go to <a href="admin_dashboard.php?page=properties" style="color:var(--gold)">Manage Properties</a> and set their account as the owner.
+  </div>
+ 
+  <div style="text-align:center;margin-bottom:20px">
+    <a href="add_propertyowner.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW PROPERTY OWNER</a>
+  </div>
+ 
   <table>
-    <tr><th>Full Name</th><th>Email</th><th>Phone</th><th>Properties Owned</th><th>Actions</th></tr>
-    <?php $owners = mysqli_query($conn,"SELECT u.*,COUNT(p.id) AS properties_count FROM users u LEFT JOIN properties p ON u.id=p.owner_id WHERE u.role='propertyowner' GROUP BY u.id ORDER BY u.created_at DESC");
-    while($owner = mysqli_fetch_assoc($owners)): ?>
     <tr>
-      <td><?= htmlspecialchars($owner['fullname']) ?></td>
-      <td><?= htmlspecialchars($owner['email']??'N/A') ?></td>
-      <td><?= htmlspecialchars($owner['phone']??'N/A') ?></td>
-      <td><?= (int)$owner['properties_count'] ?></td>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Verification</th>
+      <th>Properties</th>
+      <th>Revenue (UGX)</th>
+      <th>Assign Property</th>
+      <th>Actions</th>
+    </tr>
+    <?php
+    $owners = mysqli_query($conn,"SELECT u.*,COUNT(p.id) AS properties_count FROM users u LEFT JOIN properties p ON u.id=p.owner_id WHERE u.role='propertyowner' GROUP BY u.id ORDER BY u.created_at DESC");
+    // Fetch unassigned properties for dropdown
+    $unassigned_props = mysqli_query($conn,"SELECT id,property_name FROM properties ORDER BY property_name ASC");
+    $unassigned_list = [];
+    while($up = mysqli_fetch_assoc($unassigned_props)) $unassigned_list[] = $up;
+    while($owner = mysqli_fetch_assoc($owners)):
+      $oid = $owner['id'];
+      $pc  = (int)$owner['properties_count'];
+      $rev = mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(pay.amount) AS total FROM payments pay JOIN properties pr ON pay.property_id=pr.id WHERE pr.owner_id=$oid AND pay.status='paid'"))['total'] ?? 0;
+      $is_verified = $pc > 0;
+    ?>
+    <tr>
+      <td style="font-weight:600"><?= htmlspecialchars($owner['fullname']) ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($owner['email']??'N/A') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($owner['phone']??'N/A') ?></td>
       <td>
-        <a href="edit_records.php?type=propertyowner&id=<?= $owner['id'] ?>" class="action-btn">Edit</a>
-        <a href="delete_record.php?table=users&id=<?= $owner['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Delete?')">Delete</a>
+        <?php if($is_verified): ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(22,163,74,.1);color:#86efac;border:1px solid rgba(22,163,74,.3)">✓ Verified</span>
+        <?php else: ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(200,164,60,.1);color:var(--gold);border:1px solid var(--gb)">⏳ Pending</span>
+        <?php endif; ?>
+      </td>
+      <td style="text-align:center;color:<?= $pc>0?'#86efac':'var(--muted)' ?>;font-weight:600"><?= $pc ?></td>
+      <td style="font-size:12px;color:#86efac">UGX <?= number_format($rev) ?></td>
+      <td>
+        <?php if(!empty($unassigned_list)): ?>
+        <form method="POST" action="assign_property_owner.php" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <input type="hidden" name="owner_id" value="<?= $oid ?>">
+          <select name="property_id" style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;background:rgba(255,255,255,.06);color:var(--white);font-family:'Outfit',sans-serif;min-width:160px">
+            <option value="">— Select property —</option>
+            <?php foreach($unassigned_list as $up): ?>
+            <option value="<?= $up['id'] ?>"><?= htmlspecialchars($up['property_name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+          <button type="submit" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:12px;padding:6px 12px">✓ Assign</button>
+        </form>
+        <?php else: ?>
+          <span style="font-size:12px;color:var(--muted)">No unassigned properties.<br><a href="admin_dashboard.php?page=properties" style="color:var(--gold)">+ Add property</a></span>
+        <?php endif; ?>
+      </td>
+      <td style="white-space:nowrap">
+        <a href="edit_records.php?type=propertyowner&id=<?= $oid ?>" class="action-btn">Edit</a>
+        <a href="delete_record.php?table=users&id=<?= $oid ?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Delete this property owner?')">Delete</a>
       </td>
     </tr>
     <?php endwhile; ?>
@@ -750,19 +960,51 @@ endif;
 <?php elseif($page === 'notifications'): ?>
 <section id="notifications">
   <h2 style="text-align:center;color:var(--gold)">NOTIFICATIONS</h2>
+ 
+  <?php
+  $unread_notif_count = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM notifications WHERE (status='unread' OR is_read=0)"))['c'] ?? 0;
+  ?>
+ 
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+    <div style="font-size:13px;color:var(--muted)">
+      <?php if($unread_notif_count > 0): ?>
+        <span style="color:var(--gold);font-weight:600"><?= $unread_notif_count ?> unread</span> notification<?= $unread_notif_count>1?'s':'' ?>
+      <?php else: ?>
+        <span style="color:#86efac">All notifications read ✓</span>
+      <?php endif; ?>
+    </div>
+    <?php if($unread_notif_count > 0): ?>
+    <a href="mark_notification_read.php?all=1" class="action-btn"
+       style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac"
+       onclick="return confirm('Mark all notifications as read?')">
+      ✓ Mark All as Read
+    </a>
+    <?php endif; ?>
+  </div>
+ 
   <?php $notifs = mysqli_query($conn,"SELECT n.*,u.fullname AS sender_name,t.fullname AS tenant_name FROM notifications n LEFT JOIN users u ON n.user_id=u.id LEFT JOIN tenants t ON n.tenant_id=t.id ORDER BY n.date DESC"); ?>
   <table>
     <tr><th>Recipient</th><th>Tenant</th><th>Title</th><th>Message</th><th>Status</th><th>Date</th><th>Actions</th></tr>
-    <?php while($n = mysqli_fetch_assoc($notifs)): ?>
-    <tr>
+    <?php while($n = mysqli_fetch_assoc($notifs)):
+      $is_unread = ($n['status']==='unread' || $n['is_read']==0);
+    ?>
+    <tr style="<?= $is_unread ? 'background:rgba(200,164,60,.04)' : '' ?>">
       <td><?= htmlspecialchars($n['sender_name']??'System') ?></td>
       <td><?= htmlspecialchars($n['tenant_name']??'-') ?></td>
-      <td><?= htmlspecialchars($n['title']??'-') ?></td>
-      <td><?= htmlspecialchars(substr($n['message'],0,50)) ?>...</td>
-      <td><?= htmlspecialchars(ucfirst($n['status']??'unread')) ?></td>
-      <td><?= htmlspecialchars($n['date']??'-') ?></td>
+      <td style="font-weight:<?= $is_unread?'600':'400' ?>"><?= htmlspecialchars($n['title']??'-') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars(substr($n['message']??'',0,60)) ?>...</td>
       <td>
-        <?php if($n['status']==='unread'): ?><a href="mark_notification_read.php?id=<?= $n['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3)">Mark Read</a><?php endif; ?>
+        <?php if($is_unread): ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(200,164,60,.1);border:1px solid var(--gb);color:var(--gold)">Unread</span>
+        <?php else: ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.3);color:#86efac">Read</span>
+        <?php endif; ?>
+      </td>
+      <td style="font-size:12px;color:var(--muted)"><?= $n['date'] ? date('d M Y, H:i', strtotime($n['date'])) : '-' ?></td>
+      <td style="white-space:nowrap">
+        <?php if($is_unread): ?>
+        <a href="mark_notification_read.php?id=<?= $n['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac">✓ Mark Read</a>
+        <?php endif; ?>
         <a href="delete_record.php?table=notifications&id=<?= $n['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Delete?')">Delete</a>
       </td>
     </tr>
@@ -824,13 +1066,464 @@ endif;
   <h2 style="text-align:center;color:var(--gold)">BACKUP / EXPORT DATA</h2>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:700px;margin:0 auto">
     <a href="export_sql.php" class="action-btn" style="background:rgba(14,90,200,.3);border:1px solid rgba(14,90,200,.4);display:block;text-align:center;padding:16px">💾 Full Database (SQL)</a>
-    <a href="export_csv.php?table=users" class="action-btn" style="display:block;text-align:center;padding:16px"> Users CSV</a>
-    <a href="export_csv.php?table=tenants" class="action-btn" style="display:block;text-align:center;padding:16px">Tenants CSV</a>
-    <a href="export_csv.php?table=properties" class="action-btn" style="display:block;text-align:center;padding:16px"> Properties CSV</a>
-    <a href="export_csv.php?table=payments" class="action-btn" style="display:block;text-align:center;padding:16px"> Payments CSV</a>
-    <a href="export_csv.php?table=complaints" class="action-btn" style="display:block;text-align:center;padding:16px"> Complaints CSV</a>
+    <a href="export_csv.php?table=users" class="action-btn" style="display:block;text-align:center;padding:16px">👤 Users CSV</a>
+    <a href="export_csv.php?table=tenants" class="action-btn" style="display:block;text-align:center;padding:16px">🏘 Tenants CSV</a>
+    <a href="export_csv.php?table=properties" class="action-btn" style="display:block;text-align:center;padding:16px">🏠 Properties CSV</a>
+    <a href="export_csv.php?table=payments" class="action-btn" style="display:block;text-align:center;padding:16px">💳 Payments CSV</a>
+    <a href="export_csv.php?table=complaints" class="action-btn" style="display:block;text-align:center;padding:16px">📩 Complaints CSV</a>
   </div>
   <div style="text-align:center;margin-top:24px;font-size:13px;color:var(--muted)">SQL exports can restore the full database. CSV exports can be opened in Excel or Google Sheets.</div>
+</section>
+ 
+<?php elseif($page === 'tenant_applications'): ?>
+<section id="tenant_applications">
+  <h2 style="text-align:center;color:var(--gold)">TENANT APPLICATIONS</h2>
+ 
+  <?php
+  // ── Auto-create table if missing ──
+  mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `tenant_applications` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `fullname` VARCHAR(200) NOT NULL,
+    `email` VARCHAR(200) DEFAULT NULL,
+    `phone` VARCHAR(50) DEFAULT NULL,
+    `national_id` VARCHAR(100) DEFAULT NULL,
+    `occupation` VARCHAR(200) DEFAULT NULL,
+    `employer` VARCHAR(200) DEFAULT NULL,
+    `monthly_income` VARCHAR(100) DEFAULT NULL,
+    `property_id` INT DEFAULT NULL,
+    `desired_move_in` DATE DEFAULT NULL,
+    `lease_duration` VARCHAR(100) DEFAULT NULL,
+    `num_occupants` INT DEFAULT 1,
+    `previous_address` TEXT DEFAULT NULL,
+    `reason_for_moving` TEXT DEFAULT NULL,
+    `reference_name` VARCHAR(200) DEFAULT NULL,
+    `reference_phone` VARCHAR(100) DEFAULT NULL,
+    `additional_notes` TEXT DEFAULT NULL,
+    `status` VARCHAR(50) DEFAULT 'pending',
+    `admin_notes` TEXT DEFAULT NULL,
+    `reviewed_by` VARCHAR(200) DEFAULT NULL,
+    `reviewed_at` DATETIME DEFAULT NULL,
+    `created_at` DATETIME DEFAULT NOW()
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+ 
+  // ── Stats ──
+  $ta_total     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications"))['c'] ?? 0;
+  $ta_pending   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications WHERE status='pending'"))['c'] ?? 0;
+  $ta_reviewing = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications WHERE status='reviewing'"))['c'] ?? 0;
+  $ta_approved  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications WHERE status='approved'"))['c'] ?? 0;
+  $ta_rejected  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications WHERE status='rejected'"))['c'] ?? 0;
+ 
+  // ── View single application ──
+  $view_app = null;
+  if (isset($_GET['view_app'])) {
+      $vid = (int)$_GET['view_app'];
+      $view_app = mysqli_fetch_assoc(mysqli_query($conn,
+          "SELECT ta.*, p.property_name, p.address, p.rent_amount
+           FROM tenant_applications ta
+           LEFT JOIN properties p ON ta.property_id = p.id
+           WHERE ta.id = $vid LIMIT 1"));
+  }
+  ?>
+ 
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $ta_total ?></div><div class="stat-box-lbl">Total Applications</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $ta_pending ?></div><div class="stat-box-lbl">Pending Review</div></div>
+    <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $ta_reviewing ?></div><div class="stat-box-lbl">Under Review</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $ta_approved ?></div><div class="stat-box-lbl">Approved</div></div>
+    <div class="stat-box" style="border-color:rgba(239,68,68,.3)"><div class="stat-box-val" style="color:#fca5a5"><?= $ta_rejected ?></div><div class="stat-box-lbl">Rejected</div></div>
+  </div>
+ 
+  <?php if($view_app): ?>
+  <!-- ── SINGLE APPLICATION VIEW ── -->
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:4px"><?= htmlspecialchars($view_app['fullname']) ?></div>
+        <div style="font-size:12px;color:var(--muted)">Application #<?= $view_app['id'] ?> · Submitted <?= $view_app['created_at'] ? date('d M Y, H:i', strtotime($view_app['created_at'])) : '—' ?></div>
+      </div>
+      <a href="admin_dashboard.php?page=tenant_applications" class="action-btn" style="font-size:12px">← Back to List</a>
+    </div>
+ 
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px">
+      <?php
+      $fields = [
+        'Email' => $view_app['email'],
+        'Phone' => $view_app['phone'],
+        'National ID' => $view_app['national_id'],
+        'Occupation' => $view_app['occupation'],
+        'Employer' => $view_app['employer'],
+        'Monthly Income' => $view_app['monthly_income'] ? 'UGX ' . $view_app['monthly_income'] : '—',
+        'Property Applied' => $view_app['property_name'] ?? '—',
+        'Property Address' => $view_app['address'] ?? '—',
+        'Rent Amount' => $view_app['rent_amount'] ? 'UGX ' . number_format($view_app['rent_amount']) . '/mo' : '—',
+        'Desired Move-in' => $view_app['desired_move_in'] ? date('d M Y', strtotime($view_app['desired_move_in'])) : '—',
+        'Lease Duration' => $view_app['lease_duration'],
+        'No. of Occupants' => $view_app['num_occupants'],
+        'Reference Name' => $view_app['reference_name'],
+        'Reference Phone' => $view_app['reference_phone'],
+        'Status' => ucfirst($view_app['status'] ?? 'pending'),
+      ];
+      foreach($fields as $label => $val): ?>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $label ?></div>
+        <div style="font-size:13px;color:var(--white)"><?= htmlspecialchars($val ?? '—') ?></div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+ 
+    <?php foreach(['Previous Address'=>'previous_address','Reason for Moving'=>'reason_for_moving','Additional Notes'=>'additional_notes'] as $lbl=>$key): if(!empty($view_app[$key])): ?>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:12px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px"><?= $lbl ?></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.6"><?= htmlspecialchars($view_app[$key]) ?></div>
+    </div>
+    <?php endif; endforeach; ?>
+ 
+    <!-- ACTION BUTTONS -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)">
+      <?php $st = strtolower($view_app['status']??'pending'); ?>
+      <?php if($st!=='reviewing'): ?>
+      <a href="admin_dashboard.php?page=tenant_applications&view_app=<?= $view_app['id'] ?>&app_action=reviewing&app_id=<?= $view_app['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">🔍 Mark Under Review</a>
+      <?php endif; ?>
+      <?php if($st!=='approved'): ?>
+      <a href="admin_dashboard.php?page=tenant_applications&app_action=approved&app_id=<?= $view_app['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac" onclick="return confirm('Approve this application?')">✓ Approve</a>
+      <?php endif; ?>
+      <?php if($st!=='rejected'): ?>
+      <a href="admin_dashboard.php?page=tenant_applications&app_action=rejected&app_id=<?= $view_app['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Reject this application?')">✕ Reject</a>
+      <?php endif; ?>
+      <a href="delete_record.php?table=tenant_applications&id=<?= $view_app['id'] ?>&redirect=admin_dashboard.php?page=tenant_applications" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5" onclick="return confirm('Delete this application permanently?')">🗑 Delete</a>
+    </div>
+ 
+    <!-- ADMIN NOTES -->
+    <div style="margin-top:20px">
+      <form method="POST">
+        <input type="hidden" name="app_id" value="<?= $view_app['id'] ?>">
+        <label style="display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Admin Notes (Internal Only)</label>
+        <textarea name="admin_notes" rows="3" style="width:100%;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:7px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:10px"><?= htmlspecialchars($view_app['admin_notes'] ?? '') ?></textarea>
+        <button type="submit" name="save_app_notes" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb)">💾 Save Notes</button>
+      </form>
+    </div>
+  </div>
+ 
+  <?php else: ?>
+  <!-- ── APPLICATION LIST ── -->
+  <?php
+  $filter_status = $_GET['filter'] ?? 'all';
+  $where = $filter_status !== 'all' ? "WHERE ta.status='" . mysqli_real_escape_string($conn,$filter_status) . "'" : '';
+  $apps_q = mysqli_query($conn, "SELECT ta.*, p.property_name FROM tenant_applications ta LEFT JOIN properties p ON ta.property_id=p.id $where ORDER BY ta.created_at DESC");
+  ?>
+ 
+  <!-- Filter tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+    <?php foreach(['all'=>'All','pending'=>'Pending','reviewing'=>'Reviewing','approved'=>'Approved','rejected'=>'Rejected'] as $k=>$lbl):
+      $active = $filter_status===$k;
+      $cnt = $k!=='all' ? mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_applications WHERE status='".mysqli_real_escape_string($conn,$k)."'"))['c'] : $ta_total;
+    ?>
+    <a href="admin_dashboard.php?page=tenant_applications&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$active?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$active?'var(--gb)':'var(--border)'?>;color:<?=$active?'var(--gold)':'var(--muted)'?>">
+      <?=$lbl?> <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$cnt?></span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+ 
+  <table>
+    <tr>
+      <th>#</th><th>Applicant</th><th>Property</th><th>Move-in</th>
+      <th>Income</th><th>Occupants</th><th>Applied</th><th>Status</th><th>Actions</th>
+    </tr>
+    <?php if(!$apps_q || mysqli_num_rows($apps_q)==0): ?>
+    <tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No applications found.</td></tr>
+    <?php else: $i=1; while($app = mysqli_fetch_assoc($apps_q)):
+      $st  = strtolower($app['status']??'pending');
+      $sc  = match($st){ 'approved'=>'#86efac','rejected'=>'#fca5a5','reviewing'=>'#5b9cff',default=>'var(--gold)' };
+      $sbg = match($st){ 'approved'=>'rgba(22,163,74,.1)','rejected'=>'rgba(239,68,68,.1)','reviewing'=>'rgba(59,130,246,.1)',default=>'rgba(200,164,60,.1)' };
+      $sbd = match($st){ 'approved'=>'rgba(22,163,74,.3)','rejected'=>'rgba(239,68,68,.3)','reviewing'=>'rgba(59,130,246,.3)',default=>'var(--gb)' };
+    ?>
+    <tr>
+      <td style="color:var(--muted)"><?= $i++ ?></td>
+      <td>
+        <div style="font-weight:600"><?= htmlspecialchars($app['fullname']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($app['email']??'—') ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($app['phone']??'—') ?></div>
+      </td>
+      <td style="font-size:12px"><?= htmlspecialchars($app['property_name']??'—') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= $app['desired_move_in'] ? date('d M Y',strtotime($app['desired_move_in'])) : '—' ?></td>
+      <td style="font-size:12px;color:#86efac"><?= $app['monthly_income'] ? 'UGX '.$app['monthly_income'] : '—' ?></td>
+      <td style="text-align:center"><?= (int)$app['num_occupants'] ?></td>
+      <td style="font-size:11px;color:var(--muted);white-space:nowrap"><?= $app['created_at'] ? date('d M Y',strtotime($app['created_at'])) : '—' ?></td>
+      <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span></td>
+      <td style="white-space:nowrap">
+        <a href="admin_dashboard.php?page=tenant_applications&view_app=<?= $app['id'] ?>" class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">👁 View</a>
+        <?php if($st==='pending'): ?>
+        <a href="admin_dashboard.php?page=tenant_applications&app_action=reviewing&app_id=<?= $app['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff;font-size:11px">Review</a>
+        <?php elseif($st==='reviewing'): ?>
+        <a href="admin_dashboard.php?page=tenant_applications&app_action=approved&app_id=<?= $app['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:11px" onclick="return confirm('Approve?')">✓</a>
+        <a href="admin_dashboard.php?page=tenant_applications&app_action=rejected&app_id=<?= $app['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px" onclick="return confirm('Reject?')">✕</a>
+        <?php endif; ?>
+        <a href="delete_record.php?table=tenant_applications&id=<?= $app['id'] ?>&redirect=admin_dashboard.php?page=tenant_applications" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:11px" onclick="return confirm('Delete?')">🗑</a>
+      </td>
+    </tr>
+    <?php endwhile; endif; ?>
+  </table>
+  <?php endif; ?>
+</section>
+ 
+<?php elseif($page === 'lease_applications'): ?>
+<section id="lease_applications">
+  <h2 style="text-align:center;color:var(--gold)">LEASE APPLICATIONS</h2>
+ 
+  <?php
+  mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `lease_applications` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `fullname` VARCHAR(200) NOT NULL,
+    `email` VARCHAR(200) DEFAULT NULL,
+    `phone` VARCHAR(50) DEFAULT NULL,
+    `national_id` VARCHAR(100) DEFAULT NULL,
+    `property_id` INT DEFAULT NULL,
+    `lease_start` DATE DEFAULT NULL,
+    `lease_end` DATE DEFAULT NULL,
+    `lease_duration` VARCHAR(100) DEFAULT NULL,
+    `num_occupants` INT DEFAULT 1,
+    `desired_move_in` DATE DEFAULT NULL,
+    `previous_address` TEXT DEFAULT NULL,
+    `purpose_of_tenancy` VARCHAR(200) DEFAULT NULL,
+    `digital_signature` VARCHAR(200) DEFAULT NULL,
+    `terms_agreed` TINYINT DEFAULT 0,
+    `additional_notes` TEXT DEFAULT NULL,
+    `status` VARCHAR(50) DEFAULT 'pending',
+    `admin_notes` TEXT DEFAULT NULL,
+    `signed_at` DATETIME DEFAULT NULL,
+    `created_at` DATETIME DEFAULT NOW()
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+ 
+  // Handle status update
+  if (isset($_GET['la_action']) && isset($_GET['la_id'])) {
+      $la_id     = (int)$_GET['la_id'];
+      $la_action = mysqli_real_escape_string($conn, $_GET['la_action']);
+      if (in_array($la_action, ['approved','rejected','pending','reviewing'])) {
+          $rb = mysqli_real_escape_string($conn, $user['fullname']);
+          $ra = date('Y-m-d H:i:s');
+          mysqli_query($conn, "UPDATE lease_applications SET status='$la_action', admin_notes=COALESCE(admin_notes,''), reviewed_by='$rb', reviewed_at='$ra' WHERE id=$la_id");
+ 
+          $la_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT la.*, p.property_name FROM lease_applications la LEFT JOIN properties p ON la.property_id=p.id WHERE la.id=$la_id LIMIT 1"));
+          if ($la_row && !empty($la_row['email'])) {
+              $aname  = $la_row['fullname'];
+              $aemail = $la_row['email'];
+              $pname  = $la_row['property_name'] ?? 'your selected property';
+              $asig   = $la_row['digital_signature'] ?? '';
+ 
+              if ($la_action === 'approved') {
+                  $subj = "Your Lease Application Has Been Approved — HousingHub";
+                  $body = "Dear $aname,
+ 
+Great news! Your lease application for $pname has been APPROVED.
+ 
+"
+                        . "════════════════════════════════
+"
+                        . "  LEASE APPLICATION APPROVED ✅
+"
+                        . "════════════════════════════════
+"
+                        . "Applicant   : $aname
+"
+                        . "Property    : $pname
+"
+                        . "Signed      : $asig
+"
+                        . "Approved on : " . date('d M Y, H:i') . "
+"
+                        . "════════════════════════════════
+ 
+"
+                        . "NEXT STEPS:
+"
+                        . "1. Our team will contact you within 24 hours to finalise your lease.
+"
+                        . "2. Prepare your National ID and any required deposit.
+"
+                        . "3. Your official lease document will be sent to this email.
+"
+                        . "4. Once fully signed, you will receive move-in instructions.
+ 
+"
+                        . "Welcome to HousingHub!
+ 
+HousingHub Team
+support@housinghuborg.ug";
+              } elseif ($la_action === 'rejected') {
+                  $subj = "Update on Your Lease Application — HousingHub";
+                  $body = "Dear $aname,
+ 
+Thank you for applying through HousingHub.
+ 
+"
+                        . "After review, we regret to inform you that your lease application for $pname was unsuccessful at this time.
+ 
+"
+                        . "You are welcome to apply for other available properties at: http://localhost/housinghub/properties.php
+ 
+"
+                        . "For feedback or queries, contact us at support@housinghuborg.ug
+ 
+HousingHub Team";
+              } elseif ($la_action === 'reviewing') {
+                  $subj = "Your Lease Application Is Under Review — HousingHub";
+                  $body = "Dear $aname,
+ 
+Thank you for submitting your lease application.
+ 
+Your application for $pname is currently under review. You can expect a decision within 24–48 hours.
+ 
+HousingHub Team
+support@housinghuborg.ug";
+              }
+ 
+              if (isset($subj)) {
+                  require_once __DIR__ . "/send_mail.php";
+                  send_mail($aemail, $subj, $body);
+              }
+          }
+          $_SESSION['admin_success'] = "Lease application #$la_id marked as <strong>" . ucfirst($la_action) . "</strong>.";
+      }
+      header("Location: admin_dashboard.php?page=lease_applications"); exit();
+  }
+ 
+  // Handle admin notes
+  if (isset($_POST['save_la_notes'])) {
+      $la_id    = (int)$_POST['la_id'];
+      $la_notes = mysqli_real_escape_string($conn, trim($_POST['la_admin_notes'] ?? ''));
+      mysqli_query($conn, "UPDATE lease_applications SET admin_notes='$la_notes' WHERE id=$la_id");
+      $_SESSION['admin_success'] = "Notes saved for lease application #$la_id.";
+      header("Location: admin_dashboard.php?page=lease_applications"); exit();
+  }
+ 
+  $la_total     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications"))['c'] ?? 0;
+  $la_pending   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications WHERE status='pending'"))['c'] ?? 0;
+  $la_reviewing = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications WHERE status='reviewing'"))['c'] ?? 0;
+  $la_approved  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications WHERE status='approved'"))['c'] ?? 0;
+  $la_rejected  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications WHERE status='rejected'"))['c'] ?? 0;
+ 
+  $view_la = null;
+  if (isset($_GET['view_la'])) {
+      $vlid = (int)$_GET['view_la'];
+      $view_la = mysqli_fetch_assoc(mysqli_query($conn,
+          "SELECT la.*, p.property_name, p.address, p.rent_amount
+           FROM lease_applications la LEFT JOIN properties p ON la.property_id=p.id
+           WHERE la.id=$vlid LIMIT 1"));
+  }
+  ?>
+ 
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $la_total ?></div><div class="stat-box-lbl">Total</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $la_pending ?></div><div class="stat-box-lbl">Pending</div></div>
+    <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $la_reviewing ?></div><div class="stat-box-lbl">Reviewing</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $la_approved ?></div><div class="stat-box-lbl">Approved</div></div>
+    <div class="stat-box" style="border-color:rgba(239,68,68,.3)"><div class="stat-box-val" style="color:#fca5a5"><?= $la_rejected ?></div><div class="stat-box-lbl">Rejected</div></div>
+  </div>
+ 
+  <?php if($view_la): ?>
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white)"><?= htmlspecialchars($view_la['fullname']) ?></div>
+        <div style="font-size:12px;color:var(--muted)">Lease Application #<?= $view_la['id'] ?> · <?= $view_la['created_at'] ? date('d M Y, H:i', strtotime($view_la['created_at'])) : '—' ?></div>
+      </div>
+      <a href="admin_dashboard.php?page=lease_applications" class="action-btn" style="font-size:12px">← Back</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px">
+      <?php foreach([
+        'Email'=>$view_la['email'],'Phone'=>$view_la['phone'],'National ID'=>$view_la['national_id'],
+        'Property'=>$view_la['property_name']??'—','Address'=>$view_la['address']??'—',
+        'Rent'=>$view_la['rent_amount']?'UGX '.number_format($view_la['rent_amount']).'/mo':'—',
+        'Lease Start'=>$view_la['lease_start']?date('d M Y',strtotime($view_la['lease_start'])):'—',
+        'Lease End'=>$view_la['lease_end']?date('d M Y',strtotime($view_la['lease_end'])):'—',
+        'Duration'=>$view_la['lease_duration'],'Move-in'=>$view_la['desired_move_in']?date('d M Y',strtotime($view_la['desired_move_in'])):'—',
+        'Occupants'=>$view_la['num_occupants'],'Purpose'=>$view_la['purpose_of_tenancy'],
+        'Terms Agreed'=>$view_la['terms_agreed']?'✅ Yes':'❌ No',
+        'Digital Signature'=>$view_la['digital_signature'],'Status'=>ucfirst($view_la['status']??'pending')
+      ] as $lbl=>$val): ?>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $lbl ?></div>
+        <div style="font-size:13px;color:var(--white)"><?= htmlspecialchars($val ?? '—') ?></div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php if(!empty($view_la['previous_address'])): ?>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:12px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px">Previous Address</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)"><?= htmlspecialchars($view_la['previous_address']) ?></div>
+    </div>
+    <?php endif; ?>
+    <?php if(!empty($view_la['additional_notes'])): ?>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:18px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px">Additional Notes</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8)"><?= htmlspecialchars($view_la['additional_notes']) ?></div>
+    </div>
+    <?php endif; ?>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <?php $lst = strtolower($view_la['status']??'pending'); ?>
+      <?php if($lst!=='reviewing'): ?><a href="admin_dashboard.php?page=lease_applications&la_action=reviewing&la_id=<?= $view_la['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">🔍 Under Review</a><?php endif; ?>
+      <?php if($lst!=='approved'): ?><a href="admin_dashboard.php?page=lease_applications&la_action=approved&la_id=<?= $view_la['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac" onclick="return confirm('Approve this lease application?')">✓ Approve</a><?php endif; ?>
+      <?php if($lst!=='rejected'): ?><a href="admin_dashboard.php?page=lease_applications&la_action=rejected&la_id=<?= $view_la['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Reject?')">✕ Reject</a><?php endif; ?>
+      <a href="delete_record.php?table=lease_applications&id=<?= $view_la['id'] ?>&redirect=admin_dashboard.php?page=lease_applications" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5" onclick="return confirm('Delete permanently?')">🗑 Delete</a>
+    </div>
+    <form method="POST">
+      <input type="hidden" name="la_id" value="<?= $view_la['id'] ?>">
+      <label style="display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Admin Notes (Internal Only)</label>
+      <textarea name="la_admin_notes" rows="3" style="width:100%;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:7px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:10px"><?= htmlspecialchars($view_la['admin_notes']??'') ?></textarea>
+      <button type="submit" name="save_la_notes" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb)">💾 Save Notes</button>
+    </form>
+  </div>
+ 
+  <?php else: ?>
+  <?php
+  $la_filter = $_GET['filter'] ?? 'all';
+  $la_where  = $la_filter !== 'all' ? "WHERE la.status='" . mysqli_real_escape_string($conn,$la_filter) . "'" : '';
+  $las_q = mysqli_query($conn, "SELECT la.*, p.property_name FROM lease_applications la LEFT JOIN properties p ON la.property_id=p.id $la_where ORDER BY la.created_at DESC");
+  ?>
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+    <?php foreach(['all'=>'All','pending'=>'Pending','reviewing'=>'Reviewing','approved'=>'Approved','rejected'=>'Rejected'] as $k=>$lbl):
+      $act = $la_filter===$k;
+      $cnt = $k!=='all' ? (mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM lease_applications WHERE status='".mysqli_real_escape_string($conn,$k)."'"))['c']??0) : $la_total;
+    ?>
+    <a href="admin_dashboard.php?page=lease_applications&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$act?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$act?'var(--gb)':'var(--border)'?>;color:<?=$act?'var(--gold)':'var(--muted)'?>">
+      <?=$lbl?> <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$cnt?></span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+  <table>
+    <tr><th>#</th><th>Applicant</th><th>Property</th><th>Duration</th><th>Move-in</th><th>Signature</th><th>Applied</th><th>Status</th><th>Actions</th></tr>
+    <?php if(!$las_q || mysqli_num_rows($las_q)==0): ?>
+    <tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No lease applications found.</td></tr>
+    <?php else: $i=1; while($la = mysqli_fetch_assoc($las_q)):
+      $st  = strtolower($la['status']??'pending');
+      $sc  = match($st){ 'approved'=>'#86efac','rejected'=>'#fca5a5','reviewing'=>'#5b9cff',default=>'var(--gold)' };
+      $sbg = match($st){ 'approved'=>'rgba(22,163,74,.1)','rejected'=>'rgba(239,68,68,.1)','reviewing'=>'rgba(59,130,246,.1)',default=>'rgba(200,164,60,.1)' };
+      $sbd = match($st){ 'approved'=>'rgba(22,163,74,.3)','rejected'=>'rgba(239,68,68,.3)','reviewing'=>'rgba(59,130,246,.3)',default=>'var(--gb)' };
+    ?>
+    <tr>
+      <td style="color:var(--muted)"><?= $i++ ?></td>
+      <td><div style="font-weight:600"><?= htmlspecialchars($la['fullname']) ?></div><div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($la['email']??'—') ?></div></td>
+      <td style="font-size:12px"><?= htmlspecialchars($la['property_name']??'—') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($la['lease_duration']??'—') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= $la['desired_move_in']?date('d M Y',strtotime($la['desired_move_in'])):'—' ?></td>
+      <td style="font-size:12px;color:var(--gold);font-style:italic"><?= htmlspecialchars($la['digital_signature']??'—') ?></td>
+      <td style="font-size:11px;color:var(--muted)"><?= $la['created_at']?date('d M Y',strtotime($la['created_at'])):'—' ?></td>
+      <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span></td>
+      <td style="white-space:nowrap">
+        <a href="admin_dashboard.php?page=lease_applications&view_la=<?= $la['id'] ?>" class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">👁 View</a>
+        <?php if($st==='pending'): ?>
+        <a href="admin_dashboard.php?page=lease_applications&la_action=reviewing&la_id=<?= $la['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff;font-size:11px">Review</a>
+        <?php elseif($st==='reviewing'): ?>
+        <a href="admin_dashboard.php?page=lease_applications&la_action=approved&la_id=<?= $la['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:11px" onclick="return confirm('Approve?')">✓</a>
+        <a href="admin_dashboard.php?page=lease_applications&la_action=rejected&la_id=<?= $la['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px" onclick="return confirm('Reject?')">✕</a>
+        <?php endif; ?>
+        <a href="delete_record.php?table=lease_applications&id=<?= $la['id'] ?>&redirect=admin_dashboard.php?page=lease_applications" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:11px" onclick="return confirm('Delete?')">🗑</a>
+      </td>
+    </tr>
+    <?php endwhile; endif; ?>
+  </table>
+  <?php endif; ?>
 </section>
  
 <?php endif; ?>
@@ -838,3 +1531,4 @@ endif;
 </div>
 </body>
 </html>
+ 

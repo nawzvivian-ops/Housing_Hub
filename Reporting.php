@@ -9,12 +9,12 @@
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
 body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink)}
 .page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
@@ -117,8 +117,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu">
         <a href="index.html#welcome">Welcome</a><a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a><a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a><a href="index.html#contact-us">Contact Us</a>
+        
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
@@ -129,7 +128,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenants.php">Tenants</a><a href="propertyowners.php">Property Owners</a>
+        <a href="tenants.php">Tenants</a><a href="staff.php">Staff</a>
+        <a href="propertyowners.php">Property Owners</a>
         <a href="broker.php">Broker</a><a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
@@ -187,6 +187,68 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h2>Get Full Control of Your <em>Finances.</em></h2>
     <p>Stop guessing who has paid. HousingHub gives you a real-time, accurate picture of every shilling collected.</p>
     <a href="index.php" class="btn-primary">Get Started Free</a>
+  </div>
+</section>
+<!-- QUICK LINKS -->
+<section class="quick-links z reveal">
+  <div class="quick-container">
+ 
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor/Guest Management</a>
+      <a href="applications.php">Online Tenant Applications</a>
+      <a href="reporting.php">Rent/Buy Reporting</a>
+      <a href="lease.php">Online Lease</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+      <a href="notifications.php">Smart Notification Center</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="policies.html">Policies</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenant.php">Tenants</a>
+      <a href="staff.php">Staff</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker</a>
+      <a href="employment.php">Employment</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="vision.php">Our Vision</a>
+      <a href="values.php">Core Values</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+ 
   </div>
 </section>
 <footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>

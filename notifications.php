@@ -116,9 +116,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu">
-        <a href="index.html#welcome">Welcome</a><a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a><a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a><a href="index.html#contact-us">Contact Us</a>
+        <a href="index.html#welcome">Welcome</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
@@ -129,8 +129,11 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenants.php">Tenants</a><a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Broker</a><a href="employment.php">Employment</a>
+        <a href="tenants.php">Tenants</a>
+        <a href="staff.php">Staff</a>
+        <a href="propertyowners.php">Property Owners</a>
+        <a href="broker.php">Broker</a>
+        <a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
         <a href="properties.php">All Properties</a><div class="dd-divider"></div>

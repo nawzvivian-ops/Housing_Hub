@@ -154,6 +154,22 @@ $unread_count = count(array_filter($notifications, fn($n) => !$n['is_read']));
 $open_maint   = count(array_filter($maintenance,   fn($m) => in_array($m['status'], ['open','in_progress'])));
 $total_paid   = array_sum(array_column($payments, 'amount'));
 $pending_pay  = count(array_filter($payments, fn($p) => $p['status']==='pending'));
+
+ 
+    // ── Tenant Documents ──
+    $documents = [];
+    $dq = mysqli_prepare($conn, "SELECT document_name, file_path, uploaded_at FROM tenant_documents WHERE tenant_id=? ORDER BY uploaded_at DESC");
+    if ($dq) {
+        $tenant_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id FROM tenants WHERE user_id=$user_id LIMIT 1"));
+        $tenant_rec_id = (int)($tenant_row['id'] ?? 0);
+        if ($tenant_rec_id > 0) {
+            mysqli_stmt_bind_param($dq, "i", $tenant_rec_id);
+            mysqli_stmt_execute($dq);
+            $dr = mysqli_stmt_get_result($dq);
+            while ($d = mysqli_fetch_assoc($dr)) $documents[] = $d;
+        }
+    }
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -418,6 +434,7 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
     <div class="nl">Account</div>
     <button class="na" onclick="show('notifications',this)"><span class="ni">🔔</span>Notifications<?php if($unread_count>0):?><span class="nb"><?=$unread_count?></span><?php endif;?></button>
     <button class="na" onclick="show('profile',this)"><span class="ni">👤</span>My Profile</button>
+    <button class="na" onclick="show('documents',this)"><span class="ni">📁</span>My Documents<?php if(!empty($documents)):?><span class="nb"><?=count($documents)?></span><?php endif;?></button>
   </nav>
   <div class="sb-foot"><a href="logout.php" class="lo">⬡ &nbsp;Sign Out</a></div>
 </aside>
@@ -792,6 +809,44 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
       <?php endforeach; endif; ?>
     </div>
   </div>
+
+    <!-- ══ DOCUMENTS ══ -->
+  <div class="pg" id="pg-documents">
+    <div class="ey">Files</div><h2 class="sh">My <em>Documents</em></h2>
+    <p class="sp">Documents uploaded to your profile by HousingHub management. Click any file to view or download.</p>
+    <div class="card">
+      <?php if(empty($documents)): ?>
+        <div style="text-align:center;padding:40px 20px">
+          <div style="font-size:48px;margin-bottom:16px">📂</div>
+          <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:8px">No documents yet</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Your property manager will upload documents such as your lease agreement, ID copies, receipts and other files here.</div>
+        </div>
+      <?php else: ?>
+        <div style="display:grid;gap:12px">
+          <?php foreach($documents as $doc):
+            $ext = strtolower(pathinfo($doc['file_path']??'', PATHINFO_EXTENSION));
+            $icon = in_array($ext,['pdf']) ? '📄' : (in_array($ext,['doc','docx']) ? '📝' : (in_array($ext,['jpg','jpeg','png']) ? '🖼️' : '📎'));
+          ?>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gb)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+            <div style="width:44px;height:44px;border-radius:9px;background:rgba(200,164,60,.1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"><?= $icon ?></div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px"><?= htmlspecialchars($doc['document_name']) ?></div>
+              <div style="font-size:11px;color:var(--muted)"><?= strtoupper($ext) ?> · Uploaded <?= $doc['uploaded_at'] ? date('d M Y', strtotime($doc['uploaded_at'])) : '—' ?></div>
+            </div>
+            <?php if(!empty($doc['file_path'])): ?>
+            <a href="<?= htmlspecialchars($doc['file_path']) ?>" target="_blank"
+               style="padding:8px 16px;background:rgba(200,164,60,.1);border:1px solid var(--gb);border-radius:6px;color:var(--gold);font-size:11px;font-weight:700;text-decoration:none;letter-spacing:1px;white-space:nowrap;transition:all .2s"
+               onmouseover="this.style.background='rgba(200,164,60,.2)'"
+               onmouseout="this.style.background='rgba(200,164,60,.1)'"
+               download>↓ View</a>
+            <?php endif; ?>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+ 
  
   <!-- ══ PROFILE ══ -->
   <div class="pg" id="pg-profile">
@@ -849,7 +904,7 @@ document.querySelectorAll('a,button,input,select,textarea').forEach(el=>{
 });
  
 /* PAGE NAV */
-const titles={overview:'Overview',property:'My Property',payments:'Payments',lease:'Lease Agreement',maintenance:'Maintenance',visitors:'Visitor Management',complaints:'Complaints & Feedback',notifications:'Notifications',profile:'My Profile'};
+const titles={overview:'Overview',property:'My Property',payments:'Payments',lease:'Lease Agreement',maintenance:'Maintenance',visitors:'Visitor Management',complaints:'Complaints & Feedback',notifications:'Notifications',documents:'My Documents',profile:'My Profile'};
 function show(id,btn){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');

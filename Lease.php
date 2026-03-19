@@ -11,12 +11,12 @@
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:8px;height:8px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
 @keyframes atmo{0%{filter:brightness(1)}100%{filter:brightness(1.08)}}
 .page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
@@ -57,14 +57,14 @@ nav>a:hover{opacity:.8}
 .hero-btns{display:flex;gap:16px;flex-wrap:wrap}
 .btn-primary{padding:15px 34px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .3s;display:inline-block}
 .btn-primary:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 10px 28px rgba(200,164,60,.35)}
-.btn-secondary{padding:15px 34px;border:1px solid rgba(200,164,60,.4);color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .3s;display:inline-block}
+.btn-secondary{padding:15px 34px;border:1px solid rgba(243, 191, 33, 0.4);color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .3s;display:inline-block}
 .btn-secondary:hover{background:rgba(200,164,60,.08);transform:translateY(-2px)}
 .hero-stats{display:flex;gap:48px;margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
 .hstat-num{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:700;color:var(--gold)}
 .hstat-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:2px}
 
 /* SECTIONS */
-section{padding:100px 60px;position:relative;z-index:10}
+section{padding:100px 60px;position:relative;z-index:10}  
 .section-eyebrow{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:20px}
 .section-eyebrow::before{content:"";width:28px;height:1px;background:var(--gold)}
 .section-title{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:16px}
@@ -173,9 +173,7 @@ nav { position: relative !important; z-index: 100000 !important; }
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu">
       <a href="index.html">Welcome</a>
       <a href="works.php">How It Works</a>
-      <a href="testimonials.php">Testimonials</a>
-      <a href="whyus.php">Why Choose Us</a>
-      <a href="pricing.php">Pricing</a>
+      
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
       <a href="virtual.php">Virtual Property Tours</a>
@@ -192,6 +190,7 @@ nav { position: relative !important; z-index: 100000 !important; }
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
       <a href="tenants.php">Tenants</a>
+      <a href="staff.php">Staff</a>
       <a href="propertyowners.php">Property Owners</a>
       <a href="broker.php">Broker</a>
       <a href="employment.php">Employment</a>
@@ -224,7 +223,7 @@ nav { position: relative !important; z-index: 100000 !important; }
     <h1>Sign &amp; Manage<br><em>Leases</em><br><span class="stroke">Digitally.</span></h1>
     <p class="hero-sub">HousingHub lets landlords create, send, and manage lease agreements fully online and tenants can review, sign, and access their lease anytime. No printing, no courier, no lost documents.</p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started</a>
+      <a href="lease_apply.php" class="btn-primary">Apply for a Lease</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
@@ -411,10 +410,7 @@ nav { position: relative !important; z-index: 100000 !important; }
   <div class="cta-block">
     <h2>Go Paperless with <em>Digital Leases.</em></h2>
     <p>Create, sign, and store all your lease agreements on HousingHub. No printing, no couriers, no lost documents — ever again.</p>
-    <div class="cta-btns">
-      <a href="index.php" class="btn-primary">Get Started Free</a>
-      <a href="works.php" class="btn-secondary">See How It Works</a>
-    </div>
+    
   </div>
 </section>
 

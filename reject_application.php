@@ -2,6 +2,7 @@
 <?php
 session_start();
 include "db_connect.php";
+require_once __DIR__ . "/send_mail.php";
 mysqli_report(MYSQLI_REPORT_OFF);
  
 // Admin only
@@ -50,11 +51,8 @@ if (!empty($to)) {
     $body .= "HousingHub HR Team\n";
     $body .= "careers@housinghuborg.ug";
  
-    $headers = "From: HousingHub HR <careers@housinghuborg.ug>\r\n"
-             . "Reply-To: careers@housinghuborg.ug\r\n"
-             . "X-Mailer: PHP/" . phpversion();
  
-    mail($to, $subject, $body, $headers);
+    send_mail($to, $subject, $body);
     $_SESSION['admin_success'] = "Application rejected. Notification email sent to {$to}.";
 } else {
     $_SESSION['admin_success'] = "Application rejected. (No email address on file.)";

@@ -1,5 +1,7 @@
+
 <?php
 include "db_connect.php";
+require_once __DIR__ . "/send_mail.php";
 mysqli_report(MYSQLI_REPORT_OFF);
  
 if (!isset($_GET['job'])) { die("Job not specified."); }
@@ -45,8 +47,7 @@ if (isset($_POST['apply']) && $job['status'] === 'open') {
                . "  3. You receive an update email regardless of outcome\n\n"
                . "Questions? Email careers@housinghuborg.ug\n\n"
                . "Best regards,\nHousingHub HR Team";
-        mail($_POST['email'], $subj, $body,
-            "From: HousingHub HR <careers@housinghuborg.ug>\r\nReply-To: careers@housinghuborg.ug");
+        send_mail($_POST['email'], $subj, $body);
  
         $message = "Application submitted! A confirmation email has been sent to " . htmlspecialchars($_POST['email']) . ".";
         $success = true;
