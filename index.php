@@ -50,9 +50,9 @@ body::before {
     z-index: 2;
 
     text-align: center;
-    background: rgba(187, 176, 152, 0.92);
+    background: rgba(199, 189, 167, 0.92);
     padding: 50px;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     max-width: 500px;
 }
@@ -87,16 +87,16 @@ body::before {
             color: white;
         }
         .btn-login:hover {
-            background: #6feb09;
+            background: #172010;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
         }
         .btn-register {
-            background: #3b82f6;
+            background: #080f6d;
             color: white;
         }
         .btn-register:hover {
-            background: #f0d90e;
+            background: #172010;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
         }
@@ -116,12 +116,12 @@ body::before {
             
         }
         .info {
-            background: #e0e7ff;
+            background: #f0f2f7;
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
             font-size: 14px;
-            color: #4338ca;
+            color: #120788;
         }
         .header-logo {
     display: flex;
