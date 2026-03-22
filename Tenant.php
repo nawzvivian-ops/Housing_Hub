@@ -161,13 +161,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Home &#9660;</button>
       <div class="dd-menu">
         <a href="index.html#welcome">Welcome</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a>
-        <a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a>
-        <a href="index.html#contact-us">Contact Us</a>
-        <a href="index.html#latest-news">Latest News</a>
-        <a href="index.html#current-offers">Current Offers</a>
+        <a href="works.php">How It Works</a>
+        
       </div>
     </div>
     <div class="dropdown">
@@ -190,6 +185,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Use Cases &#9660;</button>
       <div class="dd-menu">
         <a href="tenants.php">Tenants</a>
+        <a href="staff.php">Staff</a>
         <a href="propertyowners.php">Property Owners</a>
         <a href="broker.php">Broker</a>
         <a href="employment.php">Employment</a>
