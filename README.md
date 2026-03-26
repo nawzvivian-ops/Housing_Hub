@@ -2,6 +2,17 @@
 
 A comprehensive web-based property management system designed for Uganda's real estate market. Built with PHP and MySQL, HousingHub streamlines property management, tenant relations, and financial operations for property owners, managers, and tenants.
 
+## ⚠️ Security Notice
+
+**CRITICAL**: This application contains security vulnerabilities and is NOT ready for production deployment. See [BUILD_PLAN.md](BUILD_PLAN.md) for the security hardening roadmap. Key issues include:
+
+- Exposed credentials in source code
+- SQL injection vulnerabilities
+- Missing CSRF protection
+- Insecure file uploads
+
+**Do not deploy to production until all Phase 1 security fixes are completed.**
+
 ## 🌟 Features
 
 ### Core Functionality
