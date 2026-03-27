@@ -12,13 +12,8 @@
     <a href="javascript:void(0)" class="dropdown-toggle">Home ▾</a>
     <div class="dropdown-menu">
         <a href="#welcome"> Welcome</a>
-        <a href="#how-it-works"> How It Works</a>
-        <a href="#testimonials"> Testimonials</a>
-        <a href="#our-stats">Our Stats</a>
-        <a href="#faqs">FAQs</a>
-        <a href="#contact-us">Contact Us</a>
-        <a href="#latest-news">Latest News</a>
-        <a href="#current-offers">Current Offers</a>
+        <a href="works,php"> How It Works</a>
+        
     </div>
 </div>
            <!-- Features Dropdown -->
@@ -43,11 +38,11 @@
         <div class="dropdown">
             <a href="javascript:void(0)" class="dropdown-toggle">Use Cases ▾</a>
             <div class="dropdown-menu">
-                <a href="#landlord"> Landlord</a>
-                <a href="#property-owner">Property Owner</a>
-                 <a href="javascript:void(0)" onclick="toggleBrokers()">Brokers/Propertyowners</a>
-                <a href="#broker"> Broker</a>
-                <a href="javascript:void(0)" onclick="showEmployment()">Employment</a>
+                <a href="tenant.php"> Tenant</a>
+                <a href="staff.php">Staff</a>
+                <a href="property-owner.php">Property Owner</a>
+                <a href="broker.php"> Broker-Free</a>
+                <a href="employment.php">Employment</a>
                 
             </div>
         </div>

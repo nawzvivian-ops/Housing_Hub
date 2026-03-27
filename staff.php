@@ -176,7 +176,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu"><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu"><a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a><a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a><a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a><a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a><a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a><a href="policies.html">Policies</a></div></div>
-    <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu"><a href="tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="propertyowners.php">Property Owners</a><a href="broker.php">Broker</a><a href="employment.php">Employment</a></div></div>
+    <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu"><a href="tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="propertyowners.php">Property Owners</a><a href="broker.php">Broker-Free</a><a href="employment.php">Employment</a></div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu"><a href="properties.php">All Properties</a><div class="dd-divider"></div><a href="properties.php?type=Commercial">Commercial</a><a href="properties.php?type=Residential">Residential</a><a href="properties.php?type=Industrial">Industrial</a><a href="properties.php?type=Agricultural">Agricultural</a><a href="properties.php?type=Special+Purpose">Special Purpose</a><a href="properties.php?type=Land">Land</a></div></div>
     <a href="index.php">Login</a>
     <div class="dropdown"><button class="dd-btn">About Us &#9660;</button><div class="dd-menu"><a href="who.php">Who We Are</a><a href="what.php">What We Do</a><a href="vision.php">Our Vision</a><a href="values.php">Core Values</a><a href="contact.php">Contact Us</a></div></div>
@@ -354,11 +354,65 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 </section>
  
 <!-- QUICK LINKS -->
-<section class="z" style="padding:60px 60px 40px">
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;border-top:1px solid var(--border);padding-top:48px">
-    <div><h4 style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:18px;margin-bottom:16px">Use Cases</h4><a href="tenant.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Tenants</a><a href="staff.php" style="display:block;font-size:12px;color:var(--gold);text-decoration:none;margin-bottom:8px">Staff</a><a href="propertyowners.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Property Owners</a><a href="broker.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Broker</a><a href="employment.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Employment</a></div>
-    <div><h4 style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:18px;margin-bottom:16px">Features</h4><a href="maintenance.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Maintenance</a><a href="virtual.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Virtual Tours</a><a href="notifications.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Notifications</a><a href="visitor.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Visitor Management</a></div>
-    <div><h4 style="font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:18px;margin-bottom:16px">Company</h4><a href="who.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Who We Are</a><a href="contact.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Contact</a><a href="policies.html" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Policies</a></div>
+<section class="quick-links z reveal">
+  <div class="quick-container">
+ 
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor/Guest Management</a>
+      <a href="applications.php">Online Tenant Applications</a>
+      <a href="reporting.php">Rent/Buy Reporting</a>
+      <a href="lease.php">Online Lease</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+      <a href="notifications.php">Smart Notification Center</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="policies.html">Policies</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenant.php">Tenants</a>
+      <a href="staff.php">Staff</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker-Free</a>
+      <a href="employment.php">Employment</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="vision.php">Our Vision</a>
+      <a href="values.php">Core Values</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+ 
   </div>
 </section>
  

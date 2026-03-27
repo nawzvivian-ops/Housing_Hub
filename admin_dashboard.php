@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include "db_connect.php";
@@ -68,6 +69,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $_SESSION['admin_success'] = "Account unlinked.";
     }
     header("Location: admin_dashboard.php?page=tenants"); exit();
+}
+ 
+// ── Handle assign property to owner ──
+// ── Handle assign property to owner ──
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_id']) && isset($_POST['property_id'])) {
+    $ow_id = (int)$_POST['owner_id'];
+    $pr_id = (int)$_POST['property_id'];
+    if ($ow_id <= 0) {
+        $_SESSION['admin_error'] = "No owner selected.";
+        header("Location: admin_dashboard.php?page=propertyowners"); exit();
+    }
+    if ($pr_id <= 0) {
+        $_SESSION['admin_error'] = "Please select a property from the dropdown first.";
+        header("Location: admin_dashboard.php?page=propertyowners"); exit();
+    }
+    $ow_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT fullname FROM users WHERE id=$ow_id LIMIT 1"));
+    $pr_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT property_name FROM properties WHERE id=$pr_id LIMIT 1"));
+    if (!$ow_row || !$pr_row) {
+        $_SESSION['admin_error'] = "Owner or property not found.";
+        header("Location: admin_dashboard.php?page=propertyowners"); exit();
+    }
+    mysqli_query($conn, "UPDATE properties SET owner_id=$ow_id WHERE id=$pr_id");
+    $pn_safe = mysqli_real_escape_string($conn, $pr_row['property_name']);
+    mysqli_query($conn, "INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
+        VALUES ($ow_id, 0, 'Property Assigned',
+        'The property $pn_safe has been linked to your account. Log in to view your dashboard.',
+        'unread', NOW())");
+    $_SESSION['admin_success'] = "✅ <strong>" . htmlspecialchars($pr_row['property_name']) . "</strong> assigned to <strong>" . htmlspecialchars($ow_row['fullname']) . "</strong>. Dashboard is now active.";
+    header("Location: admin_dashboard.php?page=propertyowners"); exit();
 }
  
 // ── Handle notice board post ──
@@ -281,54 +311,54 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
 <div class="sidebar">
   <h2>ADMIN PANEL</h2>
   <div class="sb-section">Overview</div>
-  <a href="admin_dashboard.php?page=dashboard" <?php echo ($page==='dashboard')?'class="active"':''; ?>>🏠 Home</a>
+  <a href="admin_dashboard.php?page=dashboard" <?php echo ($page==='dashboard')?'class="active"':''; ?>> Home</a>
  
   <div class="sb-section">People</div>
-  <a href="admin_dashboard.php?page=users" <?php echo ($page==='users')?'class="active"':''; ?>>👤 Manage Users</a>
+  <a href="admin_dashboard.php?page=users" <?php echo ($page==='users')?'class="active"':''; ?>> Manage Users</a>
   <a href="admin_dashboard.php?page=tenants" <?php echo ($page==='tenants')?'class="active"':''; ?>>
-    🏘 Manage Tenants
+    Manage Tenants
     <?php if($unlinked_count > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $unlinked_count ?></span><?php endif; ?>
   </a>
-  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>>🤝 Brokers / Agents</a>
-  <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>>🏢 Property Owners</a>
+  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>> Brokers / Agents</a>
+  <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>> Property Owners</a>
  
   <div class="sb-section">Staff</div>
-  <a href="admin_dashboard.php?page=staff_roles" <?php echo ($page==='staff_roles')?'class="active"':''; ?>>👥 Staff Roles & Payroll</a>
-  <a href="admin_dashboard.php?page=staff_tasks" <?php echo ($page==='staff_tasks')?'class="active"':''; ?>>✅ Staff Tasks</a>
+  <a href="admin_dashboard.php?page=staff_roles" <?php echo ($page==='staff_roles')?'class="active"':''; ?>> Staff Roles & Payroll</a>
+  <a href="admin_dashboard.php?page=staff_tasks" <?php echo ($page==='staff_tasks')?'class="active"':''; ?>> Staff Tasks</a>
   <a href="admin_dashboard.php?page=employee_performance" <?php echo ($page==='employee_performance')?'class="active"':''; ?>>📊 Employee Performance</a>
-  <a href="admin_dashboard.php?page=notice_board" <?php echo ($page==='notice_board')?'class="active"':''; ?>>📢 Notice Board</a>
+  <a href="admin_dashboard.php?page=notice_board" <?php echo ($page==='notice_board')?'class="active"':''; ?>> Notice Board</a>
   <a href="admin_dashboard.php?page=jobs" <?php echo ($page==='jobs')?'class="active"':''; ?>>
-    💼 Employment Applications
+     Employment Applications
     <?php if($pending_applications > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_applications ?></span><?php endif; ?>
   </a>
  
   <a href="admin_dashboard.php?page=tenant_applications" <?php echo ($page==='tenant_applications')?'class="active"':''; ?>>
-    📋 Tenant Applications
+    Tenant Applications
     <?php if(!empty($pending_tenant_apps) && $pending_tenant_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_tenant_apps ?></span><?php endif; ?>
   </a>
   <a href="admin_dashboard.php?page=lease_applications" <?php echo ($page==='lease_applications')?'class="active"':''; ?>>
-    📝 Lease Applications
+     Lease Applications
     <?php if(!empty($pending_lease_apps) && $pending_lease_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_lease_apps ?></span><?php endif; ?>
   </a>
  
   <div class="sb-section">Properties</div>
-  <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>>🏠 Manage Properties</a>
-  <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>>🔍 Property Inspections</a>
-  <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>>🔧 Maintenance Requests</a>
+  <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>> Manage Properties</a>
+  <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>> Property Inspections</a>
+  <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>> Maintenance Requests</a>
  
   <div class="sb-section">Finance</div>
-  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>>💳 Tenant Payments</a>
-  <a href="admin_dashboard.php?page=payments" <?php echo ($page==='payments')?'class="active"':''; ?>>💰 Rent Tracking</a>
-  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>>📈 Revenue Reports</a>
+  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>>Tenant Payments</a>
+  <a href="admin_dashboard.php?page=payments" <?php echo ($page==='payments')?'class="active"':''; ?>> Rent Tracking</a>
+  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>> Revenue Reports</a>
  
   <div class="sb-section">Other</div>
-  <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>>🪪 Guest Approvals</a>
-  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>>📩 Complaints & Feedback</a>
-  <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>>📄 Tenant Documents</a>
-  <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>>🔔 Notifications</a>
-  <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>>⚙️ System Settings</a>
-  <a href="admin_dashboard.php?page=backups" <?php echo ($page==='backups')?'class="active"':''; ?>>💾 Backup / Export</a>
-  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)">🚪 Logout</a>
+  <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>> Guest Approvals</a>
+  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>>Complaints & Feedback</a>
+  <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>> Tenant Documents</a>
+  <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>> Notifications</a>
+  <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>> System Settings</a>
+  <a href="admin_dashboard.php?page=backups" <?php echo ($page==='backups')?'class="active"':''; ?>> Backup / Export</a>
+  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)">Logout</a>
 </div>
  
 <div class="header">
@@ -373,7 +403,7 @@ endif;
  
 <?php elseif($page === 'notice_board'): ?>
 <section id="notice_board">
-  <h2 style="color:var(--gold)">📢 Notice Board</h2>
+  <h2 style="color:var(--gold)"> Notice Board</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:24px">Post announcements that all staff members will see on their dashboard.</p>
  
   <!-- POST NEW NOTICE FORM -->
@@ -503,6 +533,9 @@ endif;
 <?php elseif($page === 'properties'): ?>
 <section id="properties">
   <h2>Manage Properties</h2>
+  <div style="text-align:center;margin-bottom:20px">
+    <a href="add_property.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW PROPERTY</a>
+  </div>
   <table>
     <tr><th>Property Name</th><th>Type</th><th>Address</th><th>Units</th><th>Rent (UGX)</th><th>Owner</th><th>Created At</th><th>Actions</th></tr>
     <?php $properties = mysqli_query($conn,"SELECT p.*,u.fullname FROM properties p LEFT JOIN users u ON p.owner_id=u.id ORDER BY p.created_at DESC");
@@ -864,14 +897,16 @@ endif;
  
   <!-- INFO BOX -->
   <div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:14px 20px;margin-bottom:20px;font-size:13px;color:var(--muted);line-height:1.8">
-    <strong style="color:var(--gold)">ℹ️ How Property Owner Verification Works:</strong><br>
-    An owner is <strong style="color:#86efac">Verified</strong> the moment you assign at least one property to their account.
-    Owners with <strong style="color:var(--gold)">no properties</strong> see a pending screen when they log in.
-    To activate an owner's dashboard — assign a property to them using the <strong style="color:var(--white)">Assign Property</strong> button below or go to <a href="admin_dashboard.php?page=properties" style="color:var(--gold)">Manage Properties</a> and set their account as the owner.
+    <strong style="color:var(--gold)">ℹ️ How it works:</strong><br>
+    <strong style="color:var(--white)">Step 1:</strong> Add a property using the <strong style="color:var(--gold)">🏠 ADD NEW PROPERTY</strong> button below.<br>
+    <strong style="color:var(--white)">Step 2:</strong> Add a property owner account using <strong style="color:var(--gold)">ADD NEW PROPERTY OWNER</strong>.<br>
+    <strong style="color:var(--white)">Step 3:</strong> Find the owner in the table, pick a property from their dropdown, click <strong style="color:#86efac">✓ Assign Property</strong>.<br>
+    <strong style="color:#86efac">Done:</strong> Their dashboard activates immediately.
   </div>
  
-  <div style="text-align:center;margin-bottom:20px">
+  <div style="text-align:center;margin-bottom:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
     <a href="add_propertyowner.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW PROPERTY OWNER</a>
+    <a href="add_property.php" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb);color:var(--gold)">🏠 ADD NEW PROPERTY</a>
   </div>
  
   <table>
@@ -888,7 +923,7 @@ endif;
     <?php
     $owners = mysqli_query($conn,"SELECT u.*,COUNT(p.id) AS properties_count FROM users u LEFT JOIN properties p ON u.id=p.owner_id WHERE u.role='propertyowner' GROUP BY u.id ORDER BY u.created_at DESC");
     // Fetch unassigned properties for dropdown
-    $unassigned_props = mysqli_query($conn,"SELECT id,property_name FROM properties ORDER BY property_name ASC");
+    $unassigned_props = mysqli_query($conn,"SELECT p.id, p.property_name, u.fullname AS current_owner FROM properties p LEFT JOIN users u ON p.owner_id=u.id ORDER BY p.property_name ASC");
     $unassigned_list = [];
     while($up = mysqli_fetch_assoc($unassigned_props)) $unassigned_list[] = $up;
     while($owner = mysqli_fetch_assoc($owners)):
@@ -912,18 +947,19 @@ endif;
       <td style="font-size:12px;color:#86efac">UGX <?= number_format($rev) ?></td>
       <td>
         <?php if(!empty($unassigned_list)): ?>
-        <form method="POST" action="assign_property_owner.php" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <form method="POST" action="admin_dashboard.php?page=propertyowners" onsubmit="var s=this.querySelector('select[name=property_id]');if(!s.value){alert('Please select a property first.');return false;}return confirm('Assign to <?= addslashes(htmlspecialchars($owner['fullname'])) ?>?')">
           <input type="hidden" name="owner_id" value="<?= $oid ?>">
-          <select name="property_id" style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;background:rgba(255,255,255,.06);color:var(--white);font-family:'Outfit',sans-serif;min-width:160px">
+          <select name="property_id" required style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;background:rgba(255,255,255,.06);color:var(--white);font-family:'Outfit',sans-serif;width:100%;margin-bottom:6px">
             <option value="">— Select property —</option>
             <?php foreach($unassigned_list as $up): ?>
             <option value="<?= $up['id'] ?>"><?= htmlspecialchars($up['property_name']) ?></option>
             <?php endforeach; ?>
           </select>
-          <button type="submit" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:12px;padding:6px 12px">✓ Assign</button>
+          <button type="submit" class="action-btn" style="background:rgba(22,163,74,.25);border:1px solid rgba(22,163,74,.4);color:#86efac;font-size:12px;padding:8px 16px;width:100%">✓ Assign Property</button>
         </form>
         <?php else: ?>
-          <span style="font-size:12px;color:var(--muted)">No unassigned properties.<br><a href="admin_dashboard.php?page=properties" style="color:var(--gold)">+ Add property</a></span>
+          <div style="font-size:12px;color:var(--muted)">No properties yet.<br>
+          <a href="add_property.php" style="color:var(--gold)">+ Add a property first</a></div>
         <?php endif; ?>
       </td>
       <td style="white-space:nowrap">
@@ -1531,4 +1567,3 @@ support@housinghuborg.ug";
 </div>
 </body>
 </html>
- 

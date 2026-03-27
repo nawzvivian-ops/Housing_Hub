@@ -219,7 +219,7 @@ $status_color = [
                     🖨️ Print Receipt
                 </button>
                 <a href="dashboard.php" class="btn btn-secondary">
-                    ← Back to Dashboard
+                    Back to Dashboard
                 </a>
             </div>
         </div>
