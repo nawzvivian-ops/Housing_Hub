@@ -41,8 +41,8 @@ if (isset($_POST['register'])) {
             header("Location: staff_dashboard.php");
         } elseif ($role === 'propertyowner') {
             header("Location: propertyowner_dashboard.php");
-        } elseif ($role === 'broker') {
-            header("Location: broker_dashboard.php");
+        } elseif ($role === 'guest') {
+            header("Location: visitor.php");
         } else {
             header("Location: dashboard.php");
         }
@@ -74,8 +74,8 @@ if (isset($_POST['login'])) {
                 header("Location: staff_dashboard.php");
             } elseif ($user['role'] === 'propertyowner') {
                 header("Location: propertyowner_dashboard.php");
-            } elseif ($user['role'] === 'broker') {
-                header("Location: broker_dashboard.php");
+            } elseif ($user['role'] === 'guest') {
+                header("Location: visitor.php");
             } else {
                 header("Location: dashboard.php");
             }

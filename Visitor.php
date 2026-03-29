@@ -9,12 +9,12 @@
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:8px;height:8px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink)}
 .page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
@@ -89,6 +89,200 @@ section{padding:100px 60px;position:relative;z-index:10}
 .cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);margin-bottom:16px}
 .cta-block h2 em{color:var(--gold);font-style:italic}
 .cta-block p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 36px;line-height:1.7}
+
+.dual-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+}
+.dual-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:32px;
+  transition:all .35s ease;
+}
+.dual-card:hover{
+  border-color:var(--gb);
+  transform:translateY(-4px);
+  background:rgba(200,164,60,.05);
+}
+.dual-tag{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(200,164,60,.35);
+  padding:8px 12px;
+  border-radius:999px;
+  margin-bottom:18px;
+}
+.dual-card h3{
+  font-family:"Cormorant Garamond",serif;
+  font-size:28px;
+  color:var(--white);
+  margin-bottom:14px;
+}
+.dual-card p{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  margin-bottom:20px;
+}
+.dual-points{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.dual-points span{
+  font-size:12px;
+  color:var(--white);
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  padding:10px 12px;
+  border-radius:999px;
+}
+html{
+  scroll-behavior:smooth;
+}
+
+.dual-link{
+  display:inline-block;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--gold);
+  padding:12px 16px;
+  border-radius:999px;
+  transition:all .3s ease;
+}
+.dual-link:hover{
+  background:var(--gold-l);
+  transform:translateY(-2px);
+}
+.dual-link.alt{
+  background:transparent;
+  color:var(--gold);
+  border:1px solid rgba(200,164,60,.35);
+}
+.dual-link.alt:hover{
+  background:rgba(200,164,60,.08);
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+}
+.detail-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:32px;
+}
+.detail-card h3{
+  font-family:"Cormorant Garamond",serif;
+  font-size:28px;
+  color:var(--white);
+  margin-bottom:14px;
+}
+.detail-card p{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:20px;
+}
+.detail-list{
+  display:grid;
+  gap:12px;
+}
+.detail-list div{
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:rgba(255,255,255,.025);
+  font-size:13px;
+  color:var(--white);
+}
+
+.form-wrap{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:36px;
+}
+.form-wrap h3{
+  font-family:"Cormorant Garamond",serif;
+  font-size:30px;
+  color:var(--white);
+  margin-bottom:12px;
+}
+.form-wrap p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+  margin-bottom:26px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.field.full{
+  grid-column:1 / -1;
+}
+.field label{
+  font-size:12px;
+  color:var(--gold);
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px 16px;
+  color:var(--white);
+  font-family:"Outfit",sans-serif;
+  font-size:14px;
+  outline:none;
+  transition:border-color .3s ease, background .3s ease;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--gold);
+  background:rgba(255,255,255,.06);
+}
+.field textarea{
+  min-height:130px;
+  resize:vertical;
+}
+.form-actions{
+  margin-top:24px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+@media(max-width:900px){
+  .detail-grid,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
 /* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
@@ -147,20 +341,261 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </nav></header>
 <section class="hero z">
   <div class="hero-content">
-    <div class="hero-eyebrow">Platform Feature</div>
-    <h1>Control Who<br><em>Enters Your</em><br><span class="stroke">Property.</span></h1>
-    <p class="hero-sub">HousingHub's Visitor Management system lets landlords, tenants, and security log, track, and approve all visitors digitally — keeping every property secure and fully accountable.</p>
+   <div class="hero-eyebrow">Platform Feature</div>
+<h1>Manage <em>Property Viewers</em><br>&amp; <span class="stroke">Tenant Guests</span></h1>
+<p class="hero-sub">
+  HousingHub's Visitor & Guest Management system helps propertyowners, tenants, agents, and security teams
+  digitally manage two important visitor categories: people coming to inspect available properties and
+  guests visiting occupied units. Every visit is logged, approved, tracked, and recorded in real time.
+</p>
+
+     
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started</a>
-      <a href="properties.php" class="btn-secondary">Browse Properties</a>
+      <a href="properties.php" class="btn-primary">Browse Properties</a>
     </div>
-    <div class="hero-stats">
-      <div><div class="hstat-num">500+</div><div class="hstat-label">Properties Using This</div></div>
-      <div><div class="hstat-num">100%</div><div class="hstat-label">Digital Log</div></div>
-      <div><div class="hstat-num">Real-Time</div><div class="hstat-label">Entry Tracking</div></div>
+    
+</section>
+
+    <section class="z reveal">
+  <div class="section-eyebrow">Two Visitor Types</div>
+  <h2 class="section-title">Built for <em>Inspections</em> &amp; <em>Tenant Guests</em></h2>
+  <p class="section-sub">
+    HousingHub is designed to manage both business-related visits to available properties and personal visits
+    to occupied units, giving propertyowners, tenants, and security full visibility across the entire property.
+  </p>
+
+  <div class="dual-grid">
+    <div class="dual-card">
+      <div class="dual-tag">Inspection Visitors</div>
+      <h3>People Coming to View a Property</h3>
+      <p>
+        This includes prospective tenants, buyers, agents, company representatives, and other approved visitors
+        who want to inspect a vacant or listed property before renting, buying, or making a decision.
+      </p>
+      <div class="dual-points">
+  <a href="#inspection-form" class="dual-link">Open Inspection Form</a>
+  <a href="#inspection-details" class="dual-link alt">View More Details</a>
+</div>
+    </div>
+
+    <div class="dual-card">
+      <div class="dual-tag">Tenant Guests</div>
+      <h3>People Visiting a Tenant</h3>
+      <p>
+        This includes friends, family members, personal guests, short-stay visitors, domestic support workers,
+        and service-related guests visiting a resident in an occupied unit.
+      </p>
+      <div class="dual-points">
+  <a href="#guest-form" class="dual-link">Open Guest Form</a>
+  <a href="#guest-details" class="dual-link alt">View More Details</a>
+</div>
     </div>
   </div>
 </section>
+
+<section class="z reveal">
+  <div class="section-eyebrow">Visitor Details</div>
+  <h2 class="section-title">More Details for <em>Each Visitor Type</em></h2>
+  <p class="section-sub">
+    HousingHub captures different details depending on whether the person is coming to inspect a property
+    or visiting a tenant, helping staff, landlords, and security teams handle every visit correctly.
+  </p>
+
+  <div class="detail-grid">
+    <div class="detail-card" id="inspection-details">
+      <h3>Property Inspection Visitors</h3>
+      <p>
+        This category is for prospective tenants, buyers, agents, company representatives, and other approved
+        individuals who want to inspect a vacant or listed property.
+      </p>
+      <div class="detail-list">
+        <div>Visitor full name and phone number</div>
+        <div>Email address for follow-up communication</div>
+        <div>Property or unit to be inspected</div>
+        <div>Preferred date and time for inspection</div>
+        <div>Purpose of visit or interest type</div>
+        <div>Assigned landlord, staff member, or agent</div>
+        <div>Arrival and departure tracking</div>
+        <div>Notes after inspection or next action</div>
+      </div>
+    </div>
+
+    <div class="detail-card" id="guest-details">
+      <h3>Tenant Guests</h3>
+      <p>
+        This category is for friends, relatives, personal visitors, short-stay guests, support workers,
+        or service visitors coming to an occupied unit.
+      </p>
+      <div class="detail-list">
+        <div>Guest full name and contact number</div>
+        <div>Tenant name and unit number</div>
+        <div>Relationship to tenant</div>
+        <div>Expected date and time of visit</div>
+        <div>Expected departure time</div>
+        <div>Tenant approval confirmation</div>
+        <div>Security check-in and check-out log</div>
+        <div>Flagging for suspicious or blocked guests</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="z reveal" id="inspection-form">
+  <div class="section-eyebrow">Inspection Form</div>
+  <h2 class="section-title">Property <em>Inspection Request</em></h2>
+  <p class="section-sub">
+    Visitors interested in viewing a property can complete this form to request an inspection and provide
+    all necessary details before arrival.
+  </p>
+
+  <div class="form-wrap">
+    <h3>Inspection Visitor Form</h3>
+    <p>Fill in the details below to schedule a property inspection.</p>
+
+    <form action="submit_inspection.php" method="POST">
+      <div class="form-grid">
+        <div class="field">
+          <label for="inspect_name">Full Name</label>
+          <input type="text" id="inspect_name" name="inspect_name" required>
+        </div>
+
+        <div class="field">
+          <label for="inspect_phone">Phone Number</label>
+          <input type="text" id="inspect_phone" name="inspect_phone" required>
+        </div>
+
+        <div class="field">
+          <label for="inspect_email">Email Address</label>
+          <input type="email" id="inspect_email" name="inspect_email">
+        </div>
+
+        <div class="field">
+          <label for="inspect_property">Property / Unit</label>
+          <input type="text" id="inspect_property" name="inspect_property" required>
+        </div>
+
+        <div class="field">
+          <label for="inspect_date">Inspection Date</label>
+          <input type="date" id="inspect_date" name="inspect_date" required>
+        </div>
+
+        <div class="field">
+          <label for="inspect_time">Preferred Time</label>
+          <input type="time" id="inspect_time" name="inspect_time" required>
+        </div>
+
+        <div class="field">
+          <label for="inspect_type">Visitor Type</label>
+          <select id="inspect_type" name="inspect_type" required>
+            <option value="">Select one</option>
+            <option value="Prospective Tenant">Prospective Tenant</option>
+            <option value="Buyer">Buyer</option>
+            <option value="Agent">Agent</option>
+            <option value="Company Representative">Company Representative</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="inspect_host">Assigned Staff / Agent</label>
+          <input type="text" id="inspect_host" name="inspect_host">
+        </div>
+
+        <div class="field full">
+          <label for="inspect_purpose">Purpose / Notes</label>
+          <textarea id="inspect_purpose" name="inspect_purpose" placeholder="State what property you want to inspect and any other useful details"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Submit Inspection Request</button>
+        <a href="#inspection-details" class="btn-secondary">View Inspection Details</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="z reveal" id="guest-form">
+  <div class="section-eyebrow">Guest Form</div>
+  <h2 class="section-title">Tenant <em>Guest Registration</em></h2>
+  <p class="section-sub">
+    Tenants can pre-register expected guests so security teams can verify them quickly and maintain
+    a proper digital record for every occupied unit.
+  </p>
+
+  <div class="form-wrap">
+    <h3>Tenant Guest Form</h3>
+    <p>Fill in the guest information below before the visitor arrives.</p>
+
+    <form action="submit_guest.php" method="POST">
+      <div class="form-grid">
+        <div class="field">
+          <label for="guest_name">Guest Full Name</label>
+          <input type="text" id="guest_name" name="guest_name" required>
+        </div>
+          
+        <div class="field">
+          <label for="guest_email">Guest Email Address</label>
+          <input type="email" id="guest_email" name="guest_email">
+        </div> 
+
+        <div class="field">
+          <label for="guest_phone">Guest Phone Number</label>
+          <input type="text" id="guest_phone" name="guest_phone" required>
+        </div>
+
+        <div class="field">
+          <label for="tenant_name">Tenant Name</label>
+          <input type="text" id="tenant_name" name="tenant_name" required>
+        </div>
+
+        <div class="field">
+          <label for="unit_number">Unit Number</label>
+          <input type="text" id="unit_number" name="unit_number" required>
+        </div>
+
+        <div class="field">
+          <label for="guest_relationship">Relationship to Tenant</label>
+          <select id="guest_relationship" name="guest_relationship" required>
+            <option value="">Select one</option>
+            <option value="Friend">Friend</option>
+            <option value="Family">Family</option>
+            <option value="Partner">Partner</option>
+            <option value="Domestic Staff">Domestic Staff</option>
+            <option value="Service Visitor">Service Visitor</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="guest_date">Visit Date</label>
+          <input type="date" id="guest_date" name="guest_date" required>
+        </div>
+
+        <div class="field">
+          <label for="guest_time">Expected Arrival Time</label>
+          <input type="time" id="guest_time" name="guest_time" required>
+        </div>
+
+        <div class="field">
+          <label for="guest_departure">Expected Departure Time</label>
+          <input type="time" id="guest_departure" name="guest_departure">
+        </div>
+
+        <div class="field full">
+          <label for="guest_notes">Additional Notes</label>
+          <textarea id="guest_notes" name="guest_notes" placeholder="Add any special instructions for security or management"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Register Guest</button>
+        <a href="#guest-details" class="btn-secondary">View Guest Details</a>
+      </div>
+    </form>
+  </div>
+</section>
+
 <section class="z reveal">
   <div class="section-eyebrow">The Problem &amp; The Fix</div>
   <h2 class="section-title">Before &amp; <em>After HousingHub</em></h2>
@@ -170,12 +605,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Digital visitor logbook accessible from any device in real time</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Tenants pre-register expected guests before they arrive</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Security receives instant digital notifications for approved visitors</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Full timestamped entry and exit records per unit and per property</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Flag and block unauthorised or suspicious visitors with one click</div></div>
   </div>
 </section>
-<section class="z reveal">
-  <div class="section-eyebrow">Getting Started</div>
-  <h2 class="section-title">How It <em>Works</em></h2>
-  <p class="section-sub">Simple steps to get up and running on HousingHub.</p>
-  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Register Your Property</div><div class="step-desc">Set up your property and units on HousingHub in minutes.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Enable Visitor Module</div><div class="step-desc">Activate visitor management from your landlord dashboard.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Log or Pre-Approve</div><div class="step-desc">Tenants pre-register guests; security logs walk-ins digitally.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Track &amp; Review</div><div class="step-desc">View full visitor history with timestamps from your dashboard.</div></div></div>
-</section>
+
+  
+  
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>
   <h2 class="section-title">Key <em>Features</em></h2>
@@ -187,7 +619,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Secure Your Property <em>Today.</em></h2>
     <p>Set up digital visitor management on HousingHub and know exactly who is on your property at all times.</p>
-    <a href="index.php" class="btn-primary">Get Started Free</a>
+    <a href="contact.php" class="btn-primary">Find us</a>
   </div>
 </section>
 

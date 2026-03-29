@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include "db_connect.php";
@@ -30,6 +29,22 @@ $total_tenants       = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as
 $total_staff         = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='staff'"))['count'];
 $pending_applications= mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM job_applications WHERE status='pending'"))['count'];
 $pending_requests    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM maintenance_requests WHERE status='pending'"))['count'];
+
+$pending_viewing_requests = 0;
+$_vr_check = mysqli_query($conn, "SHOW TABLES LIKE 'property_viewing_requests'");
+if ($_vr_check && mysqli_num_rows($_vr_check) > 0) {
+    $pending_viewing_requests = mysqli_fetch_assoc(
+        mysqli_query($conn, "SELECT COUNT(*) AS count FROM property_viewing_requests WHERE status='pending'")
+    )['count'] ?? 0;
+}
+
+$pending_guest_requests = 0;
+$_gr_check = mysqli_query($conn, "SHOW TABLES LIKE 'tenant_guest_requests'");
+if ($_gr_check && mysqli_num_rows($_gr_check) > 0) {
+    $pending_guest_requests = mysqli_fetch_assoc(
+        mysqli_query($conn, "SELECT COUNT(*) AS count FROM tenant_guest_requests WHERE status='pending'")
+    )['count'] ?? 0;
+}
 // Safe check — tenant_applications table may not exist yet
 $pending_tenant_apps = 0;
 $_ta_check = mysqli_query($conn, "SHOW TABLES LIKE 'tenant_applications'");
@@ -44,6 +59,12 @@ if ($_la_check && mysqli_num_rows($_la_check) > 0) {
 }
 $revenue             = mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(amount) as total FROM payments"))['total'];
 $unlinked_count      = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM tenants WHERE user_id IS NULL OR user_id = 0"))['count'];
+// Property applications count
+$pending_prop_apps = 0;
+$_pa_check = mysqli_query($conn, "SHOW TABLES LIKE 'property_applications'");
+if ($_pa_check && mysqli_num_rows($_pa_check) > 0) {
+    $pending_prop_apps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM property_applications WHERE status='pending'"))['count'] ?? 0;
+}
  
 $page = $_GET['page'] ?? 'dashboard';
  
@@ -71,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     header("Location: admin_dashboard.php?page=tenants"); exit();
 }
  
-// ── Handle assign property to owner ──
 // ── Handle assign property to owner ──
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_id']) && isset($_POST['property_id'])) {
     $ow_id = (int)$_POST['owner_id'];
@@ -224,6 +244,100 @@ if (isset($_POST['save_app_notes'])) {
     $_SESSION['admin_success'] = "Notes saved for application #$app_id.";
     header("Location: admin_dashboard.php?page=tenant_applications"); exit();
 }
+ 
+// ── Handle property application status update ──
+if (isset($_GET['pa_action']) && isset($_GET['pa_id'])) {
+    $pa_id     = (int)$_GET['pa_id'];
+    $pa_action = mysqli_real_escape_string($conn, $_GET['pa_action']);
+    if (in_array($pa_action, ['approved','rejected','pending','reviewing','contacted'])) {
+        $rb = mysqli_real_escape_string($conn, $user['fullname']);
+        $ra = date('Y-m-d H:i:s');
+        mysqli_query($conn, "UPDATE property_applications SET status='$pa_action', reviewed_by='$rb', reviewed_at='$ra' WHERE id=$pa_id");
+        if ($pa_action === 'approved') {
+            $pa_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM property_applications WHERE id=$pa_id LIMIT 1"));
+            if ($pa_row && !empty($pa_row['email'])) {
+                send_mail($pa_row['email'],
+                    "Your HousingHub Property Application Has Been Approved!",
+                    "Dear {$pa_row['fullname']},\n\nYour application to have HousingHub manage {$pa_row['property_name']} has been approved. Our team will contact you shortly.\n\nHousingHub Team"
+                );
+            }
+        }
+        $_SESSION['admin_success'] = "Application #$pa_id marked as <strong>" . ucfirst($pa_action) . "</strong>.";
+    }
+    header("Location: admin_dashboard.php?page=property_applications"); exit();
+}
+ 
+// ── Handle property application admin notes ──
+if (isset($_POST['save_pa_notes'])) {
+    $pa_id    = (int)$_POST['pa_id'];
+    $pa_notes = mysqli_real_escape_string($conn, trim($_POST['pa_admin_notes'] ?? ''));
+    mysqli_query($conn, "UPDATE property_applications SET admin_notes='$pa_notes' WHERE id=$pa_id");
+    $_SESSION['admin_success'] = "Notes saved.";
+    header("Location: admin_dashboard.php?page=property_applications"); exit();
+}
+ 
+// ── Property viewing request actions ──
+if (isset($_GET['vr_action']) && isset($_GET['vr_id'])) {
+    $vr_id = (int)$_GET['vr_id'];
+    $vr_action = mysqli_real_escape_string($conn, $_GET['vr_action']);
+    $valid_vr_actions = ['pending', 'approved', 'contacted', 'completed', 'rejected'];
+
+    if (in_array($vr_action, $valid_vr_actions)) {
+        $reviewed_by = mysqli_real_escape_string($conn, $user['fullname']);
+        $reviewed_at = date('Y-m-d H:i:s');
+
+        mysqli_query($conn, "
+            UPDATE property_viewing_requests
+            SET status='$vr_action', reviewed_by='$reviewed_by', reviewed_at='$reviewed_at'
+            WHERE id=$vr_id
+        ");
+
+        $_SESSION['admin_success'] = "Viewing request #$vr_id marked as <strong>" . ucfirst($vr_action) . "</strong>.";
+    }
+
+    header("Location: admin_dashboard.php?page=viewing_requests");
+    exit();
+}
+
+if (isset($_GET['delete_vr'])) {
+    $vr_id = (int)$_GET['delete_vr'];
+    mysqli_query($conn, "DELETE FROM property_viewing_requests WHERE id=$vr_id");
+    $_SESSION['admin_success'] = "Viewing request deleted.";
+    header("Location: admin_dashboard.php?page=viewing_requests");
+    exit();
+}
+
+// ── Tenant guest request actions ──
+if (isset($_GET['gr_action']) && isset($_GET['gr_id'])) {
+    $gr_id = (int)$_GET['gr_id'];
+    $gr_action = mysqli_real_escape_string($conn, $_GET['gr_action']);
+    $valid_gr_actions = ['pending', 'approved', 'checked_in', 'checked_out', 'rejected'];
+
+    if (in_array($gr_action, $valid_gr_actions)) {
+        $reviewed_by = mysqli_real_escape_string($conn, $user['fullname']);
+        $reviewed_at = date('Y-m-d H:i:s');
+
+        mysqli_query($conn, "
+            UPDATE tenant_guest_requests
+            SET status='$gr_action', reviewed_by='$reviewed_by', reviewed_at='$reviewed_at'
+            WHERE id=$gr_id
+        ");
+
+        $_SESSION['admin_success'] = "Guest request #$gr_id marked as <strong>" . ucfirst(str_replace('_', ' ', $gr_action)) . "</strong>.";
+    }
+
+    header("Location: admin_dashboard.php?page=guest_requests");
+    exit();
+}
+
+if (isset($_GET['delete_gr'])) {
+    $gr_id = (int)$_GET['delete_gr'];
+    mysqli_query($conn, "DELETE FROM tenant_guest_requests WHERE id=$gr_id");
+    $_SESSION['admin_success'] = "Guest request deleted.";
+    header("Location: admin_dashboard.php?page=guest_requests");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -316,7 +430,7 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
   <div class="sb-section">People</div>
   <a href="admin_dashboard.php?page=users" <?php echo ($page==='users')?'class="active"':''; ?>> Manage Users</a>
   <a href="admin_dashboard.php?page=tenants" <?php echo ($page==='tenants')?'class="active"':''; ?>>
-    Manage Tenants
+     Manage Tenants
     <?php if($unlinked_count > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $unlinked_count ?></span><?php endif; ?>
   </a>
   <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>> Brokers / Agents</a>
@@ -325,40 +439,55 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
   <div class="sb-section">Staff</div>
   <a href="admin_dashboard.php?page=staff_roles" <?php echo ($page==='staff_roles')?'class="active"':''; ?>> Staff Roles & Payroll</a>
   <a href="admin_dashboard.php?page=staff_tasks" <?php echo ($page==='staff_tasks')?'class="active"':''; ?>> Staff Tasks</a>
-  <a href="admin_dashboard.php?page=employee_performance" <?php echo ($page==='employee_performance')?'class="active"':''; ?>>📊 Employee Performance</a>
+  <a href="admin_dashboard.php?page=employee_performance" <?php echo ($page==='employee_performance')?'class="active"':''; ?>> Employee Performance</a>
   <a href="admin_dashboard.php?page=notice_board" <?php echo ($page==='notice_board')?'class="active"':''; ?>> Notice Board</a>
+  <div class="sb-section">Applications</div>
   <a href="admin_dashboard.php?page=jobs" <?php echo ($page==='jobs')?'class="active"':''; ?>>
      Employment Applications
     <?php if($pending_applications > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_applications ?></span><?php endif; ?>
   </a>
  
   <a href="admin_dashboard.php?page=tenant_applications" <?php echo ($page==='tenant_applications')?'class="active"':''; ?>>
-    Tenant Applications
+     Tenant Applications
     <?php if(!empty($pending_tenant_apps) && $pending_tenant_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_tenant_apps ?></span><?php endif; ?>
   </a>
   <a href="admin_dashboard.php?page=lease_applications" <?php echo ($page==='lease_applications')?'class="active"':''; ?>>
      Lease Applications
     <?php if(!empty($pending_lease_apps) && $pending_lease_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_lease_apps ?></span><?php endif; ?>
   </a>
- 
+  <a href="admin_dashboard.php?page=property_applications" <?php echo ($page==='property_applications')?'class="active"':''; ?>>
+     PropertyOwner Applications
+    <?php if(!empty($pending_prop_apps) && $pending_prop_apps > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_prop_apps ?></span><?php endif; ?>
+  </a>
+
+  <div class="sb-section">Viewings & Guests</div>
+  <a href="admin_dashboard.php?page=viewing_requests" <?php echo ($page==='viewing_requests')?'class="active"':''; ?>>
+   Property Viewing Requests
+   <?php if($pending_viewing_requests > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_viewing_requests ?></span><?php endif; ?>
+</a>
+ <a href="admin_dashboard.php?page=guest_requests" <?php echo ($page==='guest_requests')?'class="active"':''; ?>>
+   Tenant Guest Requests
+   <?php if($pending_guest_requests > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_guest_requests ?></span><?php endif; ?>
+</a>
+
   <div class="sb-section">Properties</div>
   <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>> Manage Properties</a>
   <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>> Property Inspections</a>
   <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>> Maintenance Requests</a>
  
   <div class="sb-section">Finance</div>
-  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>>Tenant Payments</a>
+  <a href="admin_dashboard.php?page=tenant_payments" <?php echo ($page==='tenant_payments')?'class="active"':''; ?>> Tenant Payments</a>
   <a href="admin_dashboard.php?page=payments" <?php echo ($page==='payments')?'class="active"':''; ?>> Rent Tracking</a>
-  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>> Revenue Reports</a>
+  <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>>Revenue Reports</a>
  
   <div class="sb-section">Other</div>
   <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>> Guest Approvals</a>
-  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>>Complaints & Feedback</a>
+  <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>> Complaints & Feedback</a>
   <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>> Tenant Documents</a>
   <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>> Notifications</a>
   <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>> System Settings</a>
   <a href="admin_dashboard.php?page=backups" <?php echo ($page==='backups')?'class="active"':''; ?>> Backup / Export</a>
-  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)">Logout</a>
+  <a href="logout.php" style="color:#fca5a5;margin-top:10px;border-top:1px solid var(--border)"> Logout</a>
 </div>
  
 <div class="header">
@@ -398,12 +527,14 @@ endif;
     <div class="circular-card"><h3>Pending Applications</h3><p><?= $pending_applications ?></p></div>
     <div class="circular-card"><h3>Pending Maintenance</h3><p><?= $pending_requests ?></p></div>
     <div class="circular-card"><h3>Revenue Collected</h3><p>UGX <?= number_format($revenue ?? 0) ?></p></div>
+    <div class="circular-card"><h3>Viewing Requests</h3><p><?= $pending_viewing_requests ?></p></div>
+    <div class="circular-card"><h3>Guest Requests</h3><p><?= $pending_guest_requests ?></p></div>
   </div>
 </section>
  
 <?php elseif($page === 'notice_board'): ?>
 <section id="notice_board">
-  <h2 style="color:var(--gold)"> Notice Board</h2>
+  <h2 style="color:var(--gold)">📢 Notice Board</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:24px">Post announcements that all staff members will see on their dashboard.</p>
  
   <!-- POST NEW NOTICE FORM -->
@@ -1562,6 +1693,391 @@ support@housinghuborg.ug";
   <?php endif; ?>
 </section>
  
+<?php elseif($page === 'property_applications'): ?>
+<section id="property_applications">
+  <h2 style="text-align:center;color:var(--gold)">🏠 PROPERTY APPLICATIONS</h2>
+  <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:24px">Applications from property owners who want HousingHub to manage their properties.</p>
+ 
+  <?php
+  mysqli_query($conn, "CREATE TABLE IF NOT EXISTS property_applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(200) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(200) DEFAULT NULL,
+    occupation VARCHAR(200) DEFAULT NULL,
+    owner_location VARCHAR(200) DEFAULT NULL,
+    property_name VARCHAR(200) NOT NULL,
+    property_type VARCHAR(100) DEFAULT NULL,
+    property_address TEXT DEFAULT NULL,
+    units INT DEFAULT 1,
+    rent_amount DECIMAL(12,2) DEFAULT 0,
+    bedrooms INT DEFAULT 0,
+    property_status VARCHAR(200) DEFAULT NULL,
+    amenities TEXT DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    services_needed VARCHAR(200) DEFAULT NULL,
+    start_timeline VARCHAR(100) DEFAULT NULL,
+    referral_source VARCHAR(100) DEFAULT NULL,
+    questions TEXT DEFAULT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    reviewed_by VARCHAR(200) DEFAULT NULL,
+    reviewed_at DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT NOW()
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+ 
+    // [handlers moved to top]
+ 
+  // Handle admin notes
+  if (isset($_POST['save_pa_notes'])) {
+      $pa_id    = (int)$_POST['pa_id'];
+      $pa_notes = mysqli_real_escape_string($conn, trim($_POST['pa_admin_notes'] ?? ''));
+      mysqli_query($conn, "UPDATE property_applications SET admin_notes='$pa_notes' WHERE id=$pa_id");
+      $_SESSION['admin_success'] = "Notes saved.";
+      header("Location: admin_dashboard.php?page=property_applications"); exit();
+  }
+ 
+  $pa_total     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications"))['c'] ?? 0;
+  $pa_pending   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications WHERE status='pending'"))['c'] ?? 0;
+  $pa_reviewing = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications WHERE status IN ('reviewing','contacted')"))['c'] ?? 0;
+  $pa_approved  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications WHERE status='approved'"))['c'] ?? 0;
+  $pa_rejected  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications WHERE status='rejected'"))['c'] ?? 0;
+  ?>
+ 
+  <div class="stat-row" style="margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $pa_total ?></div><div class="stat-box-lbl">Total</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $pa_pending ?></div><div class="stat-box-lbl">Pending</div></div>
+    <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $pa_reviewing ?></div><div class="stat-box-lbl">In Progress</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $pa_approved ?></div><div class="stat-box-lbl">Approved</div></div>
+  </div>
+ 
+  <?php
+  $view_pa = null;
+  if (isset($_GET['view_pa'])) {
+      $vpid = (int)$_GET['view_pa'];
+      $view_pa = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM property_applications WHERE id=$vpid LIMIT 1"));
+  }
+  ?>
+ 
+  <?php if($view_pa): ?>
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white)"><?= htmlspecialchars($view_pa['fullname']) ?></div>
+        <div style="font-size:12px;color:var(--muted)">Application #<?= $view_pa['id'] ?> · <?= $view_pa['created_at'] ? date('d M Y, H:i', strtotime($view_pa['created_at'])) : '—' ?></div>
+      </div>
+      <a href="admin_dashboard.php?page=property_applications" class="action-btn" style="font-size:12px">← Back</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px">
+      <?php foreach([
+        'Phone'=>$view_pa['phone'],'Email'=>$view_pa['email'],'Occupation'=>$view_pa['occupation'],
+        'Owner Location'=>$view_pa['owner_location'],'Property Name'=>$view_pa['property_name'],
+        'Property Type'=>$view_pa['property_type'],'Address'=>$view_pa['property_address'],
+        'Units'=>$view_pa['units'],'Rent/Unit'=>$view_pa['rent_amount']?'UGX '.number_format($view_pa['rent_amount']):'—',
+        'Bedrooms'=>$view_pa['bedrooms'],'Current Status'=>$view_pa['property_status'],
+        'Services Needed'=>$view_pa['services_needed'],'Start Timeline'=>$view_pa['start_timeline'],
+        'Referral Source'=>$view_pa['referral_source'],'App Status'=>ucfirst($view_pa['status']??'pending'),
+      ] as $lbl=>$val): ?>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $lbl ?></div>
+        <div style="font-size:13px;color:var(--white)"><?= htmlspecialchars($val ?? '—') ?></div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php foreach(['Amenities'=>'amenities','Description'=>'description','Questions/Notes'=>'questions'] as $lbl=>$key): if(!empty($view_pa[$key])): ?>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:12px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $lbl ?></div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.6"><?= htmlspecialchars($view_pa[$key]) ?></div>
+    </div>
+    <?php endif; endforeach; ?>
+ 
+    <!-- QUICK ACTIONS -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)">
+      <?php $pst = strtolower($view_pa['status']??'pending'); ?>
+      <?php if($pst!=='contacted'): ?><a href="admin_dashboard.php?page=property_applications&pa_action=contacted&pa_id=<?= $view_pa['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">📞 Mark Contacted</a><?php endif; ?>
+      <?php if($pst!=='reviewing'): ?><a href="admin_dashboard.php?page=property_applications&pa_action=reviewing&pa_id=<?= $view_pa['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">🔍 Reviewing</a><?php endif; ?>
+      <?php if($pst!=='approved'): ?><a href="admin_dashboard.php?page=property_applications&pa_action=approved&pa_id=<?= $view_pa['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac" onclick="return confirm('Approve and send congratulations email?')">✓ Approve</a><?php endif; ?>
+      <?php if($pst!=='rejected'): ?><a href="admin_dashboard.php?page=property_applications&pa_action=rejected&pa_id=<?= $view_pa['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Reject?')">✕ Reject</a><?php endif; ?>
+      <a href="admin_dashboard.php?page=propertyowners" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb)">🏢 Add as Property Owner</a>
+      <a href="delete_record.php?table=property_applications&id=<?= $view_pa['id'] ?>&redirect=admin_dashboard.php?page=property_applications" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5" onclick="return confirm('Delete?')">🗑 Delete</a>
+    </div>
+ 
+    <!-- ADMIN NOTES -->
+    <div style="margin-top:20px">
+      <form method="POST">
+        <input type="hidden" name="pa_id" value="<?= $view_pa['id'] ?>">
+        <label style="display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Admin Notes (Internal)</label>
+        <textarea name="pa_admin_notes" rows="3" style="width:100%;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:7px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:10px"><?= htmlspecialchars($view_pa['admin_notes']??'') ?></textarea>
+        <button type="submit" name="save_pa_notes" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb)">💾 Save Notes</button>
+      </form>
+    </div>
+  </div>
+ 
+  <?php else: ?>
+  <?php
+  $pa_filter = $_GET['filter'] ?? 'all';
+  $pa_where  = $pa_filter !== 'all' ? "WHERE status='" . mysqli_real_escape_string($conn,$pa_filter) . "'" : '';
+  $pa_q = mysqli_query($conn, "SELECT * FROM property_applications $pa_where ORDER BY created_at DESC");
+  ?>
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+    <?php foreach(['all'=>'All','pending'=>'Pending','contacted'=>'Contacted','reviewing'=>'Reviewing','approved'=>'Approved','rejected'=>'Rejected'] as $k=>$lbl):
+      $act = $pa_filter===$k;
+      $cnt = $k!=='all' ? (mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_applications WHERE status='".mysqli_real_escape_string($conn,$k)."'"))['c']??0) : $pa_total;
+    ?>
+    <a href="admin_dashboard.php?page=property_applications&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$act?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$act?'var(--gb)':'var(--border)'?>;color:<?=$act?'var(--gold)':'var(--muted)'?>">
+      <?=$lbl?> <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$cnt?></span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+  <table>
+    <tr><th>#</th><th>Applicant</th><th>Property</th><th>Units</th><th>Services</th><th>Timeline</th><th>Applied</th><th>Status</th><th>Actions</th></tr>
+    <?php if(!$pa_q || mysqli_num_rows($pa_q)==0): ?>
+    <tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No property applications yet. Share <strong>get_started.php</strong> with property owners.</td></tr>
+    <?php else: $i=1; while($pa = mysqli_fetch_assoc($pa_q)):
+      $st  = strtolower($pa['status']??'pending');
+      $sc  = match($st){ 'approved'=>'#86efac','rejected'=>'#fca5a5','reviewing','contacted'=>'#5b9cff',default=>'var(--gold)' };
+      $sbg = match($st){ 'approved'=>'rgba(22,163,74,.1)','rejected'=>'rgba(239,68,68,.1)','reviewing','contacted'=>'rgba(59,130,246,.1)',default=>'rgba(200,164,60,.1)' };
+      $sbd = match($st){ 'approved'=>'rgba(22,163,74,.3)','rejected'=>'rgba(239,68,68,.3)','reviewing','contacted'=>'rgba(59,130,246,.3)',default=>'var(--gb)' };
+    ?>
+    <tr>
+      <td style="color:var(--muted)"><?= $i++ ?></td>
+      <td>
+        <div style="font-weight:600"><?= htmlspecialchars($pa['fullname']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($pa['phone']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($pa['email']??'—') ?></div>
+      </td>
+      <td>
+        <div style="font-size:13px;font-weight:600"><?= htmlspecialchars($pa['property_name']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($pa['property_type']??'—') ?> · <?= htmlspecialchars($pa['property_address']??'—') ?></div>
+      </td>
+      <td style="text-align:center;color:var(--gold)"><?= (int)$pa['units'] ?></td>
+      <td style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($pa['services_needed']??'—') ?></td>
+      <td style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($pa['start_timeline']??'—') ?></td>
+      <td style="font-size:11px;color:var(--muted)"><?= $pa['created_at']?date('d M Y',strtotime($pa['created_at'])):'—' ?></td>
+      <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span></td>
+      <td style="white-space:nowrap">
+        <a href="admin_dashboard.php?page=property_applications&view_pa=<?= $pa['id'] ?>" class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">👁 View</a>
+        <?php if($st==='pending'): ?>
+        <a href="admin_dashboard.php?page=property_applications&pa_action=contacted&pa_id=<?= $pa['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff;font-size:11px">📞</a>
+        <?php elseif(in_array($st,['contacted','reviewing'])): ?>
+        <a href="admin_dashboard.php?page=property_applications&pa_action=approved&pa_id=<?= $pa['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:11px" onclick="return confirm('Approve?')">✓</a>
+        <a href="admin_dashboard.php?page=property_applications&pa_action=rejected&pa_id=<?= $pa['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px" onclick="return confirm('Reject?')">✕</a>
+        <?php endif; ?>
+      </td>
+    </tr>
+    <?php endwhile; endif; ?>
+  </table>
+  <?php endif; ?>
+</section>
+ <?php elseif($page === 'viewing_requests'): ?>
+<section id="viewing_requests">
+  <h2 style="text-align:center;color:var(--gold)">PROPERTY VIEWING REQUESTS</h2>
+
+  <?php
+  mysqli_query($conn, "CREATE TABLE IF NOT EXISTS property_viewing_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    property_id INT DEFAULT NULL,
+    fullname VARCHAR(200) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(200) DEFAULT NULL,
+    property_name VARCHAR(200) NOT NULL,
+    inspection_date DATE NOT NULL,
+    inspection_time TIME NOT NULL,
+    visitor_type VARCHAR(100) NOT NULL,
+    assigned_host VARCHAR(200) DEFAULT NULL,
+    purpose_notes TEXT DEFAULT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    reviewed_by VARCHAR(200) DEFAULT NULL,
+    reviewed_at DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+  $vr_total     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests"))['c'] ?? 0;
+  $vr_pending   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='pending'"))['c'] ?? 0;
+  $vr_approved  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='approved'"))['c'] ?? 0;
+  $vr_contacted = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='contacted'"))['c'] ?? 0;
+  $vr_completed = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='completed'"))['c'] ?? 0;
+  $vr_rejected  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='rejected'"))['c'] ?? 0;
+
+  $vr_filter = $_GET['filter'] ?? 'all';
+  $vr_where = $vr_filter !== 'all' ? "WHERE status='" . mysqli_real_escape_string($conn, $vr_filter) . "'" : '';
+  $vr_q = mysqli_query($conn, "SELECT * FROM property_viewing_requests $vr_where ORDER BY created_at DESC");
+  ?>
+
+  <div class="stat-row" style="margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $vr_total ?></div><div class="stat-box-lbl">Total</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $vr_pending ?></div><div class="stat-box-lbl">Pending</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $vr_approved ?></div><div class="stat-box-lbl">Approved</div></div>
+    <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $vr_contacted ?></div><div class="stat-box-lbl">Contacted</div></div>
+    <div class="stat-box" style="border-color:rgba(200,164,60,.3)"><div class="stat-box-val"><?= $vr_completed ?></div><div class="stat-box-lbl">Completed</div></div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+    <?php foreach(['all'=>'All','pending'=>'Pending','approved'=>'Approved','contacted'=>'Contacted','completed'=>'Completed','rejected'=>'Rejected'] as $k=>$lbl):
+      $active = $vr_filter===$k;
+      $count = $k==='all' ? $vr_total : (mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM property_viewing_requests WHERE status='".mysqli_real_escape_string($conn,$k)."'"))['c'] ?? 0);
+    ?>
+    <a href="admin_dashboard.php?page=viewing_requests&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$active?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$active?'var(--gb)':'var(--border)'?>;color:<?=$active?'var(--gold)':'var(--muted)'?>">
+      <?=$lbl?> <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$count?></span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Visitor</th>
+      <th>Property</th>
+      <th>Date & Time</th>
+      <th>Type</th>
+      <th>Host</th>
+      <th>Purpose</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+
+    <?php if(!$vr_q || mysqli_num_rows($vr_q)===0): ?>
+      <tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No viewing requests found.</td></tr>
+    <?php else: $i=1; while($vr = mysqli_fetch_assoc($vr_q)):
+      $st  = strtolower($vr['status'] ?? 'pending');
+      $sc  = match($st){ 'approved'=>'#86efac','rejected'=>'#fca5a5','contacted'=>'#5b9cff','completed'=>'#e0c06a',default=>'var(--gold)' };
+      $sbg = match($st){ 'approved'=>'rgba(22,163,74,.1)','rejected'=>'rgba(239,68,68,.1)','contacted'=>'rgba(59,130,246,.1)','completed'=>'rgba(200,164,60,.1)',default=>'rgba(200,164,60,.1)' };
+      $sbd = match($st){ 'approved'=>'rgba(22,163,74,.3)','rejected'=>'rgba(239,68,68,.3)','contacted'=>'rgba(59,130,246,.3)','completed'=>'rgba(200,164,60,.3)',default=>'var(--gb)' };
+    ?>
+    <tr>
+      <td style="color:var(--muted)"><?= $i++ ?></td>
+      <td>
+        <div style="font-weight:600"><?= htmlspecialchars($vr['fullname']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($vr['phone']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($vr['email'] ?: '—') ?></div>
+      </td>
+      <td><?= htmlspecialchars($vr['property_name']) ?></td>
+      <td style="font-size:12px;color:var(--muted)">
+        <?= $vr['inspection_date'] ? date('d M Y', strtotime($vr['inspection_date'])) : '—' ?><br>
+        <?= htmlspecialchars($vr['inspection_time']) ?>
+      </td>
+      <td><?= htmlspecialchars($vr['visitor_type']) ?></td>
+      <td><?= htmlspecialchars($vr['assigned_host'] ?: '—') ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars(substr($vr['purpose_notes'] ?? '', 0, 55)) ?><?= !empty($vr['purpose_notes']) && strlen($vr['purpose_notes']) > 55 ? '...' : '' ?></td>
+      <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span></td>
+      <td style="white-space:nowrap">
+        <a href="admin_dashboard.php?page=viewing_requests&vr_action=approved&vr_id=<?= $vr['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac">Approve</a>
+        <a href="admin_dashboard.php?page=viewing_requests&vr_action=contacted&vr_id=<?= $vr['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">Contacted</a>
+        <a href="admin_dashboard.php?page=viewing_requests&vr_action=completed&vr_id=<?= $vr['id'] ?>" class="action-btn">Complete</a>
+        <a href="admin_dashboard.php?page=viewing_requests&vr_action=rejected&vr_id=<?= $vr['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5">Reject</a>
+        <a href="admin_dashboard.php?page=viewing_requests&delete_vr=<?= $vr['id'] ?>" class="action-btn" onclick="return confirm('Delete this request?')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5">Delete</a>
+      </td>
+    </tr>
+    <?php endwhile; endif; ?>
+  </table>
+</section>
+
+<?php elseif($page === 'guest_requests'): ?>
+<section id="guest_requests">
+  <h2 style="text-align:center;color:var(--gold)">TENANT GUEST REQUESTS</h2>
+
+  <?php
+  mysqli_query($conn, "CREATE TABLE IF NOT EXISTS tenant_guest_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT DEFAULT NULL,
+    property_id INT DEFAULT NULL,
+    guest_name VARCHAR(200) NOT NULL,
+    guest_phone VARCHAR(50) NOT NULL,
+    tenant_name VARCHAR(200) NOT NULL,
+    unit_number VARCHAR(100) DEFAULT NULL,
+    guest_relationship VARCHAR(100) NOT NULL,
+    visit_date DATE NOT NULL,
+    arrival_time TIME NOT NULL,
+    departure_time TIME DEFAULT NULL,
+    guest_notes TEXT DEFAULT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    reviewed_by VARCHAR(200) DEFAULT NULL,
+    reviewed_at DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+  $gr_total      = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests"))['c'] ?? 0;
+  $gr_pending    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='pending'"))['c'] ?? 0;
+  $gr_approved   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='approved'"))['c'] ?? 0;
+  $gr_checked_in = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='checked_in'"))['c'] ?? 0;
+  $gr_checked_out= mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='checked_out'"))['c'] ?? 0;
+  $gr_rejected   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='rejected'"))['c'] ?? 0;
+
+  $gr_filter = $_GET['filter'] ?? 'all';
+  $gr_where = $gr_filter !== 'all' ? "WHERE status='" . mysqli_real_escape_string($conn, $gr_filter) . "'" : '';
+  $gr_q = mysqli_query($conn, "SELECT * FROM tenant_guest_requests $gr_where ORDER BY created_at DESC");
+  ?>
+
+  <div class="stat-row" style="margin-bottom:24px">
+    <div class="stat-box"><div class="stat-box-val"><?= $gr_total ?></div><div class="stat-box-lbl">Total</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $gr_pending ?></div><div class="stat-box-lbl">Pending</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $gr_approved ?></div><div class="stat-box-lbl">Approved</div></div>
+    <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $gr_checked_in ?></div><div class="stat-box-lbl">Checked In</div></div>
+    <div class="stat-box" style="border-color:rgba(200,164,60,.3)"><div class="stat-box-val"><?= $gr_checked_out ?></div><div class="stat-box-lbl">Checked Out</div></div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+    <?php foreach(['all'=>'All','pending'=>'Pending','approved'=>'Approved','checked_in'=>'Checked In','checked_out'=>'Checked Out','rejected'=>'Rejected'] as $k=>$lbl):
+      $active = $gr_filter===$k;
+      $count = $k==='all' ? $gr_total : (mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM tenant_guest_requests WHERE status='".mysqli_real_escape_string($conn,$k)."'"))['c'] ?? 0);
+    ?>
+    <a href="admin_dashboard.php?page=guest_requests&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$active?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$active?'var(--gb)':'var(--border)'?>;color:<?=$active?'var(--gold)':'var(--muted)'?>">
+      <?=$lbl?> <span style="background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$count?></span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Guest</th>
+      <th>Tenant / Unit</th>
+      <th>Date & Time</th>
+      <th>Relationship</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+
+    <?php if(!$gr_q || mysqli_num_rows($gr_q)===0): ?>
+      <tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">No guest requests found.</td></tr>
+    <?php else: $i=1; while($gr = mysqli_fetch_assoc($gr_q)):
+      $st  = strtolower($gr['status'] ?? 'pending');
+      $sc  = match($st){ 'approved'=>'#86efac','rejected'=>'#fca5a5','checked_in'=>'#5b9cff','checked_out'=>'#e0c06a',default=>'var(--gold)' };
+      $sbg = match($st){ 'approved'=>'rgba(22,163,74,.1)','rejected'=>'rgba(239,68,68,.1)','checked_in'=>'rgba(59,130,246,.1)','checked_out'=>'rgba(200,164,60,.1)',default=>'rgba(200,164,60,.1)' };
+      $sbd = match($st){ 'approved'=>'rgba(22,163,74,.3)','rejected'=>'rgba(239,68,68,.3)','checked_in'=>'rgba(59,130,246,.3)','checked_out'=>'rgba(200,164,60,.3)',default=>'var(--gb)' };
+    ?>
+    <tr>
+      <td style="color:var(--muted)"><?= $i++ ?></td>
+      <td>
+        <div style="font-weight:600"><?= htmlspecialchars($gr['guest_name']) ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($gr['guest_phone']) ?></div>
+      </td>
+      <td>
+        <div><?= htmlspecialchars($gr['tenant_name']) ?></div>
+        <div style="font-size:11px;color:var(--muted)">Unit: <?= htmlspecialchars($gr['unit_number'] ?: '—') ?></div>
+      </td>
+      <td style="font-size:12px;color:var(--muted)">
+        <?= $gr['visit_date'] ? date('d M Y', strtotime($gr['visit_date'])) : '—' ?><br>
+        In: <?= htmlspecialchars($gr['arrival_time']) ?><br>
+        Out: <?= htmlspecialchars($gr['departure_time'] ?: '—') ?>
+      </td>
+      <td><?= htmlspecialchars($gr['guest_relationship']) ?></td>
+      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars(substr($gr['guest_notes'] ?? '', 0, 55)) ?><?= !empty($gr['guest_notes']) && strlen($gr['guest_notes']) > 55 ? '...' : '' ?></td>
+      <td><span style="padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst(str_replace('_',' ',$st)) ?></span></td>
+      <td style="white-space:nowrap">
+        <a href="admin_dashboard.php?page=guest_requests&gr_action=approved&gr_id=<?= $gr['id'] ?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac">Approve</a>
+        <a href="admin_dashboard.php?page=guest_requests&gr_action=checked_in&gr_id=<?= $gr['id'] ?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">Check In</a>
+        <a href="admin_dashboard.php?page=guest_requests&gr_action=checked_out&gr_id=<?= $gr['id'] ?>" class="action-btn">Check Out</a>
+        <a href="admin_dashboard.php?page=guest_requests&gr_action=rejected&gr_id=<?= $gr['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5">Reject</a>
+        <a href="admin_dashboard.php?page=guest_requests&delete_gr=<?= $gr['id'] ?>" class="action-btn" onclick="return confirm('Delete this guest request?')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5">Delete</a>
+      </td>
+    </tr>
+    <?php endwhile; endif; ?>
+  </table>
+</section>
 <?php endif; ?>
  
 </div>

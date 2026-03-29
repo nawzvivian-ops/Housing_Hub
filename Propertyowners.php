@@ -231,7 +231,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h1>Grow Your<br>Property<br><em>Portfolio.</em></h1>
     <p class="hero-sub">HousingHub empowers property owners across Uganda to manage multiple properties, track portfolio performance, generate income reports, and attract quality tenants &mdash; all from a single powerful dashboard.</p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started Free</a>
+      <a href="getstarted.php" class="btn-primary">Get Started for Free</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
@@ -324,7 +324,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Ready to <em>Grow</em> Your Portfolio?</h2>
     <p>Join thousands of property owners across Uganda who use HousingHub to manage, grow, and track their property portfolios.</p>
-    <a href="index.php" class="btn-primary">Create Your Free Account</a>
+    <a href="index.php" class="btn-primary">join us </a>
   </div>
 </section>
 

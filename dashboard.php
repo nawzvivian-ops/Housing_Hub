@@ -186,7 +186,7 @@ body{cursor:none}
 #cd{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
 #cr{width:22px;height:22px;border:1.5px solid rgba(200,164,60,.6);border-radius:50%;position:fixed;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:left .08s,top .08s,width .3s,height .3s}
 body.ch #cd{width:6px;height:6px;background:#fff}
-body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
+body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
 .pbg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 80% 5%,rgba(14,90,200,.18),transparent 55%),radial-gradient(ellipse 50% 70% at 5% 95%,rgba(180,140,40,.12),transparent 50%),var(--ink)}
 .pgr{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:72px 72px}
  
@@ -412,7 +412,7 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sb" id="sb">
   <div class="sb-head">
-    <div class="sb-logo-icon">🏠</div>
+    <div class="sb-logo-icon"></div>
     <div><div class="sb-logo-text">HOUSING HUB</div><div class="sb-logo-sub">Tenant Portal</div></div>
   </div>
   <div class="sb-tenant">
@@ -423,18 +423,18 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
   </div>
   <nav class="sb-nav">
     <div class="nl">Main</div>
-    <button class="na active" onclick="show('overview',this)"><span class="ni">🏠</span>Overview</button>
-    <button class="na" onclick="show('property',this)"><span class="ni">🏢</span>My Property</button>
-    <button class="na" onclick="show('payments',this)"><span class="ni">💳</span>Payments<?php if($pending_pay>0):?><span class="nb"><?=$pending_pay?></span><?php endif;?></button>
-    <button class="na" onclick="show('lease',this)"><span class="ni">📄</span>Lease Agreement</button>
+    <button class="na active" onclick="show('overview',this)"><span class="ni"></span>Overview</button>
+    <button class="na" onclick="show('property',this)"><span class="ni"></span>My Property</button>
+    <button class="na" onclick="show('payments',this)"><span class="ni"></span>Payments<?php if($pending_pay>0):?><span class="nb"><?=$pending_pay?></span><?php endif;?></button>
+    <button class="na" onclick="show('lease',this)"><span class="ni"></span>Lease Agreement</button>
     <div class="nl">Services</div>
-    <button class="na" onclick="show('maintenance',this)"><span class="ni">🔧</span>Maintenance<?php if($open_maint>0):?><span class="nb r"><?=$open_maint?></span><?php endif;?></button>
-    <button class="na" onclick="show('visitors',this)"><span class="ni">🪪</span>Visitor Management</button>
-    <button class="na" onclick="show('complaints',this)"><span class="ni">💬</span>Complaints &amp; Feedback</button>
+    <button class="na" onclick="show('maintenance',this)"><span class="ni"></span>Maintenance<?php if($open_maint>0):?><span class="nb r"><?=$open_maint?></span><?php endif;?></button>
+    <button class="na" onclick="show('visitors',this)"><span class="ni"></span>Visitor Management</button>
+    <button class="na" onclick="show('complaints',this)"><span class="ni"></span>Complaints &amp; Feedback</button>
     <div class="nl">Account</div>
-    <button class="na" onclick="show('notifications',this)"><span class="ni">🔔</span>Notifications<?php if($unread_count>0):?><span class="nb"><?=$unread_count?></span><?php endif;?></button>
-    <button class="na" onclick="show('profile',this)"><span class="ni">👤</span>My Profile</button>
-    <button class="na" onclick="show('documents',this)"><span class="ni">📁</span>My Documents<?php if(!empty($documents)):?><span class="nb"><?=count($documents)?></span><?php endif;?></button>
+    <button class="na" onclick="show('notifications',this)"><span class="ni"></span>Notifications<?php if($unread_count>0):?><span class="nb"><?=$unread_count?></span><?php endif;?></button>
+    <button class="na" onclick="show('profile',this)"><span class="ni"></span>My Profile</button>
+    <button class="na" onclick="show('documents',this)"><span class="ni"></span>My Documents<?php if(!empty($documents)):?><span class="nb"><?=count($documents)?></span><?php endif;?></button>
   </nav>
   <div class="sb-foot"><a href="logout.php" class="lo">⬡ &nbsp;Sign Out</a></div>
 </aside>
@@ -464,10 +464,10 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
       <div style="font-size:50px;opacity:.85;flex-shrink:0">🌤</div>
     </div>
     <div class="ch4">
-      <div class="mc-card"><div class="mc-icon">💰</div><div class="mc-val g">UGX <?= $rent_amount ?></div><div class="mc-lbl">Monthly Rent</div><div class="mc-sub">Due 1st of month</div></div>
-      <div class="mc-card"><div class="mc-icon">🔧</div><div class="mc-val <?= $open_maint>0?'r':'gr' ?>"><?= $open_maint ?></div><div class="mc-lbl">Open Maintenance</div><div class="mc-sub <?= $open_maint>0?'n':'' ?>"><?= $open_maint>0?'Needs attention':'All resolved' ?></div></div>
-      <div class="mc-card"><div class="mc-icon">📄</div><div class="mc-val gr">Active</div><div class="mc-lbl">Lease Status</div><div class="mc-sub">Expires <?= $lease_end ?></div></div>
-      <div class="mc-card"><div class="mc-icon">🔔</div><div class="mc-val <?= $unread_count>0?'g':'' ?>"><?= $unread_count ?></div><div class="mc-lbl">Unread Alerts</div><div class="mc-sub">Notifications</div></div>
+      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val g">UGX <?= $rent_amount ?></div><div class="mc-lbl">Monthly Rent</div><div class="mc-sub">Due 1st of month</div></div>
+      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val <?= $open_maint>0?'r':'gr' ?>"><?= $open_maint ?></div><div class="mc-lbl">Open Maintenance</div><div class="mc-sub <?= $open_maint>0?'n':'' ?>"><?= $open_maint>0?'Needs attention':'All resolved' ?></div></div>
+      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val gr">Active</div><div class="mc-lbl">Lease Status</div><div class="mc-sub">Expires <?= $lease_end ?></div></div>
+      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val <?= $unread_count>0?'g':'' ?>"><?= $unread_count ?></div><div class="mc-lbl">Unread Alerts</div><div class="mc-sub">Notifications</div></div>
     </div>
     <div class="ch2">
       <div class="card">
@@ -527,8 +527,8 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
     <div class="ch3">
       <!-- MTN MOBILE MONEY -->
       <div class="pc pc-momo">
-        <div class="pc-icon">📱</div>
-        <div class="pc-title">MTN Mobile Money</div>
+        <div class="pc-icon"></div>
+        <div class="pc-title"> Mobile Money</div>
         <div class="pc-sub">MTN MoMo · Airtel Money</div>
         <div class="pc-tag">Instant confirmation</div>
         <form method="POST" action="process_payment.php">
@@ -546,7 +546,7 @@ body.ch #cr{width:30px;height:30px;background:rgba(200,164,60,.06)}
  
       <!-- CARD -->
       <div class="pc pc-card">
-        <div class="pc-icon">💳</div>
+        <div class="pc-icon"></div>
         <div class="pc-title">Debit / Credit Card</div>
         <div class="pc-sub">Visa · Mastercard · Verve</div>
         <div class="pc-tag">Secured by Flutterwave</div>
