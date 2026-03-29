@@ -192,6 +192,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="dd-menu">
         <a href="tenant.php">Tenant</a>
         <a href="staff.php">Staff</a>
+        <a href="visitor.php">Guests</a>
         <a href="propertyowners.php">Property Owners</a>
         <a href="broker.php">Broker-Free</a>
         <a href="employment.php">Employment</a>
@@ -235,8 +236,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       paperwork, HousingHub handles the process digitally from listing to deal closure.
     </p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started Free</a>
-      <a href="properties.php" class="btn-secondary">Browse Properties</a>
+      <a href="properties.php" class="btn-primary">Browse Properties</a>
     </div>
     <div class="hero-stats">
       <div><div class="hstat-num">500+</div><div class="hstat-label">Properties Managed</div></div>
@@ -463,7 +463,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       Let HousingHub market your property, manage leads, and help you close deals
       faster through one digital platform.
     </p>
-    <a href="index.php" class="btn-primary">Create Your Free Account</a>
+    <a href="contact.php" class="btn-primary">Contact Us</a>
   </div>
 </section>
 
@@ -497,6 +497,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <h3>Use Cases</h3>
       <a href="tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
+      <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
       <a href="broker.php">Broker-free</a>
       <a href="employment.php">Employment</a>

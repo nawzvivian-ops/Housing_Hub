@@ -132,7 +132,9 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
       <a href="tenant.php">Tenant</a><a href="staff.php">Staff</a>
-      <a href="propertyowner.php">Property Owner</a><a href="Broker.php">Broker-Free</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Broker-Free</a>
       <a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
@@ -204,7 +206,9 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     </div>
     <div class="quick-col"><h3>Use Cases</h3>
       <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
-      <a href="propertyowners.php">Property Owners</a><a href="broker.php">Broker-Free</a><a href="employment.php">Employment</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker-Free</a><a href="employment.php">Employment</a>
     </div>
     <div class="quick-col"><h3>Properties</h3>
       <a href="properties.php">All Properties</a><a href="properties.php?type=Commercial">Commercial</a>

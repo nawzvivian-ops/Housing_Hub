@@ -191,6 +191,7 @@ nav { position: relative !important; z-index: 100000 !important; }
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
       <a href="tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
+      <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
       <a href="broker.php">Broker-Free</a>
       <a href="employment.php">Employment</a>
@@ -442,6 +443,7 @@ nav { position: relative !important; z-index: 100000 !important; }
       <h3>Use Cases</h3>
       <a href="tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
+      <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
       <a href="broker.php">Broker-Free</a>
       <a href="employment.php">Employment</a>
