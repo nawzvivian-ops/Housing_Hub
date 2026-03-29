@@ -151,7 +151,7 @@ form {
    
     <button type="submit" name="login">Login</button>
     <p>Don't have an account? <a href="register.php">Create Account</a></p>
-     <a href="#" class="forgot-link" onclick="showPanel('forgot');return false;">Forgot password?</a><p><a href="index.php">Back to Home</a></p>
+     <a href="#" class="forgot-link" onclick="showPanel('forgot');return false;">Forgot password?</a><p><a href="index.html">Back to Home</a></p>
 </form>
  
 <!-- ══ FORGOT PASSWORD PANEL ══ -->

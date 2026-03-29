@@ -15,7 +15,7 @@ define('AFRICASTALKING_API_KEY', 'your_api_key_here');
 define('SITE_URL', 'http://localhost/housinghub');
 define('SITE_NAME', 'HousingHub');
 define('SUPPORT_EMAIL', 'support@housinghub.com');
-define('SUPPORT_PHONE', '+256700000000');
+define('SUPPORT_PHONE', '+256741035928');
 
 // Currency
 define('CURRENCY', 'UGX');

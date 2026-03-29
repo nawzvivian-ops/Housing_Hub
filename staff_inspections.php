@@ -107,7 +107,7 @@ tr.overdue-row td{background:rgba(239,68,68,.04)}
 <div class="wrap">
  
   <div class="topbar">
-    <a href="staff_dashboard.php" class="back">← Staff Dashboard</a>
+    <a href="staff_dashboard.php" class="back">Staff Dashboard</a>
     <div style="text-align:right">
       <div class="page-title">Property <em>Inspections</em></div>
       <div class="page-sub">Log and track all property inspections</div>

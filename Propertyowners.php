@@ -11,12 +11,12 @@
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:8px;height:8px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink)}
 .page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
@@ -44,18 +44,18 @@ header{position:sticky;top:0;z-index:9000;display:flex;justify-content:space-bet
 @keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
 .header-logo{display:flex;align-items:center;gap:14px}
 .logo-circle{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.3)}
-.logo-text{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;letter-spacing:3px;color:var(--ink)}
-.logo-slogan{font-size:10px;letter-spacing:2px;color:rgba(4,9,26,.6);text-transform:uppercase}
+.logo-text{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;letter-spacing:3px;color:white}
+.logo-slogan{font-size:14px;color:deepblue;text-transform:lowercase}
 nav{display:flex;align-items:center;gap:6px}
 .dropdown{position:relative}
-.dd-btn{background:none;border:none;font-family:"Outfit",sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);padding:10px 14px;cursor:pointer;border-radius:2px;transition:background .2s}
+.dd-btn{background:none;border:none;font-family:"Outfit",sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:deepblue;padding:10px 14px;cursor:pointer;border-radius:2px;transition:background .2s}
 .dd-btn:hover,.dd-btn.open{background:rgba(4,9,26,.1)}
 .dd-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:200px;background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 0;z-index:9999;box-shadow:0 16px 40px rgba(0,0,0,.5)}
 .dd-menu.open{display:block}
 .dd-menu a{display:block;padding:10px 18px;font-size:12px;letter-spacing:1px;color:var(--muted);text-decoration:none;transition:color .2s,background .2s}
 .dd-menu a:hover{color:var(--gold);background:rgba(200,164,60,.06)}
 .dd-divider{height:1px;background:var(--border);margin:6px 0}
-nav > a{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:10px 14px;border-radius:2px;transition:background .2s}
+nav > a{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:deepblue;text-decoration:none;padding:10px 14px;border-radius:2px;transition:background .2s}
 nav > a:hover{background:rgba(4,9,26,.1)}
 
 /* HERO */
@@ -167,11 +167,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Home &#9660;</button>
       <div class="dd-menu">
         <a href="index.html#welcome">Welcome</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a>
-        <a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a>
-        <a href="index.html#contact-us">Contact Us</a>
+        <a href="works.php">How It Works</a>
+        
       </div>
     </div>
     <div class="dropdown">
@@ -193,9 +190,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="dropdown">
       <button class="dd-btn">Use Cases &#9660;</button>
       <div class="dd-menu">
-        <a href="landlord.php">Landlord</a>
+        <a href="tenant.php">Tenant</a>
+        <a href="staff.php">Staff</a>
         <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Broker</a>
+        <a href="broker.php">Broker-Free</a>
         <a href="employment.php">Employment</a>
       </div>
     </div>
@@ -331,11 +329,65 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 </section>
 
 <!-- QUICK LINKS -->
-<section class="z" style="padding:60px 60px 40px">
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;border-top:1px solid var(--border);padding-top:48px">
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Use Cases</h4><a href="landlord.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Landlord</a><a href="propertyowners.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Property Owners</a><a href="broker.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Broker</a><a href="employment.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Employment</a></div>
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Features</h4><a href="rent_collection.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Rent Collection</a><a href="maintenance.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Maintenance</a><a href="lease.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Online Lease</a><a href="notifications.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Notifications</a></div>
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Company</h4><a href="who.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Who We Are</a><a href="contact.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Contact</a><a href="policies.html" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Policies</a></div>
+<section class="quick-links z reveal">
+  <div class="quick-container">
+ 
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor/Guest Management</a>
+      <a href="applications.php">Online Tenant Applications</a>
+      <a href="reporting.php">Rent/Buy Reporting</a>
+      <a href="lease.php">Online Lease</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+      <a href="notifications.php">Smart Notification Center</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="policies.html">Policies</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenant.php">Tenants</a>
+      <a href="staff.php">Staff</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker-Free</a>
+      <a href="employment.php">Employment</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="vision.php">Our Vision</a>
+      <a href="values.php">Core Values</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+ 
   </div>
 </section>
 

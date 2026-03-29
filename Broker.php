@@ -11,12 +11,12 @@
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 body{cursor:none;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:8px;height:5px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink)}
 .page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
@@ -167,11 +167,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Home &#9660;</button>
       <div class="dd-menu">
         <a href="index.html#welcome">Welcome</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a>
-        <a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a>
-        <a href="index.html#contact-us">Contact Us</a>
+        <a href="works.php">How It Works</a>
+        
       </div>
     </div>
     <div class="dropdown">
@@ -193,9 +190,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="dropdown">
       <button class="dd-btn">Use Cases &#9660;</button>
       <div class="dd-menu">
-        <a href="landlord.php">Landlord</a>
+        <a href="tenant.php">Tenant</a>
+        <a href="staff.php">Staff</a>
         <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Broker</a>
+        <a href="broker.php">Broker-Free</a>
         <a href="employment.php">Employment</a>
       </div>
     </div>
@@ -229,17 +227,21 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <!-- HERO -->
 <section class="hero z">
   <div class="hero-content">
-    <div class="hero-eyebrow">For Brokers</div>
-    <h1>List, Earn &amp;<br>Build Your<br><em>Broker Business.</em></h1>
-    <p class="hero-sub">HousingHub connects brokers across Uganda with verified landlords and serious tenants. List properties, earn commissions, track leads, and build your real estate brand &mdash; all in one place.</p>
+    <div class="hero-eyebrow">No Broker Needed</div>
+    <h1>List, Market &amp;<br>Close Deals With<br><em>HousingHub.</em></h1>
+    <p class="hero-sub">
+      HousingHub becomes your digital broker. Instead of depending on traditional
+      brokers to advertise properties, chase leads, arrange viewings, and manage
+      paperwork, HousingHub handles the process digitally from listing to deal closure.
+    </p>
     <div class="hero-btns">
       <a href="index.php" class="btn-primary">Get Started Free</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-num">500+</div><div class="hstat-label">Landlords Onboard</div></div>
-      <div><div class="hstat-num">95%</div><div class="hstat-label">Rent Collected On Time</div></div>
-      <div><div class="hstat-num">3x</div><div class="hstat-label">Faster Maintenance</div></div>
+      <div><div class="hstat-num">500+</div><div class="hstat-label">Properties Managed</div></div>
+      <div><div class="hstat-num">24/7</div><div class="hstat-label">Lead Capture</div></div>
+      <div><div class="hstat-num">2x</div><div class="hstat-label">Faster Deal Closure</div></div>
     </div>
   </div>
 </section>
@@ -247,95 +249,285 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <!-- PAIN vs SOLUTION -->
 <section class="z reveal">
   <div class="section-eyebrow">The Problem & The Fix</div>
-  <h2 class="section-title">Brokering Before &amp;<br><em>After HousingHub</em></h2>
-  <p class="section-sub">See how brokers across Uganda went from chasing leads to closing deals faster than ever.</p>
+  <h2 class="section-title">Before Using Brokers vs<br><em>With HousingHub</em></h2>
+  <p class="section-sub">
+    See how HousingHub replaces traditional brokering with a faster, more transparent,
+    and fully digital property process.
+  </p>
   <div class="pain-grid">
     <div class="pain-col before">
       <div class="pain-col-label">&#128683; Before HousingHub</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Sharing property photos over WhatsApp with no proper listings</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Losing track of leads and client follow-ups in phone contacts</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>No way to show clients a property without physically visiting</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Commission disputes with landlords — no transparent records</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Tenant applications collected on paper and easily lost</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>No professional platform to build your broker brand online</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Paying brokers high commissions to find tenants or buyers</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Sharing property photos on WhatsApp with no professional listing</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Missing serious leads because follow-ups are manual</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Relying on physical visits before clients can make decisions</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Paper applications and scattered documents slowing down deals</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>No single system to track inquiries, offers, and deal progress</div>
     </div>
     <div class="pain-col after">
       <div class="pain-col-label">&#10003; With HousingHub</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Professional listings with photos, details, and virtual tours</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Built-in lead manager to track every client and follow-up</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>360&deg; virtual tours let clients view properties from anywhere</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Transparent commission tracking with full deal history</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Digital tenant applications collected and shared instantly</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Your own broker profile and verified badge on HousingHub</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>HousingHub markets your property professionally online</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>Leads are captured automatically in one organized system</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>Virtual tours help prospects view properties from anywhere</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>Applications and client details are collected digitally</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>Every step from inquiry to closure is tracked transparently</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>You reduce dependence on brokers and close deals faster</div>
     </div>
   </div>
 </section>
 
 <!-- FEATURES -->
 <section class="z reveal">
-  <div class="section-eyebrow">Broker Tools</div>
-  <h2 class="section-title">Tools Built for<br><em>Brokers</em></h2>
-  <p class="section-sub">Everything you need to list properties, manage clients, and earn commissions without the chaos.</p>
+  <div class="section-eyebrow">How HousingHub Replaces Brokers</div>
+  <h2 class="section-title">A Digital Broker Built Into<br><em>One Platform</em></h2>
+  <p class="section-sub">
+    HousingHub automates the work normally done by brokers so you can list, market,
+    manage inquiries, and close deals with less cost and less effort.
+  </p>
   <div class="features-grid">
-    <div class="feat-card"><div class="feat-icon">&#127968;</div><h3 class="feat-title">Property Listings</h3><p class="feat-desc">List residential, commercial, and industrial properties with photos, videos, and virtual tours to attract serious buyers.</p></div>
-    <div class="feat-card"><div class="feat-icon">&#128269;</div><h3 class="feat-title">Lead Management</h3><p class="feat-desc">Track every inquiry, follow up with prospects, and close deals faster with your built-in CRM tools.</p></div>
-    <div class="feat-card"><div class="feat-icon">&#127909;</div><h3 class="feat-title">Virtual Tours</h3><p class="feat-desc">Offer clients 360° virtual property tours so they can view from anywhere in Uganda before visiting.</p></div>
-    <div class="feat-card"><div class="feat-icon">&#128176;</div><h3 class="feat-title">Commission Tracking</h3><p class="feat-desc">Track every deal, see your earnings in real time, and get paid faster with transparent commission records.</p></div>
-    <div class="feat-card"><div class="feat-icon">&#128203;</div><h3 class="feat-title">Online Applications</h3><p class="feat-desc">Let tenants apply online. Collect all documents digitally and share them instantly with landlords.</p></div>
-    <div class="feat-card"><div class="feat-icon">&#128276;</div><h3 class="feat-title">Instant Alerts</h3><p class="feat-desc">Get notified the moment a client enquires, an application is received, or a deal moves forward.</p></div>
+    <div class="feat-card">
+      <div class="feat-icon">&#127968;</div>
+      <h3 class="feat-title">Professional Listings</h3>
+      <p class="feat-desc">
+        Upload your property once and HousingHub presents it professionally with
+        photos, details, pricing, and visibility for serious tenants and buyers.
+      </p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">&#128269;</div>
+      <h3 class="feat-title">Automatic Lead Capture</h3>
+      <p class="feat-desc">
+        Instead of brokers manually collecting inquiries, HousingHub captures and
+        organizes leads automatically in one place.
+      </p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">&#127909;</div>
+      <h3 class="feat-title">Virtual Property Viewing</h3>
+      <p class="feat-desc">
+        Let prospects explore properties online through virtual tours before booking
+        a physical visit, saving time for everyone.
+      </p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">&#128276;</div>
+      <h3 class="feat-title">Smart Follow-Ups</h3>
+      <p class="feat-desc">
+        HousingHub keeps track of inquiries, responses, and next actions so no serious
+        prospect gets lost or forgotten.
+      </p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">&#128203;</div>
+      <h3 class="feat-title">Digital Applications</h3>
+      <p class="feat-desc">
+        Tenants and buyers can apply or express interest online, with documents
+        collected and shared instantly.
+      </p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon">&#128176;</div>
+      <h3 class="feat-title">Deal Tracking</h3>
+      <p class="feat-desc">
+        Track progress from first inquiry to final agreement with clear records,
+        less confusion, and better visibility.
+      </p>
+    </div>
   </div>
 </section>
 
 <!-- STATS -->
 <section class="z reveal">
   <div class="stats-strip">
-    <div><div class="stat-num">300+</div><div class="stat-label">Active Brokers</div></div>
-    <div><div class="stat-num">95%</div><div class="stat-label">On-Time Rent Rate</div></div>
+    <div><div class="stat-num">500+</div><div class="stat-label">Verified Listings</div></div>
+    <div><div class="stat-num">24/7</div><div class="stat-label">Inquiry Management</div></div>
     <div><div class="stat-num">10hrs</div><div class="stat-label">Saved Per Week</div></div>
-    <div><div class="stat-num">2x</div><div class="stat-label">More Deals Closed</div></div>
+    <div><div class="stat-num">2x</div><div class="stat-label">Faster Closures</div></div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section class="z reveal">
-  <div class="section-eyebrow">Broker Stories</div>
-  <h2 class="section-title">Hear From<br><em>Real Brokers</em></h2>
-  <p class="section-sub">Brokers across Uganda share how HousingHub helped them close more deals and earn more commissions.</p>
+  <div class="section-eyebrow">Client Stories</div>
+  <h2 class="section-title">Hear From Property Owners<br><em>Using HousingHub</em></h2>
+  <p class="section-sub">
+    Property owners and landlords use HousingHub to market properties, manage leads,
+    and close deals without depending fully on brokers.
+  </p>
   <div class="testi-grid">
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">"I listed 6 properties in my first week and got 3 serious inquiries by the weekend. HousingHub puts my listings in front of the right people."</p><div class="testi-author"><div class="testi-avatar">&#128104;</div><div><div class="testi-name">Kato Emmanuel</div><div class="testi-role">Broker &mdash; Kampala</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">"The commission tracking tool is amazing. I know exactly what I have earned from every deal. No more end-of-month confusion."</p><div class="testi-author"><div class="testi-avatar">&#128105;</div><div><div class="testi-name">Nakato Flavia</div><div class="testi-role">Broker &mdash; Entebbe</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">"Virtual tours changed everything. My clients can view 5 properties in one sitting. I close deals 3x faster now."</p><div class="testi-author"><div class="testi-avatar">&#128104;</div><div><div class="testi-name">Tumwine Ronald</div><div class="testi-role">Broker &mdash; Jinja</div></div></div></div>
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">
+        "I no longer had to chase brokers for updates. HousingHub helped me list my
+        property, receive inquiries, and find a tenant much faster."
+      </p>
+      <div class="testi-author">
+        <div class="testi-avatar">&#128104;</div>
+        <div>
+          <div class="testi-name">Kato Emmanuel</div>
+          <div class="testi-role">Property Owner &mdash; Kampala</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">
+        "The best part is having everything in one place. Listings, inquiries,
+        applications, and follow-ups are all handled digitally."
+      </p>
+      <div class="testi-author">
+        <div class="testi-avatar">&#128105;</div>
+        <div>
+          <div class="testi-name">Nakato Flavia</div>
+          <div class="testi-role">Landlord &mdash; Entebbe</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testi-text">
+        "Virtual tours and online applications helped me avoid unnecessary visits.
+        I found serious tenants faster and with less stress."
+      </p>
+      <div class="testi-author">
+        <div class="testi-avatar">&#128104;</div>
+        <div>
+          <div class="testi-name">Tumwine Ronald</div>
+          <div class="testi-role">Property Owner &mdash; Jinja</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- FAQ -->
 <section class="z reveal">
   <div class="section-eyebrow">Questions</div>
-  <h2 class="section-title">Broker <em>FAQs</em></h2>
+  <h2 class="section-title">How HousingHub Works<br><em>Without Brokers</em></h2>
   <div class="faq-list">
-    <div class="faq-item"><div class="faq-q">How do I register as a broker on HousingHub?</div><div class="faq-a">Register an account and select "Broker" as your role. You will get access to the broker dashboard where you can list properties and manage leads.</div></div>
-    <div class="faq-item"><div class="faq-q">How does commission payment work?</div><div class="faq-a">Commissions are tracked per deal and paid out directly via mobile money or bank transfer once a transaction is confirmed.</div></div>
-    <div class="faq-item"><div class="faq-q">Is my data and tenant information secure?</div><div class="faq-a">Yes. All data is encrypted and stored securely. Only you and your authorised tenants can access your property information.</div></div>
-    <div class="faq-item"><div class="faq-q">Can I manage multiple properties from one account?</div><div class="faq-a">Absolutely. Your dashboard gives you a complete overview of all your properties, units, tenants, and payments in one place.</div></div>
-    <div class="faq-item"><div class="faq-q">How much does it cost to use HousingHub?</div><div class="faq-a">We offer flexible plans for landlords of all sizes. Contact us or visit the pricing page to find the right plan for your portfolio.</div></div>
+    <div class="faq-item">
+      <div class="faq-q">How does HousingHub replace a traditional broker?</div>
+      <div class="faq-a">
+        HousingHub digitizes the broker’s role by marketing your property online,
+        capturing inquiries, supporting virtual viewings, collecting applications,
+        and tracking the deal process in one platform.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I list my property directly without using a broker?</div>
+      <div class="faq-a">
+        Yes. You can create an account, upload your property details, and manage
+        inquiries directly through HousingHub without depending fully on an external broker.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do interested tenants or buyers reach me?</div>
+      <div class="faq-a">
+        HousingHub captures inquiries through the platform and keeps them organized
+        so you can respond quickly and track every serious prospect.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can HousingHub help with multiple properties?</div>
+      <div class="faq-a">
+        Absolutely. Your dashboard provides one place to manage multiple properties,
+        inquiries, applications, and deal activity.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Is my property and client data secure?</div>
+      <div class="faq-a">
+        Yes. HousingHub stores data securely and keeps your property and client
+        information organized and protected within the platform.
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="z reveal" style="padding-top:40px">
   <div class="cta-block">
-    <h2>Ready to <em>Earn More</em> as a Broker?</h2>
-    <p>Join hundreds of brokers across Uganda earning commissions on HousingHub. Register free and start listing properties today.</p>
+    <h2>Ready to List Without a <em>Broker?</em></h2>
+    <p>
+      Let HousingHub market your property, manage leads, and help you close deals
+      faster through one digital platform.
+    </p>
     <a href="index.php" class="btn-primary">Create Your Free Account</a>
   </div>
 </section>
 
+
 <!-- QUICK LINKS -->
-<section class="z" style="padding:60px 60px 40px">
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;border-top:1px solid var(--border);padding-top:48px">
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Use Cases</h4><a href="landlord.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Landlord</a><a href="propertyowners.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Property Owners</a><a href="broker.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Broker</a><a href="employment.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Employment</a></div>
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Features</h4><a href="rent_collection.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Rent Collection</a><a href="maintenance.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Maintenance</a><a href="lease.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Online Lease</a><a href="notifications.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Notifications</a></div>
-    <div><h4 style="font-family:Cormorant Garamond,serif;color:var(--gold);font-size:18px;margin-bottom:16px">Company</h4><a href="who.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Who We Are</a><a href="contact.php" style="display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:8px" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Contact</a><a href="policies.html" style="display:block;font-size:12px;color:var(--muted);text-decoration:none" onmouseover="this.style.color='#c8a43c'" onmouseout="this.style.color=''">Policies</a></div>
+<section class="quick-links z reveal">
+  <div class="quick-container">
+ 
+    <div class="quick-col">
+      <h3>Home</h3>
+      <a href="index.html">Welcome</a>
+      <a href="works.php">How It Works</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Features</h3>
+      <a href="virtual.php">Virtual Property Tours</a>
+      <a href="visitor.php">Visitor/Guest Management</a>
+      <a href="applications.php">Online Tenant Applications</a>
+      <a href="reporting.php">Rent/Buy Reporting</a>
+      <a href="lease.php">Online Lease</a>
+      <a href="maintenance.php">Maintenance</a>
+      <a href="rent_collection.php">Rent Collection</a>
+      <a href="notifications.php">Smart Notification Center</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="policies.html">Policies</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Use Cases</h3>
+      <a href="tenant.php">Tenants</a>
+      <a href="staff.php">Staff</a>
+      <a href="propertyowners.php">Property Owners</a>
+      <a href="broker.php">Broker-free</a>
+      <a href="employment.php">Employment</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Properties</h3>
+      <a href="properties.php">All Properties</a>
+      <a href="properties.php?type=Commercial">Commercial</a>
+      <a href="properties.php?type=Residential">Residential</a>
+      <a href="properties.php?type=Industrial">Industrial</a>
+      <a href="properties.php?type=Agricultural">Agricultural</a>
+      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+      <a href="properties.php?type=Land">Land</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>Account</h3>
+      <a href="index.php">Login</a>
+      <a href="register.php">Register</a>
+    </div>
+ 
+    <div class="quick-col">
+      <h3>About HousingHub</h3>
+      <a href="who.php">Who We Are</a>
+      <a href="what.php">What We Do</a>
+      <a href="vision.php">Our Vision</a>
+      <a href="values.php">Core Values</a>
+      <a href="contact.php">Contact Us</a>
+    </div>
+ 
   </div>
 </section>
 
