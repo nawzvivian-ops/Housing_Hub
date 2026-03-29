@@ -152,7 +152,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h1>Apply for Any<br><em>Property</em><br><span class="stroke">Online.</span></h1>
     <p class="hero-sub">HousingHub lets tenants submit full rental applications digitally in minutes — and gives landlords a clean dashboard to review, approve, or reject applications without paper or email.</p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started</a>
+      <a href="apply_online.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
@@ -188,7 +188,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Apply for Your Next <em>Home Online.</em></h2>
     <p>Stop filling paper forms. Apply for any property on HousingHub in minutes from your phone or laptop.</p>
-    <a href="apply_online.php" class="btn-primary">Apply Online Free</a>
+    <p>Enjoy the convenience of applying for your next home with just a few clicks.</p>
   </div>
 </section>
 <!-- QUICK LINKS -->

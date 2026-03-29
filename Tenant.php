@@ -227,7 +227,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <p class="hero-sub">HousingHub makes it simple for tenants across Uganda to find, apply for, and manage their rental homes &mdash; all from one secure platform. No agents. No stress. Just your next home.</p>
     <div class="hero-btns">
       <a href="properties.php" class="btn-primary">Browse Properties</a>
-      <a href="index.php" class="btn-secondary">Create Account</a>
+      <a href="apply_online.php" class="btn-secondary">Apply</a>
     </div>
     <div class="hero-stats">
       <div><div class="hstat-num">1,200+</div><div class="hstat-label">Listings Available</div></div>
@@ -360,7 +360,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Your Next Home is <em>Waiting.</em></h2>
     <p>Join thousands of tenants across Uganda who found and manage their homes on HousingHub. It takes less than 2 minutes to get started.</p>
-    <a href="properties.php" class="btn-primary">Browse Properties Now</a>
+    <a href="index.php" class="btn-primary">Get Started</a>
   </div>
 </section>
 

@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include "db_connect.php";
@@ -154,22 +155,6 @@ $unread_count = count(array_filter($notifications, fn($n) => !$n['is_read']));
 $open_maint   = count(array_filter($maintenance,   fn($m) => in_array($m['status'], ['open','in_progress'])));
 $total_paid   = array_sum(array_column($payments, 'amount'));
 $pending_pay  = count(array_filter($payments, fn($p) => $p['status']==='pending'));
-
- 
-    // ── Tenant Documents ──
-    $documents = [];
-    $dq = mysqli_prepare($conn, "SELECT document_name, file_path, uploaded_at FROM tenant_documents WHERE tenant_id=? ORDER BY uploaded_at DESC");
-    if ($dq) {
-        $tenant_row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id FROM tenants WHERE user_id=$user_id LIMIT 1"));
-        $tenant_rec_id = (int)($tenant_row['id'] ?? 0);
-        if ($tenant_rec_id > 0) {
-            mysqli_stmt_bind_param($dq, "i", $tenant_rec_id);
-            mysqli_stmt_execute($dq);
-            $dr = mysqli_stmt_get_result($dq);
-            while ($d = mysqli_fetch_assoc($dr)) $documents[] = $d;
-        }
-    }
- 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,9 +169,13 @@ $pending_pay  = count(array_filter($payments, fn($p) => $p['status']==='pending'
 html,body{height:100%;font-family:"Outfit",sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 body{cursor:none}
 #cd{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-#cr{width:22px;height:22px;border:1.5px solid rgba(200,164,60,.6);border-radius:50%;position:fixed;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:left .08s,top .08s,width .3s,height .3s}
+#cr{width:22px;height:22px;border:1.5px solid rgba(200,164,60,.6);border-radius:50%;position:fixed;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
+#ct{width:34px;height:34px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:9997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
 body.ch #cd{width:6px;height:6px;background:#fff}
 body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
+body.click #cd{width:5px;height:5px}
+body.click #cr{width:28px;height:28px}
+ 
 .pbg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 80% 5%,rgba(14,90,200,.18),transparent 55%),radial-gradient(ellipse 50% 70% at 5% 95%,rgba(180,140,40,.12),transparent 50%),var(--ink)}
 .pgr{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:72px 72px}
  
@@ -215,18 +204,22 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
 .sb-foot{padding:16px 20px;border-top:1px solid var(--border)}
 .lo{width:100%;padding:10px;background:rgba(255,95,87,.07);border:1px solid rgba(255,95,87,.2);color:#ff8f8a;font-family:"Outfit",sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
 .lo:hover{background:rgba(255,95,87,.14)}
+/* topbar sign out override */
+.tb .sb-foot{display:contents}
+.tb .lo{background:rgba(4,9,26,.15);border:1px solid rgba(4,9,26,.25);color:var(--ink);padding:8px 16px;width:auto;border-radius:6px}
+.tb .lo:hover{background:rgba(4,9,26,.25)}
  
 /* MAIN */
 .mc{margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:10}
-.tb{display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid var(--border);background:rgba(4,9,26,.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
+.tb{display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid rgba(0,0,0,.15);background:var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.25)}
 .tbl{display:flex;align-items:center;gap:12px}
 .mt{display:none;width:36px;height:36px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0}
-.pt{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;color:var(--white)}
-.pb{font-size:10px;color:var(--muted);letter-spacing:1px}
+.pt{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;color:var(--ink)}
+.pb{font-size:10px;color:rgba(4,9,26,.6);letter-spacing:1px}
 .tbr{display:flex;align-items:center;gap:10px}
-.tbb{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .2s;position:relative;color:var(--white);text-decoration:none}
-.tbb:hover{background:rgba(200,164,60,.08);border-color:var(--gb)}
-.nd{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--ink)}
+.tbb{width:34px;height:34px;border-radius:8px;background:rgba(4,9,26,.15);border:1px solid rgba(4,9,26,.2);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .2s;position:relative;color:var(--ink);text-decoration:none}
+.tbb:hover{background:rgba(4,9,26,.25);border-color:rgba(4,9,26,.3)}
+.nd{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--gold)}
  
 /* PAGES */
 .pg{display:none;padding:28px 32px;flex:1;animation:fu .4s ease both}
@@ -393,7 +386,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
 .sr-row span{cursor:pointer;opacity:.3;color:var(--gold);transition:opacity .2s}
  
 @media(max-width:960px){
-  body{cursor:auto}#cd,#cr{display:none}
+  body{cursor:auto}#cd,#cr,#ct{display:none}
   :root{--sw:0px}
   .sb{transform:translateX(-260px);width:260px}.sb.open{transform:translateX(0)}
   .mc{margin-left:0}.mt{display:flex}
@@ -404,7 +397,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
 </style>
 </head>
 <body>
-<div id="cd"></div><div id="cr"></div>
+<div id="cd"></div><div id="cr"></div><div id="ct"></div>
 <div class="pbg"></div><div class="pgr"></div>
 <div class="toast" id="toast"><span id="ti">✓</span><span id="tm"></span></div>
 <div class="ov" id="ov" onclick="closeSB()"></div>
@@ -412,7 +405,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sb" id="sb">
   <div class="sb-head">
-    <div class="sb-logo-icon"></div>
+    <div class="sb-logo-icon">🏠</div>
     <div><div class="sb-logo-text">HOUSING HUB</div><div class="sb-logo-sub">Tenant Portal</div></div>
   </div>
   <div class="sb-tenant">
@@ -434,9 +427,8 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
     <div class="nl">Account</div>
     <button class="na" onclick="show('notifications',this)"><span class="ni"></span>Notifications<?php if($unread_count>0):?><span class="nb"><?=$unread_count?></span><?php endif;?></button>
     <button class="na" onclick="show('profile',this)"><span class="ni"></span>My Profile</button>
-    <button class="na" onclick="show('documents',this)"><span class="ni"></span>My Documents<?php if(!empty($documents)):?><span class="nb"><?=count($documents)?></span><?php endif;?></button>
   </nav>
-  <div class="sb-foot"><a href="logout.php" class="lo">⬡ &nbsp;Sign Out</a></div>
+  <div class="sb-foot"><a href="logout.php" class="lo">Sign Out</a></div>
 </aside>
  
 <!-- ═══ MAIN ═══ -->
@@ -451,6 +443,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
     <div class="tbr">
       <div class="tbb" onclick="show('notifications',null)">🔔<?php if($unread_count>0):?><span class="nd"></span><?php endif;?></div>
       <div class="tbb" onclick="show('profile',null)">👤</div>
+       <div class="sb-foot"><a href="logout.php" class="lo">Sign Out</a></div>
     </div>
   </div>
  
@@ -464,10 +457,10 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
       <div style="font-size:50px;opacity:.85;flex-shrink:0">🌤</div>
     </div>
     <div class="ch4">
-      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val g">UGX <?= $rent_amount ?></div><div class="mc-lbl">Monthly Rent</div><div class="mc-sub">Due 1st of month</div></div>
-      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val <?= $open_maint>0?'r':'gr' ?>"><?= $open_maint ?></div><div class="mc-lbl">Open Maintenance</div><div class="mc-sub <?= $open_maint>0?'n':'' ?>"><?= $open_maint>0?'Needs attention':'All resolved' ?></div></div>
-      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val gr">Active</div><div class="mc-lbl">Lease Status</div><div class="mc-sub">Expires <?= $lease_end ?></div></div>
-      <div class="mc-card"><div class="mc-icon"></div><div class="mc-val <?= $unread_count>0?'g':'' ?>"><?= $unread_count ?></div><div class="mc-lbl">Unread Alerts</div><div class="mc-sub">Notifications</div></div>
+      <div class="mc-card"><div class="mc-icon">💰</div><div class="mc-val g">UGX <?= $rent_amount ?></div><div class="mc-lbl">Monthly Rent</div><div class="mc-sub">Due 1st of month</div></div>
+      <div class="mc-card"><div class="mc-icon">🔧</div><div class="mc-val <?= $open_maint>0?'r':'gr' ?>"><?= $open_maint ?></div><div class="mc-lbl">Open Maintenance</div><div class="mc-sub <?= $open_maint>0?'n':'' ?>"><?= $open_maint>0?'Needs attention':'All resolved' ?></div></div>
+      <div class="mc-card"><div class="mc-icon">📄</div><div class="mc-val gr">Active</div><div class="mc-lbl">Lease Status</div><div class="mc-sub">Expires <?= $lease_end ?></div></div>
+      <div class="mc-card"><div class="mc-icon">🔔</div><div class="mc-val <?= $unread_count>0?'g':'' ?>"><?= $unread_count ?></div><div class="mc-lbl">Unread Alerts</div><div class="mc-sub">Notifications</div></div>
     </div>
     <div class="ch2">
       <div class="card">
@@ -527,8 +520,8 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
     <div class="ch3">
       <!-- MTN MOBILE MONEY -->
       <div class="pc pc-momo">
-        <div class="pc-icon"></div>
-        <div class="pc-title"> Mobile Money</div>
+        <div class="pc-icon">📱</div>
+        <div class="pc-title">MTN Mobile Money</div>
         <div class="pc-sub">MTN MoMo · Airtel Money</div>
         <div class="pc-tag">Instant confirmation</div>
         <form method="POST" action="process_payment.php">
@@ -546,7 +539,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
  
       <!-- CARD -->
       <div class="pc pc-card">
-        <div class="pc-icon"></div>
+        <div class="pc-icon">💳</div>
         <div class="pc-title">Debit / Credit Card</div>
         <div class="pc-sub">Visa · Mastercard · Verve</div>
         <div class="pc-tag">Secured by Flutterwave</div>
@@ -646,7 +639,7 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
     <p class="sp">Your current digital lease. Read or download anytime.</p>
     <div style="display:flex;gap:10px;margin-bottom:18px">
       <span class="bx active">● Active</span>
-      <button class="dlbtn" onclick="toast('📄','Lease PDF downloaded.')">↓ Download PDF</button>
+      <a href="download_lease.php" class="dlbtn" target="_blank">↓ Download Lease</a>
     </div>
     <div class="ldoc">
       <div class="ltop">
@@ -809,44 +802,6 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
       <?php endforeach; endif; ?>
     </div>
   </div>
-
-    <!-- ══ DOCUMENTS ══ -->
-  <div class="pg" id="pg-documents">
-    <div class="ey">Files</div><h2 class="sh">My <em>Documents</em></h2>
-    <p class="sp">Documents uploaded to your profile by HousingHub management. Click any file to view or download.</p>
-    <div class="card">
-      <?php if(empty($documents)): ?>
-        <div style="text-align:center;padding:40px 20px">
-          <div style="font-size:48px;margin-bottom:16px">📂</div>
-          <div style="font-size:15px;color:var(--white);font-weight:600;margin-bottom:8px">No documents yet</div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.6">Your property manager will upload documents such as your lease agreement, ID copies, receipts and other files here.</div>
-        </div>
-      <?php else: ?>
-        <div style="display:grid;gap:12px">
-          <?php foreach($documents as $doc):
-            $ext = strtolower(pathinfo($doc['file_path']??'', PATHINFO_EXTENSION));
-            $icon = in_array($ext,['pdf']) ? '📄' : (in_array($ext,['doc','docx']) ? '📝' : (in_array($ext,['jpg','jpeg','png']) ? '🖼️' : '📎'));
-          ?>
-          <div style="display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gb)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
-            <div style="width:44px;height:44px;border-radius:9px;background:rgba(200,164,60,.1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"><?= $icon ?></div>
-            <div style="flex:1">
-              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px"><?= htmlspecialchars($doc['document_name']) ?></div>
-              <div style="font-size:11px;color:var(--muted)"><?= strtoupper($ext) ?> · Uploaded <?= $doc['uploaded_at'] ? date('d M Y', strtotime($doc['uploaded_at'])) : '—' ?></div>
-            </div>
-            <?php if(!empty($doc['file_path'])): ?>
-            <a href="<?= htmlspecialchars($doc['file_path']) ?>" target="_blank"
-               style="padding:8px 16px;background:rgba(200,164,60,.1);border:1px solid var(--gb);border-radius:6px;color:var(--gold);font-size:11px;font-weight:700;text-decoration:none;letter-spacing:1px;white-space:nowrap;transition:all .2s"
-               onmouseover="this.style.background='rgba(200,164,60,.2)'"
-               onmouseout="this.style.background='rgba(200,164,60,.1)'"
-               download>↓ View</a>
-            <?php endif; ?>
-          </div>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
-    </div>
-  </div>
- 
  
   <!-- ══ PROFILE ══ -->
   <div class="pg" id="pg-profile">
@@ -894,17 +849,25 @@ body.ch #cr{width:20px;height:20px;background:rgba(200,164,60,.06)}
  
 <script>
 /* CURSOR */
-const cd=document.getElementById('cd'),cr=document.getElementById('cr');
-let mx=-200,my=-200,rx=-200,ry=-200;
+const cd=document.getElementById('cd'),cr=document.getElementById('cr'),ct=document.getElementById('ct');
+let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px'});
-(function a(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(a)})();
-document.querySelectorAll('a,button,input,select,textarea').forEach(el=>{
+(function a(){
+  rx+=(mx-rx)*.15;ry+=(my-ry)*.15;
+  tx+=(mx-tx)*.06;ty+=(my-ty)*.06;
+  cr.style.left=rx+'px';cr.style.top=ry+'px';
+  ct.style.left=tx+'px';ct.style.top=ty+'px';
+  requestAnimationFrame(a);
+})();
+document.querySelectorAll('a,button,input,select,textarea,.card,.mc-card,.na').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
 });
+document.addEventListener('mousedown',()=>document.body.classList.add('click'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('click'));
  
 /* PAGE NAV */
-const titles={overview:'Overview',property:'My Property',payments:'Payments',lease:'Lease Agreement',maintenance:'Maintenance',visitors:'Visitor Management',complaints:'Complaints & Feedback',notifications:'Notifications',documents:'My Documents',profile:'My Profile'};
+const titles={overview:'Overview',property:'My Property',payments:'Payments',lease:'Lease Agreement',maintenance:'Maintenance',visitors:'Visitor Management',complaints:'Complaints & Feedback',notifications:'Notifications',profile:'My Profile'};
 function show(id,btn){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');
@@ -947,4 +910,3 @@ function toast(icon,msg){
 </script>
 </body>
 </html>
- 

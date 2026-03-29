@@ -91,6 +91,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     header("Location: admin_dashboard.php?page=tenants"); exit();
 }
+
+// ── Link user to tenant OR create tenant ──
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'link_user_to_tenant') {
+
+    $user_id   = (int)$_POST['user_id'];
+    $tenant_id = (int)($_POST['tenant_id'] ?? 0);
+
+    // Get user info
+    $user_q = mysqli_query($conn, "SELECT fullname, email FROM users WHERE id='$user_id' LIMIT 1");
+    $user_data = mysqli_fetch_assoc($user_q);
+
+    if (!$user_data) {
+        $_SESSION['admin_error'] = "User not found.";
+        header("Location: admin_dashboard.php?page=users"); exit();
+    }
+
+    // OPTION 1: Link existing tenant
+    if ($tenant_id > 0) {
+
+        mysqli_query($conn, "UPDATE tenants SET user_id='$user_id' WHERE id='$tenant_id'");
+        $_SESSION['admin_success'] = "Tenant linked successfully.";
+
+    }
+
+    // OPTION 2: Create new tenant automatically
+    elseif (isset($_POST['create_new'])) {
+
+        $fullname = mysqli_real_escape_string($conn, $user_data['fullname']);
+        $email    = mysqli_real_escape_string($conn, $user_data['email']);
+
+        mysqli_query($conn, "
+            INSERT INTO tenants (fullname, email, user_id)
+            VALUES ('$fullname', '$email', '$user_id')
+        ");
+
+        $_SESSION['admin_success'] = "Tenant created and linked successfully.";
+    }
+
+    else {
+        $_SESSION['admin_error'] = "Please select a tenant or create one.";
+    }
+
+    header("Location: admin_dashboard.php?page=users");
+    exit();
+}
  
 // ── Handle assign property to owner ──
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['owner_id']) && isset($_POST['property_id'])) {
@@ -359,12 +404,12 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .sidebar a:hover{color:var(--white);background:rgba(255,255,255,.04);border-left-color:var(--gb)}
 .sidebar a.active{color:var(--gold);background:rgba(200,164,60,.08);border-left-color:var(--gold)}
 .sidebar .sb-section{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.18);padding:14px 22px 4px;margin-top:6px}
-.header{display:flex;justify-content:space-between;align-items:center;background:rgba(4,9,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);color:var(--white);padding:16px 36px;position:sticky;top:0;z-index:100;margin-left:var(--sw);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.header{display:flex;justify-content:space-between;align-items:center;background:var(--gold);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);color:var(--white);padding:16px 36px;position:sticky;top:0;z-index:100;margin-left:var(--sw);box-shadow:0 2px 20px rgba(0,0,0,.3)}
 .header h1{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:1px}
 .header-right{display:flex;align-items:center;gap:10px}
-.header-date{font-size:12px;color:var(--muted)}
-.logout-btn{color:var(--white);text-decoration:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);padding:9px 20px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s}
-.logout-btn:hover{background:rgba(239,68,68,.3)}
+.header-date{font-size:18px;color:hsla(244, 84%, 15%, 0.99)}
+.logout-btn{color:var(--white);text-decoration:none;background:hsla(244, 84%, 15%, 0.99);border:1px solid rgba(239,68,68,.3);padding:9px 20px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s}
+.logout-btn:hover{background:hsla(244, 84%, 15%, 0.99)}
 .main-content{margin-left:var(--sw);padding:32px 40px;min-height:calc(100vh - 60px);position:relative;z-index:10}
 section h2{margin-bottom:24px;font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:700;color:var(--white);border-bottom:2px solid var(--gb);padding-bottom:12px}
 .overview-cards{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:40px}
@@ -597,11 +642,47 @@ endif;
       <td><?= htmlspecialchars($u['role']) ?></td>
       <td><?= htmlspecialchars($u['email']) ?></td>
       <td>
-        <?php if(strtolower($u['role'])==='tenant'): ?>
-          <?php if($linked): ?><span class="link-badge linked">✓ <?= htmlspecialchars($linked['fullname']) ?></span>
-          <?php else: ?><span class="link-badge unlinked">⏳ Not linked</span><?php endif; ?>
-        <?php else: ?><span style="color:#aaa;font-size:12px">—</span><?php endif; ?>
-      </td>
+<?php if(strtolower($u['role'])==='tenant'): ?>
+
+  <?php if($linked): ?>
+
+    <span class="link-badge linked">✓ <?= htmlspecialchars($linked['fullname']) ?></span>
+
+  <?php else: ?>
+
+    <span class="link-badge unlinked">⏳ Not linked</span>
+
+    <!-- LINK FORM -->
+    <form method="POST" class="link-form">
+      <input type="hidden" name="action" value="link_user_to_tenant">
+      <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
+
+      <!-- OPTION 1: Select existing tenant -->
+      <select name="tenant_id">
+        <option value="">Select existing tenant</option>
+        <?php
+        $tenant_list = mysqli_query($conn, "SELECT id, fullname FROM tenants WHERE user_id IS NULL OR user_id=0");
+        while($t = mysqli_fetch_assoc($tenant_list)):
+        ?>
+          <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['fullname']) ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <!-- OPTION 2: Create new tenant -->
+      <button type="submit" name="create_new" value="1" class="btn-link">
+        + Create & Link
+      </button>
+
+      <!-- OPTION 1 link -->
+      <button type="submit" class="btn-link">Link</button>
+    </form>
+
+  <?php endif; ?>
+
+<?php else: ?>
+  <span style="color:#aaa;font-size:12px">—</span>
+<?php endif; ?>
+</td>
       <td>
         <a href="edit_user.php?id=<?= $u['id'] ?>" class="action-btn">Edit</a>
         <a href="delete_user.php?id=<?= $u['id'] ?>" class="action-btn" onclick="return confirm('Delete this user?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5">Delete</a>

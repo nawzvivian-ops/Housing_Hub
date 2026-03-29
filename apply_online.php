@@ -93,14 +93,14 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
  
 /* HEADER */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:rgba(200,164,60,.97);box-shadow:0 2px 20px rgba(0,0,0,.3)}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.logo img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.3)}
-.logo-text{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;letter-spacing:2px;color:var(--ink)}
-.logo-sub{font-size:9px;color:rgba(4,9,26,.6);letter-spacing:1.5px}
+.logo{display:flex;align-items:center;gap:15px;text-decoration:none}
+.logo img{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.3)}
+.logo-text{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;letter-spacing:2px;color:white;text-transform:uppercase}
+.logo-sub{font-size:15px;color:deep-blue;}
 .header-links{display:flex;gap:6px;align-items:center}
-.header-links a{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:8px 14px;border-radius:2px;transition:background .2s}
-.header-links a:hover{background:rgba(4,9,26,.1)}
-.header-links .hl-login{background:rgba(4,9,26,.12)}
+.header-links a{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:deepblue;text-decoration:none;padding:8px 14px;border-radius:2px;transition:background .2s}
+.header-links a:hover{background:deepblue;color:white}
+.header-links .hl-login{background:rgba(21, 50, 146, 0.12)}
  
 /* MAIN */
 .main{position:relative;z-index:10;padding:120px 20px 60px;max-width:780px;margin:0 auto}
