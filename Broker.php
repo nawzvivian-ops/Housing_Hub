@@ -239,10 +239,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <a href="properties.php" class="btn-primary">Browse Properties</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-num">500+</div><div class="hstat-label">Properties Managed</div></div>
-      <div><div class="hstat-num">24/7</div><div class="hstat-label">Lead Capture</div></div>
-      <div><div class="hstat-num">2x</div><div class="hstat-label">Faster Deal Closure</div></div>
-    </div>
+  <div><div class="hstat-num" data-target="500">500</div><div class="hstat-label">Properties Managed</div></div>
+  <div><div class="hstat-num" data-target="24">24/7</div><div class="hstat-label">Lead Capture</div></div>
+  <div><div class="hstat-num" data-target="2">2x</div><div class="hstat-label">Faster Deal Closure</div></div>
+</div>
   </div>
 </section>
 
@@ -344,11 +344,11 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <!-- STATS -->
 <section class="z reveal">
   <div class="stats-strip">
-    <div><div class="stat-num">500+</div><div class="stat-label">Verified Listings</div></div>
-    <div><div class="stat-num">24/7</div><div class="stat-label">Inquiry Management</div></div>
-    <div><div class="stat-num">10hrs</div><div class="stat-label">Saved Per Week</div></div>
-    <div><div class="stat-num">2x</div><div class="stat-label">Faster Closures</div></div>
-  </div>
+  <div><div class="stat-num" data-target="500">500</div><div class="stat-label">Verified Listings</div></div>
+  <div><div class="stat-num" data-target="24">24/7</div><div class="stat-label">Inquiry Management</div></div>
+  <div><div class="stat-num" data-target="10">10</div><div class="stat-label">Saved Per Week</div></div>
+  <div><div class="stat-num" data-target="2">2</div><div class="stat-label">Faster Closures</div></div>
+</div>
 </section>
 
 <!-- TESTIMONIALS -->
@@ -550,6 +550,54 @@ for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptc
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const item=q.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');});});
+const stats = document.querySelectorAll('.stat-num, .hstat-num');
+
+let counted = new Set();
+
+document.addEventListener('mousemove', (e) => {
+  stats.forEach(stat => {
+    if (counted.has(stat)) return;
+
+    const rect = stat.getBoundingClientRect();
+
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 120) {
+      counted.add(stat);
+      startCount(stat);
+    }
+  });
+});
+
+function startCount(el) {
+  const target = +el.getAttribute('data-target');
+  let count = 0;
+  const speed = target / 80;
+
+  const update = () => {
+    count += speed;
+
+    if (count < target) {
+      el.innerText = Math.floor(count);
+      requestAnimationFrame(update);
+    } else {
+      // formatting
+      if (target === 500) el.innerText = target + "+";
+      else if (target === 24) el.innerText = target + "/7";
+      else if (target === 10) el.innerText = target + "hrs";
+      else if (target === 2) el.innerText = target + "x";
+      else el.innerText = target;
+    }
+  };
+
+  update();
+}
 </script>
 </body>
 </html>

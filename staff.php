@@ -295,10 +295,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <!-- STATS -->
 <section class="z reveal">
   <div class="stats-strip">
-    <div><div class="stat-num">98%</div><div class="stat-label">Task Completion Rate</div></div>
-    <div><div class="stat-num">3x</div><div class="stat-label">Faster Maintenance Response</div></div>
-    <div><div class="stat-num">100%</div><div class="stat-label">Paperless Workflow</div></div>
-    <div><div class="stat-num">24/7</div><div class="stat-label">Portal Availability</div></div>
+    <div><div class="stat-num count" data-target="98">98x</div><div class="stat-label">Task Completion Rate</div></div>
+<div><div class="stat-num count" data-target="3">3x</div><div class="stat-label">Faster Maintenance Response</div></div>
+<div><div class="stat-num count" data-target="100">100%</div><div class="stat-label">Paperless Workflow</div></div>
+<div><div class="stat-num count" data-target="24">24/7</div><div class="stat-label">Portal Availability</div></div>
   </div>
 </section>
  
@@ -435,6 +435,48 @@ for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptc
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const item=q.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');});});
+/* ===== COUNT ON CURSOR NEAR ===== */
+const counters = document.querySelectorAll('.count');
+
+function animateCount(el) {
+  if (el.classList.contains('counted')) return;
+
+  const target = +el.getAttribute('data-target');
+  let count = 0;
+
+  const suffix = el.innerText.replace(/[0-9]/g, '');
+
+  const update = () => {
+    const increment = target / 50;
+    count += increment;
+
+    if (count < target) {
+      el.innerText = Math.floor(count) + suffix;
+      requestAnimationFrame(update);
+    } else {
+      el.innerText = target + suffix;
+    }
+  };
+
+  update();
+  el.classList.add('counted');
+}
+
+document.addEventListener('mousemove', (e) => {
+  counters.forEach(el => {
+    const rect = el.getBoundingClientRect();
+
+    const isNear =
+      e.clientX > rect.left - 120 &&
+      e.clientX < rect.right + 120 &&
+      e.clientY > rect.top - 120 &&
+      e.clientY < rect.bottom + 120;
+
+    if (isNear) {
+      animateCount(el);
+    }
+  });
+});
 </script>
 </body>
 </html>

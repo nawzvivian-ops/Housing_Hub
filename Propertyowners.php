@@ -236,9 +236,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-num">500+</div><div class="hstat-label">Landlords Onboard</div></div>
-      <div><div class="hstat-num">95%</div><div class="hstat-label">Rent Collected On Time</div></div>
-      <div><div class="hstat-num">3x</div><div class="hstat-label">Faster Maintenance</div></div>
+      <div class="hstat-num" data-target="500">500+</div>
+<div class="hstat-num" data-target="95">95%</div>
+<div class="hstat-num" data-target="3">3x</div>
     </div>
   </div>
 </section>
@@ -288,10 +288,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <!-- STATS -->
 <section class="z reveal">
   <div class="stats-strip">
-    <div><div class="stat-num">1,200+</div><div class="stat-label">Properties Managed</div></div>
-    <div><div class="stat-num">95%</div><div class="stat-label">On-Time Rent Rate</div></div>
-    <div><div class="stat-num">10hrs</div><div class="stat-label">Saved Per Week</div></div>
-    <div><div class="stat-num">98%</div><div class="stat-label">Owner Satisfaction</div></div>
+    <div class="stat-num" data-target="1200">1200+</div>
+<div class="stat-num" data-target="95">95%</div>
+<div class="stat-num" data-target="10">10hrs</div>
+<div class="stat-num" data-target="98">98%</div>
   </div>
 </section>
 
@@ -396,6 +396,46 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>
 
 <script>
+  const counters = document.querySelectorAll('[data-target]');
+let started = new WeakSet();
+
+function animateCounter(el) {
+  if (started.has(el)) return; // run once
+  started.add(el);
+
+  const target = parseInt(el.getAttribute('data-target'));
+  let count = 0;
+  const suffix = el.innerText.replace(/[0-9]/g, '');
+
+  const speed = target / 60; // adjust smoothness
+
+  function update() {
+    count += speed;
+    if (count < target) {
+      el.innerText = Math.floor(count) + suffix;
+      requestAnimationFrame(update);
+    } else {
+      el.innerText = target + suffix;
+    }
+  }
+
+  update();
+}
+
+document.addEventListener('mousemove', (e) => {
+  counters.forEach(el => {
+    const rect = el.getBoundingClientRect();
+
+    const distX = e.clientX - (rect.left + rect.width / 2);
+    const distY = e.clientY - (rect.top + rect.height / 2);
+
+    const distance = Math.sqrt(distX * distX + distY * distY);
+
+    if (distance < 120) { // 🔥 trigger radius (adjust if needed)
+      animateCounter(el);
+    }
+  });
+});
 function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(function(m){m.classList.remove('open')});document.querySelectorAll('.dd-btn.open').forEach(function(b){b.classList.remove('open')})}
 document.querySelectorAll('.dropdown').forEach(function(dd){var btn=dd.querySelector('.dd-btn');var menu=dd.querySelector('.dd-menu');if(!btn||!menu)return;btn.addEventListener('click',function(e){e.stopPropagation();var isOpen=menu.classList.contains('open');closeAllMenus();if(!isOpen){menu.classList.add('open');btn.classList.add('open')}});menu.addEventListener('mousedown',function(e){e.stopPropagation()});menu.addEventListener('click',function(e){e.stopPropagation()})});
 document.addEventListener('click',closeAllMenus);
