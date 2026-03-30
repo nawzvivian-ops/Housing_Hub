@@ -87,6 +87,21 @@ usort($events, fn($a,$b) => strtotime($a['date']) - strtotime($b['date']));
 $my_tasks = [];
 $tq = mysqli_query($conn, "SELECT title, status, priority, due_date FROM tasks WHERE assigned_to='$user_id' ORDER BY due_date ASC LIMIT 8");
 while ($t = mysqli_fetch_assoc($tq)) $my_tasks[] = $t;
+
+$my_reports_total   = 0;
+$my_reports_pending = 0;
+
+$sr_check = mysqli_query($conn, "SHOW TABLES LIKE 'staff_reports'");
+if ($sr_check && mysqli_num_rows($sr_check) > 0) {
+    $my_reports_total = mysqli_fetch_assoc(
+        mysqli_query($conn, "SELECT COUNT(*) AS c FROM staff_reports WHERE staff_id='$user_id'")
+    )['c'] ?? 0;
+
+    $my_reports_pending = mysqli_fetch_assoc(
+        mysqli_query($conn, "SELECT COUNT(*) AS c FROM staff_reports WHERE staff_id='$user_id' AND status='pending'")
+    )['c'] ?? 0;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,6 +121,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .sb-head{padding:22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
 .sb-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
 .sb-sub{font-size:9px;color:var(--muted);letter-spacing:1px}
+.logo-circle{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--gb)}
 .sb-staff{padding:16px 20px;border-bottom:1px solid var(--border)}
 .sb-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,rgba(200,164,60,.4),rgba(14,90,200,.4));border:2px solid var(--gb);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:8px}
 .sb-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
@@ -121,11 +137,11 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .lo{width:100%;padding:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;font-family:"Outfit",sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s}
 .lo:hover{background:rgba(239,68,68,.2)}
 .mc{margin-left:var(--sw);position:relative;z-index:10;min-height:100vh}
-.tb{display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid var(--border);background:rgba(4,9,26,.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
-.tb-title{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;color:var(--white)}
-.tb-sub{font-size:10px;color:var(--muted);letter-spacing:1px}
+.tb{display:flex;align-items:center;justify-content:space-between;padding:15px 32px;border-bottom:1px solid var(--border);background:var(--gold);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
+.tb-title{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:700;color:rgba(8, 27, 134, 0.99)}
+.tb-sub{font-size:15px;color:rgba(8,27,134,0.99);letter-spacing:1px}
 .content{padding:28px 32px}
-.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
 .stat-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:18px;transition:all .3s}
 .stat-card:hover{border-color:var(--gb);transform:translateY(-3px)}
 .stat-icon{font-size:22px;margin-bottom:10px}
@@ -199,7 +215,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 <!-- SIDEBAR -->
 <aside class="sb">
   <div class="sb-head">
-    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gb),rgba(14,90,200,.3));border:1.5px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:16px">🏠</div>
+    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gb),rgba(14,90,200,.3));border:1.5px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:16px"><img src="image/hub.jpg" alt="Logo" class="logo-circle"></div>
     <div><div class="sb-logo">Housing Hub</div><div class="sb-sub">Staff Portal</div></div>
   </div>
   <div class="sb-staff">
@@ -209,31 +225,39 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
   </div>
   <nav class="sb-nav">
     <div class="nl">Overview</div>
-    <a href="staff_dashboard.php" class="na active"><span class="ni">🏠</span>Dashboard</a>
+    <a href="staff_dashboard.php" class="na active"><span class="ni"></span>Dashboard</a>
     <div class="nl">Work</div>
-    <a href="staff_tasks.php" class="na"><span class="ni">✅</span>My Tasks<?php if($my_tasks_open>0):?><span class="nb"><?=$my_tasks_open?></span><?php endif;?></a>
-    <a href="staff_inspections.php" class="na"><span class="ni">🔍</span>Inspections<?php if($pending_inspections>0):?><span class="nb"><?=$pending_inspections?></span><?php endif;?></a>
-    <a href="staff_maintenance.php" class="na"><span class="ni">🔧</span>Maintenance<?php if($pending_maintenance>0):?><span class="nb"><?=$pending_maintenance?></span><?php endif;?></a>
+    <a href="staff_tasks.php" class="na"><span class="ni"></span>My Tasks<?php if($my_tasks_open>0):?><span class="nb"><?=$my_tasks_open?></span><?php endif;?></a>
+    <a href="staff_inspections.php" class="na"><span class="ni"></span>Inspections<?php if($pending_inspections>0):?><span class="nb"><?=$pending_inspections?></span><?php endif;?></a>
+    <a href="staff_maintenance.php" class="na"><span class="ni"></span>Maintenance<?php if($pending_maintenance>0):?><span class="nb"><?=$pending_maintenance?></span><?php endif;?></a>
+      <a href="staff_reports.php" class="na">
+  <span class="ni"></span>My Reports
+  <?php if($my_reports_pending>0): ?><span class="nb"><?= $my_reports_pending ?></span><?php endif; ?>
+</a>
+ 
+</div>
+
     <a href="staff_notifications.php" class="na"><span class="ni">🔔</span>Notifications<?php if($unread_notifs>0):?><span class="nb"><?=$unread_notifs?></span><?php endif;?></a>
     <div class="nl">Account</div>
-    <a href="staff_profile.php" class="na"><span class="ni">👤</span>My Profile</a>
+    <a href="staff_profile.php" class="na"><span class="ni"></span>My Profile</a>
+    <div class="sb-foot"><a href="logout.php" class="lo">Sign Out</a></div>
   </nav>
-  <div class="sb-foot"><a href="logout.php" class="lo">⬡ &nbsp;Sign Out</a></div>
+  
 </aside>
  
 <!-- MAIN -->
 <div class="mc">
   <div class="tb">
     <div>
-      <div class="tb-title">Good day, <?= $fname ?>! &nbsp;<span style="font-size:13px;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:400"><?= date('l, d F Y') ?></span></div>
+      <div class="tb-title">Good day,     <?= $fname ?>! &nbsp;<span style="font-size:13px;color:rgba(18,27,123,0.99);font-family:'Outfit',sans-serif;font-weight:400"><?= date('l, d F Y') ?></span></div>
       <div class="tb-sub">HousingHub · Staff Dashboard</div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <a href="staff_notifications.php" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none;position:relative">
         🔔<?php if($unread_notifs>0):?><span style="position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--ink)"></span><?php endif;?>
       </a>
-      <a href="staff_profile.php" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none">👤</a>
-      <a href="logout.php" style="padding:8px 16px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:6px;color:#fca5a5;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:1px">Sign Out</a>
+      <a href="staff_profile.php" style="width:34px;height:34px;border-radius:8px;background:rgba(34, 47, 117, 0.98);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none">👤</a>
+      <a href="logout.php" style="padding:8px 16px;background:rgba(17, 17, 17, 0.96);border:1px solid rgba(239,68,68,.25);border-radius:6px;color:#fca5a5;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:1px">Sign Out</a>
     </div>
   </div>
  
@@ -241,18 +265,18 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
  
     <!-- STATS -->
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val"><?= $my_tasks_open ?></div><div class="stat-lbl">My Open Tasks</div></div>
-      <div class="stat-card"><div class="stat-icon">🔧</div><div class="stat-val" style="color:<?= $pending_maintenance>0?'#fca5a5':'var(--gold)' ?>"><?= $pending_maintenance ?></div><div class="stat-lbl">Pending Maintenance</div></div>
-      <div class="stat-card"><div class="stat-icon">🔍</div><div class="stat-val"><?= $pending_inspections ?></div><div class="stat-lbl">Pending Inspections</div></div>
-      <div class="stat-card"><div class="stat-icon">🔔</div><div class="stat-val" style="color:<?= $unread_notifs>0?'var(--gold)':'var(--muted)' ?>"><?= $unread_notifs ?></div><div class="stat-lbl">Unread Notifications</div></div>
-      <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-val" style="color:#86efac"><?= $my_tasks_done ?></div><div class="stat-lbl">Tasks Completed</div></div>
+      <div class="stat-card"><div class="stat-icon"></div><div class="stat-val"><?= $my_tasks_open ?></div><div class="stat-lbl">My Open Tasks</div></div>
+      <div class="stat-card"><div class="stat-icon"></div><div class="stat-val" style="color:<?= $pending_maintenance>0?'#fca5a5':'var(--gold)' ?>"><?= $pending_maintenance ?></div><div class="stat-lbl">Pending Maintenance</div></div>
+      <div class="stat-card"><div class="stat-icon"></div><div class="stat-val"><?= $pending_inspections ?></div><div class="stat-lbl">Pending Inspections</div></div>
+      <div class="stat-card"><div class="stat-icon"></div><div class="stat-val" style="color:<?= $unread_notifs>0?'var(--gold)':'var(--muted)' ?>"><?= $unread_notifs ?></div><div class="stat-lbl">Unread Notifications</div></div>
+      <div class="stat-card"><div class="stat-icon"></div><div class="stat-val" style="color:#86efac"><?= $my_tasks_done ?></div><div class="stat-lbl">Tasks Completed</div></div>
     </div>
  
     <!-- QUICK LINKS -->
-    <div class="ql-grid" style="grid-template-columns:repeat(4,1fr)">
-      <a href="staff_tasks.php" class="ql"><span class="ql-icon">✅</span><span class="ql-label">My Tasks</span></a>
-      <a href="staff_maintenance.php" class="ql"><span class="ql-icon">🔧</span><span class="ql-label">Maintenance</span></a>
-      <a href="staff_inspections.php" class="ql"><span class="ql-icon">🔍</span><span class="ql-label">Inspections</span></a>
+    <div class="ql-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+      <a href="staff_tasks.php" class="ql"><span class="ql-icon"></span><span class="ql-label">My Tasks</span></a>
+      <a href="staff_maintenance.php" class="ql"><span class="ql-icon"></span><span class="ql-label">Maintenance</span></a>
+      <a href="staff_inspections.php" class="ql"><span class="ql-icon"></span><span class="ql-label">Inspections</span></a>
       <a href="staff_notifications.php" class="ql"><span class="ql-icon">🔔</span><span class="ql-label">Notifications</span></a>
     </div>
  

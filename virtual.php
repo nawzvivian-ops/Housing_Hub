@@ -118,9 +118,8 @@ nav { position: relative !important; z-index: 100000 !important; }
   </div>
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu">
-        <a href="index.html#welcome">Welcome</a><a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#testimonials">Testimonials</a><a href="index.html#our-stats">Our Stats</a>
-        <a href="index.html#faqs">FAQs</a><a href="index.html#contact-us">Contact Us</a>
+        <a href="index.html#welcome">Welcome</a><a href="works.php">How It Works</a>
+        
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
