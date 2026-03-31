@@ -538,11 +538,11 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
           <div class="prop-card-actions">
             <a href="property_view.php?id=<?= $p['id'] ?>" class="prop-btn view">View</a>
             <?php if($p['purpose']==='Rent'): ?>
-            <a href="payment_method.php?property_id=<?= $p['id'] ?>&action=rent" class="prop-btn rent">Rent</a>
+            <a href="#" class="prop-btn rent" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=rent" data-type="rent">Rent</a>
             <?php elseif($p['purpose']==='Buy'): ?>
-            <a href="payment_method.php?property_id=<?= $p['id'] ?>&action=buy" class="prop-btn buy">Buy</a>
+            <a href="#" class="prop-btn buy" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=buy" data-type="buy">Buy</a>
             <?php elseif($p['purpose']==='Lease'): ?>
-            <a href="payment_method.php?property_id=<?= $p['id'] ?>&action=lease" class="prop-btn lease">Lease</a>
+            <a href="#" class="prop-btn lease" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=lease" data-type="lease">Lease</a>
             <?php endif; ?>
           </div>
         </div>
@@ -557,6 +557,8 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <?php endif; ?>
     </div>
     <br>
+    <!-- Agreement Modal -->
+    
     <!-- QUICK LINKS -->
 <section class="quick-links z reveal">
   <div class="quick-container">
@@ -620,6 +622,116 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
  
   </div>
 </section>
+<!-- Agreement Modal -->
+<!-- Agreement Modal -->
+<div id="agreementModal" style="
+  display: none; /* Hidden by default */
+  position: fixed; /* Cover entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Dark overlay */
+  z-index: 9999; /* Ensure it overlays other content */
+  display: flex; /* Use flex for centering */
+  justify-content: center;
+  align-items: center;
+">
+  <!-- Modal Content Box -->
+  <div style="
+    background: #fff; /* White background */
+    padding: 20px;
+    max-width: 600px;
+    margin-top: 90px; /* Adjust for vertical centering */
+    width: 90%; /* Responsive width */
+    max-height: 80%; /* Limit height */
+    overflow-y: auto; /* Scroll if content overflows */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  ">
+    <!-- Modal Header -->
+    <h3 style="
+      margin-bottom: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #04091a;
+      text-align: center;
+    ">Terms and Conditions</h3>
+    
+    <!-- Modal Intro -->
+    <p style="
+      margin-bottom: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      color: #333;
+      line-height: 1.5;
+    ">Welcome to HousingHub! Before proceeding with your payment, please read and agree to the following terms and conditions:</p>
+    
+    <!-- Terms List -->
+    <ol style="
+      margin-left: 20px;
+      line-height: 1.6;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      color: #555;
+    ">
+      <li><strong>Acceptance of Terms</strong><br>
+        By clicking "I Agree" and proceeding with the payment, you agree to abide by all the terms outlined herein and confirm that the information provided is accurate and complete.
+      </li>
+      <li><strong>Payment Confirmation</strong><br>
+        All payments must be made in UGX and are non-refundable unless explicitly stipulated otherwise. Ensure the payment details are correct before confirming.
+      </li>
+      <li><strong>Property Details</strong><br>
+        HousingHub strives to ensure all property listings are accurate and verified. However, it is your responsibility to verify property details, amenities, and conditions before finalizing any transaction.
+      </li>
+      <li><strong>Liability</strong><br>
+        HousingHub is not responsible for any disputes, damages, or losses arising from transactions between tenants and property owners. Always conduct due diligence.
+      </li>
+      <li><strong>Compliance</strong><br>
+        You agree to comply with all applicable laws and regulations when entering into a rental, purchase, or lease agreement through HousingHub.
+      </li>
+      <li><strong>Privacy and Data Security</strong><br>
+        Your personal data will be handled in accordance with our privacy policy. By proceeding, you consent to the collection and use of your information for transaction purposes.
+      </li>
+      <li><strong>Changes to Terms</strong><br>
+        HousingHub reserves the right to update or modify these terms at any time without prior notice. Continued use of the platform indicates acceptance of any changes.
+      </li>
+    </ol>
+    
+    <!-- Terms Agreement Buttons -->
+    <p style="
+      margin-top: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      text-align: right;
+    ">Please ensure you understand and agree to these terms before proceeding.</p>
+    <div style="margin-top: 20px; text-align: right;">
+      <button id="agreeBtn" style="
+        padding: 10px 20px;
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+        font-family: 'Outfit', sans-serif;
+        font-size: 14px;
+      ">I Agree</button>
+      <button id="notAgreeBtn" style="
+        padding: 10px 20px;
+        background: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Outfit', sans-serif;
+        font-size: 14px;
+      ">I Do Not Agree</button>
+    </div>
+  </div>
+</div>
+
   </div>
   <footer>&copy; 2026 HousingHub | All Rights Reserved</footer>
 </div>
@@ -649,6 +761,53 @@ const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersect
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
 for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.2).toFixed(2)});animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*15}s;`;document.body.appendChild(p);}
+
+// Assume you have the current logged-in user's ID stored in a variable, e.g.:
+const currentUserId = <?php echo $_SESSION['user_id']; ?>; // or set via PHP
+
+// Also, you'll need to know which property (or context) the user is agreeing to
+// For example, pass property ID dynamically when opening modal
+let currentPropertyId = null; // set this when opening modal
+
+// When user clicks a property button, set currentPropertyId
+document.querySelectorAll('.prop-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    currentPropertyId = btn.getAttribute('data-property-id'); // you have to set this attribute in your HTML
+    targetUrl = btn.getAttribute('data-url');
+    document.getElementById('agreementModal').style.display = 'flex';
+  });
+});
+
+// Handle "I Agree" button
+document.getElementById('agreeBtn').addEventListener('click', () => {
+  fetch('save_agreement.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_id: currentUserId, property_id: currentPropertyId, agreed: 1 })
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Optional: show success message
+    document.getElementById('agreementModal').style.display = 'none';
+    if (targetUrl) window.location.href = targetUrl;
+  });
+});
+
+// Handle "I Do Not Agree" button
+document.getElementById('notAgreeBtn').addEventListener('click', () => {
+  fetch('save_agreement.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_id: currentUserId, property_id: currentPropertyId, agreed: 0 })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert('You must agree to proceed.');
+    document.getElementById('agreementModal').style.display = 'none';
+  });
+});
 </script>
+
 </body>
 </html>

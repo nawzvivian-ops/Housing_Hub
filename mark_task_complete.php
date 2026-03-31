@@ -7,7 +7,7 @@ $id = intval($_POST['id'] ?? 0);
 if ($id > 0) {
     mysqli_query($conn, "
         UPDATE tasks
-        SET status='Completed'
+        SET status='Completed', completed_at=NOW()
         WHERE id=$id
     ");
 }
@@ -15,4 +15,3 @@ if ($id > 0) {
 header("Location: admin_dashboard.php?page=staff_tasks");
 exit();
 ?>
-
