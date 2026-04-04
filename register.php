@@ -165,6 +165,7 @@ form {
         <option value="staff">Staff</option>
         <option value="tenant">Tenant</option>
         <option value="guest">Guest</option>
+        <option value="broker">Broker</option>
         <option value="propertyowner">Propertyowner</option>
     </select>
     <input type="password" name="admin_secret" placeholder="Admin Secret Key">

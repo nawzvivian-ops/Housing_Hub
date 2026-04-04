@@ -36,6 +36,7 @@ $allowed = [
     'notifications'       => 'notifications',
     'tenant_documents'    => 'tenant_documents',
     'visitors'            => 'guests',
+     'verification_requests'    => 'broker_documents',
 ];
  
 // ── Read table and id ──

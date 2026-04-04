@@ -17,6 +17,45 @@ $role    = strtolower(trim($user['role']));
 
 if ($role !== 'admin') { header("Location: dashboard.php"); exit(); }
 
+// --- Corrected Verification Logic ---
+
+// Verify request
+if (isset($_GET['verify'])) {
+    $id = (int)$_GET['verify']; // Get the ID directly from the 'verify' parameter
+    mysqli_query($conn, "UPDATE verification_requests SET status='verified' WHERE id=$id");
+    
+    // Fetch user info for email
+    $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT full_name, email FROM verification_requests WHERE id=$id"));
+    if ($res && !empty($res['email'])) {
+        $subject = "Verification Successful - HousingHub";
+        $message = "Dear " . htmlspecialchars($res['full_name']) . ",\n\n"
+                 . "Congratulations! Your verification request has been approved. You can now access all features.\n\n"
+                 . "Best regards,\nHousingHub Team";
+        send_mail($res['email'], $subject, $message);
+    }
+    $_SESSION['admin_success'] = "Broker verified successfully.";
+    header("Location: admin_dashboard.php?page=broker_documents");
+    exit;
+}
+
+// Reject request
+if (isset($_GET['reject'])) {
+    $id = (int)$_GET['reject']; // Get the ID directly from the 'reject' parameter
+    mysqli_query($conn, "UPDATE verification_requests SET status='rejected' WHERE id=$id");
+    
+    $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT full_name, email FROM verification_requests WHERE id=$id"));
+    if ($res && !empty($res['email'])) {
+        $subject = "Verification Update - HousingHub";
+        $message = "Dear " . htmlspecialchars($res['full_name']) . ",\n\n"
+                 . "We regret to inform you that your verification request was not successful. Please try again or contact support.\n\n"
+                 . "Best,\nHousingHub Team";
+        send_mail($res['email'], $subject, $message);
+    }
+    $_SESSION['admin_error'] = "Broker verification rejected.";
+    header("Location: admin_dashboard.php?page=broker_documents");
+    exit;
+}
+
 // ── Stats ──
 $total_brokers       = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='broker'"))['count'];
 $total_owners        = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='owner'"))['count'];
@@ -281,6 +320,39 @@ if (isset($_POST['save_app_notes'])) {
     header("Location: admin_dashboard.php?page=tenant_applications"); exit();
 }
 
+// Verify request
+if (isset($_GET['verify']) && isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    mysqli_query($conn, "UPDATE verification_requests SET status='verified' WHERE id=$id");
+    // Fetch user info
+    $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT full_name, email FROM verification_requests WHERE id=$id"));
+    if ($res && !empty($res['email'])) {
+        $subject = "Verification Successful - HousingPlatform";
+        $message = "Dear " . htmlspecialchars($res['full_name']) . ",\n\n"
+                 . "Congratulations! Your verification request has been approved. You can now access all features.\n\n"
+                 . "Best regards,\nHousingPlatform Team";
+        send_mail($res['email'], $subject, $message);
+    }
+    header("Location: admin_dashboard.php?page=broker_documents");
+    exit;
+}
+
+// Reject request
+if (isset($_GET['reject']) && isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    mysqli_query($conn, "UPDATE verification_requests SET status='rejected' WHERE id=$id");
+    $res = mysqli_fetch_assoc(mysqli_query($conn, "SELECT full_name, email FROM verification_requests WHERE id=$id"));
+    if ($res && !empty($res['email'])) {
+        $subject = "Verification Update - HousingPlatform";
+        $message = "Dear " . htmlspecialchars($res['full_name']) . ",\n\n"
+                 . "We regret to inform you that your verification request was not successful. Please try again or contact support.\n\n"
+                 . "Best,\nHousingPlatform Team";
+        send_mail($res['email'], $subject, $message);
+    }
+    header("Location: admin_dashboard.php?page=broker_documents");
+    exit;
+}
+
 // ── Handle property application status update ──
 if (isset($_GET['pa_action']) && isset($_GET['pa_id'])) {
     $pa_id     = (int)$_GET['pa_id'];
@@ -311,8 +383,180 @@ if (isset($_POST['save_pa_notes'])) {
     $_SESSION['admin_success'] = "Notes saved.";
     header("Location: admin_dashboard.php?page=property_applications"); exit();
 }
-
+// Assign property to broker
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_property_broker'])) {
+    $b_id  = (int)$_POST['broker_id_assign'];
+    $pr_id = (int)$_POST['property_id_broker'];
+    if ($b_id > 0 && $pr_id > 0) {
+        $brow = mysqli_fetch_assoc(mysqli_query($conn,"SELECT fullname FROM users WHERE id=$b_id LIMIT 1"));
+        $prow = mysqli_fetch_assoc(mysqli_query($conn,"SELECT property_name FROM properties WHERE id=$pr_id LIMIT 1"));
+        mysqli_query($conn,"UPDATE properties SET broker_id=$b_id WHERE id=$pr_id");
+        $pname_s = mysqli_real_escape_string($conn, $prow['property_name'] ?? '');
+        mysqli_query($conn,"INSERT INTO notifications (user_id,tenant_id,title,message,status,date)
+            VALUES ($b_id,0,'Property Assigned','The property $pname_s has been assigned to your broker account.','unread',NOW())");
+        $_SESSION['admin_success'] = "Property <strong>".$prow['property_name']."</strong> assigned to broker <strong>".$brow['fullname']."</strong>.";
+    }
+    header("Location: admin_dashboard.php?page=broker_management"); exit();
+}
+ 
+// Update broker commission rate
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_commission'])) {
+    $b_id   = (int)$_POST['broker_id_commission'];
+    $rate   = min(50, max(0, (float)$_POST['commission_rate']));
+    if ($b_id > 0) {
+        mysqli_query($conn,"UPDATE users SET commission_rate=$rate WHERE id=$b_id AND role='broker'");
+        $_SESSION['admin_success'] = "Commission rate updated to {$rate}%.";
+    }
+    header("Location: admin_dashboard.php?page=broker_management"); exit();
+}
+ 
+// Suspend / Activate broker
+if (isset($_GET['broker_action']) && isset($_GET['broker_id'])) {
+    $b_id    = (int)$_GET['broker_id'];
+    $b_act   = mysqli_real_escape_string($conn, $_GET['broker_action']);
+    if (in_array($b_act, ['suspend','activate']) && $b_id > 0) {
+        $new_status = ($b_act === 'suspend') ? 'suspended' : 'active';
+        mysqli_query($conn,"UPDATE users SET status='$new_status' WHERE id=$b_id AND role='broker'");
+        $msg = $b_act === 'suspend' ? 'Broker account suspended.' : 'Broker account reactivated.';
+        $_SESSION['admin_success'] = $msg;
+    }
+    header("Location: admin_dashboard.php?page=broker_management"); exit();
+}
+ 
+// Remove broker from property
+if (isset($_GET['unassign_broker']) && isset($_GET['prop_id'])) {
+    $prop_id = (int)$_GET['prop_id'];
+    mysqli_query($conn,"UPDATE properties SET broker_id=NULL WHERE id=$prop_id");
+    $_SESSION['admin_success'] = "Broker unassigned from property.";
+    header("Location: admin_dashboard.php?page=broker_management"); exit();
+}
+// Auto-create broker submissions table
+mysqli_query($conn, "CREATE TABLE IF NOT EXISTS broker_property_submissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    broker_id INT NOT NULL,
+    property_name VARCHAR(200) NOT NULL,
+    property_type VARCHAR(100) DEFAULT NULL,
+    address TEXT DEFAULT NULL,
+    units INT DEFAULT 1,
+    rent_amount DECIMAL(12,2) DEFAULT 0,
+    bedrooms INT DEFAULT 0,
+    size_sqft INT DEFAULT NULL,
+    amenities TEXT DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    purpose VARCHAR(50) DEFAULT 'rent',
+    latitude VARCHAR(50) DEFAULT NULL,
+    longitude VARCHAR(50) DEFAULT NULL,
+    commission_rate DECIMAL(5,2) DEFAULT 10,
+    commission_percentage DECIMAL(5,2) DEFAULT 10,
+    property_image VARCHAR(300) DEFAULT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    admin_notes TEXT DEFAULT NULL,
+    reviewed_by VARCHAR(200) DEFAULT NULL,
+    reviewed_at DATETIME DEFAULT NULL,
+    created_at DATETIME DEFAULT NOW()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+ 
+// Handle submission status update
+if (isset($_GET['bps_action']) && isset($_GET['bps_id'])) {
+    $bps_id     = (int)$_GET['bps_id'];
+    $bps_action = mysqli_real_escape_string($conn, $_GET['bps_action']);
+ 
+    if (in_array($bps_action, ['approved', 'rejected', 'pending', 'reviewing'])) {
+        $rb = mysqli_real_escape_string($conn, $user['fullname']);
+        $ra = date('Y-m-d H:i:s');
+        mysqli_query($conn, "UPDATE broker_property_submissions SET status='$bps_action', reviewed_by='$rb', reviewed_at='$ra' WHERE id=$bps_id");
+ 
+        // If approved → copy into properties table
+        if ($bps_action === 'approved') {
+            $sub = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM broker_property_submissions WHERE id=$bps_id LIMIT 1"));
+            if ($sub) {
+                $pn  = mysqli_real_escape_string($conn, $sub['property_name']);
+                $pt  = mysqli_real_escape_string($conn, $sub['property_type'] ?? '');
+                $pa  = mysqli_real_escape_string($conn, $sub['address'] ?? '');
+                $pu  = (int)$sub['units'];
+                $pr  = (float)$sub['rent_amount'];
+                $pb  = (int)$sub['bedrooms'];
+                $psq = $sub['size_sqft'] ? (int)$sub['size_sqft'] : 'NULL';
+                $pam = mysqli_real_escape_string($conn, $sub['amenities'] ?? '');
+                $pd  = mysqli_real_escape_string($conn, $sub['description'] ?? '');
+                $pp  = mysqli_real_escape_string($conn, $sub['purpose'] ?? 'rent');
+                $plat = mysqli_real_escape_string($conn, $sub['latitude'] ?? '');
+                $plng = mysqli_real_escape_string($conn, $sub['longitude'] ?? '');
+                $pcp = (float)$sub['commission_percentage'];
+                $pimg = mysqli_real_escape_string($conn, $sub['property_image'] ?? '');
+                $bid  = (int)$sub['broker_id'];
+ 
+                // Insert into properties
+                $insert = mysqli_query($conn,
+                    "INSERT INTO properties
+                        (property_name, property_type, address, units, rent_amount, bedrooms,
+                         size_sqft, amenities, description, purpose, latitude, longitude,
+                         commission_percentage, property_image, broker_id, status, created_at)
+                     VALUES
+                        ('$pn','$pt','$pa',$pu,$pr,$pb,
+                         ".($sub['size_sqft'] ? (int)$sub['size_sqft'] : 'NULL').",'$pam','$pd','$pp','$plat','$plng',
+                         $pcp,'$pimg',$bid,'available',NOW())"
+                );
+ 
+                if ($insert) {
+                    $new_prop_id = mysqli_insert_id($conn);
+                    // Notify the broker
+                    $pn_safe = mysqli_real_escape_string($conn, $sub['property_name']);
+                    mysqli_query($conn,
+                        "INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
+                         VALUES ($bid, 0, 'Property Approved',
+                         'Your submitted property \"$pn_safe\" has been approved and is now live on HousingHub.',
+                         'unread', NOW())"
+                    );
+                    $_SESSION['admin_success'] = "Submission approved and property <strong>$pn</strong> is now live. Property ID: #$new_prop_id";
+                } else {
+                    $_SESSION['admin_error'] = "Submission approved but failed to copy to properties table. Check DB structure.";
+                }
+            }
+        } elseif ($bps_action === 'rejected') {
+            $sub = mysqli_fetch_assoc(mysqli_query($conn, "SELECT broker_id, property_name FROM broker_property_submissions WHERE id=$bps_id LIMIT 1"));
+            if ($sub) {
+                $bid    = (int)$sub['broker_id'];
+                $pn_rej = mysqli_real_escape_string($conn, $sub['property_name']);
+                mysqli_query($conn,
+                    "INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
+                     VALUES ($bid, 0, 'Property Submission Rejected',
+                     'Your submitted property \"$pn_rej\" was not approved. Please check admin notes or contact support.',
+                     'unread', NOW())"
+                );
+            }
+            $_SESSION['admin_success'] = "Submission #$bps_id rejected and broker notified.";
+        } else {
+            $_SESSION['admin_success'] = "Submission #$bps_id marked as <strong>" . ucfirst($bps_action) . "</strong>.";
+        }
+    }
+    header("Location: admin_dashboard.php?page=broker_submissions"); exit();
+}
+ 
+// Handle admin notes save
+if (isset($_POST['save_bps_notes'])) {
+    $bps_id    = (int)$_POST['bps_id'];
+    $bps_notes = mysqli_real_escape_string($conn, trim($_POST['bps_admin_notes'] ?? ''));
+    mysqli_query($conn, "UPDATE broker_property_submissions SET admin_notes='$bps_notes' WHERE id=$bps_id");
+    $_SESSION['admin_success'] = "Notes saved for submission #$bps_id.";
+    header("Location: admin_dashboard.php?page=broker_submissions"); exit();
+}
+ 
+// Handle delete
+if (isset($_GET['delete_bps'])) {
+    $bps_id = (int)$_GET['delete_bps'];
+    $sub = mysqli_fetch_assoc(mysqli_query($conn, "SELECT property_image FROM broker_property_submissions WHERE id=$bps_id LIMIT 1"));
+    if ($sub && !empty($sub['property_image']) && file_exists($sub['property_image'])) {
+        @unlink($sub['property_image']);
+    }
+    mysqli_query($conn, "DELETE FROM broker_property_submissions WHERE id=$bps_id");
+    $_SESSION['admin_success'] = "Submission deleted.";
+    header("Location: admin_dashboard.php?page=broker_submissions"); exit();
+}
 ?>
+ 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -408,6 +652,7 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
     <?php if($unlinked_count > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $unlinked_count ?></span><?php endif; ?>
   </a>
   <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>> Brokers / Agents</a>
+  <a href="admin_dashboard.php?page=broker_management" <?php echo ($page==='broker_management')?'class="active"':''; ?>>Broker Management</a>
   <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>> Property Owners</a>
 
   <div class="sb-section">Staff</div>
@@ -442,6 +687,18 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
   </a>
   <div class="sb-section">Properties</div>
   <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>>Manage Properties</a>
+  <a href="admin_dashboard.php?page=broker_submissions" <?php echo ($page==='broker_submissions')?'class="active"':''; ?>>
+  Broker Submissions
+  <?php
+      $pending_bps = 0;
+     $bps_chk = mysqli_query($conn,"SHOW TABLES LIKE 'broker_property_submissions'");
+     if ($bps_chk && mysqli_num_rows($bps_chk) > 0)
+         $pending_bps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='pending'"))['c'] ?? 0;      if($pending_bps > 0): ?>
+        <span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_bps ?></span>
+   <?php endif; ?>
+</a>
+ 
+
   <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>> Property Inspections</a>
   <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>> Maintenance Requests</a>
 
@@ -451,9 +708,10 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
   <a href="admin_dashboard.php?page=revenue_reports" <?php echo ($page==='revenue_reports')?'class="active"':''; ?>> Revenue Reports</a>
 
   <div class="sb-section">Other</div>
-  <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>>🪪 Guest Approvals</a>
+  <a href="admin_dashboard.php?page=guests" <?php echo ($page==='guests')?'class="active"':''; ?>> Guest Approvals</a>
   <a href="admin_dashboard.php?page=complaints" <?php echo ($page==='complaints')?'class="active"':''; ?>>Complaints & Feedback</a>
   <a href="admin_dashboard.php?page=tenant_documents" <?php echo ($page==='tenant_documents')?'class="active"':''; ?>> Tenant Documents</a>
+  <a href="admin_dashboard.php?page=broker_documents" <?php echo ($page==='broker_documents')?'class="active"':''; ?>>Broker Documents</a>
   <a href="admin_dashboard.php?page=notifications" <?php echo ($page==='notifications')?'class="active"':''; ?>> Notifications</a>
   <a href="admin_dashboard.php?page=agreed_users" <?php echo ($page==='agreed_users')?'class="active"':''; ?>> Agreed Users</a>
   <a href="admin_dashboard.php?page=settings" <?php echo ($page==='settings')?'class="active"':''; ?>> System Settings</a>
@@ -470,6 +728,287 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
 </div>
 
 <div class="main-content">
+  <?php if($page === 'broker_management'): ?>
+<section id="broker_management">
+  <h2 style="text-align:center;color:var(--gold)">🏢 BROKER MANAGEMENT</h2>
+  <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:28px">Full control over all broker accounts — assign properties, set commissions, suspend or activate accounts.</p>
+ 
+  <?php
+  // Ensure commission_rate and status columns exist
+  $cols = mysqli_query($conn,"SHOW COLUMNS FROM users LIKE 'commission_rate'");
+  if (!$cols || mysqli_num_rows($cols) === 0)
+      mysqli_query($conn,"ALTER TABLE users ADD COLUMN commission_rate DECIMAL(5,2) DEFAULT 10.00");
+ 
+  $scols = mysqli_query($conn,"SHOW COLUMNS FROM users LIKE 'status'");
+  if (!$scols || mysqli_num_rows($scols) === 0)
+      mysqli_query($conn,"ALTER TABLE users ADD COLUMN status VARCHAR(50) DEFAULT 'active'");
+ 
+  // Broker stats
+  $total_b     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM users WHERE role='broker'"))['c'] ?? 0;
+  $active_b    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM users WHERE role='broker' AND (status='active' OR status IS NULL OR status='')"))['c'] ?? 0;
+  $suspended_b = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM users WHERE role='broker' AND status='suspended'"))['c'] ?? 0;
+ 
+  $r_bi = mysqli_query($conn,"SHOW COLUMNS FROM properties LIKE 'broker_id'");
+  if (!$r_bi || mysqli_num_rows($r_bi) === 0)
+      mysqli_query($conn,"ALTER TABLE properties ADD COLUMN broker_id INT DEFAULT NULL");
+ 
+  $assigned_props = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM properties WHERE broker_id IS NOT NULL AND broker_id > 0"))['c'] ?? 0;
+  ?>
+ 
+  <!-- STAT ROW -->
+  <div class="stat-row" style="margin-bottom:28px">
+    <div class="stat-box"><div class="stat-box-val"><?= $total_b ?></div><div class="stat-box-lbl">Total Brokers</div></div>
+    <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $active_b ?></div><div class="stat-box-lbl">Active</div></div>
+    <div class="stat-box" style="border-color:rgba(239,68,68,.3)"><div class="stat-box-val" style="color:#fca5a5"><?= $suspended_b ?></div><div class="stat-box-lbl">Suspended</div></div>
+    <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val" style="color:var(--gold)"><?= $assigned_props ?></div><div class="stat-box-lbl">Assigned Properties</div></div>
+  </div>
+ 
+  <!-- ADD BROKER BUTTON -->
+  <div style="text-align:center;margin-bottom:28px">
+    <a href="add_user.php?role=broker" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW BROKER</a>
+  </div>
+ 
+  <!-- BROKERS TABLE -->
+  <?php
+  $brokers_q = mysqli_query($conn,
+      "SELECT u.*,
+              COUNT(p.id) AS prop_count,
+              SUM(pay.amount * u.commission_rate / 100) AS total_earned
+       FROM users u
+       LEFT JOIN properties p ON p.broker_id = u.id
+       LEFT JOIN payments pay ON pay.property_id = p.id AND pay.status IN ('paid','completed')
+       WHERE u.role='broker'
+       GROUP BY u.id
+       ORDER BY u.created_at DESC");
+ 
+  // All unassigned or any property list for dropdown
+  $all_props_drop = mysqli_query($conn,"SELECT id, property_name FROM properties ORDER BY property_name ASC");
+  $all_props_arr  = [];
+  while($pp = mysqli_fetch_assoc($all_props_drop)) $all_props_arr[] = $pp;
+  ?>
+ 
+  <table>
+    <tr>
+      <th>Broker</th>
+      <th>Contact</th>
+      <th>Status</th>
+      <th>Commission Rate</th>
+      <th>Properties</th>
+      <th>Lifetime Earned (UGX)</th>
+      <th>Assign Property</th>
+      <th>Actions</th>
+    </tr>
+    <?php while($b = mysqli_fetch_assoc($brokers_q)):
+      $bid      = $b['id'];
+      $bstatus  = strtolower($b['status'] ?? 'active');
+      $is_susp  = ($bstatus === 'suspended');
+      $b_deals  = mysqli_fetch_assoc(mysqli_query($conn,
+          "SELECT COUNT(*) AS c FROM payments pay
+           JOIN properties pr ON pay.property_id=pr.id
+           WHERE pr.broker_id=$bid AND pay.status IN ('paid','completed')"))['c'] ?? 0;
+      $tier     = $b_deals < 5 ? 'New' : ($b_deals < 20 ? 'Silver' : 'Gold');
+ 
+      // Broker's assigned properties
+      $b_props = mysqli_query($conn,"SELECT p.id, p.property_name FROM properties p WHERE p.broker_id=$bid ORDER BY p.property_name ASC");
+    ?>
+    <tr style="<?= $is_susp ? 'opacity:.6' : '' ?>">
+      <td>
+        <div style="font-weight:600"><?= htmlspecialchars($b['fullname']) ?></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px"><?= $tier ?> Broker · <?= $b_deals ?> deals</div>
+      </td>
+      <td>
+        <div style="font-size:12px"><?= htmlspecialchars($b['email']??'—') ?></div>
+        <div style="font-size:11px;color:var(--muted)"><?= htmlspecialchars($b['phone']??'—') ?></div>
+      </td>
+      <td>
+        <?php if($is_susp): ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;text-transform:uppercase">Suspended</span>
+        <?php else: ?>
+          <span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.3);color:#86efac;text-transform:uppercase">Active</span>
+        <?php endif; ?>
+      </td>
+      <td>
+        <!-- Inline rate editor -->
+        <form method="POST" style="display:flex;align-items:center;gap:6px">
+          <input type="hidden" name="update_commission" value="1">
+          <input type="hidden" name="broker_id_commission" value="<?= $bid ?>">
+          <input type="number" name="commission_rate" value="<?= (float)($b['commission_rate'] ?? 10) ?>" min="0" max="50" step="0.5"
+                 style="width:60px;padding:5px 8px;border-radius:5px;border:1px solid var(--border);font-size:12px;background:rgba(255,255,255,.06);color:var(--white);font-family:'Outfit',sans-serif">
+          <span style="font-size:12px;color:var(--muted)">%</span>
+          <button type="submit" class="action-btn" style="padding:5px 10px;font-size:11px;background:rgba(200,164,60,.2);border:1px solid var(--gb)">✓</button>
+        </form>
+      </td>
+      <td>
+        <div style="font-size:13px;font-weight:600;color:var(--gold)"><?= (int)$b['prop_count'] ?> assigned</div>
+        <?php if(mysqli_num_rows($b_props) > 0): ?>
+        <div style="margin-top:5px;display:flex;flex-direction:column;gap:3px">
+          <?php mysqli_data_seek($b_props,0); while($bp = mysqli_fetch_assoc($b_props)): ?>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:11px;color:var(--muted)"><?= htmlspecialchars(substr($bp['property_name'],0,22)) ?></span>
+            <a href="admin_dashboard.php?page=broker_management&unassign_broker=1&prop_id=<?= $bp['id'] ?>"
+               onclick="return confirm('Remove broker from this property?')"
+               style="font-size:10px;color:#fca5a5;text-decoration:none;border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:1px 6px">✕</a>
+          </div>
+          <?php endwhile; ?>
+        </div>
+        <?php endif; ?>
+      </td>
+      <td style="font-size:13px;color:#86efac;font-weight:600">UGX <?= number_format($b['total_earned'] ?? 0) ?></td>
+      <td>
+        <?php if(!empty($all_props_arr)): ?>
+        <form method="POST">
+          <input type="hidden" name="assign_property_broker" value="1">
+          <input type="hidden" name="broker_id_assign" value="<?= $bid ?>">
+          <select name="property_id_broker" required style="padding:6px 8px;border-radius:5px;border:1px solid var(--border);font-size:11px;background:rgba(255,255,255,.06);color:var(--white);width:100%;margin-bottom:5px;font-family:'Outfit',sans-serif">
+            <option value="">— Select property —</option>
+            <?php foreach($all_props_arr as $pp): ?>
+            <option value="<?= $pp['id'] ?>"><?= htmlspecialchars(substr($pp['property_name'],0,28)) ?></option>
+            <?php endforeach; ?>
+          </select>
+          <button type="submit" class="action-btn" style="width:100%;font-size:11px;padding:6px;background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac"
+                  onclick="return confirm('Assign this property?')">✓ Assign</button>
+        </form>
+        <?php else: ?>
+          <span style="font-size:11px;color:var(--muted)"><a href="add_property.php" style="color:var(--gold)">+ Add property first</a></span>
+        <?php endif; ?>
+      </td>
+      <td style="white-space:nowrap">
+        <a href="edit_user.php?id=<?= $bid ?>" class="action-btn" style="font-size:11px">Edit</a>
+        <?php if($is_susp): ?>
+        <a href="admin_dashboard.php?page=broker_management&broker_action=activate&broker_id=<?= $bid ?>"
+           class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:11px"
+           onclick="return confirm('Reactivate this broker account?')">✓ Activate</a>
+        <?php else: ?>
+        <a href="admin_dashboard.php?page=broker_management&broker_action=suspend&broker_id=<?= $bid ?>"
+           class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px"
+           onclick="return confirm('Suspend this broker account?')">⊘ Suspend</a>
+        <?php endif; ?>
+        <a href="delete_user.php?id=<?= $bid ?>" class="action-btn"
+           style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px"
+           onclick="return confirm('Permanently delete this broker?')">Delete</a>
+      </td>
+    </tr>
+    <?php endwhile; ?>
+  </table>
+ 
+  <!-- BROKER PERFORMANCE OVERVIEW -->
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);margin:28px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Performance Overview</h3>
+  <table>
+    <tr>
+      <th>Broker</th>
+      <th>Properties</th>
+      <th>Deals Closed</th>
+      <th>Commissions Earned</th>
+      <th>Pending Applications</th>
+      <th>Tier</th>
+    </tr>
+    <?php
+    $perf_q = mysqli_query($conn,
+        "SELECT u.id, u.fullname, u.commission_rate,
+                COUNT(DISTINCT p.id) AS prop_count
+         FROM users u
+         LEFT JOIN properties p ON p.broker_id=u.id
+         WHERE u.role='broker'
+         GROUP BY u.id ORDER BY u.fullname ASC");
+    while($bp = mysqli_fetch_assoc($perf_q)):
+      $bpid = $bp['id'];
+      $bp_deals = mysqli_fetch_assoc(mysqli_query($conn,
+          "SELECT COUNT(*) AS c FROM payments pay JOIN properties pr ON pay.property_id=pr.id
+           WHERE pr.broker_id=$bpid AND pay.status IN ('paid','completed')"))['c'] ?? 0;
+      $bp_earn  = mysqli_fetch_assoc(mysqli_query($conn,
+          "SELECT SUM(pay.amount * {$bp['commission_rate']} / 100) AS total FROM payments pay
+           JOIN properties pr ON pay.property_id=pr.id
+           WHERE pr.broker_id=$bpid AND pay.status IN ('paid','completed')"))['total'] ?? 0;
+      $bp_pend  = 0;
+      $ta_chk = mysqli_query($conn,"SHOW TABLES LIKE 'tenant_applications'");
+      if ($ta_chk && mysqli_num_rows($ta_chk) > 0)
+        $bp_pend = mysqli_fetch_assoc(mysqli_query($conn,
+            "SELECT COUNT(*) AS c FROM tenant_applications ta JOIN properties pr ON ta.property_id=pr.id
+             WHERE pr.broker_id=$bpid AND ta.status='pending'"))['c'] ?? 0;
+      $bp_tier = $bp_deals < 5 ? 'New Broker' : ($bp_deals < 20 ? 'Silver' : 'Gold');
+      $tier_col = $bp_deals < 5 ? 'var(--gold)' : ($bp_deals < 20 ? 'silver' : 'var(--gold-l)');
+    ?>
+    <tr>
+      <td style="font-weight:600"><?= htmlspecialchars($bp['fullname']) ?></td>
+      <td style="color:var(--gold)"><?= (int)$bp['prop_count'] ?></td>
+      <td style="color:#86efac"><?= $bp_deals ?></td>
+      <td style="color:#86efac;font-weight:600">UGX <?= number_format($bp_earn) ?></td>
+      <td><span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:<?=$bp_pend>0?'rgba(200,164,60,.1)':'rgba(22,163,74,.1)'?>;color:<?=$bp_pend>0?'var(--gold)':'#86efac'?>;border:1px solid <?=$bp_pend>0?'var(--gb)':'rgba(22,163,74,.25)'?>"><?= $bp_pend ?> pending</span></td>
+      <td style="color:<?= $tier_col ?>;font-weight:600"><?= $bp_tier ?></td>
+    </tr>
+    <?php endwhile; ?>
+  </table>
+</section>
+<?php endif; ?>
+ 
+<?php if($page === 'broker_documents'): ?>
+<section id="broker_documents">
+  <h2 style="text-align:center;color:var(--gold)">Broker Verification Requests</h2>
+
+  <?php
+  $docs = mysqli_query($conn, "SELECT * FROM verification_requests ORDER BY submitted_at DESC");
+  ?>
+
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>ID / Business Info</th>
+      <th>Documents</th>
+      <th>Status</th>
+      <th>Submitted At</th>
+      <th>Actions</th>
+    </tr>
+
+    <?php while($row = mysqli_fetch_assoc($docs)): ?>
+    <tr>
+      <td><?= htmlspecialchars(ucfirst($row['type'])) ?></td>
+
+      <td>
+        <?= htmlspecialchars($row['type'] === 'business' ? $row['business_name'] : $row['full_name']) ?>
+      </td>
+
+      <td><?= htmlspecialchars($row['email'] ?? '') ?></td>
+
+      <td>
+        <?php if ($row['type'] === 'business'): ?>
+          Years in business: <?= htmlspecialchars($row['duration_years'] ?? '') ?>
+        <?php else: ?>
+          ID Type: <?= htmlspecialchars($row['id_type'] ?? '') ?><br>
+          Phone: <?= htmlspecialchars($row['phone'] ?? '') ?>
+        <?php endif; ?>
+      </td>
+
+      <td>
+        <?php if ($row['type'] === 'business'): ?>
+          <a href="<?= htmlspecialchars($row['b_reg_path']) ?>" target="_blank">Business Reg</a><br>
+          <a href="<?= htmlspecialchars($row['owner_id_path']) ?>" target="_blank">Owner ID</a><br>
+          <?php if (!empty($row['additional_doc_path'])): ?>
+            <a href="<?= htmlspecialchars($row['additional_doc_path']) ?>" target="_blank">Additional Doc</a>
+          <?php endif; ?>
+        <?php else: ?>
+          <a href="<?= htmlspecialchars($row['id_doc_path']) ?>" target="_blank">View ID Document</a>
+        <?php endif; ?>
+      </td>
+
+      <td><?= htmlspecialchars($row['status'] ?? 'pending') ?></td>
+      <td><?= htmlspecialchars($row['submitted_at']) ?></td>
+
+      <td>
+        <?php if (($row['status'] ?? 'pending') === 'pending'): ?>
+          <a class="action-btn" href="admin_dashboard.php?page=broker_documents&verify=<?= $row['id'] ?>" onclick="return confirm('Verify this request?')">Verify</a>
+          <a class="action-btn" href="admin_dashboard.php?page=broker_documents&reject=<?= $row['id'] ?>" onclick="return confirm('Reject this request?')" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5">Reject</a>
+        <?php endif; ?>
+
+        <a class="action-btn" href="delete_record.php?table=verification_requests&id=<?= $row['id'] ?>" onclick="return confirm('Delete this request?')">Delete</a>
+      </td>
+    </tr>
+    <?php endwhile; ?>
+  </table>
+</section>
+<?php endif; ?>
+
 
 <?php
 if (isset($_SESSION['admin_success'])):
@@ -1205,7 +1744,198 @@ endif;
     <?php endwhile; ?>
   </table>
 </section>
-
+<?php elseif($page === 'broker_submissions'): ?>
+<section id="broker_submissions">
+<h2 style="text-align:center;color:var(--gold)">🏠 BROKER PROPERTY SUBMISSIONS</h2>
+<p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:28px">
+  Properties submitted by brokers awaiting your review. Approved submissions are automatically added to the live listings.
+</p>
+ 
+<?php
+$bps_total     = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions"))['c'] ?? 0;
+$bps_pending   = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='pending'"))['c'] ?? 0;
+$bps_reviewing = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='reviewing'"))['c'] ?? 0;
+$bps_approved  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='approved'"))['c'] ?? 0;
+$bps_rejected  = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='rejected'"))['c'] ?? 0;
+ 
+$view_bps = null;
+if (isset($_GET['view_bps'])) {
+    $vbid = (int)$_GET['view_bps'];
+    $view_bps = mysqli_fetch_assoc(mysqli_query($conn,
+        "SELECT s.*, u.fullname AS broker_name, u.email AS broker_email, u.phone AS broker_phone,
+                u.commission_rate AS broker_rate
+         FROM broker_property_submissions s
+         LEFT JOIN users u ON s.broker_id = u.id
+         WHERE s.id = $vbid LIMIT 1"));
+}
+ 
+$bps_filter = $_GET['filter'] ?? 'all';
+$bps_where  = $bps_filter !== 'all' ? "WHERE s.status='" . mysqli_real_escape_string($conn,$bps_filter) . "'" : '';
+$bps_q = mysqli_query($conn,
+    "SELECT s.*, u.fullname AS broker_name
+     FROM broker_property_submissions s
+     LEFT JOIN users u ON s.broker_id = u.id
+     $bps_where
+     ORDER BY s.submission_date DESC");
+     ?>
+ 
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px">
+  <div class="stat-box"><div class="stat-box-val"><?= $bps_total ?></div><div class="stat-box-lbl">Total</div></div>
+  <div class="stat-box" style="border-color:var(--gb)"><div class="stat-box-val"><?= $bps_pending ?></div><div class="stat-box-lbl">Pending</div></div>
+  <div class="stat-box" style="border-color:rgba(59,130,246,.3)"><div class="stat-box-val" style="color:#5b9cff"><?= $bps_reviewing ?></div><div class="stat-box-lbl">Reviewing</div></div>
+  <div class="stat-box" style="border-color:rgba(22,163,74,.3)"><div class="stat-box-val" style="color:#86efac"><?= $bps_approved ?></div><div class="stat-box-lbl">Approved & Live</div></div>
+  <div class="stat-box" style="border-color:rgba(239,68,68,.3)"><div class="stat-box-val" style="color:#fca5a5"><?= $bps_rejected ?></div><div class="stat-box-lbl">Rejected</div></div>
+</div>
+ 
+<?php if ($view_bps): ?>
+<div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:24px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--border)">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--white);margin-bottom:4px"><?= htmlspecialchars($view_bps['property_name']) ?></div>
+      <div style="font-size:12px;color:var(--muted)">
+        Submission #<?= $view_bps['id'] ?> · Submitted <?= $view_bps['created_at'] ? date('d M Y, H:i', strtotime($view_bps['created_at'])) : '—' ?>
+        <?php if($view_bps['reviewed_at']): ?> · Reviewed <?= date('d M Y', strtotime($view_bps['reviewed_at'])) ?> by <?= htmlspecialchars($view_bps['reviewed_by'] ?? '—') ?><?php endif; ?>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <?php
+      $st=$view_bps['status']??'pending';
+      $sc=$st==='approved'?'#86efac':($st==='rejected'?'#fca5a5':($st==='reviewing'?'#5b9cff':'var(--gold)'));
+      $sbg=$st==='approved'?'rgba(22,163,74,.12)':($st==='rejected'?'rgba(239,68,68,.12)':($st==='reviewing'?'rgba(59,130,246,.12)':'rgba(200,164,60,.12)'));
+      $sbd=$st==='approved'?'rgba(22,163,74,.35)':($st==='rejected'?'rgba(239,68,68,.35)':($st==='reviewing'?'rgba(59,130,246,.35)':'var(--gb)'));
+      ?>
+      <span style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?= ucfirst($st) ?></span>
+      <a href="admin_dashboard.php?page=broker_submissions" class="action-btn" style="font-size:12px">← Back</a>
+    </div>
+  </div>
+ 
+  <div style="display:flex;align-items:center;gap:16px;padding:14px 18px;background:rgba(14,90,200,.06);border:1px solid rgba(14,90,200,.2);border-radius:10px;margin-bottom:20px">
+    <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(200,164,60,.4),rgba(14,90,200,.3));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--white);flex-shrink:0"><?= strtoupper(substr($view_bps['broker_name']??'B',0,1)) ?></div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--white)"><?= htmlspecialchars($view_bps['broker_name'] ?? 'Unknown') ?></div>
+      <div style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($view_bps['broker_email']??'—') ?> · <?= htmlspecialchars($view_bps['broker_phone']??'—') ?></div>
+      <div style="font-size:11px;color:#5b9cff;margin-top:2px">Commission Rate: <?= (float)($view_bps['broker_rate'] ?? $view_bps['commission_rate']) ?>%</div>
+    </div>
+    <a href="admin_dashboard.php?page=broker_management" style="margin-left:auto;font-size:11px;color:var(--gold);text-decoration:none;border:1px solid var(--gb);padding:5px 10px;border-radius:6px">View Broker →</a>
+  </div>
+ 
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
+    <?php foreach([
+      'Property Type'=>$view_bps['property_type']??'—','Purpose'=>ucfirst($view_bps['purpose']??'rent'),
+      'Rent (UGX)'=>number_format($view_bps['rent_amount']??0),'Units'=>$view_bps['units']??1,
+      'Bedrooms'=>$view_bps['bedrooms']??0,'Size (sqft)'=>$view_bps['size_sqft']?number_format($view_bps['size_sqft']):'—',
+      'Commission Rate'=>($view_bps['commission_rate']??10).'%','Commission %'=>($view_bps['commission_percentage']??10).'%',
+      'Latitude'=>$view_bps['latitude']??'—','Longitude'=>$view_bps['longitude']??'—',
+      'Submitted'=>$view_bps['created_at']?date('d M Y',strtotime($view_bps['created_at'])):'—','Status'=>ucfirst($view_bps['status']??'pending'),
+    ] as $lbl=>$val): ?>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $lbl ?></div>
+      <div style="font-size:13px;color:var(--white)"><?= htmlspecialchars((string)$val) ?></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+ 
+  <?php if(!empty($view_bps['address'])): ?>
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px">📍 Address</div>
+    <div style="font-size:13px;color:var(--white)"><?= htmlspecialchars($view_bps['address']) ?></div>
+    <?php if(!empty($view_bps['latitude'])&&!empty($view_bps['longitude'])): ?>
+    <a href="https://maps.google.com/?q=<?= urlencode($view_bps['latitude'].','.$view_bps['longitude']) ?>" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:#5b9cff;text-decoration:none;border:1px solid rgba(59,130,246,.3);padding:4px 10px;border-radius:5px">🗺️ View on Google Maps →</a>
+    <?php endif; ?>
+  </div>
+  <?php endif; ?>
+ 
+  <?php foreach(['Amenities'=>'amenities','Description'=>'description'] as $lbl=>$key): if(!empty($view_bps[$key])): ?>
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px"><?= $lbl ?></div>
+    <div style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.65"><?= htmlspecialchars($view_bps[$key]) ?></div>
+  </div>
+  <?php endif; endforeach; ?>
+ 
+  <?php if(!empty($view_bps['property_image'])): ?>
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:18px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Property Image</div>
+    <img src="<?= htmlspecialchars($view_bps['property_image']) ?>" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:cover;display:block" onerror="this.style.display='none'">
+    <a href="<?= htmlspecialchars($view_bps['property_image']) ?>" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--gold);text-decoration:none;border:1px solid var(--gb);padding:4px 10px;border-radius:5px">🖼️ Open Full Image →</a>
+  </div>
+  <?php endif; ?>
+ 
+  <div style="display:flex;gap:10px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:18px">
+    <?php if($st!=='reviewing'): ?><a href="admin_dashboard.php?page=broker_submissions&bps_action=reviewing&bps_id=<?=$view_bps['id']?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff">🔍 Under Review</a><?php endif; ?>
+    <?php if($st!=='approved'): ?><a href="admin_dashboard.php?page=broker_submissions&bps_action=approved&bps_id=<?=$view_bps['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac" onclick="return confirm('Approve & publish? Broker will be notified.')">✓ Approve & Publish</a><?php endif; ?>
+    <?php if($st!=='rejected'): ?><a href="admin_dashboard.php?page=broker_submissions&bps_action=rejected&bps_id=<?=$view_bps['id']?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Reject? Broker will be notified.')">✕ Reject</a><?php endif; ?>
+    <a href="admin_dashboard.php?page=broker_submissions&delete_bps=<?=$view_bps['id']?>" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5" onclick="return confirm('Delete permanently?')">🗑 Delete</a>
+    <?php if($st==='approved'): ?><a href="admin_dashboard.php?page=properties" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb);margin-left:auto">View in Properties →</a><?php endif; ?>
+  </div>
+ 
+  <form method="POST">
+    <input type="hidden" name="bps_id" value="<?= $view_bps['id'] ?>">
+    <label style="display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Admin Notes (Internal Only)</label>
+    <textarea name="bps_admin_notes" rows="3" style="width:100%;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:7px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:10px" placeholder="Add review notes..."><?= htmlspecialchars($view_bps['admin_notes']??'') ?></textarea>
+    <button type="submit" name="save_bps_notes" class="action-btn" style="background:rgba(200,164,60,.2);border:1px solid var(--gb)">💾 Save Notes</button>
+  </form>
+</div>
+ 
+<?php else: ?>
+<div style="display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap">
+  <?php foreach(['all'=>'All','pending'=>'Pending','reviewing'=>'Reviewing','approved'=>'Approved & Live','rejected'=>'Rejected'] as $k=>$lbl):
+    $act=$bps_filter===$k;
+    $cnt=$k==='all'?$bps_total:($k==='approved'?$bps_approved:($k==='rejected'?$bps_rejected:($k==='reviewing'?$bps_reviewing:$bps_pending)));
+  ?>
+  <a href="admin_dashboard.php?page=broker_submissions&filter=<?=$k?>" style="padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:<?=$act?'rgba(200,164,60,.2)':'rgba(255,255,255,.04)'?>;border:1px solid <?=$act?'var(--gb)':'var(--border)'?>;color:<?=$act?'var(--gold)':'var(--muted)'?>"><?=$lbl?> <span style="background:rgba(255,255,255,.12);border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px"><?=$cnt?></span></a>
+  <?php endforeach; ?>
+</div>
+ 
+<div style="background:rgba(200,164,60,.06);border:1px solid var(--gb);border-radius:10px;padding:13px 18px;margin-bottom:20px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px">
+  <span>ℹ️</span>
+  <div>Approved submissions are <strong style="color:#86efac">automatically published</strong> to the live property catalogue and the broker is notified. Rejected submissions notify the broker to review their listing.</div>
+</div>
+ 
+<?php if(!$bps_q||mysqli_num_rows($bps_q)===0): ?>
+<div style="text-align:center;padding:60px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px">
+  <div style="font-size:48px;margin-bottom:16px">🏠</div>
+  <div style="font-size:17px;font-weight:600;color:var(--white);margin-bottom:8px">No broker submissions yet</div>
+  <div style="font-size:13px;color:var(--muted)">When brokers submit properties through their dashboard, they will appear here.</div>
+</div>
+<?php else: ?>
+<table>
+  <tr><th>#</th><th>Property</th><th>Broker</th><th>Type / Purpose</th><th>Rent (UGX)</th><th>Beds / Units</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>
+  <?php $i=1; while($bps=mysqli_fetch_assoc($bps_q)):
+    $st=strtolower($bps['status']??'pending');
+    $sc=$st==='approved'?'#86efac':($st==='rejected'?'#fca5a5':($st==='reviewing'?'#5b9cff':'var(--gold))'));
+    $sbg=$st==='approved'?'rgba(22,163,74,.1)':($st==='rejected'?'rgba(239,68,68,.1)':($st==='reviewing'?'rgba(59,130,246,.1)':'rgba(200,164,60,.1)'));
+    $sbd=$st==='approved'?'rgba(22,163,74,.3)':($st==='rejected'?'rgba(239,68,68,.3)':($st==='reviewing'?'rgba(59,130,246,.3)':'var(--gb)'));
+  ?>
+  <tr>
+    <td style="color:var(--muted)"><?=$i++?></td>
+    <td>
+      <div style="font-weight:600;color:var(--white)"><?=htmlspecialchars($bps['property_name'])?></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">📍 <?=htmlspecialchars(substr($bps['address']??'—',0,35))?><?=strlen($bps['address']??'')>35?'...':''?></div>
+      <?php if(!empty($bps['property_image'])): ?><div style="font-size:10px;color:#5b9cff;margin-top:2px">📷 Has image</div><?php endif; ?>
+    </td>
+    <td style="font-size:12px"><div style="color:var(--white)"><?=htmlspecialchars($bps['broker_name']??'—')?></div><div style="font-size:10px;color:var(--muted)">Broker</div></td>
+    <td style="font-size:12px;color:var(--muted)"><?=htmlspecialchars($bps['property_type']??'—')?><br><span style="font-size:10px;padding:1px 6px;background:rgba(255,255,255,.06);border-radius:4px"><?=ucfirst($bps['purpose']??'rent')?></span></td>
+    <td style="color:var(--gold);font-weight:600"><?=number_format($bps['rent_amount']??0)?></td>
+    <td style="text-align:center;color:var(--muted)"><?=(int)($bps['bedrooms']??0)?> bd / <?=(int)($bps['units']??1)?> u</td>
+    <td style="font-size:11px;color:var(--muted)"><?=$bps['created_at']?date('d M Y',strtotime($bps['created_at'])):'—'?></td>
+    <td><span style="padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:<?=$sbg?>;color:<?=$sc?>;border:1px solid <?=$sbd?>"><?=ucfirst($st)?></span></td>
+    <td style="white-space:nowrap">
+      <a href="admin_dashboard.php?page=broker_submissions&view_bps=<?=$bps['id']?>" class="action-btn" style="background:rgba(14,90,200,.3);border-color:rgba(14,90,200,.4)">👁 View</a>
+      <?php if($st==='pending'): ?>
+      <a href="admin_dashboard.php?page=broker_submissions&bps_action=reviewing&bps_id=<?=$bps['id']?>" class="action-btn" style="background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.3);color:#5b9cff;font-size:11px">Review</a>
+      <?php elseif($st==='reviewing'): ?>
+      <a href="admin_dashboard.php?page=broker_submissions&bps_action=approved&bps_id=<?=$bps['id']?>" class="action-btn" style="background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.3);color:#86efac;font-size:11px" onclick="return confirm('Approve & publish?')">✓</a>
+      <a href="admin_dashboard.php?page=broker_submissions&bps_action=rejected&bps_id=<?=$bps['id']?>" class="action-btn" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:11px" onclick="return confirm('Reject?')">✕</a>
+      <?php endif; ?>
+      <a href="admin_dashboard.php?page=broker_submissions&delete_bps=<?=$bps['id']?>" class="action-btn" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:11px" onclick="return confirm('Delete?')">🗑</a>
+    </td>
+  </tr>
+  <?php endwhile; ?>
+</table>
+<?php endif; ?>
+<?php endif; ?>
+</section>
+ 
 <?php elseif($page === 'revenue_reports'): ?>
 <section id="revenue_reports">
   <h2 style="text-align:center;color:var(--gold)">REVENUE REPORTS</h2>
