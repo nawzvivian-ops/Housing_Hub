@@ -133,7 +133,7 @@ nav { position: relative !important; z-index: 100000 !important; }
         <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
         <a href="Visitor.php">Guests</a>
         <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Broker-Free</a><a href="employment.php">Employment</a>
+        <a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
         <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -224,7 +224,7 @@ nav { position: relative !important; z-index: 100000 !important; }
       <a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Broker-Free</a>
+      <a href="broker.php">Brokers</a>
       <a href="employment.php">Employment</a>
     </div>
  

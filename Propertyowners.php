@@ -194,7 +194,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         <a href="staff.php">Staff</a>
         <a href="visitor.php">Guests</a>
         <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Broker-Free</a>
+        <a href="broker.php">Brokers</a>
         <a href="employment.php">Employment</a>
       </div>
     </div>
@@ -360,7 +360,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <a href="staff.php">Staff</a>
       <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Broker-Free</a>
+      <a href="broker.php">Brokers</a>
       <a href="employment.php">Employment</a>
     </div>
  

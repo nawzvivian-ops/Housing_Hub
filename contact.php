@@ -160,7 +160,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
       <a href="tenant.php">Tenant</a><a href="staff.php">Staff</a>
       <a href="visitor.php">Guests</a>
        <a href="propertyowners.php">Property Owners</a>
-      <a href="Broker.php">Broker-Free</a>
+      <a href="Broker.php">Brokers</a>
       <a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
@@ -265,7 +265,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     <div class="quick-col"><h3>Use Cases</h3>
       <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
       <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a><a href="broker.php">Broker-Free</a>
+      <a href="propertyowners.php">Property Owners</a><a href="broker.php">Brokers</a>
       <a href="employment.php">Employment</a>
     </div>
     <div class="quick-col"><h3>Properties</h3>

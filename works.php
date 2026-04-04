@@ -180,7 +180,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <a href="tenant.php">Tenants</a> <a href="staff.php">staff</a> 
       <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Broker-Free</a><a href="employment.php">Employment</a>
+      <a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
       <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -517,7 +517,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <a href="staff.php">Staff</a>
       <a href="visitor.php">Guests</a>
       <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Broker-Free</a>
+      <a href="broker.php">Brokers</a>
       <a href="employment.php">Employment</a>
     </div>
  
