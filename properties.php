@@ -3,24 +3,21 @@ session_start();
 include "db_connect.php";
 
 $typeFilter = '';
-$searchSQL = '1';
+$searchSQL  = '1';
 
 if (isset($_GET['type']) && $_GET['type'] !== '') {
-    $type = mysqli_real_escape_string($conn, $_GET['type']);
+    $type       = mysqli_real_escape_string($conn, $_GET['type']);
     $typeFilter = " AND property_type = '$type'";
 }
 if (isset($_GET['search']) && $_GET['search'] !== '') {
-    $search = mysqli_real_escape_string($conn, $_GET['search']);
+    $search    = mysqli_real_escape_string($conn, $_GET['search']);
     $searchSQL = "(property_name LIKE '%$search%' OR address LIKE '%$search%' OR property_type LIKE '%$search%')";
 }
 
-$properties = mysqli_query($conn,
-    "SELECT * FROM properties WHERE $searchSQL $typeFilter ORDER BY created_at DESC"
-);
-
-$showLanding = !isset($_GET['browse']) && !isset($_GET['search']) && !isset($_GET['type']);
-$currentType = isset($_GET['type']) ? $_GET['type'] : '';
-$currentSearch = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
+$properties   = mysqli_query($conn, "SELECT * FROM properties WHERE $searchSQL $typeFilter ORDER BY created_at DESC");
+$showLanding  = !isset($_GET['browse']) && !isset($_GET['search']) && !isset($_GET['type']);
+$currentType  = isset($_GET['type'])   ? $_GET['type']                        : '';
+$currentSearch= isset($_GET['search']) ? htmlspecialchars($_GET['search'])     : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,67 +30,88 @@ $currentSearch = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 
-body{cursor:none;font-family:'Outfit',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
-body { padding-top: 106px !important; }
-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  z-index: 99999 !important;
-  box-shadow: 0 2px 28px rgba(0,0,0,.28) !important;
+/* ── CURSOR ───────────────────────────────────────────────────── */
+#cur-dot,#cur-ring,#cur-trail,#cur-label{
+  position:fixed;pointer-events:none;z-index:999999;
+  top:0;left:0;
+  transform:translate(-50%,-50%);
+  will-change:left,top;
 }
-nav { position: relative !important; z-index: 100000 !important; }
-.dropdown { z-index: 100001 !important; }
-.dd-menu { z-index: 100002 !important; }
-@media(max-width:900px){ body { padding-top: 80px !important; } }
-/* CURSOR */
-#cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none!important;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .3s;mix-blend-mode:difference}
-#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none!important;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s}
-#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none!important;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-#cur-label{position:fixed;z-index:99999;pointer-events:none!important;font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:0;transition:opacity .3s;white-space:nowrap}
+#cur-dot{
+  width:8px;height:8px;
+  background:var(--gold);border-radius:50%;
+  transition:width .2s,height .2s,background .25s;
+  mix-blend-mode:difference;
+}
+#cur-ring{
+  width:22px;height:22px;
+  border:1.5px solid rgba(200,164,60,.7);border-radius:50%;
+  transition:width .4s cubic-bezier(.23,1,.32,1),height .4s,border-color .3s,background .3s;
+}
+#cur-trail{
+  width:34px;height:34px;
+  border:1px solid rgba(200,164,60,.15);border-radius:50%;
+  transition:width .65s,height .65s;
+}
+#cur-label{
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  opacity:0;transition:opacity .3s;white-space:nowrap;
+  /* offset so it doesn't sit on top of the dot */
+  margin-left:14px;margin-top:-10px;
+}
 #cur-label.visible{opacity:1}
-body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
-body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+body.cur-hover #cur-dot{width:7px;height:7px;background:#fff}
+body.cur-hover #cur-ring{width:22px;height:22px;border-color:var(--gold);background:rgba(200,164,60,.07)}
+body.cur-click #cur-ring{width:30px;height:30px}
 
-/* BG */
-.page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
+/* hide on touch */
+@media(pointer:coarse){#cur-dot,#cur-ring,#cur-trail,#cur-label{display:none}body{cursor:auto}}
+@media(pointer:fine){body{cursor:none}}
+
+/* ── BASE ─────────────────────────────────────────────────────── */
+body{font-family:'Outfit',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;padding-top:106px}
+.page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18),transparent 55%),
+             radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12),transparent 50%),var(--ink);
+  animation:atmo 14s ease-in-out infinite alternate}
 @keyframes atmo{0%{filter:brightness(1)}100%{filter:brightness(1.1) hue-rotate(6deg)}}
-.page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
+.page-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:72px 72px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
 @keyframes pdrift{0%{transform:translateY(100vh) scale(0);opacity:0}5%{opacity:1}95%{opacity:.5}100%{transform:translateY(-10vh) translateX(50px) scale(1.4);opacity:0}}
 .z{position:relative;z-index:10}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
+body{padding-top:106px!important}
+header{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;z-index:99999!important;box-shadow:0 2px 28px rgba(0,0,0,.28)!important}
+nav{position:relative!important;z-index:100000!important}
+.dropdown{z-index:100001!important}
+.dd-menu{z-index:100002!important}
+@media(max-width:900px){body{padding-top:80px!important}}
 
-/* ═══ FIXED HEADER — same as all pages ═══════════════════════ */
+/* ── HEADER ───────────────────────────────────────────────────── */
 header{
-  position:fixed;top:0;left:0;right:0;
-  
+  position:fixed;top:0;left:0;right:0;width:100%;
   z-index:99999;
   display:flex;justify-content:space-between;align-items:center;
   padding:18px 60px;
   background:var(--gold);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(0,0,0,.12);
   box-shadow:0 2px 24px rgba(0,0,0,.22);
   animation:fadeDown .8s ease both;
-  overflow:visible;cursor:auto;
+  overflow:visible;
 }
-header button,header a{cursor:pointer!important;}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 .header-logo{display:flex;align-items:center;gap:14px}
 .logo-circle{width:65px;height:65px;border-radius:50%;object-fit:cover;border:2px solid var(--gb)}
 .logo-text{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
 .logo-slogan{font-size:14px;color:darkblue;font-style:italic;display:block;margin-top:3px}
 nav{display:flex;align-items:center;gap:4px;overflow:visible;position:relative;z-index:100000}
-nav>a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:darkblue;text-decoration:none;padding:8px 14px;transition:color .3s}
-nav>a:hover{opacity:.8}
+nav>a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:darkblue;text-decoration:none;padding:8px 14px;transition:opacity .3s}
+nav>a:hover{opacity:.75}
 .dropdown{position:relative;overflow:visible;z-index:100001}
 .dd-btn{display:block;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:darkblue;background:none;border:none;padding:8px 14px;white-space:nowrap;cursor:pointer;transition:color .3s}
 .dd-btn:hover,.dd-btn.open{color:var(--white)}
@@ -103,12 +121,11 @@ nav>a:hover{opacity:.8}
 .dd-menu a:hover{color:var(--gold);background:rgba(200,164,60,.08)}
 .dd-divider{height:1px;background:var(--border);margin:5px 0}
 
-/* ═══ LANDING PAGE STYLES ═════════════════════════════════════ */
-.lp-bg{position:fixed; ;inset:0;z-index:0;background:radial-gradient(ellipse 100% 60% at 75% 20%,rgba(14,90,200,.2) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 15% 90%,rgba(180,140,40,.13) 0%,transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
+/* ── LANDING PAGE ─────────────────────────────────────────────── */
+.lp-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 60% at 75% 20%,rgba(14,90,200,.2),transparent 55%),radial-gradient(ellipse 50% 70% at 15% 90%,rgba(180,140,40,.13),transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
 .lp-grid{position:fixed;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .hero-section{min-height:100vh;display:flex;align-items:center;padding:60px 68px 80px;gap:60px;position:relative;z-index:10}
 .hero-left{flex:1;max-width:600px}
-.hero-right{flex-shrink:0;width:360px;display:flex;flex-direction:column;gap:14px;opacity:0;animation:fadeRight 1s ease 1.1s both}
 .lp-tag{display:inline-flex;align-items:center;gap:14px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeUp .8s ease .4s both}
 .lp-tag::before{content:'';width:44px;height:1px;background:var(--gold)}
 .lp-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(58px,7.5vw,102px);font-weight:700;line-height:.93;color:var(--white);opacity:0;animation:fadeUp 1s ease .6s both}
@@ -127,23 +144,16 @@ nav>a:hover{opacity:.8}
 .lp-sn{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:var(--gold);line-height:1}
 .lp-sl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:5px}
 .lp-sdivider{width:1px;height:44px;background:rgba(255,255,255,.1)}
-.cat-tile{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;padding:20px 18px;text-decoration:none;color:var(--white);display:flex;align-items:center;gap:14px;transition:all .35s;position:relative;overflow:hidden}
-.cat-tile::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,60,.1),transparent);opacity:0;transition:opacity .35s}
-.cat-tile:hover{border-color:rgba(200,164,60,.4);transform:translateX(6px)}
-.cat-tile:hover::after{opacity:1}
-.cat-tile-icon{font-size:22px;flex-shrink:0}
-.cat-tile-name{font-size:13px;font-weight:600;flex:1}
-.cat-tile-count{font-family:'Cormorant Garamond',serif;font-size:11px;color:rgba(200,164,60,.6);letter-spacing:1px}
-.cat-tile-arr{font-size:14px;color:var(--gold);opacity:0;transform:translateX(-8px);transition:all .3s}
-.cat-tile:hover .cat-tile-arr{opacity:1;transform:translateX(0)}
-.browse-all-btn{display:block;text-align:center;background:transparent;border:1px solid rgba(200,164,60,.3);border-radius:4px;padding:14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:all .3s}
-.browse-all-btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+/* MARQUEE */
 .marquee-section{border-top:1px solid rgba(200,164,60,.1);border-bottom:1px solid rgba(200,164,60,.1);padding:18px 0;overflow:hidden;background:rgba(200,164,60,.03);position:relative;z-index:10}
 .marquee-track{display:flex;gap:60px;width:max-content;animation:marquee 28s linear infinite}
 .marquee-track:hover{animation-play-state:paused}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .marquee-item{display:flex;align-items:center;gap:16px;white-space:nowrap;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35)}
 .marquee-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;opacity:.6}
+
+/* FEATURES */
 .features-section{padding:120px 68px;position:relative;z-index:10}
 .sec-label{display:inline-flex;align-items:center;gap:14px;font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
 .sec-label::before{content:'';width:32px;height:1px;background:var(--gold)}
@@ -152,7 +162,7 @@ nav>a:hover{opacity:.8}
 .features-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:60px;border:1px solid rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
 .feat-card{background:rgba(255,255,255,.025);padding:44px 36px;position:relative;overflow:hidden;transition:background .4s;border-right:1px solid rgba(255,255,255,.05)}
 .feat-card:last-child{border-right:none}
-.feat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.feat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s}
 .feat-card:hover{background:rgba(200,164,60,.04)}
 .feat-card:hover::before{transform:scaleX(1)}
 .feat-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;color:rgba(200,164,60,.08);line-height:1;position:absolute;top:20px;right:24px;transition:color .4s}
@@ -160,11 +170,13 @@ nav>a:hover{opacity:.8}
 .feat-icon{font-size:32px;margin-bottom:20px;display:block}
 .feat-title{font-size:17px;font-weight:600;color:var(--white);margin-bottom:12px}
 .feat-desc{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75}
+
+/* SHOWCASE */
 .showcase-section{padding:0 68px 120px;position:relative;z-index:10}
 .showcase-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-top:56px}
 .showcase-card{position:relative;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:36px 30px;transition:transform .4s,border-color .4s,background .4s;text-decoration:none;color:var(--white);display:block}
 .showcase-card.big{grid-row:span 2;padding:52px 40px}
-.showcase-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,60,.08) 0%,transparent 60%);opacity:0;transition:opacity .4s}
+.showcase-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,164,60,.08),transparent 60%);opacity:0;transition:opacity .4s}
 .showcase-card:hover{transform:translateY(-5px);border-color:rgba(200,164,60,.3);background:rgba(200,164,60,.03)}
 .showcase-card:hover::before{opacity:1}
 .sc-emoji{font-size:36px;display:block;margin-bottom:20px}
@@ -174,6 +186,8 @@ nav>a:hover{opacity:.8}
 .sc-tag{display:inline-block;margin-top:20px;background:rgba(200,164,60,.12);border:1px solid rgba(200,164,60,.25);border-radius:20px;padding:6px 14px;font-size:11px;font-weight:500;letter-spacing:1px;color:var(--gold)}
 .sc-link{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);opacity:0;transform:translateY(6px);transition:all .3s}
 .showcase-card:hover .sc-link{opacity:1;transform:translateY(0)}
+
+/* HOW */
 .how-section{padding:120px 68px;background:rgba(255,255,255,.015);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);position:relative;z-index:10}
 .how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
 .how-steps::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,60,.25),rgba(200,164,60,.25),transparent)}
@@ -182,6 +196,8 @@ nav>a:hover{opacity:.8}
 .how-step:hover .step-circle{background:rgba(200,164,60,.15);border-color:var(--gold);transform:scale(1.1)}
 .step-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:10px}
 .step-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.7}
+
+/* TESTIMONIALS */
 .testi-section{padding:120px 68px;position:relative;z-index:10}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
 .testi-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:36px 30px;position:relative;overflow:hidden;transition:border-color .4s,transform .4s}
@@ -193,9 +209,11 @@ nav>a:hover{opacity:.8}
 .testi-name{font-size:13px;font-weight:600;color:var(--white)}
 .testi-role{font-size:11px;font-weight:300;color:rgba(255,255,255,.35);letter-spacing:1px}
 .testi-stars{font-size:12px;color:var(--gold);margin-top:4px}
+
+/* CTA */
 .cta-section{padding:120px 68px;text-align:center;position:relative;overflow:hidden;z-index:10}
-.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(37,99,235,.12) 0%,transparent 70%)}
-.cta-big{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,80px);font-weight:700;line-height:1.0;color:var(--white);position:relative}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(37,99,235,.12),transparent 70%)}
+.cta-big{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,80px);font-weight:700;line-height:1;color:var(--white);position:relative}
 .cta-big em{color:var(--gold);font-style:italic}
 .cta-big .str{-webkit-text-stroke:1.5px rgba(255,255,255,.25);color:transparent}
 .cta-sub{margin-top:20px;font-size:15px;font-weight:300;color:var(--muted);position:relative}
@@ -205,7 +223,7 @@ nav>a:hover{opacity:.8}
 .cta-s{background:transparent;color:var(--white);padding:18px 52px;border:1px solid rgba(255,255,255,.2);border-radius:3px;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
 .cta-s:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
 
-/* ═══ BROWSE PAGE STYLES ══════════════════════════════════════ */
+/* ── BROWSE VIEW ──────────────────────────────────────────────── */
 .browse-wrap{position:relative;z-index:10;min-height:100vh}
 .browse-header{padding:60px 60px 40px;border-bottom:1px solid var(--border)}
 .browse-header-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
@@ -229,6 +247,8 @@ nav>a:hover{opacity:.8}
 .type-pill-icon{font-size:14px}
 .browse-body{padding:40px 60px 80px}
 .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+
+/* Property Cards */
 .prop-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;display:flex;flex-direction:column}
 .prop-card:hover{transform:translateY(-6px);border-color:var(--gb);box-shadow:0 24px 60px rgba(0,0,0,.4)}
 .prop-card-top{padding:28px 28px 0;display:flex;justify-content:space-between;align-items:flex-start}
@@ -254,7 +274,7 @@ nav>a:hover{opacity:.8}
 .prop-amenity-tags{display:flex;flex-wrap:wrap;gap:6px}
 .prop-amenity-tag{font-size:11px;color:rgba(255,255,255,.55);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 10px;border-radius:12px}
 .prop-card-actions{padding:20px 28px;border-top:1px solid var(--border);display:flex;gap:10px}
-.prop-btn{flex:1;text-align:center;padding:11px 16px;border-radius:6px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s;border:1px solid transparent}
+.prop-btn{flex:1;text-align:center;padding:11px 16px;border-radius:6px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .3s;border:1px solid transparent;cursor:pointer;background:none}
 .prop-btn.view{background:rgba(255,255,255,.06);color:var(--white);border-color:var(--border)}
 .prop-btn.view:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
 .prop-btn.rent{background:rgba(34,197,94,.15);color:#86efac;border-color:rgba(34,197,94,.25)}
@@ -263,6 +283,7 @@ nav>a:hover{opacity:.8}
 .prop-btn.buy:hover{background:rgba(59,130,246,.25)}
 .prop-btn.lease{background:rgba(245,158,11,.15);color:#fcd34d;border-color:rgba(245,158,11,.25)}
 .prop-btn.lease:hover{background:rgba(245,158,11,.25)}
+
 .empty-state{text-align:center;padding:100px 40px;grid-column:1/-1}
 .empty-icon{font-size:56px;margin-bottom:20px;opacity:.4}
 .empty-state h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--white);margin-bottom:10px}
@@ -270,17 +291,49 @@ nav>a:hover{opacity:.8}
 .empty-state a{display:inline-block;padding:12px 32px;background:var(--gold);color:var(--ink);border-radius:4px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s}
 .empty-state a:hover{background:var(--gold-l)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+/* QUICK LINKS */
+.quick-links{padding:80px 60px;border-top:1px solid var(--border);position:relative;z-index:10}
+.quick-container{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;max-width:1000px;margin:0 auto}
+.quick-col h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:18px}
+.quick-col a{display:block;font-size:13px;font-weight:300;color:var(--muted);text-decoration:none;padding:5px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.quick-col a:hover{color:var(--gold);border-color:rgba(200,164,60,.2)}
 
 footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;font-size:12px;letter-spacing:1.5px;color:rgba(255,255,255,.2);position:relative;z-index:10}
 
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── AGREEMENT MODAL ──────────────────────────────────────────── */
+#agreementModal{
+  display:none; /* JS will set to flex */
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:999998;
+  justify-content:center;
+  align-items:center;
+}
+.modal-box{
+  background:#fff;padding:32px 28px;
+  max-width:600px;width:90%;
+  max-height:85vh;overflow-y:auto;
+  border-radius:10px;
+  box-shadow:0 8px 40px rgba(0,0,0,.45);
+}
+.modal-box h3{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#04091a;text-align:center;margin-bottom:14px}
+.modal-box p{font-family:'Outfit',sans-serif;font-size:14px;color:#333;line-height:1.6;margin-bottom:16px}
+.modal-box ol{margin-left:20px;line-height:1.7;font-family:'Outfit',sans-serif;font-size:13px;color:#555}
+.modal-box ol li{margin-bottom:10px}
+.modal-btns{display:flex;gap:12px;justify-content:flex-end;margin-top:22px}
+.modal-agree{padding:11px 24px;background:#16a34a;color:#fff;border:none;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:background .2s}
+.modal-agree:hover{background:#15803d}
+.modal-decline{padding:11px 24px;background:#dc2626;color:#fff;border:none;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:background .2s}
+.modal-decline:hover{background:#b91c1c}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────── */
 @media(max-width:900px){
-  body{padding-top:80px;cursor:auto}
+  body{padding-top:80px}
   header{padding:14px 20px}
-  nav{flex-wrap:wrap;gap:2px}
   .hero-section{padding:60px 24px 60px;flex-direction:column}
-  .hero-right{width:100%}
   .browse-header,.browse-controls,.browse-body{padding-left:24px;padding-right:24px}
   .prop-grid{grid-template-columns:1fr}
   .features-grid{grid-template-columns:1fr}
@@ -290,56 +343,57 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   .how-steps::before{display:none}
   .testi-grid{grid-template-columns:1fr}
   .features-section,.showcase-section,.how-section,.testi-section,.cta-section{padding:80px 24px}
-  #cur-dot,#cur-ring,#cur-trail,#cur-label{display:none}
+  .quick-container{grid-template-columns:1fr 1fr;gap:32px}
+  footer{padding:24px}
 }
 @media(max-width:600px){
   .how-steps{grid-template-columns:1fr}
+  .quick-container{grid-template-columns:1fr}
 }
-/* QUICK LINKS */
-.quick-links{padding:80px 60px;border-top:1px solid var(--border);position:relative;z-index:10}
-.quick-container{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;max-width:1000px;margin:0 auto}
-.quick-col h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:18px}
-.quick-col a{display:block;font-size:13px;font-weight:300;color:var(--muted);text-decoration:none;padding:5px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
-.quick-col a:hover{color:var(--gold);border-color:rgba(200,164,60,.2)}
 </style>
 </head>
 <body>
 
+<!-- ── CURSOR ELEMENTS ── -->
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
 <div id="cur-trail"></div>
 <div id="cur-label"></div>
+
 <div class="page-bg"></div>
 <div class="page-grid"></div>
 
-<!-- HEADER -->
+<!-- ── HEADER ── -->
 <header class="z">
   <div class="header-logo">
     <img src="image/hub.jpg" alt="Logo" class="logo-circle">
-    <div><h1 class="logo-text">HOUSING HUB</h1><span class="logo-slogan">"Your Property, Our Priority"</span></div>
-  </div>
-  <nav>
-  <a href="properties.php#features-section">Features</a>
-  <div class="dropdown">
-    <button class="dd-btn">Properties ▾</button>
-    <div class="dd-menu">
-      <a href="properties.php?browse=1">All Properties</a>
-      <div class="dd-divider"></div>
-      <a href="properties.php?type=Commercial">🏢 Commercial</a>
-      <a href="properties.php?type=Residential">🏠 Residential</a>
-      <a href="properties.php?type=Industrial">🏭 Industrial</a>
-      <a href="properties.php?type=Agricultural">🌾 Agricultural</a>
-      <a href="properties.php?type=Special+Purpose">🏛️ Special Purpose</a>
-      <a href="properties.php?type=Land">🗺️ Land</a>
+    <div>
+      <h1 class="logo-text">HOUSING HUB</h1>
+      <span class="logo-slogan">"Your Property, Our Priority"</span>
     </div>
   </div>
-  <a href="properties.php#how">How It Works</a>
-  <a href="logout.php">Logout</a>
-</nav>
+  <nav>
+    <a href="properties.php#features-section">Features</a>
+    <div class="dropdown">
+      <button class="dd-btn">Properties ▾</button>
+      <div class="dd-menu">
+        <a href="properties.php?browse=1">All Properties</a>
+        <div class="dd-divider"></div>
+        <a href="properties.php?type=Commercial">🏢 Commercial</a>
+        <a href="properties.php?type=Residential">🏠 Residential</a>
+        <a href="properties.php?type=Industrial">🏭 Industrial</a>
+        <a href="properties.php?type=Agricultural">🌾 Agricultural</a>
+        <a href="properties.php?type=Special+Purpose">🏛️ Special Purpose</a>
+        <a href="properties.php?type=Land">🗺️ Land</a>
+      </div>
+    </div>
+    <a href="properties.php#how">How It Works</a>
+    <a href="logout.php">Logout</a>
+  </nav>
 </header>
 
 <?php if($showLanding): ?>
-<!-- ═══ LANDING PAGE ═══════════════════════════════════════════ -->
+<!-- ═══ LANDING PAGE ══════════════════════════════════════════ -->
 <div class="lp-bg"></div>
 <div class="lp-grid"></div>
 
@@ -372,37 +426,25 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div><div class="lp-sn" id="sn4">0</div><div class="lp-sl">Happy Clients</div></div>
     </div>
   </div>
-  
 </section>
 
 <div class="marquee-section z">
   <div class="marquee-track">
-    <div class="marquee-item"><span class="marquee-dot"></span>Commercial Properties</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Residential Homes</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Industrial Spaces</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Agricultural Land</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Special Purpose Buildings</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Open Land Plots</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Rent · Buy · Lease</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Verified Listings</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Transparent Pricing</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Commercial Properties</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Residential Homes</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Industrial Spaces</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Agricultural Land</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Special Purpose Buildings</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Open Land Plots</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Rent · Buy · Lease</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Verified Listings</div>
-    <div class="marquee-item"><span class="marquee-dot"></span>Transparent Pricing</div>
+    <?php
+    $items = ['Commercial Properties','Residential Homes','Industrial Spaces','Agricultural Land','Special Purpose Buildings','Open Land Plots','Rent · Buy · Lease','Verified Listings','Transparent Pricing'];
+    for($r=0;$r<2;$r++) foreach($items as $item) echo '<div class="marquee-item"><span class="marquee-dot"></span>'.$item.'</div>';
+    ?>
   </div>
 </div>
 
 <section class="features-section z" id="features-section">
-  <div class="reveal"><div class="sec-label">Why HousingHub</div><h2 class="sec-title">Built for Uganda's<br><em>Property Market</em></h2></div>
+  <div class="reveal">
+    <div class="sec-label">Why HousingHub</div>
+    <h2 class="sec-title">Built for Uganda's<br><em>Property Market</em></h2>
+  </div>
   <div class="features-grid reveal">
     <div class="feat-card"><div class="feat-num">01</div><span class="feat-icon">✅</span><div class="feat-title">Verified Listings</div><div class="feat-desc">Every property on HousingHub is reviewed before going live. You browse real, available properties — no ghosts, no scams.</div></div>
-    <div class="feat-card"><div class="feat-num">02</div><span class="feat-icon">💎</span><div class="feat-title">Transparent Pricing</div><div class="feat-desc">Rent amounts, sale prices and lease terms are all displayed upfront in UGX. No hidden fees, no nasty surprises at signing.</div></div>
+    <div class="feat-card"><div class="feat-num">02</div><span class="feat-icon">💎</span><div class="feat-title">Transparent Pricing</div><div class="feat-desc">Rent amounts, sale prices and lease terms are displayed upfront in UGX. No hidden fees, no nasty surprises at signing.</div></div>
     <div class="feat-card"><div class="feat-num">03</div><span class="feat-icon">🏷️</span><div class="feat-title">Full Amenity Details</div><div class="feat-desc">See every included amenity — parking, generator, water, security — with cost type clearly marked before you commit.</div></div>
     <div class="feat-card"><div class="feat-num">04</div><span class="feat-icon">⚡</span><div class="feat-title">Instant Transactions</div><div class="feat-desc">Rent, buy or lease directly through the platform. Our seamless payment flow gets you from browsing to secured in minutes.</div></div>
     <div class="feat-card"><div class="feat-num">05</div><span class="feat-icon">🔍</span><div class="feat-title">Smart Search &amp; Filter</div><div class="feat-desc">Find exactly what you need — filter by type, search by name or address, and browse by purpose: rent, buy, or lease.</div></div>
@@ -497,11 +539,13 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="browse-body">
     <div class="prop-grid">
       <?php if(mysqli_num_rows($properties) > 0): ?>
-        <?php while($p = mysqli_fetch_assoc($properties)): ?>
+        <?php while($p = mysqli_fetch_assoc($properties)):
+          $purposeLow = strtolower($p['purpose'] ?? 'rent');
+        ?>
         <div class="prop-card">
           <div class="prop-card-top">
             <span class="prop-type-badge"><?= htmlspecialchars($p['property_type']) ?></span>
-            <span class="prop-purpose-badge <?= strtolower($p['purpose']) ?>"><?= strtoupper($p['purpose']) ?></span>
+            <span class="prop-purpose-badge <?= $purposeLow ?>"><?= strtoupper($p['purpose']) ?></span>
           </div>
           <div class="prop-card-body">
             <div class="prop-name"><?= htmlspecialchars($p['property_name']) ?></div>
@@ -509,41 +553,47 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
             <div class="prop-meta">
               <div class="prop-meta-item"><div class="prop-meta-label">Units</div><div class="prop-meta-value"><?= $p['units'] ?? 'N/A' ?></div></div>
               <div class="prop-meta-item"><div class="prop-meta-label">Rooms</div><div class="prop-meta-value"><?= $p['bedrooms'] ?? 'N/A' ?></div></div>
-              <div class="prop-meta-item"><div class="prop-meta-label">Size</div><div class="prop-meta-value"><?= $p['size_sqft'] ?> sqft</div></div>
-              <div class="prop-meta-item"><div class="prop-meta-label">Type</div><div class="prop-meta-value"><?= $p['property_type'] ?></div></div>
+              <div class="prop-meta-item"><div class="prop-meta-label">Size</div><div class="prop-meta-value"><?= $p['size_sqft'] ? $p['size_sqft'].' sqft' : 'N/A' ?></div></div>
+              <div class="prop-meta-item"><div class="prop-meta-label">Type</div><div class="prop-meta-value"><?= htmlspecialchars($p['property_type']) ?></div></div>
             </div>
           </div>
           <div class="prop-price">
             <div>
               <div class="prop-price-label">Price</div>
-              <div class="prop-price-sub"><?= ucfirst(strtolower($p['purpose'])) ?></div>
+              <div class="prop-price-sub"><?= ucfirst($purposeLow) ?></div>
             </div>
             <div class="prop-price-value">UGX <?= number_format($p['rent_amount'] ?? 0) ?></div>
           </div>
           <?php
-          $amenQ = mysqli_query($conn, "SELECT a.name, a.cost_type FROM amenities a JOIN property_amenities pa ON a.id = pa.amenity_id WHERE pa.property_id = " . intval($p['id']));
+          $amenQ = mysqli_query($conn,
+              "SELECT a.name FROM amenities a
+               JOIN property_amenities pa ON a.id = pa.amenity_id
+               WHERE pa.property_id = " . intval($p['id']));
           $amenities = [];
-          while($a = mysqli_fetch_assoc($amenQ)) $amenities[] = $a;
+          while($a = mysqli_fetch_assoc($amenQ)) $amenities[] = $a['name'];
           if(!empty($amenities)): ?>
           <div class="prop-amenities">
             <div class="prop-amenities-label">Amenities</div>
             <div class="prop-amenity-tags">
-              <?php foreach(array_slice($amenities,0,5) as $a): ?>
-              <span class="prop-amenity-tag"><?= htmlspecialchars($a['name']) ?></span>
+              <?php foreach(array_slice($amenities,0,5) as $am): ?>
+              <span class="prop-amenity-tag"><?= htmlspecialchars($am) ?></span>
               <?php endforeach; ?>
               <?php if(count($amenities)>5): ?><span class="prop-amenity-tag">+<?= count($amenities)-5 ?> more</span><?php endif; ?>
             </div>
           </div>
           <?php endif; ?>
           <div class="prop-card-actions">
-            <a href="property_view.php?id=<?= $p['id'] ?>" class="prop-btn view">View</a>
-            <?php if($p['purpose']==='Rent'): ?>
-            <a href="#" class="prop-btn rent" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=rent" data-type="rent">Rent</a>
-            <?php elseif($p['purpose']==='Buy'): ?>
-            <a href="#" class="prop-btn buy" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=buy" data-type="buy">Buy</a>
-            <?php elseif($p['purpose']==='Lease'): ?>
-            <a href="#" class="prop-btn lease" data-url="payment_method.php?property_id=<?= $p['id'] ?>&action=lease" data-type="lease">Lease</a>
-            <?php endif; ?>
+            <a href="property_view.php?id=<?= $p['id'] ?>" class="prop-btn view" data-label="View">View</a>
+            <?php
+            $actionUrl = "payment_method.php?property_id={$p['id']}&action={$purposeLow}";
+            ?>
+            <button
+              class="prop-btn <?= $purposeLow ?>"
+              data-url="<?= htmlspecialchars($actionUrl) ?>"
+              data-property-id="<?= $p['id'] ?>"
+              data-label="<?= ucfirst($purposeLow) ?>">
+              <?= ucfirst($purposeLow) ?>
+            </button>
           </div>
         </div>
         <?php endwhile; ?>
@@ -556,257 +606,242 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         </div>
       <?php endif; ?>
     </div>
-    <br>
-    <!-- Agreement Modal -->
-    
-    <!-- QUICK LINKS -->
-<section class="quick-links z reveal">
-  <div class="quick-container">
- 
-    <div class="quick-col">
-      <h3>Home</h3>
-      <a href="index.html">Welcome</a>
-      <a href="works.php">How It Works</a>
-    </div>
- 
-    <div class="quick-col">
-      <h3>Features</h3>
-      <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
-      <a href="rent_collection.php">Rent Collection</a>
-      <a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
-      <a href="policies.html">Policies</a>
-    </div>
- 
-    <div class="quick-col">
-      <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
-      <a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
-    </div>
- 
-    <div class="quick-col">
-      <h3>Properties</h3>
-      <a href="properties.php">All Properties</a>
-      <a href="properties.php?type=Commercial">Commercial</a>
-      <a href="properties.php?type=Residential">Residential</a>
-      <a href="properties.php?type=Industrial">Industrial</a>
-      <a href="properties.php?type=Agricultural">Agricultural</a>
-      <a href="properties.php?type=Special+Purpose">Special Purpose</a>
-      <a href="properties.php?type=Land">Land</a>
-    </div>
- 
-    <div class="quick-col">
-      <h3>Account</h3>
-      <a href="index.php">Login</a>
-      <a href="register.php">Register</a>
-    </div>
- 
-    <div class="quick-col">
-      <h3>About HousingHub</h3>
-      <a href="who.php">Who We Are</a>
-      <a href="what.php">What We Do</a>
-      <a href="vision.php">Our Vision</a>
-      <a href="values.php">Core Values</a>
-      <a href="contact.php">Contact Us</a>
-    </div>
- 
-  </div>
-</section>
-<!-- Agreement Modal -->
-<!-- Agreement Modal -->
-<div id="agreementModal" style="
-  display: none; /* Hidden by default */
-  position: fixed; /* Cover entire viewport */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Dark overlay */
-  z-index: 9999; /* Ensure it overlays other content */
-  display: flex; /* Use flex for centering */
-  justify-content: center;
-  align-items: center;
-">
-  <!-- Modal Content Box -->
-  <div style="
-    background: #fff; /* White background */
-    padding: 20px;
-    max-width: 600px;
-    margin-top: 90px; /* Adjust for vertical centering */
-    width: 90%; /* Responsive width */
-    max-height: 80%; /* Limit height */
-    overflow-y: auto; /* Scroll if content overflows */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  ">
-    <!-- Modal Header -->
-    <h3 style="
-      margin-bottom: 10px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: #04091a;
-      text-align: center;
-    ">Terms and Conditions</h3>
-    
-    <!-- Modal Intro -->
-    <p style="
-      margin-bottom: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      color: #333;
-      line-height: 1.5;
-    ">Welcome to HousingHub! Before proceeding with your payment, please read and agree to the following terms and conditions:</p>
-    
-    <!-- Terms List -->
-    <ol style="
-      margin-left: 20px;
-      line-height: 1.6;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: #555;
-    ">
-      <li><strong>Acceptance of Terms</strong><br>
-        By clicking "I Agree" and proceeding with the payment, you agree to abide by all the terms outlined herein and confirm that the information provided is accurate and complete.
-      </li>
-      <li><strong>Payment Confirmation</strong><br>
-        All payments must be made in UGX and are non-refundable unless explicitly stipulated otherwise. Ensure the payment details are correct before confirming.
-      </li>
-      <li><strong>Property Details</strong><br>
-        HousingHub strives to ensure all property listings are accurate and verified. However, it is your responsibility to verify property details, amenities, and conditions before finalizing any transaction.
-      </li>
-      <li><strong>Liability</strong><br>
-        HousingHub is not responsible for any disputes, damages, or losses arising from transactions between tenants and property owners. Always conduct due diligence.
-      </li>
-      <li><strong>Compliance</strong><br>
-        You agree to comply with all applicable laws and regulations when entering into a rental, purchase, or lease agreement through HousingHub.
-      </li>
-      <li><strong>Privacy and Data Security</strong><br>
-        Your personal data will be handled in accordance with our privacy policy. By proceeding, you consent to the collection and use of your information for transaction purposes.
-      </li>
-      <li><strong>Changes to Terms</strong><br>
-        HousingHub reserves the right to update or modify these terms at any time without prior notice. Continued use of the platform indicates acceptance of any changes.
-      </li>
-    </ol>
-    
-    <!-- Terms Agreement Buttons -->
-    <p style="
-      margin-top: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      text-align: right;
-    ">Please ensure you understand and agree to these terms before proceeding.</p>
-    <div style="margin-top: 20px; text-align: right;">
-      <button id="agreeBtn" style="
-        padding: 10px 20px;
-        background: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        margin-right: 10px;
-        cursor: pointer;
-        font-family: 'Outfit', sans-serif;
-        font-size: 14px;
-      ">I Agree</button>
-      <button id="notAgreeBtn" style="
-        padding: 10px 20px;
-        background: #f44336;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-family: 'Outfit', sans-serif;
-        font-size: 14px;
-      ">I Do Not Agree</button>
-    </div>
-  </div>
-</div>
 
+    <!-- QUICK LINKS -->
+    <section class="quick-links z reveal">
+      <div class="quick-container">
+        <div class="quick-col">
+          <h3>Home</h3>
+          <a href="index.html">Welcome</a>
+          <a href="works.php">How It Works</a>
+        </div>
+        <div class="quick-col">
+          <h3>Features</h3>
+          <a href="virtual.php">Virtual Property Tours</a>
+          <a href="visitor.php">Visitor/Guest Management</a>
+          <a href="applications.php">Online Tenant Applications</a>
+          <a href="reporting.php">Rent/Buy Reporting</a>
+          <a href="lease.php">Online Lease</a>
+          <a href="maintenance.php">Maintenance</a>
+          <a href="rent_collection.php">Rent Collection</a>
+          <a href="notifications.php">Smart Notification Center</a>
+          <a href="complaints.php">Complaints &amp; Feedback HUB</a>
+          <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+          <a href="policies.html">Policies</a>
+        </div>
+        <div class="quick-col">
+          <h3>Properties</h3>
+          <a href="properties.php?browse=1">All Properties</a>
+          <a href="properties.php?type=Commercial">Commercial</a>
+          <a href="properties.php?type=Residential">Residential</a>
+          <a href="properties.php?type=Industrial">Industrial</a>
+          <a href="properties.php?type=Agricultural">Agricultural</a>
+          <a href="properties.php?type=Special+Purpose">Special Purpose</a>
+          <a href="properties.php?type=Land">Land</a>
+        </div>
+        <div class="quick-col">
+          <h3>Account</h3>
+          <a href="index.php">Login</a>
+          <a href="register.php">Register</a>
+        </div>
+        <div class="quick-col">
+          <h3>Use Cases</h3>
+          <a href="tenant.php">Tenants</a>
+          <a href="propertyowners.php">Property Owners</a>
+          <a href="broker.php">Brokers</a>
+        </div>
+        <div class="quick-col">
+          <h3>About</h3>
+          <a href="who.php">Who We Are</a>
+          <a href="what.php">What We Do</a>
+          <a href="contact.php">Contact Us</a>
+        </div>
+      </div>
+    </section>
   </div>
+
   <footer>&copy; 2026 HousingHub | All Rights Reserved</footer>
 </div>
 <?php endif; ?>
 
+<!-- ═══ AGREEMENT MODAL ═══════════════════════════════════════ -->
+<div id="agreementModal">
+  <div class="modal-box">
+    <h3>Terms and Conditions</h3>
+    <p>Before proceeding with your payment, please read and agree to the following terms:</p>
+    <ol>
+      <li><strong>Acceptance of Terms</strong> — By clicking "I Agree" you confirm the information provided is accurate and you accept all terms herein.</li>
+      <li><strong>Payment Confirmation</strong> — All payments are made in UGX and are non-refundable unless explicitly stated otherwise. Verify all details before confirming.</li>
+      <li><strong>Property Details</strong> — HousingHub strives to ensure listings are accurate and verified. You are responsible for verifying property details before finalising any transaction.</li>
+      <li><strong>Liability</strong> — HousingHub is not responsible for disputes, damages, or losses arising from transactions between tenants and property owners. Always conduct due diligence.</li>
+      <li><strong>Compliance</strong> — You agree to comply with all applicable laws and regulations when entering into any agreement through HousingHub.</li>
+      <li><strong>Privacy &amp; Data</strong> — Your personal data will be handled in accordance with our privacy policy. By proceeding you consent to its use for transaction purposes.</li>
+      <li><strong>Changes to Terms</strong> — HousingHub reserves the right to update these terms at any time. Continued use of the platform indicates acceptance of any changes.</li>
+    </ol>
+    <div class="modal-btns">
+      <button class="modal-decline" id="notAgreeBtn">I Do Not Agree</button>
+      <button class="modal-agree" id="agreeBtn">I Agree — Continue</button>
+    </div>
+  </div>
+</div>
+
 <script>
-function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(m=>m.classList.remove('open'));document.querySelectorAll('.dd-btn.open').forEach(b=>b.classList.remove('open'));}
-document.querySelectorAll('.dropdown').forEach(dd=>{var btn=dd.querySelector('.dd-btn'),menu=dd.querySelector('.dd-menu');if(!btn||!menu)return;btn.addEventListener('click',e=>{e.stopPropagation();var o=menu.classList.contains('open');closeAllMenus();if(!o){menu.classList.add('open');btn.classList.add('open');}});menu.addEventListener('mousedown',e=>e.stopPropagation());menu.addEventListener('click',e=>e.stopPropagation());});
-document.addEventListener('click',closeAllMenus);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllMenus();});
+/* ── CURSOR ────────────────────────────────────────────────── */
+(function(){
+  const dot   = document.getElementById('cur-dot');
+  const ring  = document.getElementById('cur-ring');
+  const trail = document.getElementById('cur-trail');
+  const lbl   = document.getElementById('cur-label');
+  if(!dot) return; // touch device, cursor hidden
 
-const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail'),lbl=document.getElementById('cur-label');
-let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';lbl.style.left=(mx+18)+'px';lbl.style.top=(my-10)+'px';});
-(function tick(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;tx+=(mx-tx)*.06;ty+=(my-ty)*.06;ring.style.left=rx+'px';ring.style.top=ry+'px';trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(tick);})();
-document.querySelectorAll('a,button,input,select,.cat-tile,.showcase-card,.feat-card,.how-step,.testi-card,.prop-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{document.body.classList.add('cursor-hover');const l=el.getAttribute('data-label');if(l){lbl.textContent=l;lbl.classList.add('visible');}});
-  el.addEventListener('mouseleave',()=>{document.body.classList.remove('cursor-hover');lbl.classList.remove('visible');});
+  let mx=-400, my=-400;
+  let rx=-400, ry=-400;
+  let tx=-400, ty=-400;
+
+  // Move dot instantly, ring/trail lag via rAF
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left   = mx + 'px';
+    dot.style.top    = my + 'px';
+    lbl.style.left   = (mx + 14) + 'px';
+    lbl.style.top    = (my - 10) + 'px';
+  });
+
+  (function tick(){
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    tx += (mx - tx) * 0.06;
+    ty += (my - ty) * 0.06;
+    ring.style.left  = rx + 'px';
+    ring.style.top   = ry + 'px';
+    trail.style.left = tx + 'px';
+    trail.style.top  = ty + 'px';
+    requestAnimationFrame(tick);
+  })();
+
+  // Hover effect on interactive elements
+  const hoverEls = document.querySelectorAll('a, button, input, select, .cat-tile, .showcase-card, .feat-card, .how-step, .testi-card, .prop-card');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('cur-hover');
+      const labelText = el.getAttribute('data-label');
+      if(labelText){ lbl.textContent = labelText; lbl.classList.add('visible'); }
+    });
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('cur-hover');
+      lbl.classList.remove('visible');
+    });
+  });
+
+  document.addEventListener('mousedown', () => document.body.classList.add('cur-click'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
+})();
+
+/* ── DROPDOWN NAV ──────────────────────────────────────────── */
+function closeAllMenus(){
+  document.querySelectorAll('.dd-menu.open').forEach(m => m.classList.remove('open'));
+  document.querySelectorAll('.dd-btn.open').forEach(b => b.classList.remove('open'));
+}
+document.querySelectorAll('.dropdown').forEach(dd => {
+  const btn  = dd.querySelector('.dd-btn');
+  const menu = dd.querySelector('.dd-menu');
+  if(!btn||!menu) return;
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const wasOpen = menu.classList.contains('open');
+    closeAllMenus();
+    if(!wasOpen){ menu.classList.add('open'); btn.classList.add('open'); }
+  });
+  menu.addEventListener('click', e => e.stopPropagation());
 });
-document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
-document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
+document.addEventListener('click', closeAllMenus);
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeAllMenus(); });
 
-function count(id,target,suffix=''){const el=document.getElementById(id);if(!el)return;let n=0;const step=target/(1800/16);const t=setInterval(()=>{n+=step;if(n>=target){n=target;clearInterval(t);}el.textContent=Math.floor(n)+suffix;},16);}
-setTimeout(()=>{count('sn1',500,'+');count('sn2',6);count('sn3',40,'+');count('sn4',1200,'+');},800);
+/* ── SCROLL REVEAL ─────────────────────────────────────────── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+/* ── COUNTER ANIMATION ─────────────────────────────────────── */
+function count(id, target, suffix){
+  const el = document.getElementById(id);
+  if(!el) return;
+  let n = 0;
+  const step = target / (1800/16);
+  const t = setInterval(() => {
+    n += step;
+    if(n >= target){ n = target; clearInterval(t); }
+    el.textContent = Math.floor(n) + (suffix||'');
+  }, 16);
+}
+setTimeout(() => { count('sn1',500,'+'); count('sn2',6,''); count('sn3',40,'+'); count('sn4',1200,'+'); }, 800);
 
-for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.2).toFixed(2)});animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*15}s;`;document.body.appendChild(p);}
+/* ── PARTICLES ─────────────────────────────────────────────── */
+for(let i=0;i<16;i++){
+  const p = document.createElement('div');
+  p.classList.add('ptcl');
+  const sz = Math.random()*3+1;
+  p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.2).toFixed(2)});animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*15}s;`;
+  document.body.appendChild(p);
+}
 
-// Assume you have the current logged-in user's ID stored in a variable, e.g.:
-const currentUserId = <?php echo $_SESSION['user_id']; ?>; // or set via PHP
+/* ── AGREEMENT MODAL ───────────────────────────────────────── */
+const modal    = document.getElementById('agreementModal');
+const agreeBtn = document.getElementById('agreeBtn');
+const noBtn    = document.getElementById('notAgreeBtn');
 
-// Also, you'll need to know which property (or context) the user is agreeing to
-// For example, pass property ID dynamically when opening modal
-let currentPropertyId = null; // set this when opening modal
+let pendingUrl        = null;
+let pendingPropertyId = null;
+const currentUserId   = <?php echo isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0; ?>;
 
-// When user clicks a property button, set currentPropertyId
-document.querySelectorAll('.prop-btn').forEach(btn => {
+// Open modal when a Rent/Buy/Lease button is clicked
+document.querySelectorAll('.prop-btn[data-url]').forEach(btn => {
   btn.addEventListener('click', e => {
     e.preventDefault();
-    currentPropertyId = btn.getAttribute('data-property-id'); // you have to set this attribute in your HTML
-    targetUrl = btn.getAttribute('data-url');
-    document.getElementById('agreementModal').style.display = 'flex';
+    pendingUrl        = btn.getAttribute('data-url');
+    pendingPropertyId = btn.getAttribute('data-property-id');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   });
 });
 
-// Handle "I Agree" button
-document.getElementById('agreeBtn').addEventListener('click', () => {
+// Close modal on overlay click
+modal.addEventListener('click', e => {
+  if(e.target === modal){ closeModal(); }
+});
+
+function closeModal(){
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+agreeBtn.addEventListener('click', () => {
+  // Save agreement then redirect
   fetch('save_agreement.php', {
-    method: 'POST',
+    method : 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: currentUserId, property_id: currentPropertyId, agreed: 1 })
+    body   : JSON.stringify({ user_id: currentUserId, property_id: pendingPropertyId, agreed: 1 })
   })
-  .then(res => res.json())
-  .then(data => {
-    // Optional: show success message
-    document.getElementById('agreementModal').style.display = 'none';
-    if (targetUrl) window.location.href = targetUrl;
+  .then(r => r.json())
+  .catch(() => ({})) // don't block redirect if request fails
+  .finally(() => {
+    closeModal();
+    if(pendingUrl) window.location.href = pendingUrl;
   });
 });
 
-// Handle "I Do Not Agree" button
-document.getElementById('notAgreeBtn').addEventListener('click', () => {
+noBtn.addEventListener('click', () => {
   fetch('save_agreement.php', {
-    method: 'POST',
+    method : 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: currentUserId, property_id: currentPropertyId, agreed: 0 })
-  })
-  .then(res => res.json())
-  .then(data => {
-    alert('You must agree to proceed.');
-    document.getElementById('agreementModal').style.display = 'none';
-  });
+    body   : JSON.stringify({ user_id: currentUserId, property_id: pendingPropertyId, agreed: 0 })
+  }).catch(() => {});
+  closeModal();
+  alert('You must agree to the terms to proceed.');
 });
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 </script>
 
 </body>
