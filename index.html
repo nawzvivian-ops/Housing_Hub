@@ -63,13 +63,22 @@ nav { position: relative !important; z-index: 100000 !important; }
 </header>
  
 <section class="info z" id="home">
-  <div class="info-content">
-    <div class="info-eyebrow">Uganda's Premier Property Platform</div>
-    <h2>No More Stress<br>Every Housing<br><span class="stroke"><em>Challenge, Solved.</em></span></h2>
-    <p class="info-sub">HousingHub makes finding, renting, buying, leasing and managing properties effortless. Built for landlords, tenants, and property managers across Uganda.</p>
-    <div class="info-buttons">
-      <a href="index.php" class="more-info" data-label="Let's Go!">Get Started</a>
-      <a href="works.php" class="more-secondary" data-label="Learn">Learn More</a>
+  <div class="info-container">
+    <div class="info-content">
+      <div class="info-eyebrow">Uganda's Premier Property Platform</div>
+      <h2>No More Stress<br>Every Housing<br><span class="stroke"><em>Challenge, Solved.</em></span></h2>
+      <p class="info-sub">HousingHub makes finding, renting, buying, leasing and managing properties effortless. Built for landlords, tenants, and property managers across Uganda.</p>
+      <div class="info-buttons">
+        <a href="index.php" class="more-info" data-label="Let's Go!">Get Started</a>
+        <a href="works.php" class="more-secondary" data-label="Learn">Learn More</a>
+      </div>
+    </div>
+
+    <div class="info-video">
+      <video autoplay muted loop playsinline poster>
+        <source src="video/promo.mp4.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </div>
 </section>
@@ -169,6 +178,7 @@ s0.parentNode.insertBefore(s1,s0);
 
 
 <script>
+ 
 /* DROPDOWNS */
 function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(function(m){m.classList.remove('open')});document.querySelectorAll('.dd-btn.open').forEach(function(b){b.classList.remove('open')})}
 document.querySelectorAll('.dropdown').forEach(function(dd){var btn=dd.querySelector('.dd-btn'),menu=dd.querySelector('.dd-menu');if(!btn||!menu)return;btn.addEventListener('click',function(e){e.stopPropagation();var isOpen=menu.classList.contains('open');closeAllMenus();if(!isOpen){menu.classList.add('open');btn.classList.add('open')}});menu.addEventListener('mousedown',function(e){e.stopPropagation()});menu.addEventListener('click',function(e){e.stopPropagation()})});

@@ -309,3 +309,56 @@ header.z nav {
   border-color: rgba(200,164,60,.4) !important;
   transform: translateY(-5px) !important;
 }
+/* Force the Hero Section Layout */
+.info {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 140px 60px 80px !important; /* Top padding to clear fixed header */
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  gap: 50px;
+}
+
+.info-content {
+  flex: 1;
+  max-width: 600px;
+}
+
+.info-video {
+  flex: 0 0 320px; /* Fixed width for portrait video */
+  height: 570px;   /* Fixed height for portrait video */
+  background: #000;
+  border-radius: 24px;
+  border: 2px solid var(--gold);
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.info-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures video fills the frame perfectly */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+  .info-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .info-video {
+    flex: 0 0 auto;
+    width: 280px;
+    height: 500px;
+    margin-top: 40px;
+  }
+}
