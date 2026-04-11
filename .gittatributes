@@ -1,0 +1,12 @@
+# Tell GitHub how to correctly detect languages in this project
+ 
+*.php        linguist-language=PHP
+*.html       linguist-language=HTML
+*.css        linguist-language=CSS
+*.js         linguist-language=JavaScript
+*.sql        linguist-language=SQL
+ 
+# Ignore vendor/library folders from language stats
+vendor/*     linguist-vendored
+node_modules/* linguist-vendored
+ 
