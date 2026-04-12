@@ -151,15 +151,25 @@ nav { position: relative !important; z-index: 100000 !important; }
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>See Every Home<br><em>Without Leaving</em><br><span class="stroke">Yours.</span></h1>
-    <p class="hero-sub">Take 360° virtual tours of any listed property on HousingHub from your phone or laptop — before ever stepping foot inside. Save time, money, and unnecessary visits.</p>
+    <p class="hero-sub">Take 360° virtual tours of any listed property on HousingHub from your phone or laptop before even stepping foot inside. Save time, money, and unnecessary visits.</p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started</a>
-      <a href="properties.php" class="btn-secondary">Browse Properties</a>
+      <a href="properties.php?browse=1" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
       <div><div class="hstat-num">360°</div><div class="hstat-label">Immersive Tours</div></div>
       <div><div class="hstat-num">3x</div><div class="hstat-label">Faster Decisions</div></div>
       <div><div class="hstat-num">0 UGX</div><div class="hstat-label">Tour Cost</div></div>
+    </div>
+  </div>
+</section>
+  <section class="z reveal" style="background: rgba(200,164,60,0.03); border-radius: 20px; margin: 0 60px;">
+  <div style="display: flex; align-items: center; gap: 40px; padding: 40px;">
+    <div style="font-size: 100px;">🛡️</div>
+    <div>
+      <h3 class="feat-title">The HousingHub Guarantee</h3>
+      <p class="feat-desc">Every property with a 360° tour has been physically visited by a HousingHub Verified staff. 
+        <br><br>We ensure that what you see in the virtual tour is 100% identical to the current state of the property.
+        <br><br>No filters, no old photos just the truth, your trust is our priority <br><br>We offer best services dont fail to trust us</p>
     </div>
   </div>
 </section>

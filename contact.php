@@ -90,15 +90,6 @@ nav>a:hover{opacity:.8}
 .submit-btn:hover{background:var(--gold-l);transform:translateY(-2px);box-shadow:0 10px 28px rgba(200,164,60,.28)}
 .submit-btn:disabled{opacity:.6;transform:none;cursor:not-allowed}
 .success-msg{display:none;padding:16px 22px;border-radius:6px;margin-top:18px;font-size:14px;border:1px solid transparent;line-height:1.6}
-.offices{position:relative;z-index:10;padding:90px 8%;text-align:center;border-bottom:1px solid var(--border);background:rgba(200,164,60,.02)}
-.offices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--white);margin-bottom:56px}
-.offices h2 em{color:var(--gold);font-style:italic}
-.offices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.office-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:36px 24px;border-top:2px solid var(--gold);transition:transform .3s,border-color .3s,background .3s;display:flex;flex-direction:column;align-items:center;text-align:center}
-.office-card:hover{transform:translateY(-6px);background:rgba(200,164,60,.05);border-color:var(--gb)}
-.office-card .flag{font-size:38px;margin-bottom:16px}
-.office-card h4{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:20px;font-weight:700;margin-bottom:12px}
-.office-card p{color:var(--muted);font-size:14px;line-height:1.8}
 .contact-faq{position:relative;z-index:10;padding:90px 10%;border-bottom:1px solid var(--border)}
 .contact-faq h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--white);text-align:center;margin-bottom:56px}
 .contact-faq h2 em{color:var(--gold);font-style:italic}
@@ -180,23 +171,20 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 <div class="about-hero z">
   <div class="eyebrow">Reach Out</div>
   <h1>Contact <em>Us</em></h1>
-  <p>We're here to help. Reach out anytime — our team typically responds within 24 hours.</p>
+  <p>We're here to help whenever needed feel free to inquire from HousingHub team.</p>
 </div>
  
 <section class="contact-wrapper z reveal">
   <div class="contact-info">
     <h2>Get in <em>Touch</em></h2>
-    <p>Whether you have a question, need support, or want to partner with us — we'd love to hear from you.</p>
-    <div class="info-item"><div class="info-icon">📍</div><div class="info-text"><h4>Head Office</h4><p>Plot 14, Kampala Road<br>Kampala, Uganda</p></div></div>
-    <div class="info-item"><div class="info-icon">📞</div><div class="info-text"><h4>Phone / WhatsApp</h4><p>+256 700 000 000<br>+256 780 000 000</p></div></div>
-    <div class="info-item"><div class="info-icon">✉️</div><div class="info-text"><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31585f575e71595e4442585f565944531f4456">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="73000603031c0107331b1c06001a1d141b06115d0614">[email&#160;protected]</a></p></div></div>
-    <div class="info-item"><div class="info-icon">⏰</div><div class="info-text"><h4>Working Hours</h4><p>Monday – Friday: 8:00 AM – 6:00 PM<br>Saturday: 9:00 AM – 1:00 PM</p></div></div>
+    <p>Whether you have a question, need support, or want to partner with us </p>
+    <div class="info-item"><div class="info-icon">📍</div><div class="info-text"><h4>Head Office</h4><p>Plot 14, Ggaba Road<br>Kampala, Uganda</p></div></div>
+    <div class="info-item"><div class="info-icon">📞</div><div class="info-text"><h4>Phone / WhatsApp</h4><p>+256 741 035 928<br>+256 781 151 585<br>+256 754 111 417</p></div></div>
+    <div class="info-item"><div class="info-icon">✉️</div><div class="info-text"><h4>Email</h4><p>support@housinghub.com</p></div></div>
+    <div class="info-item"><div class="info-icon">⏰</div><div class="info-text"><h4>Working Hours</h4><p>24/7</p></div></div>
     <div class="social-links">
-      <h4>Follow Us</h4>
-      <div class="social-icons">
-        <a href="#" title="Facebook">f</a><a href="#" title="Twitter/X">𝕏</a>
-        <a href="#" title="Instagram">📷</a><a href="#" title="LinkedIn">in</a>
-      </div>
+      <h4>inquire from us</h4>
+      
     </div>
   </div>
   <div class="contact-form">
@@ -227,21 +215,11 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   </div>
 </section>
  
-<section class="offices z reveal">
-  <h2>Our <em>Locations</em></h2>
-  <div class="offices-grid">
-    <div class="office-card"><div class="flag">🏙️</div><h4>Kampala (HQ)</h4><p>Plot 14, Kampala Road<br>+256 700 000 000<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="046f656974656865446c6b71776d6a636c71662a7163">[email&#160;protected]</a></p></div>
-    <div class="office-card"><div class="flag">🏭</div><h4>Jinja Branch</h4><p>Main Street, Jinja<br>+256 700 111 000<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="81ebe8efebe0c1e9eef4f2e8efe6e9f4e3aff4e6">[email&#160;protected]</a></p></div>
-    <div class="office-card"><div class="flag">🌿</div><h4>Mukono Branch</h4><p>Mukono Town Centre<br>+256 700 222 000<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="402d352b2f2e2f00282f3533292e272835226e3527">[email&#160;protected]</a></p></div>
-    <div class="office-card"><div class="flag">📧</div><h4>Online / Remote</h4><p>Available 24/7 via our platform<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="61080f070e21090e1412080f060914034f1406">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="097a7c7979667b7d4961667c7a60676e617c6b277c6e">[email&#160;protected]</a></p></div>
-  </div>
-</section>
- 
 <section class="contact-faq z reveal">
   <h2>Frequently Asked <em>Questions</em></h2>
   <div class="faq-item"><h4>How long does it take to get a response?</h4><p>Our support team responds to all inquiries within 24 hours on business days. Urgent matters are typically addressed within 2–4 hours.</p></div>
-  <div class="faq-item"><h4>Can I visit your office in person?</h4><p>Yes! Our Kampala headquarters is open Monday–Friday from 8:00 AM to 6:00 PM and on Saturdays from 9:00 AM to 1:00 PM. Walk-ins are welcome.</p></div>
-  <div class="faq-item"><h4>I'm a landlord interested in listing my property — who do I contact?</h4><p>Send us an email at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="503c313e343c3f22342310383f2523393e373825327e2537">[email&#160;protected]</a></strong> or call our main line. You can also register directly on the platform and start listing immediately.</p></div>
+  <div class="faq-item"><h4>Can I visit your office in person?</h4><p>Yes always available when needed Walk-ins are welcome.</p></div>
+  <div class="faq-item"><h4>I'm a landlord interested in listing my property who do I contact?</h4><p>Send us an email at <strong>support@housinghub.com</strong> or call our main line. You can also register directly on the platform and start listing immediately.</p></div>
   <div class="faq-item"><h4>Do you offer a demo of the platform?</h4><p>Absolutely! Contact us to schedule a free demo with one of our team members. We'll walk you through all the features relevant to your needs.</p></div>
 </section>
  
