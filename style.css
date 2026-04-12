@@ -315,6 +315,6 @@ header.z nav {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 140px 60px 80px !important; /* Top padding to clear fixed header */
+  padding: 40px 50px 40px !important; /* Top padding to clear fixed header */
 }
 

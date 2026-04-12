@@ -200,7 +200,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <div class="page-hero z">
   <div class="page-eyebrow">Simple. Fast. Transparent.</div>
   <h1>How <em>HousingHub</em> Works</h1>
-  <p>Whether you are a tenant looking for a home, a landlord or PropertyOwner managing properties, or a broker closing deals — HousingHub makes every step simple. Select your role to see your journey.</p>
+  <p>Whether you are a tenant looking for a home, a landlord or PropertyOwner managing properties, or a broker closing deals.HousingHub makes every step simple. Select your role to see your journey.</p>
   <div class="hero-tabs">
     <button class="tab-btn active" onclick="switchRole('tenant',this)">&#127968; I am a Tenant</button>
     <button class="tab-btn" onclick="switchRole('PropertyOwner',this)">&#128273; I am a PropertyOwner</button>
