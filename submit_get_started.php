@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include "db_connect.php";
@@ -12,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
  
-// Auto-create table if not exists
+// Auto-create table if not exists (UPDATED with terms_agreed)
 mysqli_query($conn, "CREATE TABLE IF NOT EXISTS property_applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(200) NOT NULL,
@@ -33,6 +32,7 @@ mysqli_query($conn, "CREATE TABLE IF NOT EXISTS property_applications (
     start_timeline VARCHAR(100) DEFAULT NULL,
     referral_source VARCHAR(100) DEFAULT NULL,
     questions TEXT DEFAULT NULL,
+    terms_agreed TINYINT(1) DEFAULT 0, -- Added column
     status VARCHAR(50) DEFAULT 'pending',
     admin_notes TEXT DEFAULT NULL,
     reviewed_by VARCHAR(200) DEFAULT NULL,
@@ -59,20 +59,27 @@ $services_needed  = mysqli_real_escape_string($conn, trim($_POST['services_neede
 $start_timeline   = mysqli_real_escape_string($conn, trim($_POST['start_timeline'] ?? ''));
 $referral_source  = mysqli_real_escape_string($conn, trim($_POST['referral_source'] ?? ''));
 $questions        = mysqli_real_escape_string($conn, trim($_POST['questions'] ?? ''));
+$terms_agreed     = isset($_POST['terms_agreed']) ? 1 : 0; // Added field
  
 // Validate required
 if (!$fullname || !$phone || !$property_name || !$property_address) {
     echo json_encode(['success' => false, 'message' => '⚠️ Please fill in all required fields (name, phone, property name, address).']);
     exit();
 }
+
+// Added validation for the agreement checkbox
+if ($terms_agreed === 0) {
+    echo json_encode(['success' => false, 'message' => '⚠️ You must agree to the Management Terms to proceed.']);
+    exit();
+}
  
-// Insert
+// Insert (UPDATED to include terms_agreed)
 $q = mysqli_query($conn, "INSERT INTO property_applications
     (fullname, phone, email, occupation, owner_location, property_name, property_type, property_address,
-     units, rent_amount, bedrooms, property_status, amenities, description, services_needed, start_timeline, referral_source, questions)
+     units, rent_amount, bedrooms, property_status, amenities, description, services_needed, start_timeline, referral_source, questions, terms_agreed)
     VALUES
     ('$fullname','$phone','$email','$occupation','$owner_location','$property_name','$property_type','$property_address',
-     $units,$rent_amount,$bedrooms,'$property_status','$amenities','$description','$services_needed','$start_timeline','$referral_source','$questions')");
+     $units,$rent_amount,$bedrooms,'$property_status','$amenities','$description','$services_needed','$start_timeline','$referral_source','$questions', $terms_agreed)");
  
 if (!$q) {
     echo json_encode(['success' => false, 'message' => '❌ Database error. Please try again or contact us directly.']);
@@ -84,7 +91,7 @@ if (!empty($email)) {
     $email_body = "Dear $fullname,\n\n"
         . "Thank you for submitting your property management application to HousingHub!\n\n"
         . "════════════════════════════════════════\n"
-        . "  APPLICATION RECEIVED ✅\n"
+        . "   APPLICATION RECEIVED ✅\n"
         . "════════════════════════════════════════\n"
         . "Property : $property_name\n"
         . "Address  : $property_address\n"
@@ -116,6 +123,7 @@ $admin_body  = "New Property Management Application Received!\n\n"
     . "Status : $property_status\n"
     . "Services: $services_needed\n"
     . "Timeline: $start_timeline\n\n"
+    . "Terms Accepted: Yes\n\n" // Added for clarity
     . "Login to admin panel → Property Applications to review.\n";
  
 send_mail($admin_email, "🏠 New Property Application — $fullname", $admin_body);

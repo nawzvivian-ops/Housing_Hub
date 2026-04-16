@@ -109,6 +109,62 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 @media(max-width:600px){
   .benefits-grid,.steps-row{grid-template-columns:1fr}
 }
+/* AGREEMENT STYLING */
+.agreement-container {
+    max-width: 700px; /* Constrains the width */
+    margin: 1px auto; /* Centers the box with spacing top/bottom */
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.agreement-container::before {
+    content: "OFFICIAL AGREEMENT";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 2px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+}
+.terms-scroll {
+    height: 220px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+.terms-scroll b { color: var(--gold); display: block; margin-top: 15px; }
+.terms-scroll::-webkit-scrollbar { width: 5px; }
+.terms-scroll::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+.check-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+.check-wrap:hover { background: rgba(200, 164, 60, 0.05); }
+.check-wrap input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--gold);
+    margin-top: 2px;
+}
+.check-text { font-size: 13px; color: var(--white); line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -136,9 +192,42 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="hero">
   <div class="eyebrow">Property Management Made Simple</div>
   <h1>Let HousingHub Manage<br>Your <em>Properties</em> For You</h1>
-  <p class="hero-sub">Stop chasing rent, handling maintenance calls, and managing paperwork. HousingHub's professional team takes over — so you earn more and stress less.</p>
+  <p class="hero-sub">Stop chasing rent, handling maintenance calls, and managing paperwork. HousingHub's professional team takes over so you earn more and stress less.</p>
 </section>
  
+<div class="section-label">📜 Owner Management Agreement</div>
+<div class="agreement-container">
+    <div class="terms-scroll">
+        <p><b>1. Representation & Authority</b>
+        The Owner certifies they hold legal title to the property or are authorized to execute this agreement. HousingHub is granted authority to market, show and negotiate lease terms on the owner's behalf.</p>
+
+        <p><b>2. Truthfulness of Listings</b>
+        All property data, including structural integrity, utility status and pricing, must be 100% accurate. Misrepresentation of property conditions will result in immediate termination of management services.</p>
+
+        <p><b>3. Maintenance & Repair Fund</b>
+        The Owner authorizes HousingHub to handle emergency repairs up to a pre-agreed limit. Costs are deducted from monthly rent, with full digital receipts provided via the Owner Dashboard.</p>
+
+        <p><b>4. Commission & Management Fees</b>
+        Standard management fees are deducted from successfully collected rent. Any "Placement Only" services are billed upon the successful signing of a new tenant lease agreement.</p>
+
+        <p><b>5. Non-Circumvention & Ethics</b>
+        The Owner shall not privately lease to tenants introduced via the HousingHub platform to bypass service fees. Both parties agree to adhere to the National Real Estate Code of Conduct.</p>
+
+        <p><b>6. Data Privacy & Documentation</b>
+        Owner and Tenant data are stored in "The Vault" with high-level encryption. We do not share owner contact details with third-party marketing firms or insurance agencies.</p>
+
+        <p><b>7. Termination & Notice</b>
+        This agreement may be dissolved by either party with a 30-day written notice. Active tenant leases must be honored through their remaining duration as per Ugandan law.</p>
+    </div>
+    
+    <label class="check-wrap">
+        <input type="checkbox" id="agree-check" name="terms_agreed" required>
+        <span class="check-text">
+            I have read and accept the HousingHub Owner Management Agreement. I certify that I am the legal owner or authorized representative of the listed property.
+        </span>
+    </label>
+</div>
+
 <!-- WHAT YOU GET -->
 <section class="benefits">
   <h2>What You <em>Get</em> With HousingHub</h2>
@@ -176,6 +265,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="form-wrap">
     <h2>Apply to <em>List Your Property</em></h2>
     <p class="form-sub">Fill in the details below and our team will reach out within 24 hours to get you started.</p>
+    <p class="form-sub">To click submit you wouldhave accepted the agreement otherwise it wont accept</p>
  
     <div id="alert-box" class="alert"></div>
  
@@ -280,6 +370,26 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <footer>&copy; 2026 HousingHub | All Rights Reserved</footer>
  
 <script>
+  // Agreement Logic
+const agreeCheck = document.getElementById('agree-check');
+const submitBtn  = document.getElementById('submit-btn');
+
+// Initial State
+submitBtn.disabled = true;
+submitBtn.style.opacity = "0.4";
+submitBtn.style.cursor = "not-allowed";
+
+agreeCheck.addEventListener('change', function() {
+    if(this.checked) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+    } else {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.4";
+        submitBtn.style.cursor = "not-allowed";
+    }
+});
 async function submitForm(e) {
   e.preventDefault();
   const btn   = document.getElementById('submit-btn');
