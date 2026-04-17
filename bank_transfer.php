@@ -129,7 +129,7 @@ footer{padding:24px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="section-label">Bank Details</div>
       <div class="bank-row">
         <span class="bank-key">Bank Name</span>
-        <span class="bank-val">Stanbic Bank Uganda</span>
+        <span class="bank-val">Centenary Bank Uganda</span>
       </div>
       <div class="bank-row">
         <span class="bank-key">Account Name</span>
@@ -138,21 +138,15 @@ footer{padding:24px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="bank-row">
         <span class="bank-key">Account Number</span>
         <span class="bank-val">
-          9030008123456
-          <button class="copy-btn" onclick="copyText('9030008123456', this)">Copy</button>
+          3202889627
+          <button class="copy-btn" onclick="copyText('3202889627', this)">Copy</button>
         </span>
       </div>
       <div class="bank-row">
         <span class="bank-key">Branch</span>
         <span class="bank-val">Kampala Road</span>
       </div>
-      <div class="bank-row">
-        <span class="bank-key">Swift Code</span>
-        <span class="bank-val">
-          SBICUGKX
-          <button class="copy-btn" onclick="copyText('SBICUGKX', this)">Copy</button>
-        </span>
-      </div>
+      
     </div>
 
     <!-- PAYMENT SUMMARY -->
