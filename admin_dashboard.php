@@ -55,6 +55,45 @@ if (isset($_GET['reject'])) {
     header("Location: admin_dashboard.php?page=broker_documents");
     exit;
 }
+// ── Manual Payment Approval Handler ──
+if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
+    $pay_id = (int)$_GET['pay_id'];
+    $pay_action = mysqli_real_escape_string($conn, $_GET['pay_action']);
+
+    if ($pay_action === 'approve') {
+        // Mark as paid
+        mysqli_query($conn, "UPDATE payments SET status='paid', updated_at=NOW() WHERE id=$pay_id");
+        
+        // Fetch user and property info for notification
+        $pay_info = mysqli_fetch_assoc(mysqli_query($conn, "SELECT p.*, u.fullname, u.email, pr.property_name 
+            FROM payments p 
+            JOIN users u ON p.tenant_id = u.id 
+            JOIN properties pr ON p.property_id = pr.id 
+            WHERE p.id=$pay_id"));
+
+        if ($pay_info) {
+            // Send Email Confirmation
+            $subj = "Payment Verified - HousingHub";
+            $body = "Dear " . $pay_info['fullname'] . ",\n\nWe have verified your payment for " . $pay_info['property_name'] . " (Trans ID: " . $pay_info['transaction_ref'] . ").\n\nYour access is now active.";
+            send_mail($pay_info['email'], $subj, $body);
+
+            // Add Portal Notification
+            $u_id = $pay_info['tenant_id'];
+            mysqli_query($conn, "INSERT INTO notifications (user_id, title, message, status, date) 
+                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified.', 'unread', NOW())");
+        }
+        
+        $_SESSION['admin_success'] = "Payment approved and user notified.";
+
+    } elseif ($pay_action === 'reject') {
+        // Mark as failed
+        mysqli_query($conn, "UPDATE payments SET status='failed', updated_at=NOW() WHERE id=$pay_id");
+        $_SESSION['admin_error'] = "Payment marked as failed/invalid.";
+    }
+
+    header("Location: admin_dashboard.php?page=payments"); 
+    exit();
+}
 
 // ── Stats ──
 $total_brokers       = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='broker'"))['count'];
@@ -62,7 +101,9 @@ $total_owners        = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as
 $total_guests        = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM guests"))['count'];
 $total_complaints    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM complaints WHERE status='pending'"))['count'];
 $total_notifications = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM notifications WHERE is_read=0"))['count'];
-$pending_payments    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM payments WHERE status='pending'"))['count'];
+// New: Count both 'pending' (started) and 'pending_verification' (user submitted ID)
+$pending_payments = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM payments WHERE status='pending'"))['count'];
+$awaiting_verify = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM payments WHERE status='pending_verification'"))['count'];
 $total_properties    = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM properties"))['count'];
 $total_tenants       = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM tenants"))['count'];
 $total_staff         = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) as count FROM users WHERE role='staff'"))['count'];
@@ -553,7 +594,9 @@ if (isset($_GET['delete_bps'])) {
     $_SESSION['admin_success'] = "Submission deleted.";
     header("Location: admin_dashboard.php?page=broker_submissions"); exit();
 }
+
 ?>
+
  
 
 
@@ -1058,6 +1101,7 @@ endif;
     </form>
   </div>
 
+  
   <!-- EXISTING NOTICES -->
   <?php
   $board_notices = mysqli_query($conn,"SELECT * FROM notifications WHERE user_id=0 AND tenant_id=0 ORDER BY date DESC");
@@ -1457,40 +1501,109 @@ endif;
 <?php elseif($page === 'tenant_payments'): ?>
 <section id="tenant_payments">
   <h2 style="text-align:center;color:var(--gold)">TENANT PAYMENTS</h2>
-  <div style="text-align:center;margin-bottom:20px"><a href="add_payment.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ RECORD NEW PAYMENT</a></div>
+  
+  <div style="text-align:center;margin-bottom:20px">
+    <a href="add_payment.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ RECORD NEW PAYMENT</a>
+  </div>
+
   <table>
-    <tr><th>Tenant</th><th>Property</th><th>Amount (UGX)</th><th>Date</th><th>Method</th><th>Status</th><th>Actions</th></tr>
-    <?php $payments = mysqli_query($conn,"SELECT pay.*,t.fullname as tenant_name,p.property_name FROM payments pay LEFT JOIN tenants t ON pay.tenant_id=t.id LEFT JOIN properties p ON pay.property_id=p.id ORDER BY pay.date DESC");
-    while($pay = mysqli_fetch_assoc($payments)): ?>
-    <tr>
-      <td><?= htmlspecialchars($pay['tenant_name']??'N/A') ?></td>
-      <td><?= htmlspecialchars($pay['property_name']??'N/A') ?></td>
-      <td><?= number_format($pay['amount']) ?></td>
-      <td><?= htmlspecialchars($pay['date']) ?></td>
-      <td style="font-size:12px;color:var(--muted)"><?= htmlspecialchars($pay['payment_method']??'—') ?></td>
-      <td><?= htmlspecialchars($pay['status']??'Pending') ?></td>
-      <td>
-        <a href="edit_records.php?type=payment&id=<?= $pay['id'] ?>" class="action-btn">Edit</a>
-        <a href="delete_record.php?table=payments&id=<?= $pay['id'] ?>" class="action-btn" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5" onclick="return confirm('Delete?')">Delete</a>
-      </td>
-    </tr>
-    <?php endwhile; ?>
+    <thead>
+      <tr>
+        <th>Tenant</th>
+        <th>Property</th>
+        <th>Amount (UGX)</th>
+        <th>SMS ID (Ref)</th> <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php 
+      // Query remains mostly the same, ensuring we get the status and transaction_ref
+      $payments = mysqli_query($conn,"SELECT pay.*, t.fullname as tenant_name, p.property_name 
+                                      FROM payments pay 
+                                      LEFT JOIN tenants t ON pay.tenant_id=t.id 
+                                      LEFT JOIN properties p ON pay.property_id=p.id 
+                                      ORDER BY pay.date DESC");
+      
+      while($pay = mysqli_fetch_assoc($payments)): ?>
+      <tr>
+        <td><?= htmlspecialchars($pay['tenant_name']??'N/A') ?></td>
+        <td><?= htmlspecialchars($pay['property_name']??'N/A') ?></td>
+        <td><strong><?= number_format($pay['amount']) ?></strong></td>
+        
+        <td style="color:var(--gold); font-family:monospace; font-weight:bold;">
+            <?= htmlspecialchars($pay['transaction_ref'] ?? '—') ?>
+        </td>
+        
+        <td><?= date('d M, Y', strtotime($pay['date'])) ?></td>
+        
+        <td>
+            <span class="status-badge status-<?= strtolower($pay['status'] ?? 'pending') ?>">
+                <?= htmlspecialchars($pay['status'] ?? 'Pending') ?>
+            </span>
+        </td>
+        
+        <td>
+          <?php if($pay['status'] === 'pending_verification' || $pay['status'] === 'pending'): ?>
+            <a href="admin_dashboard.php?pay_action=approve&pay_id=<?= $pay['id'] ?>&page=tenant_payments" 
+               class="action-btn" style="background:rgba(34,197,94,.2); border:1px solid #22c55e; color:#4ade80;"
+               onclick="return confirm('Verify UGX <?= number_format($pay['amount']) ?>?')">Verify</a>
+          <?php endif; ?>
+
+          <a href="edit_records.php?type=payment&id=<?= $pay['id'] ?>" class="action-btn">Edit</a>
+          
+          <a href="delete_record.php?table=payments&id=<?= $pay['id'] ?>" class="action-btn" 
+             style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);color:#fca5a5" 
+             onclick="return confirm('Delete this record?')">Delete</a>
+        </td>
+      </tr>
+      <?php endwhile; ?>
+    </tbody>
   </table>
 </section>
 
 <?php elseif($page === 'payments'): ?>
 <section id="payments">
   <h2>Payments / Rent Tracking</h2>
-  <table>
-    <tr><th>Tenant</th><th>Property</th><th>Amount (UGX)</th><th>Date</th><th>Status</th></tr>
-    <?php $payments = mysqli_query($conn,"SELECT pay.*,t.fullname as tenant_name,p.property_name FROM payments pay LEFT JOIN tenants t ON pay.tenant_id=t.id LEFT JOIN properties p ON pay.property_id=p.id ORDER BY pay.date DESC");
+  <table class="admin-table">
+    <tr>
+      <th>Tenant</th>
+      <th>Property</th>
+      <th>Amount (UGX)</th>
+      <th>SMS ID (Ref)</th> <th>Date</th>
+      <th>Status</th>
+      <th>Action</th> </tr>
+    <?php 
+    $payments = mysqli_query($conn,"SELECT pay.*, t.fullname as tenant_name, p.property_name 
+                                    FROM payments pay 
+                                    LEFT JOIN tenants t ON pay.tenant_id=t.id 
+                                    LEFT JOIN properties p ON pay.property_id=p.id 
+                                    ORDER BY pay.date DESC");
     while($pay = mysqli_fetch_assoc($payments)): ?>
     <tr>
       <td><?= htmlspecialchars($pay['tenant_name']??'N/A') ?></td>
       <td><?= htmlspecialchars($pay['property_name']??'N/A') ?></td>
       <td><?= number_format($pay['amount']) ?></td>
+      
+      <td style="font-weight:bold; color:#2563eb;"><?= htmlspecialchars($pay['transaction_ref'] ?? 'N/A') ?></td>
+      
       <td><?= htmlspecialchars($pay['date']) ?></td>
-      <td><?= htmlspecialchars($pay['status']??'pending') ?></td>
+      <td>
+        <span class="status-badge status-<?= $pay['status'] ?>">
+            <?= htmlspecialchars($pay['status']??'pending') ?>
+        </span>
+      </td>
+      <td>
+        <?php if($pay['status'] === 'pending_verification'): ?>
+            <a href="admin_dashboard.php?pay_action=approve&pay_id=<?= $pay['id'] ?>&page=payments" 
+               onclick="return confirm('Verify this payment?')" style="color:green;">Confirm</a> | 
+            <a href="admin_dashboard.php?pay_action=reject&pay_id=<?= $pay['id'] ?>&page=payments" 
+               style="color:red;">Reject</a>
+        <?php elseif($pay['status'] === 'paid'): ?>
+            <span style="color:gray;">Verified ✅</span>
+        <?php endif; ?>
+      </td>
     </tr>
     <?php endwhile; ?>
   </table>

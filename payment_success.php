@@ -7,10 +7,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$payment_id = intval($_POST['payment_id'] ?? 0);
-$method = htmlspecialchars($_POST['method'] ?? 'N/A');
+// Using POST from your payment processor or GET if redirecting
+$payment_id = intval($_REQUEST['payment_id'] ?? 0);
+$method = htmlspecialchars($_REQUEST['method'] ?? 'mobile_money');
 
-// ✅ Fixed: Using pr.address instead of pr.location
 $stmt = $conn->prepare("
     SELECT p.*, pr.property_name, pr.address 
     FROM payments p
@@ -23,7 +23,7 @@ $result = $stmt->get_result();
 $payment = $result->fetch_assoc();
 
 if (!$payment) {
-    die("Payment not found.");
+    die("Payment record not found. Please contact support if your money was deducted.");
 }
 ?>
 <!DOCTYPE html>
@@ -31,127 +31,169 @@ if (!$payment) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Success</title>
+    <title>Payment Received | HousingHub</title>
     <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #d4af37; /* Gold */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #f1f5f9;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
-        .success-box {
-            max-width: 500px;
-            background: #fff;
-            padding: 40px;
-            border-radius: 16px;
+        .receipt-card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .status-header {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
-        .checkmark {
-            width: 80px;
-            height: 80px;
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--success);
+            color: var(--success);
             border-radius: 50%;
-            background: #22c55e;
-            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            color: #fff;
+            font-size: 32px;
+            margin: 0 auto 15px;
         }
-        h2 { color: #22c55e; margin-bottom: 10px; }
-        p { color: #666; }
-        .details {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
-            text-align: left;
+        .receipt-body {
+            padding: 30px;
         }
-        .details p {
-            margin: 10px 0;
-            color: #555;
-            font-size: 15px;
+        .amount-display {
+            text-align: center;
+            margin-bottom: 25px;
         }
-        .details strong { 
-            color: #333;
-            display: inline-block;
-            min-width: 150px;
+        .amount-display h1 {
+            margin: 0;
+            font-size: 28px;
+            color: var(--primary);
         }
-        .status-pending {
-            color: #f59e0b;
-            font-weight: bold;
+        .amount-display p {
+            margin: 5px 0 0;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
         }
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #667eea;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            transition: background 0.3s;
-            font-weight: 600;
+        .info-grid {
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 20px;
         }
-        .btn:hover { 
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .note {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 8px;
-            text-align: left;
-        }
-        .note p {
-            margin: 5px 0;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
             font-size: 14px;
-            color: #92400e;
+        }
+        .info-label { color: #94a3b8; }
+        .info-value { color: var(--primary); font-weight: 600; text-align: right; }
+        
+        .verification-notice {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+        .notice-icon { font-size: 20px; }
+        .notice-text { font-size: 13px; color: #92400e; line-height: 1.5; }
+
+        .actions {
+            padding: 20px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-outline {
+            text-align: center;
+            padding: 12px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div class="success-box">
-        <div class="checkmark">✓</div>
-        <h2>Payment Initiated!</h2>
-        <p>Your payment has been recorded and is pending confirmation.</p>
-        
-        <div class="details">
-            <p><strong>Transaction Ref:</strong> <?= htmlspecialchars($payment['transaction_ref']) ?></p>
-            <p><strong>Property:</strong> <?= htmlspecialchars($payment['property_name']) ?></p>
-            <p><strong>Address:</strong> <?= htmlspecialchars($payment['address']) ?></p>
-            <p><strong>Amount:</strong> UGX <?= number_format($payment['amount']) ?></p>
-            <p><strong>Payment Method:</strong> <?= ucwords(str_replace('_', ' ', $method)) ?></p>
-            <p><strong>Status:</strong> <span class="status-pending">Pending</span></p>
-            <p><strong>Date:</strong> <?= date('M d, Y h:i A', strtotime($payment['date'])) ?></p>
-        </div>
-        
-        <div class="note">
-            <p><strong>⚠️ Next Steps:</strong></p>
-            <p>
-                <?php if ($method == 'mobile_money'): ?>
-                    • You will receive a prompt on your phone to complete the payment<br>
-                    • Enter your PIN to authorize the transaction<br>
-                    • You'll receive a confirmation SMS once payment is successful
-                <?php elseif ($method == 'card'): ?>
-                    • You will be redirected to the payment gateway<br>
-                    • Enter your card details securely<br>
-                    • Payment confirmation will be sent to your email
-                <?php else: ?>
-                    • Bank details will be sent to your email<br>
-                    • Complete the transfer using your banking app<br>
-                    • Upload the payment receipt for verification
-                <?php endif; ?>
-            </p>
-        </div>
-        
-        <a href="dashboard.php" class="btn">Back to Dashboard</a>
+
+<div class="receipt-card">
+    <div class="status-header">
+        <div class="icon-circle">✓</div>
+        <h2 style="margin:0">Payment Received</h2>
+        <p style="opacity:0.8; font-size: 14px; margin-top:5px">Transaction is now being verified</p>
     </div>
+
+    <div class="receipt-body">
+        <div class="amount-display">
+            <p>Total Amount Paid</p>
+            <h1>UGX <?= number_format($payment['amount']) ?></h1>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-row">
+                <span class="info-label">Reference ID</span>
+                <span class="info-value"><?= htmlspecialchars($payment['transaction_ref']) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Property</span>
+                <span class="info-value"><?= htmlspecialchars($payment['property_name']) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Payment Mode</span>
+                <span class="info-value"><?= ucwords(str_replace('_', ' ', $method)) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Date & Time</span>
+                <span class="info-value"><?= date('d M Y, h:i A', strtotime($payment['date'])) ?></span>
+            </div>
+        </div>
+
+        <div class="verification-notice">
+            <span class="notice-icon">⏳</span>
+            <div class="notice-text">
+                <strong>Awaiting Verification:</strong> Our administrators are currently matching this transaction with the mobile money network records. Your status will update to "Paid" once confirmed.
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="dashboard.php" class="btn-primary">Return to Dashboard</a>
+        <a href="javascript:window.print()" class="btn-outline">Download PDF Receipt</a>
+    </div>
+</div>
+
 </body>
 </html>

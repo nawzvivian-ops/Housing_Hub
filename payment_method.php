@@ -174,7 +174,7 @@ footer{padding:24px 60px;border-top:1px solid var(--border);text-align:center;fo
           <span class="method-arr">&rarr;</span>
         </button>
 
-        <button type="submit" name="method" value="card" class="method-btn card-pay">
+        <button type="submit" id="card-btn" name="method" value="card" class="method-btn card-pay">
           <span class="method-icon">&#128179;</span>
           <div class="method-info">
             <div class="method-name">Debit / Credit Card</div>
@@ -217,6 +217,16 @@ document.querySelectorAll('a,button').forEach(el=>{
 document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
 for(let i=0;i<12;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*2.5+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.4+.15).toFixed(2)});animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*14}s;`;document.body.appendChild(p);}
+// Soon integrating alert for Card Payment
+const cardBtn = document.getElementById('card-btn');
+
+cardBtn.addEventListener('click', function(e) {
+    // 1. Prevent the form from actually submitting to process_payment.php
+    e.preventDefault();
+
+    // 2. Show the alert message
+    alert("Card Payment is coming soon! We are currently integrating this system. Please use Mobile Money or Bank Transfer for now.");
+});
 </script>
 </body>
 </html>
