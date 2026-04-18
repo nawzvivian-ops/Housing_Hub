@@ -153,7 +153,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h1>Fix Issues<br><em>Faster Than</em><br><span class="stroke">Ever.</span></h1>
     <p class="hero-sub">HousingHub's maintenance system lets tenants log repair requests instantly, and gives landlords and property managers a full tracking dashboard to assign, update, and close every job.</p>
     <div class="hero-btns">
-      <a href="index.php" class="btn-primary">Get Started</a>
+      <a href="maintenance_request.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">

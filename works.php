@@ -232,7 +232,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="step">
         <div class="step-bubble" data-num="3">&#128269;</div>
         <div class="step-title">Search &amp; Filter</div>
-        <div class="step-desc">Browse by location, type, price, and size. Take 360° virtual tours before visiting in person.</div>
+        <div class="step-desc">Browse by location, type, price and size. Take 360° virtual tours before visiting in person.</div>
         <div class="step-arrow">&#8594;</div>
       </div><br>
       
@@ -251,7 +251,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="step">
         <div class="step-bubble" data-num="6">&#128295;</div>
         <div class="step-title">Manage Your Stay</div>
-        <div class="step-desc">Log maintenance requests, track repairs, view your lease, and communicate — all from your dashboard.</div>
+        <div class="step-desc">Log maintenance requests, track repairs, view your lease and communicate all from your dashboard.</div>
       </div>
     </div>
 
@@ -261,7 +261,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <div class="detail-item"><div class="detail-dot"></div>Browse and filter 1,200+ verified property listings</div>
         <div class="detail-item"><div class="detail-dot"></div>Take virtual 360° property tours from your phone</div>
         <div class="detail-item"><div class="detail-dot"></div>Submit applications with documents digitally</div>
-        <div class="detail-item"><div class="detail-dot"></div>Sign your lease agreement online — no printing</div>
+        <div class="detail-item"><div class="detail-dot"></div>Sign your lease agreement online, no printing</div>
         <div class="detail-item"><div class="detail-dot"></div>Pay rent via MoMo, Airtel, card, or bank transfer</div>
         <div class="detail-item"><div class="detail-dot"></div>Log and track maintenance requests in real time</div>
         <div class="detail-item"><div class="detail-dot"></div>Raise complaints formally through the platform</div>
@@ -301,13 +301,13 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="step">
         <div class="step-bubble" data-num="2">&#127968;</div>
         <div class="step-title">List Your Property</div>
-        <div class="step-desc">Add your property with photos, virtual tour, location, amenities, and rental price.</div>
+        <div class="step-desc">Add your property with photos, virtual tour, location, amenities and rental price.</div>
         <div class="step-arrow">&#8594;</div>
       </div>
       <div class="step">
         <div class="step-bubble" data-num="3">&#128203;</div>
         <div class="step-title">Review Applications</div>
-        <div class="step-desc">Receive tenant applications digitally. Review documents, screen applicants, and approve.</div>
+        <div class="step-desc">Receive tenant applications digitally. Review documents, screen applicants and approve.</div>
         <div class="step-arrow">&#8594;</div>
       </div>
       <div class="step">
@@ -347,7 +347,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <div class="detail-item"><div class="detail-dot"></div>Live payment status for every tenant across all units</div>
         <div class="detail-item"><div class="detail-dot"></div>Automated overdue rent alerts and tenant reminders</div>
         <div class="detail-item"><div class="detail-dot"></div>Maintenance job tracker with technician assignment</div>
-        <div class="detail-item"><div class="detail-dot"></div>Digital lease library — all signed agreements stored</div>
+        <div class="detail-item"><div class="detail-dot"></div>Digital lease library all signed agreements stored</div>
         <div class="detail-item"><div class="detail-dot"></div>Tenant profiles with contact info and payment history</div>
         <div class="detail-item"><div class="detail-dot"></div>Complaint and feedback resolution dashboard</div>
         <div class="detail-item"><div class="detail-dot"></div>Exportable income and occupancy reports (PDF / CSV)</div>
@@ -363,7 +363,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="journey z reveal">
     <div class="journey-label">Broker Journey</div>
     <h2>List, Connect &amp; <em>Earn</em></h2>
-    <p class="journey-sub">From creating your broker profile to closing deals and tracking commissions — here is how HousingHub works for brokers and property agents across Uganda.</p>
+    <p class="journey-sub">From creating your broker profile to closing deals and tracking commissions, here is how HousingHub works for brokers and property agents across Uganda.</p>
 
     <div class="steps-flow">
       <div class="step">
@@ -465,14 +465,14 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,46px);font-weight:700;color:var(--white);margin-bottom:12px"><em>FAQS </em><em style="color:var(--gold);font-style:italic">(Frequently Asked <em style="color:var(--gold);font-style:italic">Questions)</em></h2>
   <p style="font-size:15px;color:var(--muted);margin-bottom:48px;line-height:1.7;max-width:560px">Everything you need to know before getting started on HousingHub.</p>
   <div class="faq-list">
-    <div class="faq-item"><div class="faq-q">Is HousingHub free to use?</div><div class="faq-a">Creating an account and browsing all property listings is completely free. Tenants pay no fee to apply. Landlords and brokers may have listing or subscription plans — check the Pricing page for current rates.</div></div>
+    <div class="faq-item"><div class="faq-q">Is HousingHub free to use?</div><div class="faq-a">Creating an account and browsing all property listings is completely free. Tenants pay no fee to apply. Landlords and brokers may have listing or subscription plans. check the Pricing page for current rates.</div></div>
     <div class="faq-item"><div class="faq-q">How do I know a property listing is legitimate?</div><div class="faq-a">All landlords and properties on HousingHub are verified before their listings go live. Look for the verified badge on any listing. If you ever encounter a suspicious listing, report it directly to our support team.</div></div>
-    <div class="faq-item"><div class="faq-q">What payment methods are accepted?</div><div class="faq-a">HousingHub accepts MTN Mobile Money, Airtel Money, debit and credit cards via Flutterwave, and direct bank transfer. All payments generate instant digital receipts stored on your dashboard.</div></div>
+    <div class="faq-item"><div class="faq-q">What payment methods are accepted?</div><div class="faq-a">HousingHub accepts MTN Mobile Money, Airtel Money, debit and credit cards and direct bank transfer. All payments generate instant digital receipts stored on your dashboard.</div></div>
     <div class="faq-item"><div class="faq-q">Can I manage more than one property as a propertyowner?</div><div class="faq-a">Yes. The HousingHub Owner Portal supports unlimited properties. You get a single dashboard showing all your units, tenants, payments, and maintenance jobs across your entire portfolio.</div></div>
-    <div class="faq-item"><div class="faq-q">What happens after my application is submitted?</div><div class="faq-a">You will receive a real-time status notification at each stage — Received, Under Review, Approved, or Rejected. If approved, the landlord will send your digital lease for review and signing directly on the platform.</div></div>
+    <div class="faq-item"><div class="faq-q">What happens after my application is submitted?</div><div class="faq-a">You will receive a real-time status notification at each stage, Received, Under Review, Approved, or Rejected. If approved, the landlord will send your digital lease for review and signing directly on the platform.</div></div>
     <div class="faq-item"><div class="faq-q">How are maintenance requests handled?</div><div class="faq-a">Tenants log requests with a description and photos on HousingHub. The landlord is notified instantly, assigns a technician, and the tenant can track live progress until the job is closed and recorded.</div></div>
     <div class="faq-item"><div class="faq-q">Is my personal data safe on HousingHub?</div><div class="faq-a">Yes. All personal data, documents, and payment records are encrypted and stored securely. HousingHub complies with local data protection laws and never sells or shares your data with third parties for commercial purposes.</div></div>
-    <div class="faq-item"><div class="faq-q">How do brokers earn commissions on HousingHub?</div><div class="faq-a">Brokers list properties, manage leads, and close deals on the platform. When a deal is confirmed and payment is verified, the commission is calculated automatically based on the agreed rate and recorded in the broker's dashboard.</div></div>
+    <div class="faq-item"><div class="faq-q">How do brokers earn commissions on HousingHub?</div><div class="faq-a">Brokers list properties, manage leads and close deals on the platform. When a deal is confirmed and payment is verified, the commission is calculated automatically based on the agreed rate and recorded in the broker's dashboard.</div></div>
   </div>
 </div>
 

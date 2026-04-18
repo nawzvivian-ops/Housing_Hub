@@ -189,8 +189,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="z reveal" style="padding-top:40px">
   <div class="cta-block">
     <h2>Get Paid On Time, <em>Every Time.</em></h2>
-    <p>Automate rent collection for your entire portfolio. No more chasing tenants — HousingHub handles it all.</p>
-    <a href="index.php" class="btn-primary">Get Started Free</a>
+    <p>Automate rent collection for your entire portfolio. No more chasing tenants. HousingHub handles it all.</p>
+    <p>No more stress with tenants promising fake dates to give you rent</p>
+    <p>seat and relax HousingHub works for you at a percentage that is client Friendly</p>
   </div>
 </section>
 <!-- QUICK LINKS -->

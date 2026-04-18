@@ -189,7 +189,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Give Tenants a <em>Real Voice.</em></h2>
     <p>Set up a proper complaints channel on HousingHub and show your tenants that every issue matters and gets resolved.</p>
-    <a href="index.php" class="btn-primary">Get Started Free</a>
+  <P>Quick feedback with problems and challenges solved and handled by HousingHub Team</P>
   </div>
 </section>
 <!-- QUICK LINKS -->

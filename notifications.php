@@ -152,7 +152,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>Stay Informed,<br><em>Never Miss</em><br><span class="stroke">A Thing.</span></h1>
-    <p class="hero-sub">HousingHub's Smart Notification Center keeps every landlord, tenant, and manager updated in real time — from rent reminders to maintenance updates, lease expiries, and visitor alerts.</p>
+    <p class="hero-sub">HousingHub's Smart Notification Center keeps every landlord, tenant and manager updated in real time from rent reminders to maintenance updates, lease expiries and visitor alerts.</p>
     <div class="hero-btns">
       <a href="index.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
@@ -190,7 +190,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Never Miss <em>An Update.</em></h2>
     <p>Turn on HousingHub smart notifications and stay on top of every rent payment, maintenance job, and lease event automatically.</p>
-    <a href="index.php" class="btn-primary">Get Started Free</a>
+    <p>Relax and be informed of every step taking place</p>
   </div>
 </section>
 <!-- QUICK LINKS -->

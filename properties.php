@@ -443,11 +443,11 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h2 class="sec-title">Built for Uganda's<br><em>Property Market</em></h2>
   </div>
   <div class="features-grid reveal">
-    <div class="feat-card"><div class="feat-num">01</div><span class="feat-icon">✅</span><div class="feat-title">Verified Listings</div><div class="feat-desc">Every property on HousingHub is reviewed before going live. You browse real, available properties — no ghosts, no scams.</div></div>
+    <div class="feat-card"><div class="feat-num">01</div><span class="feat-icon">✅</span><div class="feat-title">Verified Listings</div><div class="feat-desc">Every property on HousingHub is reviewed before going live. You browse real, available properties, no ghosts, no scams.</div></div>
     <div class="feat-card"><div class="feat-num">02</div><span class="feat-icon">💎</span><div class="feat-title">Transparent Pricing</div><div class="feat-desc">Rent amounts, sale prices and lease terms are displayed upfront in UGX. No hidden fees, no nasty surprises at signing.</div></div>
-    <div class="feat-card"><div class="feat-num">03</div><span class="feat-icon">🏷️</span><div class="feat-title">Full Amenity Details</div><div class="feat-desc">See every included amenity — parking, generator, water, security — with cost type clearly marked before you commit.</div></div>
+    <div class="feat-card"><div class="feat-num">03</div><span class="feat-icon">🏷️</span><div class="feat-title">Full Amenity Details</div><div class="feat-desc">See every included amenity; parking, generator, water, security with cost type clearly marked before you commit.</div></div>
     <div class="feat-card"><div class="feat-num">04</div><span class="feat-icon">⚡</span><div class="feat-title">Instant Transactions</div><div class="feat-desc">Rent, buy or lease directly through the platform. Our seamless payment flow gets you from browsing to secured in minutes.</div></div>
-    <div class="feat-card"><div class="feat-num">05</div><span class="feat-icon">🔍</span><div class="feat-title">Smart Search &amp; Filter</div><div class="feat-desc">Find exactly what you need — filter by type, search by name or address, and browse by purpose: rent, buy, or lease.</div></div>
+    <div class="feat-card"><div class="feat-num">05</div><span class="feat-icon">🔍</span><div class="feat-title">Smart Search &amp; Filter</div><div class="feat-desc">Find exactly what you need filter by type, search by name or address, and browse by purpose: rent, buy, or lease.</div></div>
     <div class="feat-card"><div class="feat-num">06</div><span class="feat-icon">🇺🇬</span><div class="feat-title">Uganda-Focused</div><div class="feat-desc">Prices in UGX, locations you know, property types that match the local market. Built specifically for Ugandan real estate.</div></div>
   </div>
 </section>
@@ -484,7 +484,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 
 <section class="cta-section z reveal">
   <h2 class="cta-big">Your Next<br><em>Space</em> <span class="str">Awaits.</span></h2>
-  <p class="cta-sub">Hundreds of verified properties for rent, buying or lease — available today.</p>
+  <p class="cta-sub">Hundreds of verified properties for rent, buying or lease available today.</p>
   <div class="cta-btns">
     <a href="properties.php?browse=1" class="cta-p" data-label="Let's Go!">Browse All Properties</a>
     <a href="register.php" class="cta-s" data-label="Join!">Create Account</a>
@@ -647,14 +647,19 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <div class="quick-col">
           <h3>Use Cases</h3>
           <a href="tenant.php">Tenants</a>
-          <a href="propertyowners.php">Property Owners</a>
           <a href="broker.php">Brokers</a>
+          <a href="staff.php">Staff</a>
+        <a href="visitor.php">Guests</a>
+        <a href="propertyowners.php">Property Owners</a>
+        <a href="employment.php">Employment</a>
         </div>
         <div class="quick-col">
           <h3>About</h3>
           <a href="who.php">Who We Are</a>
           <a href="what.php">What We Do</a>
-          <a href="contact.php">Contact Us</a>
+        <a href="vision.php">Our Vision</a>
+        <a href="values.php">Core Values</a>
+        <a href="contact.php">Contact Us</a>
         </div>
       </div>
     </section>
