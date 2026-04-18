@@ -694,7 +694,17 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
     Manage Tenants
     <?php if($unlinked_count > 0): ?><span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $unlinked_count ?></span><?php endif; ?>
   </a>
-  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>> Brokers / Agents</a>
+  <a href="admin_dashboard.php?page=brokers" <?php echo ($page==='brokers')?'class="active"':''; ?>> Brokers</a>
+  <a href="admin_dashboard.php?page=broker_submissions" <?php echo ($page==='broker_submissions')?'class="active"':''; ?>>
+  Broker Submissions
+  <?php
+      $pending_bps = 0;
+     $bps_chk = mysqli_query($conn,"SHOW TABLES LIKE 'broker_property_submissions'");
+     if ($bps_chk && mysqli_num_rows($bps_chk) > 0)
+         $pending_bps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='pending'"))['c'] ?? 0;      if($pending_bps > 0): ?>
+        <span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_bps ?></span>
+   <?php endif; ?>
+</a>
   <a href="admin_dashboard.php?page=broker_management" <?php echo ($page==='broker_management')?'class="active"':''; ?>>Broker Management</a>
   <a href="admin_dashboard.php?page=propertyowners" <?php echo ($page==='propertyowners')?'class="active"':''; ?>> Property Owners</a>
 
@@ -730,18 +740,7 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
   </a>
   <div class="sb-section">Properties</div>
   <a href="admin_dashboard.php?page=properties" <?php echo ($page==='properties')?'class="active"':''; ?>>Manage Properties</a>
-  <a href="admin_dashboard.php?page=broker_submissions" <?php echo ($page==='broker_submissions')?'class="active"':''; ?>>
-  Broker Submissions
-  <?php
-      $pending_bps = 0;
-     $bps_chk = mysqli_query($conn,"SHOW TABLES LIKE 'broker_property_submissions'");
-     if ($bps_chk && mysqli_num_rows($bps_chk) > 0)
-         $pending_bps = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS c FROM broker_property_submissions WHERE status='pending'"))['c'] ?? 0;      if($pending_bps > 0): ?>
-        <span style="background:#ef4444;color:white;border-radius:10px;padding:2px 8px;font-size:11px;margin-left:6px"><?= $pending_bps ?></span>
-   <?php endif; ?>
-</a>
- 
-
+  
   <a href="admin_dashboard.php?page=inspections" <?php echo ($page==='inspections')?'class="active"':''; ?>> Property Inspections</a>
   <a href="admin_dashboard.php?page=maintenance" <?php echo ($page==='maintenance')?'class="active"':''; ?>> Maintenance Requests</a>
 
