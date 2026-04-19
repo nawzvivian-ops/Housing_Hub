@@ -194,7 +194,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">For Brokers &amp; Agents</div>
     <h1>Earn More.<br>Work <em>Smarter.</em><br><span class="stroke">Build Wealth.</span></h1>
-    <p class="hero-sub">Partner with HousingHub and unlock a steady stream of listings, verified clients, and automatic commission tracking — all from one powerful platform built for Ugandan property professionals.</p>
+    <p class="hero-sub">Partner with HousingHub and unlock a steady stream of listings, verified clients, and automatic commission tracking all from one powerful platform built for Ugandan property professionals.</p>
     <div class="hero-btns">
       <a href="join.php" class="btn-primary">Join us</a>
       <a href="#how-it-works" class="btn-secondary">See How It Works</a>
@@ -268,13 +268,13 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         <input type="range" class="calc-slider" id="propval" min="10" max="500" step="10" value="10" oninput="calcCommission()">
       </div>
       <div class="calc-row">
-        <div class="calc-label">Commission rate <span id="rate-val">10%</span></div>
-        <input type="range" class="calc-slider" id="rate" min="5" max="20" value="10" oninput="calcCommission()">
+        <div class="calc-label">Commission rate <span id="rate-val">5%</span></div>
+        <input type="range" class="calc-slider" id="rate" min="5" max="5" value="5" oninput="calcCommission()">
       </div>
       <div class="calc-result">
         <div class="calc-result-lbl">Estimated Monthly Earnings</div>
         <div class="calc-result-val" id="calc-result">UGX 32,000,000</div>
-        <div class="calc-result-sub">Based on <span id="calc-breakdown">4 deals × UGX 80M × 10%</span></div>
+        <div class="calc-result-sub">Based on <span id="calc-breakdown">4 deals × UGX 80M × 5%</span></div>
       </div>
     </div>
   </div>
@@ -295,7 +295,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="ben-card">
       <span class="ben-icon"></span>
       <div class="ben-title">Broker Portal &amp; App</div>
-      <div class="ben-desc">Your own dedicated dashboard to manage clients, track applications, schedule viewings, and monitor your commissions — all from mobile or desktop.</div>
+      <div class="ben-desc">Your own dedicated dashboard to manage clients, track applications, schedule viewings, and monitor your commissions all from mobile or desktop.</div>
       <span class="ben-tag">Always On</span>
     </div>
     <div class="ben-card">
@@ -358,7 +358,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="section-eyebrow">Questions</div>
   <h2 class="section-title">Broker <em>FAQs</em></h2>
   <div class="faq-list">
-    <div class="faq-item"><div class="faq-q">Is it free to join HousingHub as a broker?</div><div class="faq-a">Yes — creating a broker account is completely free. HousingHub earns only when you earn: we take a small platform fee from each successful commission, so our interests are always aligned with yours.</div></div>
+    <div class="faq-item"><div class="faq-q">Is it free to join HousingHub as a broker?</div><div class="faq-a">Yes, creating a broker account is completely free. HousingHub earns only when you earn: we take a small platform fee from each successful commission, so our interests are always aligned with yours.</div></div>
     <div class="faq-item"><div class="faq-q">What is the commission rate for brokers?</div><div class="faq-a">Commission rates start at 8% for new brokers and increase based on your deal volume and performance tier. Top-tier brokers earn up to 20% per deal. Rates are agreed upfront with each property owner.</div></div>
     <div class="faq-item"><div class="faq-q">How quickly do I get paid after a deal closes?</div><div class="faq-a">Once a lease is signed and the first payment is received, your commission is released within 3–5 business days directly to your registered mobile money or bank account.</div></div>
     <div class="faq-item"><div class="faq-q">Do I need to be a licensed real estate agent?</div><div class="faq-a">You do not need a formal license to sign up. However, brokers with professional credentials get a verified badge on their profile, which increases client trust and deal volume.</div></div>
@@ -371,7 +371,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="pad z reveal" style="padding-top:40px">
   <div class="cta-block">
     <h2>Ready to Start <em>Earning?</em></h2>
-    <p>Join hundreds of brokers across Uganda already growing their income with HousingHub. Sign up in minutes — no paperwork, no fees, no waiting.</p>
+    <p>Join hundreds of brokers across Uganda already growing their income with HousingHub. Sign up in minutes no paperwork, no fees, no waiting.</p>
     <div class="cta-btns">
       <a href="register.php" class="btn-primary">Join as a Broker</a>
       <a href="contact.php" class="btn-secondary">Talk to Our Team</a>
