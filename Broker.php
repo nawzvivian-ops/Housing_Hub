@@ -217,7 +217,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="pad z reveal" id="how-it-works">
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
-  <p class="section-sub">From signup to your first commission cheque — here's the full journey as a HousingHub broker.</p>
+  <p class="section-sub">From signup to your first commission cheque, here's the full journey as a HousingHub broker.</p>
   <div class="split">
     <div class="timeline">
       <div class="tl-item">
