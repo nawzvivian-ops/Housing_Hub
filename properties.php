@@ -401,7 +401,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-left">
     <div class="lp-tag">Uganda's Premier Property Platform</div>
     <h1 class="lp-h1">Find Your<br><em>Perfect</em><br><em>Space</em></h1>
-    <p class="lp-sub">From Kampala offices to countryside farms — HousingHub connects you to the best commercial, residential, industrial, and agricultural properties across Uganda. Rent, buy, or lease with total confidence.</p>
+    <p class="lp-sub">From Kampala offices to to any place of choice, HousingHub connects you to the best commercial, residential, industrial, and agricultural properties across Uganda. Rent, buy, or lease with total confidence.</p>
     <form class="lp-search" action="properties.php" method="GET">
       <input type="text" name="search" placeholder="Search by name, address, type…">
       <div class="lp-sdiv"></div>
@@ -456,7 +456,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="reveal"><div class="sec-label">Property Types</div><h2 class="sec-title">Spaces <em>You Could Need</em></h2></div>
   <div class="showcase-grid reveal">
     <a href="properties.php?type=Commercial" class="showcase-card big" data-label="Browse"><span class="sc-emoji">🏢</span><div class="sc-type">Commercial</div><div class="sc-title">Offices, Shops &amp; Business Premises</div><div class="sc-desc">Prime commercial spaces in Kampala and beyond. Whether opening a shop, setting up a head office, or expanding your business — we have the space.</div><span class="sc-tag">Available for Rent · Buy · Lease</span><div class="sc-link">Explore Commercial →</div></a>
-    <a href="properties.php?type=Residential" class="showcase-card" data-label="Browse"><span class="sc-emoji">🏠</span><div class="sc-type">Residential</div><div class="sc-title">Homes &amp; Apartments</div><div class="sc-desc">Comfortable, secure homes for families and individuals across Uganda.</div><div class="sc-link">Explore →</div></a>
+    <a href="properties.php?type=Residential" class="showcase-card" data-label="Browse"><span class="sc-emoji">🏢</span><div class="sc-type">Residential</div><div class="sc-title">Homes &amp; Apartments</div><div class="sc-desc">Comfortable, secure homes for families and individuals across Uganda.</div><div class="sc-link">Explore →</div></a>
     <a href="properties.php?type=Land" class="showcase-card" data-label="Browse"><span class="sc-emoji">🗺️</span><div class="sc-type">Land</div><div class="sc-title">Open Plots &amp; Development Land</div><div class="sc-desc">Raw land and titled plots ready for development or investment.</div><div class="sc-link">Explore →</div></a>
     <a href="properties.php?type=Industrial" class="showcase-card" data-label="Browse"><span class="sc-emoji">🏭</span><div class="sc-type">Industrial</div><div class="sc-title">Warehouses &amp; Factories</div><div class="sc-desc">Large-scale industrial facilities built for heavy operations.</div><div class="sc-link">Explore →</div></a>
     <a href="properties.php?type=Agricultural" class="showcase-card" data-label="Browse"><span class="sc-emoji">🌾</span><div class="sc-type">Agricultural</div><div class="sc-title">Farmland &amp; Plantations</div><div class="sc-desc">Fertile land across Uganda's most productive regions.</div><div class="sc-link">Explore →</div></a>
@@ -467,8 +467,8 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="reveal"><div class="sec-label">The Process</div><h2 class="sec-title">Simple Steps to<br><em>Your Next Space</em></h2></div>
   <div class="how-steps reveal">
     <div class="how-step"><div class="step-circle">1</div><div class="step-title">Browse Properties</div><div class="step-desc">Search by name, filter by type or scroll through all available listings on one clean page.</div></div>
-    <div class="how-step"><div class="step-circle">2</div><div class="step-title">View Details</div><div class="step-desc">Check address, size, rooms, amenities, pricing and purpose — all clearly listed on every card.</div></div>
-    <div class="how-step"><div class="step-circle">3</div><div class="step-title">Choose Your Action</div><div class="step-desc">Each property shows the right button — Rent, Buy, or Lease — so you always know what's available.</div></div>
+    <div class="how-step"><div class="step-circle">2</div><div class="step-title">View Details</div><div class="step-desc">Check address, size, rooms, amenities, pricing and purpose, all clearly listed on every card.</div></div>
+    <div class="how-step"><div class="step-circle">3</div><div class="step-title">Choose Your Action</div><div class="step-desc">Each property shows the right button to Rent, Buy, or Lease.so you always know what's available.</div></div>
     <div class="how-step"><div class="step-circle">4</div><div class="step-title">Complete Payment</div><div class="step-desc">Head straight to our payment page and secure your property quickly and safely.</div></div>
   </div>
 </section>
@@ -528,7 +528,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="type-filters">
       <a href="properties.php?browse=1<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= !$currentType?'active':'' ?>">All</a>
       <a href="properties.php?type=Commercial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Commercial'?'active':'' ?>"><span class="type-pill-icon">🏢</span>Commercial</a>
-      <a href="properties.php?type=Residential<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Residential'?'active':'' ?>"><span class="type-pill-icon">🏠</span>Residential</a>
+      <a href="properties.php?type=Residential<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Residential'?'active':'' ?>"><span class="type-pill-icon">🏢</span>Residential</a>
       <a href="properties.php?type=Industrial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Industrial'?'active':'' ?>"><span class="type-pill-icon">🏭</span>Industrial</a>
       <a href="properties.php?type=Agricultural<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Agricultural'?'active':'' ?>"><span class="type-pill-icon">🌾</span>Agricultural</a>
       <a href="properties.php?type=Special+Purpose<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Special Purpose'?'active':'' ?>"><span class="type-pill-icon">🏛️</span>Special Purpose</a>
@@ -675,17 +675,17 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h3>Terms and Conditions</h3>
     <p>Before proceeding with your payment, please read and agree to the following terms:</p>
     <ol>
-      <li><strong>Acceptance of Terms</strong> — By clicking "I Agree" you confirm the information provided is accurate and you accept all terms herein.</li>
-      <li><strong>Payment Confirmation</strong> — All payments are made in UGX and are non-refundable unless explicitly stated otherwise. Verify all details before confirming.</li>
-      <li><strong>Property Details</strong> — HousingHub strives to ensure listings are accurate and verified. You are responsible for verifying property details before finalising any transaction.</li>
-      <li><strong>Liability</strong> — HousingHub is not responsible for disputes, damages, or losses arising from transactions between tenants and property owners. Always conduct due diligence.</li>
-      <li><strong>Compliance</strong> — You agree to comply with all applicable laws and regulations when entering into any agreement through HousingHub.</li>
-      <li><strong>Privacy &amp; Data</strong> — Your personal data will be handled in accordance with our privacy policy. By proceeding you consent to its use for transaction purposes.</li>
-      <li><strong>Changes to Terms</strong> — HousingHub reserves the right to update these terms at any time. Continued use of the platform indicates acceptance of any changes.</li>
+      <li><strong>Acceptance of Terms</strong>: By clicking "I Agree" you confirm the information provided is accurate and you accept all terms herein.</li>
+      <li><strong>Payment Confirmation</strong>: All payments are made in UGX and are non-refundable unless explicitly stated otherwise. Verify all details before confirming.</li>
+      <li><strong>Property Details</strong>: HousingHub strives to ensure listings are accurate and verified. You are responsible for verifying property details before finalising any transaction.</li>
+      <li><strong>Liability</strong>: HousingHub is not responsible for disputes, damages, or losses arising from transactions between tenants and property owners. Always conduct due diligence.</li>
+      <li><strong>Compliance</strong>: You agree to comply with all applicable laws and regulations when entering into any agreement through HousingHub.</li>
+      <li><strong>Privacy &amp; Data</strong>: Your personal data will be handled in accordance with our privacy policy. By proceeding you consent to its use for transaction purposes.</li>
+      <li><strong>Changes to Terms</strong>: HousingHub reserves the right to update these terms at any time. Continued use of the platform indicates acceptance of any changes.</li>
     </ol>
     <div class="modal-btns">
       <button class="modal-decline" id="notAgreeBtn">I Do Not Agree</button>
-      <button class="modal-agree" id="agreeBtn">I Agree — Continue</button>
+      <button class="modal-agree" id="agreeBtn">I Agree - Continue</button>
     </div>
   </div>
 </div>

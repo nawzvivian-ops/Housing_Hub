@@ -78,12 +78,12 @@ $purposeClass = strtolower($property['purpose']);
 /* CURSOR */
 body{cursor:none;font-family:'Outfit',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden}
 #cur-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s;mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s cubic-bezier(.23,1,.32,1)}
-#cur-trail{width:80px;height:80px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
-body.cursor-hover #cur-dot{width:14px;height:14px;background:#fff}
-body.cursor-hover #cur-ring{width:60px;height:60px;border-color:var(--gold);background:rgba(200,164,60,.06)}
-body.cursor-click #cur-dot{width:5px;height:5px}
-body.cursor-click #cur-ring{width:28px;height:28px}
+#cur-ring{width:20px;height:20px;border:1.5px solid rgba(200,164,60,.7);border-radius:50%;position:fixed;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .45s cubic-bezier(.23,1,.32,1),height .45s cubic-bezier(.23,1,.32,1)}
+#cur-trail{width:30px;height:30px;border:1px solid rgba(200,164,60,.15);border-radius:50%;position:fixed;z-index:99997;pointer-events:none;transform:translate(-50%,-50%);transition:width .7s,height .7s}
+body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
+body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
+body.cursor-click #cur-dot{width:8px;height:8px}
+body.cursor-click #cur-ring{width:20px;height:20px}
 
 /* BACKGROUND */
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(180,140,40,.12) 0%,transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
@@ -118,6 +118,23 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 .gallery-more-overlay::after{content:'+ More Photos';position:absolute;inset:0;background:rgba(4,9,26,.65);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
 .no-images{height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted);font-size:14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
 .no-images-icon{font-size:48px;opacity:.3}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:99999;background:rgba(4,9,26,.96);backdrop-filter:blur(20px);align-items:center;justify-content:center;flex-direction:column}
+.lightbox.open{display:flex;animation:lbFadeIn .3s ease}
+@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
+.lb-close{position:fixed;top:22px;right:28px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--white);font-size:22px;width:46px;height:46px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;z-index:2;font-family:'Outfit',sans-serif}
+.lb-close:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.2)}
+.lb-img-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:100%;max-height:75vh}
+.lb-img-wrap img{max-width:88vw;max-height:75vh;object-fit:contain;border-radius:8px;border:1px solid var(--border);display:block}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(200,164,60,.12);border:1px solid rgba(200,164,60,.3);color:var(--gold);font-size:28px;width:52px;height:52px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Outfit',sans-serif;line-height:1}
+.lb-nav:hover{background:rgba(200,164,60,.3)}
+.lb-prev{left:16px}
+.lb-next{right:16px}
+.lb-counter{margin-top:14px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+.lb-thumbs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center;max-width:90vw;padding:0 16px}
+.lb-thumbs img{width:58px;height:46px;object-fit:cover;border-radius:4px;border:2px solid transparent;cursor:pointer;opacity:.45;transition:all .2s}
+.lb-thumbs img.lb-active{border-color:var(--gold);opacity:1}
 
 /* PAGE LAYOUT */
 .prop-layout{position:relative;z-index:10;display:grid;grid-template-columns:1fr 360px;gap:0;max-width:1400px;margin:0 auto;padding:0 60px 80px;margin-top:40px}
@@ -266,6 +283,8 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   footer{padding:24px}
   body{cursor:auto}
   #cur-dot,#cur-ring,#cur-trail{display:none}
+  .lb-prev{left:8px}
+  .lb-next{right:8px}
 }
 </style>
 </head>
@@ -301,11 +320,24 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <?php if($imgCount > 0): ?>
   <div class="gallery-grid <?= $imgCount > 1 ? 'has-many' : 'single' ?>">
     <?php foreach(array_slice($imgList,0,3) as $i => $img): ?>
-    <div class="gallery-slot <?= ($i === 2 && $imgCount > 3) ? 'gallery-more-overlay' : '' ?>">
+    <div class="gallery-slot <?= ($i === 2 && $imgCount > 3) ? 'gallery-more-overlay' : '' ?>" onclick="openLightbox(<?= $i ?>)">
       <img class="gallery-img" src="<?= htmlspecialchars($img['image_path']) ?>" alt="Property Image">
     </div>
     <?php endforeach; ?>
   </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <div class="lb-img-wrap">
+      <button class="lb-nav lb-prev" onclick="lbNav(-1)">&#8249;</button>
+      <img id="lb-main-img" src="" alt="Property Photo">
+      <button class="lb-nav lb-next" onclick="lbNav(1)">&#8250;</button>
+    </div>
+    <div class="lb-counter" id="lb-counter"></div>
+    <div class="lb-thumbs" id="lb-thumbs"></div>
+  </div>
+
   <?php else: ?>
   <div class="no-images z">
     <div class="no-images-icon">📷</div>
@@ -515,7 +547,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       </div>
 
       <!-- OWNER INFO -->
-      <?php if($owner): ?>
+      <!--<?php if($owner): ?>
       <div class="sidebar-owner">
         <div class="sidebar-owner-title">Listed By</div>
         <div class="owner-info">
@@ -529,6 +561,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <?php endif; ?>
 
     </div>
+  -->
 
     <!-- QUICK STATS CARD -->
     <div class="sidebar-card" style="padding:20px">
@@ -554,7 +587,7 @@ const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-r
 let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
 (function anim(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;tx+=(mx-tx)*.06;ty+=(my-ty)*.06;ring.style.left=rx+'px';ring.style.top=ry+'px';trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(anim);})();
-document.querySelectorAll('a,button,input,.sidebar-btn,.share-btn,.review-card,.amenity-tag').forEach(el=>{
+document.querySelectorAll('a,button,input,.sidebar-btn,.share-btn,.review-card,.amenity-tag,.gallery-slot').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
 });
@@ -572,6 +605,44 @@ for(let i=0;i<14;i++){
   p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.4+.15).toFixed(2)});animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*14}s;`;
   document.body.appendChild(p);
 }
+
+// LIGHTBOX
+const lbImages = <?= json_encode(array_map(fn($img) => $img['image_path'], $imgList)) ?>;
+let lbIndex = 0;
+
+function openLightbox(i) {
+  lbIndex = i;
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+  renderLightbox();
+}
+function renderLightbox() {
+  document.getElementById('lb-main-img').src = lbImages[lbIndex];
+  document.getElementById('lb-counter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+  const thumbs = document.getElementById('lb-thumbs');
+  thumbs.innerHTML = lbImages.map((src, i) =>
+    `<img src="${src}" class="${i === lbIndex ? 'lb-active' : ''}" onclick="lbIndex=${i};renderLightbox()">`
+  ).join('');
+}
+// Close on backdrop click
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 </body>
 </html>
