@@ -2,6 +2,7 @@
 session_start();
 include "db_connect.php";
 require_once "send_mail.php";
+require_once "payment_receipt_helper.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -61,6 +62,7 @@ if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
     $pay_action = mysqli_real_escape_string($conn, $_GET['pay_action']);
 
     if ($pay_action === 'approve') {
+        $receipt_sent = false;
         // Mark as paid
         mysqli_query($conn, "UPDATE payments SET status='paid', updated_at=NOW() WHERE id=$pay_id");
         
@@ -72,18 +74,15 @@ if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
             WHERE p.id=$pay_id"));
 
         if ($pay_info) {
-            // Send Email Confirmation
-            $subj = "Payment Verified - HousingHub";
-            $body = "Dear " . $pay_info['fullname'] . ",\n\nWe have verified your payment for " . $pay_info['property_name'] . " (Trans ID: " . $pay_info['transaction_ref'] . ").\n\nYour access is now active.";
-            send_mail($pay_info['email'], $subj, $body);
+            $receipt_sent = send_payment_receipt_email($conn, $pay_id);
 
             // Add Portal Notification
             $u_id = $pay_info['tenant_id'];
             mysqli_query($conn, "INSERT INTO notifications (user_id, title, message, status, date) 
-                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified. Confirm with the support team to ensure the receipt is received.', 'unread', NOW())");
+                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified. A PDF receipt has been sent to your email.', 'unread', NOW())");
         }
         
-        $_SESSION['admin_success'] = "Payment approved and user notified.";
+        $_SESSION['admin_success'] = !empty($receipt_sent) ? "Payment approved and PDF receipt emailed to tenant." : "Payment approved, but receipt email could not be sent. Check tenant email and mail settings.";
 
     } elseif ($pay_action === 'reject') {
         // Mark as failed

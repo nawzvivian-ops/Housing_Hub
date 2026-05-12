@@ -1,5 +1,6 @@
 <?php
 include "db_connect.php";
+require_once "payment_receipt_helper.php";
 
 $id = intval($_GET['id']);
 
@@ -8,7 +9,7 @@ $stmt = $conn->prepare("UPDATE payments SET status = 'paid' WHERE id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    // Optional: Send Africa's Talking SMS here to notify the user!
+    send_payment_receipt_email($conn, $id);
     header("Location: admin_verify.php?msg=Verified");
 }
 ?>

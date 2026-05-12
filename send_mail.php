@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
  
 require_once __DIR__ . '/vendor/autoload.php';
  
-function send_mail($to, $subject, $body, $is_html = false) {
+function send_mail($to, $subject, $body, $is_html = false, $attachments = []) {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
@@ -24,6 +24,19 @@ function send_mail($to, $subject, $body, $is_html = false) {
         $mail->setFrom('nawzvivian@gmail.com', 'HousingHub'); // must match Username
         $mail->addAddress($to);
         $mail->addReplyTo('nawzvivian@gmail.com', 'HousingHub Support');
+
+        foreach ($attachments as $attachment) {
+            if (!empty($attachment['data']) && !empty($attachment['name'])) {
+                $mail->addStringAttachment(
+                    $attachment['data'],
+                    $attachment['name'],
+                    'base64',
+                    $attachment['type'] ?? 'application/octet-stream'
+                );
+            } elseif (!empty($attachment['path'])) {
+                $mail->addAttachment($attachment['path'], $attachment['name'] ?? '');
+            }
+        }
  
         $mail->isHTML($is_html);
         $mail->Subject = $subject;
