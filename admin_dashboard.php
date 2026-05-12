@@ -78,8 +78,8 @@ if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
 
             // Add Portal Notification
             $u_id = $pay_info['tenant_id'];
-            mysqli_query($conn, "INSERT INTO notifications (user_id, title, message, status, date) 
-                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified. A PDF receipt has been sent to your email.', 'unread', NOW())");
+            mysqli_query($conn, "INSERT INTO notifications (user_id, tenant_id, title, message, status, date) 
+                VALUES ($u_id, $u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified. A PDF receipt has been sent to your email.', 'unread', NOW())");
         }
         
         $_SESSION['admin_success'] = !empty($receipt_sent) ? "Payment approved and PDF receipt emailed to tenant." : "Payment approved, but receipt email could not be sent. Check tenant email and mail settings.";
