@@ -539,22 +539,24 @@ body.click #cr{width:28px;height:28px}
  
       <!-- CARD -->
       <div class="pc pc-card">
-        <div class="pc-icon">💳</div>
-        <div class="pc-title">Debit / Credit Card</div>
-        <div class="pc-sub">Visa · Mastercard · Verve</div>
-        <div class="pc-tag">Secured by Flutterwave</div>
-        <form method="POST" action="process_payment.php">
-          <input type="hidden" name="property_id" value="<?= $tenant_property_id ?>">
-          <input type="hidden" name="action" value="rent">
-          <input type="hidden" name="method" value="card">
-          <div class="pay-field">
-            <label>Card Number</label>
-            <input type="text" name="card_hint" placeholder="**** **** **** ****" maxlength="19">
-          </div>
-          <div style="font-size:12px;color:rgba(59,130,246,.7);margin-bottom:12px">Amount: <strong style="color:#93c5fd">UGX <?= $rent_amount ?></strong></div>
-          <button type="submit" class="pay-btn">Pay Now →</button>
-        </form>
-      </div>
+  <div class="pc-icon">💳</div>
+  <div class="pc-title">Debit / Credit Card</div>
+  <div class="pc-sub">Visa · Mastercard · Verve</div>
+  <div class="pc-tag">Secured by Flutterwave</div>
+  <form method="POST" action="process_payment.php" onsubmit="return showAlert(event)">
+    <input type="hidden" name="property_id" value="<?= $tenant_property_id ?>">
+    <input type="hidden" name="action" value="rent">
+    <input type="hidden" name="method" value="card">
+    <div class="pay-field">
+      <label>Card Number</label>
+      <input type="text" name="card_hint" placeholder="**** **** **** ****" maxlength="19">
+    </div>
+    <div style="font-size:12px;color:rgba(59,130,246,.7);margin-bottom:12px">
+      Amount: <strong style="color:#93c5fd">UGX <?= $rent_amount ?></strong>
+    </div>
+    <button type="submit" class="pay-btn">Pay Now →</button>
+  </form>
+</div>
  
       <!-- BANK TRANSFER -->
       <div class="pc pc-bank">
@@ -565,8 +567,8 @@ body.click #cr{width:28px;height:28px}
         <div class="bank-details">
           <div>Transfer to:</div>
           <div><strong>HousingHub Ltd</strong></div>
-          <div>Bank: <strong>Stanbic Bank Uganda</strong></div>
-          <div>A/C: <strong>9030012345678</strong></div>
+          <div>Bank: <strong>Centenary Bank Uganda</strong></div>
+          <div>A/C: <strong>3202889627</strong></div>
           <div>Ref: <strong style="color:var(--gold)">TEN-<?= $user_id ?>-RENT</strong></div>
         </div>
         <form method="POST" action="process_payment.php">
@@ -575,7 +577,7 @@ body.click #cr{width:28px;height:28px}
           <input type="hidden" name="method" value="bank">
           <div class="pay-field">
             <label>Your Bank Receipt / Ref No.</label>
-            <input type="text" name="bank_ref" placeholder="e.g. STB2026123456" required>
+            <input type="text" name="bank_ref" placeholder="e.g. CTB2026123456" required>
           </div>
           <div style="font-size:12px;color:rgba(200,164,60,.7);margin-bottom:12px">Amount: <strong style="color:var(--gold)">UGX <?= $rent_amount ?></strong></div>
           <button type="submit" class="pay-btn">Confirm Transfer →</button>
@@ -848,6 +850,10 @@ body.click #cr{width:28px;height:28px}
 <?php unset($_SESSION['error']); endif; ?>
  
 <script>
+  function showAlert(event) {
+  alert("Card Payment is coming soon! We are currently integrating this system. Please use Mobile Money or Bank Transfer for now.");
+  return false; // Prevent form submission
+}
 /* CURSOR */
 const cd=document.getElementById('cd'),cr=document.getElementById('cr'),ct=document.getElementById('ct');
 let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
@@ -907,6 +913,7 @@ function toast(icon,msg){
   t.classList.add('show');clearTimeout(t._t);
   t._t=setTimeout(()=>t.classList.remove('show'),3800);
 }
+
 </script>
 </body>
 </html>

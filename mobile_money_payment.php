@@ -145,13 +145,15 @@ footer{padding:24px;text-align:center;font-size:12px;color:rgba(255,255,255,0.2)
             <div class="step">
                 <div class="step-num">2</div>
                 <span>Select <b>Send Money</b> to the number shown above.</span>
-            </div>
-            <div class="step">
+            </div><div class="step">
                 <div class="step-num">3</div>
                 <span>Enter the exact amount: <b>UGX <?php echo number_format($payment['amount']); ?></b></span>
             </div>
             <div class="step">
                 <div class="step-num">4</div>
+                <span>Enter the reference: using the propertyname + name.</span>
+            <div class="step">
+                <div class="step-num">5</div>
                 <span>Once paid, copy the <b>Transaction ID</b> from the SMS and paste it here.</span>
             </div>
         </div>

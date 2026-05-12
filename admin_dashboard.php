@@ -80,7 +80,7 @@ if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
             // Add Portal Notification
             $u_id = $pay_info['tenant_id'];
             mysqli_query($conn, "INSERT INTO notifications (user_id, title, message, status, date) 
-                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified.', 'unread', NOW())");
+                VALUES ($u_id, 'Payment Received', 'Your payment for " . mysqli_real_escape_string($conn, $pay_info['property_name']) . " was verified. Confirm with the support team to ensure the receipt is received.', 'unread', NOW())");
         }
         
         $_SESSION['admin_success'] = "Payment approved and user notified.";
