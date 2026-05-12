@@ -88,7 +88,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .cta-block{background:linear-gradient(135deg,rgba(200,164,60,.12),rgba(14,90,200,.1));border:1px solid var(--border);border-radius:16px;padding:72px;text-align:center}
 .cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);margin-bottom:16px}
 .cta-block h2 em{color:var(--gold);font-style:italic}
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -121,18 +121,18 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
        
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-        <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+        <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
+        <a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a>
         <a href="Visitor.php">Guests</a>
-        <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
+        <a href="Propertyowners.php">Property Owners</a>
+        <a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
         <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -150,7 +150,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>Apply for Any<br><em>Property</em><br><span class="stroke">Online.</span></h1>
-    <p class="hero-sub">HousingHub lets tenants submit full rental applications digitally in minutes — and gives landlords a clean dashboard to review, approve, or reject applications without paper or email.</p>
+    <p class="hero-sub">HousingHub lets tenants submit full rental applications digitally in minutes â€” and gives landlords a clean dashboard to review, approve, or reject applications without paper or email.</p>
     <div class="hero-btns">
       <a href="apply_online.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
@@ -167,8 +167,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <h2 class="section-title">Before &amp; <em>After HousingHub</em></h2>
   <p class="section-sub">See how HousingHub transforms the experience for everyone involved.</p>
   <div class="pain-grid">
-    <div class="pain-col before"><div class="pain-col-label">&#128683; Before HousingHub</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Printing and filling paper application forms by hand</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Dropping off application envelopes physically at the property</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Waiting days with no feedback on whether your application was received</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Landlords losing paper applications or mixing up applicants</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No standard format — every landlord has different requirements</div></div>
-    <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Submit a full application online in under 5 minutes from any device</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Upload all documents digitally — NIN, references, employment letter</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Real-time status updates: Received, Under Review, Approved, Rejected</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Landlords see all applications in a clean, organised dashboard</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Standardised application form ensures nothing important is missed</div></div>
+    <div class="pain-col before"><div class="pain-col-label">&#128683; Before HousingHub</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Printing and filling paper application forms by hand</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Dropping off application envelopes physically at the property</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Waiting days with no feedback on whether your application was received</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Landlords losing paper applications or mixing up applicants</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No standard format â€” every landlord has different requirements</div></div>
+    <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Submit a full application online in under 5 minutes from any device</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Upload all documents digitally â€” NIN, references, employment letter</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Real-time status updates: Received, Under Review, Approved, Rejected</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Landlords see all applications in a clean, organised dashboard</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Standardised application form ensures nothing important is missed</div></div>
   </div>
 </section>
 <section class="z reveal">
@@ -204,26 +204,26 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">

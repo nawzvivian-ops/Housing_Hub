@@ -78,20 +78,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $paddr   = $prop['address'] ?? 'Uganda';
             $prent   = number_format($prop['rent_amount'] ?? 0);
  
-            // ── Notify admin ──
+            // â”€â”€ Notify admin â”€â”€
             mysqli_query($conn, "INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
-                VALUES (0, 0, 'New Lease Application 📋',
+                VALUES (0, 0, 'New Lease Application ðŸ“‹',
                 'A new lease application has been submitted by $fullname ($email) for $pname. Review it in the admin panel.',
                 'unread', NOW())");
  
-            // ── Email to applicant ──
+            // â”€â”€ Email to applicant â”€â”€
             if (!empty($email)) {
-                $subj = "Your Lease Application — HousingHub";
+                $subj = "Your Lease Application â€” HousingHub";
                 $body = "Dear $fullname,\n\n"
                     . "Thank you for submitting your lease application on HousingHub.\n\n"
-                    . "════════════════════════════════\n"
+                    . "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n"
                     . "  LEASE APPLICATION RECEIVED\n"
-                    . "════════════════════════════════\n"
+                    . "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n"
                     . "Applicant      : $fullname\n"
                     . "Property       : $pname\n"
                     . "Address        : $paddr\n"
@@ -100,10 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     . "Desired Move-in: $move_in\n"
                     . "Digital Signed : $signature\n"
                     . "Submitted On   : " . date('d M Y, H:i') . "\n"
-                    . "Status         : ⏳ Pending Review\n"
-                    . "════════════════════════════════\n\n"
+                    . "Status         : â³ Pending Review\n"
+                    . "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n\n"
                     . "WHAT HAPPENS NEXT:\n"
-                    . "1. Our team will review your application within 24–48 hours.\n"
+                    . "1. Our team will review your application within 24â€“48 hours.\n"
                     . "2. You will receive a call or email with the outcome.\n"
                     . "3. If approved, your official lease agreement will be sent for final signing.\n"
                     . "4. Once signed by both parties, you will receive move-in instructions.\n\n"
@@ -114,13 +114,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 send_mail($email, $subj, $body);
             }
  
-            // ── Email to admin ──
+            // â”€â”€ Email to admin â”€â”€
             send_mail('nawzvivian@gmail.com',
-                "New Lease Application — $fullname",
+                "New Lease Application â€” $fullname",
                 "A new lease application has been submitted.\n\nApplicant: $fullname\nEmail: $email\nPhone: $phone\nProperty: $pname\nDuration: $duration\nSigned: $signature\n\nLog in to the admin panel to review:\nhttp://localhost/housinghub/admin_dashboard.php?page=lease_applications"
             );
  
-            $success = "Your lease application has been submitted and digitally signed. We will be in touch within 24–48 hours.";
+            $success = "Your lease application has been submitted and digitally signed. We will be in touch within 24â€“48 hours.";
         } else {
             $error = "Something went wrong. Please try again.";
         }
@@ -182,7 +182,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .prop-opt{border:1px solid var(--border);border-radius:8px;padding:14px;cursor:pointer;transition:all .25s;position:relative}
 .prop-opt:hover{border-color:var(--gb);background:rgba(200,164,60,.04)}
 .prop-opt.selected{border-color:var(--gold);background:rgba(200,164,60,.08)}
-.prop-opt.selected::after{content:"✓";position:absolute;top:10px;right:12px;color:var(--gold);font-weight:700}
+.prop-opt.selected::after{content:"âœ“";position:absolute;top:10px;right:12px;color:var(--gold);font-weight:700}
 .prop-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
 .prop-addr{font-size:11px;color:var(--muted);margin-bottom:6px}
 .prop-rent{font-size:12px;font-weight:700;color:var(--gold)}
@@ -233,7 +233,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
   </a>
   <div class="header-links">
     <a href="properties.php">Browse Properties</a>
-    <a href="lease.php">About Leases</a>
+    <a href="Lease.php">About Leases</a>
     <a href="index.php" class="hl-login">Login</a>
   </div>
 </div>
@@ -242,16 +242,16 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
  
 <?php if($success): ?>
   <div class="form-card success-screen">
-    <span class="success-icon">📄</span>
+    <span class="success-icon">ðŸ“„</span>
     <div class="success-title">Lease Application <em>Submitted!</em></div>
     <p class="success-msg"><?= htmlspecialchars($success) ?> A confirmation has been sent to your email.</p>
     <div class="timeline">
-      <div class="tl"><div class="tln">✓</div><div class="tlt"><strong style="color:var(--white)">Application Received</strong> — Your lease application and digital signature are in our system.</div></div>
-      <div class="tl"><div class="tln">2</div><div class="tlt"><strong style="color:var(--white)">Under Review</strong> — Our team reviews your details within 24–48 hours.</div></div>
-      <div class="tl"><div class="tln">3</div><div class="tlt"><strong style="color:var(--white)">Official Lease Sent</strong> — If approved, the official signed lease is sent to your email.</div></div>
-      <div class="tl"><div class="tln">4</div><div class="tlt"><strong style="color:var(--white)">Move In</strong> — Receive your keys and move-in instructions. Welcome home!</div></div>
+      <div class="tl"><div class="tln">âœ“</div><div class="tlt"><strong style="color:var(--white)">Application Received</strong> â€” Your lease application and digital signature are in our system.</div></div>
+      <div class="tl"><div class="tln">2</div><div class="tlt"><strong style="color:var(--white)">Under Review</strong> â€” Our team reviews your details within 24â€“48 hours.</div></div>
+      <div class="tl"><div class="tln">3</div><div class="tlt"><strong style="color:var(--white)">Official Lease Sent</strong> â€” If approved, the official signed lease is sent to your email.</div></div>
+      <div class="tl"><div class="tln">4</div><div class="tlt"><strong style="color:var(--white)">Move In</strong> â€” Receive your keys and move-in instructions. Welcome home!</div></div>
     </div>
-    <a href="properties.php" class="back-link">← Browse More Properties</a>
+    <a href="properties.php" class="back-link">â† Browse More Properties</a>
   </div>
  
 <?php else: ?>
@@ -259,7 +259,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
   <div class="app-hero">
     <div class="app-eyebrow">Online Lease Application</div>
     <div class="app-title">Apply for a <em>Lease</em> Online</div>
-    <p class="app-sub">Fill in your details, select a property, review the lease terms, and sign digitally — all in one place. No printing, no queues.</p>
+    <p class="app-sub">Fill in your details, select a property, review the lease terms, and sign digitally â€” all in one place. No printing, no queues.</p>
   </div>
  
   <div class="steps-bar">
@@ -269,7 +269,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <div class="sb-step"><span class="sb-num">4</span>Sign & Submit</div>
   </div>
  
-  <?php if($error): ?><div class="alert error">⚠️ <?= htmlspecialchars($error) ?></div><?php endif; ?>
+  <?php if($error): ?><div class="alert error">âš ï¸ <?= htmlspecialchars($error) ?></div><?php endif; ?>
  
   <form method="POST" id="lease-form">
  
@@ -295,16 +295,16 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
         <?php while($p = mysqli_fetch_assoc($properties)): ?>
         <div class="prop-opt" onclick="selectProp(<?= $p['id'] ?>, this)">
           <div class="prop-name"><?= htmlspecialchars($p['property_name']) ?></div>
-          <div class="prop-addr">📍 <?= htmlspecialchars($p['address'] ?? 'Uganda') ?></div>
+          <div class="prop-addr">ðŸ“ <?= htmlspecialchars($p['address'] ?? 'Uganda') ?></div>
           <div class="prop-rent">UGX <?= number_format($p['rent_amount'] ?? 0) ?>/mo</div>
           <div class="prop-type"><?= htmlspecialchars($p['property_type'] ?? 'Residential') ?></div>
         </div>
         <?php endwhile; ?>
       </div>
       <input type="hidden" name="property_id" id="property_id" value="0">
-      <div id="prop-error" style="font-size:12px;color:#fca5a5;margin-top:6px;display:none">⚠️ Please select a property.</div>
+      <div id="prop-error" style="font-size:12px;color:#fca5a5;margin-top:6px;display:none">âš ï¸ Please select a property.</div>
       <?php else: ?>
-        <p style="font-size:13px;color:var(--muted);padding:20px;text-align:center;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px">No available properties at the moment. <a href="properties.php" style="color:var(--gold)">Browse all listings →</a></p>
+        <p style="font-size:13px;color:var(--muted);padding:20px;text-align:center;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px">No available properties at the moment. <a href="properties.php" style="color:var(--gold)">Browse all listings â†’</a></p>
         <input type="hidden" name="property_id" value="0">
       <?php endif; ?>
     </div>
@@ -320,7 +320,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       <div class="grid2">
         <div class="fl"><label>Lease Duration</label>
           <select name="duration">
-            <option value="">— Select —</option>
+            <option value="">â€” Select â€”</option>
             <option value="6 months">6 Months</option>
             <option value="1 year">1 Year</option>
             <option value="2 years">2 Years</option>
@@ -349,7 +349,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
  
       <div class="lease-preview">
         <h4>HOUSINGHUB TENANCY AGREEMENT</h4>
-        <div class="lp-sub">Standard Residential / Commercial Lease — Uganda</div>
+        <div class="lp-sub">Standard Residential / Commercial Lease â€” Uganda</div>
         <div class="lp-section"><strong>1. Parties</strong>This agreement is between HousingHub (acting on behalf of the Property Owner / Landlord) and the Tenant named in this application.</div>
         <div class="lp-section"><strong>2. Premises</strong>The Tenant agrees to lease the selected property for the purposes stated in this application and for residential or commercial use only as indicated.</div>
         <div class="lp-section"><strong>3. Rent &amp; Payment</strong>Monthly rent is as listed on the property. Rent is due on the 1st of each month and shall be paid via the HousingHub payment portal using MTN MoMo, Airtel Money, card, or bank transfer.</div>
@@ -368,14 +368,14 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       </div>
  
       <div class="sig-box">
-        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Digital Signature — Type Your Full Legal Name</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Digital Signature â€” Type Your Full Legal Name</div>
         <input type="text" name="signature" id="signature" placeholder="e.g. Nakato Sandra" autocomplete="off">
-        <div class="sig-label">By typing your name above you are digitally signing this lease application · <?= date('d M Y, H:i') ?></div>
+        <div class="sig-label">By typing your name above you are digitally signing this lease application Â· <?= date('d M Y, H:i') ?></div>
       </div>
     </div>
  
     <button type="submit" class="submit-btn" onclick="return validateForm()">
-      📄 Submit Lease Application &amp; Sign Digitally →
+      ðŸ“„ Submit Lease Application &amp; Sign Digitally â†’
     </button>
   </form>
  

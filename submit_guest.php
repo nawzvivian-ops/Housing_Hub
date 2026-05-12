@@ -65,7 +65,7 @@ function render_page(string $title, string $message, bool $success = true): void
     <div class="card">
         <h1>{$title}</h1>
         <p>{$message}</p>
-        <a href="visitor.php">Back to Visitor Page</a>
+        <a href="Visitor.php">Back to Visitor Page</a>
     </div>
 </body>
 </html>

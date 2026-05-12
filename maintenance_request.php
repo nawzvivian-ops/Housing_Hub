@@ -142,7 +142,7 @@ $requests = mysqli_query($conn,
         <?php endif; ?>
     </div>
 
-    <a href="tenant.php" class="back-link">&larr; Back to Dashboard</a>
+    <a href="Tenant.php" class="back-link">&larr; Back to Dashboard</a>
 </div>
 
 <script>

@@ -24,7 +24,7 @@ body.cursor-click #cur-ring{width:20px;height:20px}
 .z{position:relative;z-index:10}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -175,27 +175,27 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Features &#9660;</button>
       <div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a>
-        <a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a>
-        <a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a>
-        <a href="maintenance.php">Maintenance</a>
+        <a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a>
+        <a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a>
+        <a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a>
         <a href="notifications.php">Smart Notification Center</a>
         <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-        <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
         <a href="policies.html">Policies</a>
       </div>
     </div>
     <div class="dropdown">
       <button class="dd-btn">Use Cases &#9660;</button>
       <div class="dd-menu">
-        <a href="tenant.php">Tenant</a>
+        <a href="Tenant.php">Tenant</a>
         <a href="staff.php">Staff</a>
-        <a href="visitor.php">Guests</a>
-        <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Brokers</a>
-        <a href="employment.php">Employment</a>
+        <a href="Visitor.php">Guests</a>
+        <a href="Propertyowners.php">Property Owners</a>
+        <a href="Broker.php">Brokers</a>
+        <a href="Employment.php">Employment</a>
       </div>
     </div>
     <div class="dropdown">
@@ -342,26 +342,26 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">
@@ -431,7 +431,7 @@ document.addEventListener('mousemove', (e) => {
 
     const distance = Math.sqrt(distX * distX + distY * distY);
 
-    if (distance < 120) { // 🔥 trigger radius (adjust if needed)
+    if (distance < 120) { // ðŸ”¥ trigger radius (adjust if needed)
       animateCounter(el);
     }
   });

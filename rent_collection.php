@@ -20,7 +20,7 @@ body.cursor-click #cur-ring{width:20px;height:20px}
 .ptcl{position:fixed;border-radius:50%;pointer-events:none;z-index:1;animation:pdrift linear infinite}
 @keyframes pdrift{0%{transform:translateY(100vh) scale(0);opacity:0}5%{opacity:1}95%{opacity:.5}100%{transform:translateY(-10vh) translateX(50px) scale(1.4);opacity:0}}
 .z{position:relative;z-index:10}
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -121,20 +121,20 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
         
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-        <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+        <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenant.php">Tenants</a>
+        <a href="Tenant.php">Tenants</a>
         <a href="staff.php">Staff</a>
         <a href="Visitor.php">Guests</a>
-        <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Brokers</a>
-        <a href="employment.php">Employment</a>
+        <a href="Propertyowners.php">Property Owners</a>
+        <a href="Broker.php">Brokers</a>
+        <a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
         <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -152,7 +152,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>Collect Rent<br><em>Automatically,</em><br><span class="stroke">Every Month.</span></h1>
-    <p class="hero-sub">HousingHub automates rent collection for landlords across Uganda — tenants pay via MTN MoMo, Airtel Money, card, or bank transfer, and landlords get paid on time with full digital records.</p>
+    <p class="hero-sub">HousingHub automates rent collection for landlords across Uganda â€” tenants pay via MTN MoMo, Airtel Money, card, or bank transfer, and landlords get paid on time with full digital records.</p>
     <div class="hero-btns">
       <a href="index.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
@@ -169,7 +169,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <h2 class="section-title">Before &amp; <em>After HousingHub</em></h2>
   <p class="section-sub">See how HousingHub transforms the experience for everyone involved.</p>
   <div class="pain-grid">
-    <div class="pain-col before"><div class="pain-col-label">&#128683; Before HousingHub</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Physically collecting cash from tenants door-to-door every month</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Chasing tenants via phone calls and WhatsApp for overdue rent</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No standard receipt — tenants lose proof of payment easily</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Landlords with multiple properties struggling to track who has paid</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No automated way to send payment reminders before due dates</div></div>
+    <div class="pain-col before"><div class="pain-col-label">&#128683; Before HousingHub</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Physically collecting cash from tenants door-to-door every month</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Chasing tenants via phone calls and WhatsApp for overdue rent</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No standard receipt â€” tenants lose proof of payment easily</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Landlords with multiple properties struggling to track who has paid</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No automated way to send payment reminders before due dates</div></div>
     <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Tenants pay online via MTN MoMo, Airtel Money, card, or bank transfer</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Automated payment reminders sent 7, 3, and 1 day before due date</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Instant digital receipts generated and stored after every payment</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Landlord dashboard shows paid, pending, and overdue tenants live</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Late payment flags trigger automatic follow-up notifications</div></div>
   </div>
 </section>
@@ -177,7 +177,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
   <p class="section-sub">Simple steps to get up and running on HousingHub.</p>
-  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Set Up Your Units</div><div class="step-desc">Add your properties, units, and monthly rent amounts to HousingHub.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Tenants Get Notified</div><div class="step-desc">Automated reminders sent to tenants before rent is due each month.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Tenant Pays Online</div><div class="step-desc">Pay via MoMo, Airtel, card, or bank — receipt generated instantly.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">You Track Everything</div><div class="step-desc">Your dashboard updates in real time with every payment received.</div></div></div>
+  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Set Up Your Units</div><div class="step-desc">Add your properties, units, and monthly rent amounts to HousingHub.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Tenants Get Notified</div><div class="step-desc">Automated reminders sent to tenants before rent is due each month.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Tenant Pays Online</div><div class="step-desc">Pay via MoMo, Airtel, card, or bank â€” receipt generated instantly.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">You Track Everything</div><div class="step-desc">Your dashboard updates in real time with every payment received.</div></div></div>
 </section>
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>
@@ -207,26 +207,26 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">

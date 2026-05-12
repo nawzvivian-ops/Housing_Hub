@@ -95,7 +95,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .testi-name{font-size:13px;font-weight:600;color:var(--white)}
 .testi-role{font-size:11px;color:var(--muted)}
  
-/* STATS STRIP — count-up numbers */
+/* STATS STRIP â€” count-up numbers */
 .stats-strip{background:rgba(200,164,60,.05);border:1px solid var(--border);border-radius:14px;padding:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
 .stat-num{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:700;color:var(--gold);transition:color .3s;cursor:default;user-select:none}
 .stat-num.counting{color:var(--gold-l)}
@@ -152,27 +152,27 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <button class="dd-btn">Features &#9660;</button>
       <div class="dd-menu">
         <a href="virtual.php">Virtual Property Tours</a>
-        <a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a>
-        <a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a>
-        <a href="maintenance.php">Maintenance</a>
+        <a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a>
+        <a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a>
+        <a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a>
         <a href="notifications.php">Smart Notification Center</a>
         <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-        <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
         <a href="policies.html">Policies</a>
       </div>
     </div>
     <div class="dropdown">
       <button class="dd-btn">Use Cases &#9660;</button>
       <div class="dd-menu">
-        <a href="tenants.php">Tenants</a>
+        <a href="Tenant.php">Tenants</a>
         <a href="staff.php">Staff</a>
-        <a href="visitor.php">Guests</a>
-        <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Brokers</a>
-        <a href="employment.php">Employment</a>
+        <a href="Visitor.php">Guests</a>
+        <a href="Propertyowners.php">Property Owners</a>
+        <a href="Broker.php">Brokers</a>
+        <a href="Employment.php">Employment</a>
       </div>
     </div>
     <div class="dropdown">
@@ -280,7 +280,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
 </section>
  
-<!-- STATS STRIP — count-up on scroll -->
+<!-- STATS STRIP â€” count-up on scroll -->
 <section class="z reveal" id="stats-section">
   <div class="stats-strip">
     <div>
@@ -336,8 +336,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="quick-links z reveal">
   <div class="quick-container">
     <div class="quick-col"><h3>Home</h3><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div>
-    <div class="quick-col"><h3>Features</h3><a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a><a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a><a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a><a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a><a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a><a href="policies.html">Policies</a></div>
-    <div class="quick-col"><h3>Use Cases</h3><a href="tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="Visitor.php">Guests</a><a href="propertyowners.php">Property Owners</a><a href="broker.php">Brokers</a><a href="employment.php">Employment</a></div>
+    <div class="quick-col"><h3>Features</h3><a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a><a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a><a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a><a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a><a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a><a href="policies.html">Policies</a></div>
+    <div class="quick-col"><h3>Use Cases</h3><a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="Visitor.php">Guests</a><a href="Propertyowners.php">Property Owners</a><a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a></div>
     <div class="quick-col"><h3>Properties</h3><a href="properties.php">All Properties</a><a href="properties.php?type=Commercial">Commercial</a><a href="properties.php?type=Residential">Residential</a><a href="properties.php?type=Industrial">Industrial</a><a href="properties.php?type=Agricultural">Agricultural</a><a href="properties.php?type=Special+Purpose">Special Purpose</a><a href="properties.php?type=Land">Land</a></div>
     <div class="quick-col"><h3>Account</h3><a href="index.php">Login</a><a href="register.php">Register</a></div>
     <div class="quick-col"><h3>About HousingHub</h3><a href="who.php">Who We Are</a><a href="what.php">What We Do</a><a href="vision.php">Our Vision</a><a href="values.php">Core Values</a><a href="contact.php">Contact Us</a></div>
@@ -347,7 +347,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>
  
 <script>
-/* ── DROPDOWN MENUS ── */
+/* â”€â”€ DROPDOWN MENUS â”€â”€ */
 function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(m=>m.classList.remove('open'));document.querySelectorAll('.dd-btn.open').forEach(b=>b.classList.remove('open'))}
 document.querySelectorAll('.dropdown').forEach(dd=>{
   const btn=dd.querySelector('.dd-btn'),menu=dd.querySelector('.dd-menu');
@@ -359,7 +359,7 @@ document.querySelectorAll('.dropdown').forEach(dd=>{
 document.addEventListener('click',closeAllMenus);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllMenus()});
  
-/* ── CURSOR ── */
+/* â”€â”€ CURSOR â”€â”€ */
 const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail');
 let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
@@ -371,14 +371,14 @@ document.querySelectorAll('a,button,.feat-card,.testi-card,.step-card').forEach(
 document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
  
-/* ── PARTICLES ── */
+/* â”€â”€ PARTICLES â”€â”€ */
 for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.15).toFixed(2)});animation-duration:${Math.random()*22+10}s;animation-delay:${Math.random()*18}s;`;document.body.appendChild(p)}
  
-/* ── REVEAL ON SCROLL ── */
+/* â”€â”€ REVEAL ON SCROLL â”€â”€ */
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
  
-/* ── COUNT-UP ANIMATION ── */
+/* â”€â”€ COUNT-UP ANIMATION â”€â”€ */
 function countUp(el) {
   const target   = parseInt(el.dataset.count, 10);
   const suffix   = el.dataset.suffix || '';
@@ -432,7 +432,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
   el.addEventListener('click', () => countUp(el));
 });
  
-/* ── FAQ ── */
+/* â”€â”€ FAQ â”€â”€ */
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
     const item=q.parentElement;

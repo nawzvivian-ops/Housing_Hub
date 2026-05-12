@@ -3,52 +3,52 @@
         <img src="image/hub.jpg" alt="Photo" class="logo-circle">
         <div class="logo-text-container">
             <h1 class="logo-text">HOUSING HUB</h1>
-            <span class="logo-slogan">“Your Property, Our Priority”</span>
+            <span class="logo-slogan">â€œYour Property, Our Priorityâ€</span>
         </div>
     </div>
      <nav>
             
           <div class="dropdown">
-    <a href="javascript:void(0)" class="dropdown-toggle">Home ▾</a>
+    <a href="javascript:void(0)" class="dropdown-toggle">Home â–¾</a>
     <div class="dropdown-menu">
         <a href="#welcome"> Welcome</a>
-        <a href="works,php"> How It Works</a>
+        <a href="works.php"> How It Works</a>
         
     </div>
 </div>
            <!-- Features Dropdown -->
 <div class="dropdown">
-    <a href="#" class="dropdown-toggle">Features ▾</a>
+    <a href="#" class="dropdown-toggle">Features â–¾</a>
 
     <div class="dropdown-menu">
         <a href="virtual.php">Virtual Property Tours</a>
-        <a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a>
-        <a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a>
-        <a href="maintenance.php">Maintenance</a>
+        <a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a>
+        <a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a>
+        <a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a>
         <a href="notifications.php">Smart Notification Center</a>
         <a href="complaints.php">Complaints & Feedback HUB</a>
-        <a href="owner_portal.php">Owner Portal & Reporting</a>
-        <a href="legal.php">Legal & Compliance</a>
+        <a href="Owner_portal.php">Owner Portal & Reporting</a>
+        <a href="policies.html">Legal & Compliance</a>
     </div>
 </div>
          <!-- Use Cases Dropdown -->
         <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases ▾</a>
+            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases â–¾</a>
             <div class="dropdown-menu">
-                <a href="tenant.php"> Tenant</a>
+                <a href="Tenant.php"> Tenant</a>
                 <a href="staff.php">Staff</a>
-                <a href="property-owner.php">Property Owner</a>
-                <a href="broker.php"> Broker-Free</a>
-                <a href="employment.php">Employment</a>
+                <a href="Propertyowners.php">Property Owner</a>
+                <a href="Broker.php"> Broker-Free</a>
+                <a href="Employment.php">Employment</a>
                 
             </div>
         </div>
         <!-- Properties Dropdown -->
         <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle">Properties ▾</a>
+            <a href="javascript:void(0)" class="dropdown-toggle">Properties â–¾</a>
             <div class="dropdown-menu">
                 <a href="properties.php" class="dropdown-all">All Properties</a>
                 <div class="dropdown-divider"></div>

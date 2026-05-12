@@ -71,7 +71,7 @@ a { text-decoration:none; color:#4f46e5; display:block; margin-top:15px; text-al
         <button type="submit">Submit Request</button>
     </form>
 
-    <a href="tenant.php">Back to Dashboard</a>
+    <a href="Tenant.php">Back to Dashboard</a>
 </div>
 </body>
 </html>

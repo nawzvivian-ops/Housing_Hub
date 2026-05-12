@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Contact Us – Housing Hub</title>
+<title>Contact Us â€“ Housing Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -140,19 +140,19 @@ body.cursor-click #cur-ring{width:28px;height:28px}
       <a href="index.html#welcome">Welcome</a><a href="works.php">How It Works</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-      <a href="tenant.php">Tenant</a><a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-       <a href="propertyowners.php">Property Owners</a>
+      <a href="Tenant.php">Tenant</a><a href="staff.php">Staff</a>
+      <a href="Visitor.php">Guests</a>
+       <a href="Propertyowners.php">Property Owners</a>
       <a href="Broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
       <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -178,10 +178,10 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   <div class="contact-info">
     <h2>Get in <em>Touch</em></h2>
     <p>Whether you have a question, need support, or want to partner with us </p>
-    <div class="info-item"><div class="info-icon">📍</div><div class="info-text"><h4>Head Office</h4><p>Plot 14, Ggaba Road<br>Kampala, Uganda</p></div></div>
-    <div class="info-item"><div class="info-icon">📞</div><div class="info-text"><h4>Phone / WhatsApp</h4><p>+256 741 035 928<br>+256 781 151 585<br>+256 754 111 417</p></div></div>
-    <div class="info-item"><div class="info-icon">✉️</div><div class="info-text"><h4>Email</h4><p>support@housinghub.com</p></div></div>
-    <div class="info-item"><div class="info-icon">⏰</div><div class="info-text"><h4>Working Hours</h4><p>24/7</p></div></div>
+    <div class="info-item"><div class="info-icon">ðŸ“</div><div class="info-text"><h4>Head Office</h4><p>Plot 14, Ggaba Road<br>Kampala, Uganda</p></div></div>
+    <div class="info-item"><div class="info-icon">ðŸ“ž</div><div class="info-text"><h4>Phone / WhatsApp</h4><p>+256 741 035 928<br>+256 781 151 585<br>+256 754 111 417</p></div></div>
+    <div class="info-item"><div class="info-icon">âœ‰ï¸</div><div class="info-text"><h4>Email</h4><p>support@housinghub.com</p></div></div>
+    <div class="info-item"><div class="info-icon">â°</div><div class="info-text"><h4>Working Hours</h4><p>24/7</p></div></div>
     <div class="social-links">
       <h4>inquire from us</h4>
       
@@ -209,7 +209,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
       </div>
       <div class="form-group"><label>Subject *</label><input type="text" name="subject" placeholder="What is your message about?" required></div>
       <div class="form-group"><label>Message *</label><textarea name="message" placeholder="Tell us how we can help you..." required></textarea></div>
-      <button type="submit" class="submit-btn" id="submitBtn">Send Message ✈️</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Send Message âœˆï¸</button>
       <div class="success-msg" id="successMsg"></div>
     </form>
   </div>
@@ -217,7 +217,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
  
 <section class="contact-faq z reveal">
   <h2>Frequently Asked <em>Questions</em></h2>
-  <div class="faq-item"><h4>How long does it take to get a response?</h4><p>Our support team responds to all inquiries within 24 hours on business days. Urgent matters are typically addressed within 2–4 hours.</p></div>
+  <div class="faq-item"><h4>How long does it take to get a response?</h4><p>Our support team responds to all inquiries within 24 hours on business days. Urgent matters are typically addressed within 2â€“4 hours.</p></div>
   <div class="faq-item"><h4>Can I visit your office in person?</h4><p>Yes always available when needed Walk-ins are welcome.</p></div>
   <div class="faq-item"><h4>I'm a landlord interested in listing my property who do I contact?</h4><p>Send us an email at <strong>support@housinghub.com</strong> or call our main line. You can also register directly on the platform and start listing immediately.</p></div>
   <div class="faq-item"><h4>Do you offer a demo of the platform?</h4><p>Absolutely! Contact us to schedule a free demo with one of our team members. We'll walk you through all the features relevant to your needs.</p></div>
@@ -233,18 +233,18 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   <div class="quick-container">
     <div class="quick-col"><h3>Home</h3><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div>
     <div class="quick-col"><h3>Features</h3>
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
     <div class="quick-col"><h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a><a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="Propertyowners.php">Property Owners</a><a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
     <div class="quick-col"><h3>Properties</h3>
       <a href="properties.php">All Properties</a><a href="properties.php?type=Commercial">Commercial</a>
@@ -276,7 +276,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllMenu
 for(var i=0;i<18;i++){var p=document.createElement('div');p.className='ptcl';var sz=Math.random()*3+1;p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;background:rgba(200,164,60,'+(Math.random()*.5+.15).toFixed(2)+');animation-duration:'+(Math.random()*22+10)+'s;animation-delay:'+(Math.random()*18)+'s;';document.body.appendChild(p);}
 var ro=new IntersectionObserver(function(entries,obs){entries.forEach(function(x){if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
-function handleSubmit(e){e.preventDefault();var form=document.getElementById('contactForm');var btn=document.getElementById('submitBtn');var msg=document.getElementById('successMsg');btn.disabled=true;btn.textContent='Sending...';msg.style.display='none';fetch('contact_submit.php',{method:'POST',body:new FormData(form)}).then(function(res){return res.text().then(function(text){try{return JSON.parse(text);}catch(err){return{success:false,message:text};}});}).then(function(data){msg.style.display='block';if(data.success){msg.style.background='rgba(34,197,94,.12)';msg.style.borderColor='rgba(34,197,94,.3)';msg.style.color='#86efac';msg.textContent='✅ '+(data.message||"Message sent! We'll get back to you within 24 hours.");form.reset();}else{msg.style.background='rgba(239,68,68,.12)';msg.style.borderColor='rgba(239,68,68,.3)';msg.style.color='#fca5a5';msg.textContent='❌ '+(data.message||'Something went wrong. Please try again or email us directly.');}btn.disabled=false;btn.textContent='Send Message ✈️';}).catch(function(){msg.style.display='block';msg.style.background='rgba(239,68,68,.12)';msg.style.borderColor='rgba(239,68,68,.3)';msg.style.color='#fca5a5';msg.textContent='❌ Network error. Please check your connection and try again.';btn.disabled=false;btn.textContent='Send Message ✈️';
+function handleSubmit(e){e.preventDefault();var form=document.getElementById('contactForm');var btn=document.getElementById('submitBtn');var msg=document.getElementById('successMsg');btn.disabled=true;btn.textContent='Sending...';msg.style.display='none';fetch('contact_submit.php',{method:'POST',body:new FormData(form)}).then(function(res){return res.text().then(function(text){try{return JSON.parse(text);}catch(err){return{success:false,message:text};}});}).then(function(data){msg.style.display='block';if(data.success){msg.style.background='rgba(34,197,94,.12)';msg.style.borderColor='rgba(34,197,94,.3)';msg.style.color='#86efac';msg.textContent='âœ… '+(data.message||"Message sent! We'll get back to you within 24 hours.");form.reset();}else{msg.style.background='rgba(239,68,68,.12)';msg.style.borderColor='rgba(239,68,68,.3)';msg.style.color='#fca5a5';msg.textContent='âŒ '+(data.message||'Something went wrong. Please try again or email us directly.');}btn.disabled=false;btn.textContent='Send Message âœˆï¸';}).catch(function(){msg.style.display='block';msg.style.background='rgba(239,68,68,.12)';msg.style.borderColor='rgba(239,68,68,.3)';msg.style.color='#fca5a5';msg.textContent='âŒ Network error. Please check your connection and try again.';btn.disabled=false;btn.textContent='Send Message âœˆï¸';
   });
 }
 const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail');

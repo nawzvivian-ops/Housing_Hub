@@ -142,7 +142,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   body{cursor:auto}
   #cur-dot,#cur-ring,#cur-trail{display:none}
 }
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -177,24 +177,24 @@ nav { position: relative !important; z-index: 100000 !important; }
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
       <a href="properties.php">All Properties</a>
@@ -266,7 +266,7 @@ nav { position: relative !important; z-index: 100000 !important; }
 <section class="z reveal">
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
-  <p class="section-sub">Four simple steps from creating a lease to having it signed and stored — all without leaving HousingHub.</p>
+  <p class="section-sub">Four simple steps from creating a lease to having it signed and stored â€” all without leaving HousingHub.</p>
   <div class="steps-grid">
     <div class="step-card">
       <div class="step-num">01</div>
@@ -295,7 +295,7 @@ nav { position: relative !important; z-index: 100000 !important; }
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>
   <h2 class="section-title">Key <em>Features</em></h2>
-  <p class="section-sub">Everything you need to create, sign, and manage lease agreements digitally — built into HousingHub.</p>
+  <p class="section-sub">Everything you need to create, sign, and manage lease agreements digitally â€” built into HousingHub.</p>
   <div class="features-grid">
     <div class="feat-card">
       <div class="feat-icon">&#128196;</div>
@@ -305,22 +305,22 @@ nav { position: relative !important; z-index: 100000 !important; }
     <div class="feat-card">
       <div class="feat-icon">&#9997;</div>
       <h3 class="feat-title">Digital Signing</h3>
-      <p class="feat-desc">Tenants review and sign lease agreements directly on HousingHub — no printing, scanning, or physical visits required.</p>
+      <p class="feat-desc">Tenants review and sign lease agreements directly on HousingHub â€” no printing, scanning, or physical visits required.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">&#128274;</div>
       <h3 class="feat-title">Secure Storage</h3>
-      <p class="feat-desc">All signed leases are encrypted and stored permanently on HousingHub — accessible by both parties at any time.</p>
+      <p class="feat-desc">All signed leases are encrypted and stored permanently on HousingHub â€” accessible by both parties at any time.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">&#128276;</div>
       <h3 class="feat-title">Expiry Reminders</h3>
-      <p class="feat-desc">Automated alerts at 30, 14, and 7 days before any lease expires — giving both parties time to renew or arrange vacating.</p>
+      <p class="feat-desc">Automated alerts at 30, 14, and 7 days before any lease expires â€” giving both parties time to renew or arrange vacating.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">&#128203;</div>
       <h3 class="feat-title">Lease History</h3>
-      <p class="feat-desc">Full record of all current, expired, and terminated leases per property and per tenant — always available for review.</p>
+      <p class="feat-desc">Full record of all current, expired, and terminated leases per property and per tenant â€” always available for review.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">&#128241;</div>
@@ -393,11 +393,11 @@ nav { position: relative !important; z-index: 100000 !important; }
     </div>
     <div class="faq-item">
       <div class="faq-q">Can I access old leases after a tenant has moved out?</div>
-      <div class="faq-a">Yes. All leases — active, expired, and terminated — are stored permanently on HousingHub. You can access, download, and export any past lease from your owner portal at any time.</div>
+      <div class="faq-a">Yes. All leases â€” active, expired, and terminated â€” are stored permanently on HousingHub. You can access, download, and export any past lease from your owner portal at any time.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Will I be reminded when a lease is about to expire?</div>
-      <div class="faq-a">Absolutely. HousingHub automatically sends reminders to both the landlord and tenant at 30 days, 14 days, and 7 days before any lease expires — giving both parties time to arrange renewal or a smooth vacating process.</div>
+      <div class="faq-a">Absolutely. HousingHub automatically sends reminders to both the landlord and tenant at 30 days, 14 days, and 7 days before any lease expires â€” giving both parties time to arrange renewal or a smooth vacating process.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Can a tenant download a copy of their lease?</div>
@@ -410,7 +410,7 @@ nav { position: relative !important; z-index: 100000 !important; }
 <section class="z reveal" style="padding-top:40px">
   <div class="cta-block">
     <h2>Go Paperless with <em>Digital Leases.</em></h2>
-    <p>Create, sign, and store all your lease agreements on HousingHub. No printing, no couriers, no lost documents — ever again.</p>
+    <p>Create, sign, and store all your lease agreements on HousingHub. No printing, no couriers, no lost documents â€” ever again.</p>
     
   </div>
 </section>
@@ -427,26 +427,26 @@ nav { position: relative !important; z-index: 100000 !important; }
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
-      <a href="visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Visitor.php">Guests</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">

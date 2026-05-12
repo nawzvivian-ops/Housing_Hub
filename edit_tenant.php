@@ -126,7 +126,7 @@ input[type="submit"]:hover {background:#3b36e0;}
         <input type="submit" value="Save Changes">
     </form>
 
-    <a href="tenants.php" class="logout-btn">Back to Dashboard</a>
+    <a href="Tenant.php" class="logout-btn">Back to Dashboard</a>
 </div>
 
 </body>

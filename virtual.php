@@ -91,7 +91,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .cta-block p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 36px;line-height:1.7}
 footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;font-size:12px;letter-spacing:1.5px;color:rgba(255,255,255,.2);position:relative;z-index:10}
 @media(max-width:900px){header,section,.hero,footer{padding-left:24px;padding-right:24px}.pain-grid{grid-template-columns:1fr}.pain-col.before{border-right:none;border-bottom:1px solid var(--border)}.stats-strip{grid-template-columns:1fr 1fr}.cta-block{padding:40px 24px}body{cursor:auto}#cur-dot,#cur-ring,#cur-trail{display:none}}
-/* ── FIXED HEADER — cannot scroll with content ─────────────── */
+/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -122,18 +122,18 @@ nav { position: relative !important; z-index: 100000 !important; }
         
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-        <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-        <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-        <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+        <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+        <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+        <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
         <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+        <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
         <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-        <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
+        <a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a>
         <a href="Visitor.php">Guests</a>
-        <a href="propertyowners.php">Property Owners</a>
-        <a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
+        <a href="Propertyowners.php">Property Owners</a>
+        <a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
         <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -151,12 +151,12 @@ nav { position: relative !important; z-index: 100000 !important; }
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>See Every Home<br><em>Without Leaving</em><br><span class="stroke">Yours.</span></h1>
-    <p class="hero-sub">Take 360° virtual tours of any listed property on HousingHub from your phone or laptop before even stepping foot inside. Save time, money, and unnecessary visits.</p>
+    <p class="hero-sub">Take 360Â° virtual tours of any listed property on HousingHub from your phone or laptop before even stepping foot inside. Save time, money, and unnecessary visits.</p>
     <div class="hero-btns">
       <a href="properties.php?browse=1" class="btn-secondary">Browse Properties</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-num">360°</div><div class="hstat-label">Immersive Tours</div></div>
+      <div><div class="hstat-num">360Â°</div><div class="hstat-label">Immersive Tours</div></div>
       <div><div class="hstat-num">3x</div><div class="hstat-label">Faster Decisions</div></div>
       <div><div class="hstat-num">0 UGX</div><div class="hstat-label">Tour Cost</div></div>
     </div>
@@ -164,10 +164,10 @@ nav { position: relative !important; z-index: 100000 !important; }
 </section>
   <section class="z reveal" style="background: rgba(200,164,60,0.03); border-radius: 20px; margin: 0 60px;">
   <div style="display: flex; align-items: center; gap: 40px; padding: 40px;">
-    <div style="font-size: 100px;">🛡️</div>
+    <div style="font-size: 100px;">ðŸ›¡ï¸</div>
     <div>
       <h3 class="feat-title">The HousingHub Guarantee</h3>
-      <p class="feat-desc">Every property with a 360° tour has been physically visited by a HousingHub Verified staff. 
+      <p class="feat-desc">Every property with a 360Â° tour has been physically visited by a HousingHub Verified staff. 
         <br><br>We ensure that what you see in the virtual tour is 100% identical to the current state of the property.
         <br><br>No filters, no old photos just the truth, your trust is our priority <br><br>We offer best services dont fail to trust us</p>
     </div>
@@ -179,22 +179,22 @@ nav { position: relative !important; z-index: 100000 !important; }
   <p class="section-sub">See how HousingHub transforms the experience for everyone involved.</p>
   <div class="pain-grid">
     <div class="pain-col before"><div class="pain-col-label">&#128683; Before HousingHub</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Spending weekends visiting properties that look nothing like the photos</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Wasting fuel and time on viewings for properties already taken</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Unable to view properties from outside Kampala without travelling</div><div class="pain-item"><span class="pain-icon">&#128683;</span>Relying on blurry WhatsApp photos shared by agents</div><div class="pain-item"><span class="pain-icon">&#128683;</span>No way to get a true sense of space or layout remotely</div></div>
-    <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Immersive 360° virtual tours takeable from anywhere in Uganda</div><div class="pain-item"><span class="pain-icon">&#10004;</span>View full room layouts, outdoor space, and surroundings in detail</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Share tour links with family before making a decision together</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Filter properties by virtual tour availability for instant previews</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Save favourite tours and revisit them anytime from your dashboard</div></div>
+    <div class="pain-col after"><div class="pain-col-label">&#10003; With HousingHub</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Immersive 360Â° virtual tours takeable from anywhere in Uganda</div><div class="pain-item"><span class="pain-icon">&#10004;</span>View full room layouts, outdoor space, and surroundings in detail</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Share tour links with family before making a decision together</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Filter properties by virtual tour availability for instant previews</div><div class="pain-item"><span class="pain-icon">&#10004;</span>Save favourite tours and revisit them anytime from your dashboard</div></div>
   </div>
 </section>
 <section class="z reveal">
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
   <p class="section-sub">Simple steps to get up and running on HousingHub.</p>
-  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Browse Listings</div><div class="step-desc">Find a property with the 360° tour badge on HousingHub.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Launch the Tour</div><div class="step-desc">Click "Virtual Tour" to enter the immersive 360° view.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Explore Freely</div><div class="step-desc">Navigate every room and check the full layout and surroundings.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Book or Apply</div><div class="step-desc">Satisfied? Book an inspection or apply directly online.</div></div></div>
+  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Browse Listings</div><div class="step-desc">Find a property with the 360Â° tour badge on HousingHub.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Launch the Tour</div><div class="step-desc">Click "Virtual Tour" to enter the immersive 360Â° view.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Explore Freely</div><div class="step-desc">Navigate every room and check the full layout and surroundings.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Book or Apply</div><div class="step-desc">Satisfied? Book an inspection or apply directly online.</div></div></div>
 </section>
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>
   <h2 class="section-title">Key <em>Features</em></h2>
   <p class="section-sub">Everything you need, built into one powerful platform.</p>
-  <div class="features-grid"><div class="feat-card"><div class="feat-icon">&#127909;</div><h3 class="feat-title">360° Room Tours</h3><p class="feat-desc">Navigate every room from any angle as if you were physically there.</p></div><div class="feat-card"><div class="feat-icon">&#127758;</div><h3 class="feat-title">Location View</h3><p class="feat-desc">See the neighbourhood, street, and surroundings inside the tour.</p></div><div class="feat-card"><div class="feat-icon">&#128247;</div><h3 class="feat-title">High-Res Photos</h3><p class="feat-desc">Every tour is paired with professional high-resolution gallery photos.</p></div><div class="feat-card"><div class="feat-icon">&#128279;</div><h3 class="feat-title">Shareable Links</h3><p class="feat-desc">Send tour links to family or friends for second opinions instantly.</p></div><div class="feat-card"><div class="feat-icon">&#10084;</div><h3 class="feat-title">Save Favourites</h3><p class="feat-desc">Bookmark tours and return to them anytime from your dashboard.</p></div><div class="feat-card"><div class="feat-icon">&#128241;</div><h3 class="feat-title">Mobile Friendly</h3><p class="feat-desc">Tours work seamlessly on any smartphone, tablet, or desktop.</p></div></div>
+  <div class="features-grid"><div class="feat-card"><div class="feat-icon">&#127909;</div><h3 class="feat-title">360Â° Room Tours</h3><p class="feat-desc">Navigate every room from any angle as if you were physically there.</p></div><div class="feat-card"><div class="feat-icon">&#127758;</div><h3 class="feat-title">Location View</h3><p class="feat-desc">See the neighbourhood, street, and surroundings inside the tour.</p></div><div class="feat-card"><div class="feat-icon">&#128247;</div><h3 class="feat-title">High-Res Photos</h3><p class="feat-desc">Every tour is paired with professional high-resolution gallery photos.</p></div><div class="feat-card"><div class="feat-icon">&#128279;</div><h3 class="feat-title">Shareable Links</h3><p class="feat-desc">Send tour links to family or friends for second opinions instantly.</p></div><div class="feat-card"><div class="feat-icon">&#10084;</div><h3 class="feat-title">Save Favourites</h3><p class="feat-desc">Bookmark tours and return to them anytime from your dashboard.</p></div><div class="feat-card"><div class="feat-icon">&#128241;</div><h3 class="feat-title">Mobile Friendly</h3><p class="feat-desc">Tours work seamlessly on any smartphone, tablet, or desktop.</p></div></div>
 </section>
-<section class="z reveal"><div class="stats-strip"><div><div class="stat-num">360°</div><div class="stat-label">Immersive Tours</div></div><div><div class="stat-num">3x</div><div class="stat-label">Faster Decisions</div></div><div><div class="stat-num">0 UGX</div><div class="stat-label">Tour Cost</div></div><div><div class="stat-num">24/7</div><div class="stat-label">Available</div></div></div></section>
+<section class="z reveal"><div class="stats-strip"><div><div class="stat-num">360Â°</div><div class="stat-label">Immersive Tours</div></div><div><div class="stat-num">3x</div><div class="stat-label">Faster Decisions</div></div><div><div class="stat-num">0 UGX</div><div class="stat-label">Tour Cost</div></div><div><div class="stat-num">24/7</div><div class="stat-label">Available</div></div></div></section>
 <section class="z reveal" style="padding-top:40px">
   <div class="cta-block">
     <h2>Ready to Tour Your <em>Next Home?</em></h2>
@@ -216,26 +216,26 @@ nav { position: relative !important; z-index: 100000 !important; }
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">

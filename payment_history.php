@@ -71,7 +71,7 @@ tr:hover {background:#e0e7ff;}
 <p>No payments found.</p>
 <?php endif; ?>
 
-<a href="tenant.php" class="action-btn">← Back to Dashboard</a>
+<a href="Tenant.php" class="action-btn">â† Back to Dashboard</a>
 
 </body>
 </html>

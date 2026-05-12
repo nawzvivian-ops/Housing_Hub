@@ -175,8 +175,8 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
   <nav>
     <div class="dropdown"><button class="dd-btn">Home &#9660;</button><div class="dd-menu"><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div></div>
-    <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu"><a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a><a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a><a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a><a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a><a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a><a href="policies.html">Policies</a></div></div>
-    <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu"><a href="tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="visitor.php">Guests</a><a href="propertyowners.php">Property Owners</a><a href="broker.php">Brokers</a><a href="employment.php">Employment</a></div></div>
+    <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu"><a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a><a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a><a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a><a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a><a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a><a href="policies.html">Policies</a></div></div>
+    <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu"><a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a><a href="Visitor.php">Guests</a><a href="Propertyowners.php">Property Owners</a><a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a></div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu"><a href="properties.php">All Properties</a><div class="dd-divider"></div><a href="properties.php?type=Commercial">Commercial</a><a href="properties.php?type=Residential">Residential</a><a href="properties.php?type=Industrial">Industrial</a><a href="properties.php?type=Agricultural">Agricultural</a><a href="properties.php?type=Special+Purpose">Special Purpose</a><a href="properties.php?type=Land">Land</a></div></div>
     <a href="index.php">Login</a>
     <div class="dropdown"><button class="dd-btn">About Us &#9660;</button><div class="dd-menu"><a href="who.php">Who We Are</a><a href="what.php">What We Do</a><a href="vision.php">Our Vision</a><a href="values.php">Core Values</a><a href="contact.php">Contact Us</a></div></div>
@@ -190,7 +190,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h1>Work Smarter,<br>Manage <em>Better.</em></h1>
     <p class="hero-sub">HousingHub gives property staff a powerful portal to manage tenants, maintenance, inspections, visitor approvals and more &mdash; all from one organised dashboard, accessible on any device.</p>
     <div class="hero-btns">
-      <a href="employment.php" class="btn-primary">Join Our Team</a>
+      <a href="Employment.php" class="btn-primary">Join Our Team</a>
       <a href="index.php" class="btn-secondary">Staff Login</a>
     </div>
     <div class="hero-stats">
@@ -209,12 +209,12 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="pain-grid">
     <div class="pain-col before">
       <div class="pain-col-label">&#128683; Without HousingHub</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Tasks assigned verbally or via WhatsApp — easy to forget or lose</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Tasks assigned verbally or via WhatsApp â€” easy to forget or lose</div>
       <div class="pain-item"><span class="pain-icon">&#128683;</span>No clear system for tracking maintenance request progress</div>
       <div class="pain-item"><span class="pain-icon">&#128683;</span>Visitor approvals handled manually with paper logbooks</div>
       <div class="pain-item"><span class="pain-icon">&#128683;</span>Inspection notes written on paper and often misplaced</div>
       <div class="pain-item"><span class="pain-icon">&#128683;</span>No visibility into upcoming tasks, schedules or deadlines</div>
-      <div class="pain-item"><span class="pain-icon">&#128683;</span>Performance tracking done informally — no clear records</div>
+      <div class="pain-item"><span class="pain-icon">&#128683;</span>Performance tracking done informally â€” no clear records</div>
     </div>
     <div class="pain-col after">
       <div class="pain-col-label">&#10003; With HousingHub</div>
@@ -223,7 +223,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="pain-item"><span class="pain-icon">&#10004;</span>Visitor approvals reviewed and actioned from the portal instantly</div>
       <div class="pain-item"><span class="pain-icon">&#10004;</span>Inspection findings logged digitally and accessible anytime</div>
       <div class="pain-item"><span class="pain-icon">&#10004;</span>Full schedule and calendar view of upcoming work and appointments</div>
-      <div class="pain-item"><span class="pain-icon">&#10004;</span>Performance tracked automatically — completed tasks and response times</div>
+      <div class="pain-item"><span class="pain-icon">&#10004;</span>Performance tracked automatically â€” completed tasks and response times</div>
     </div>
   </div>
 </section>
@@ -234,10 +234,10 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <h2 class="section-title">The Values That Drive <em>Our Team</em></h2>
   <p class="section-sub">These aren't slogans on a wall. These are the principles our staff live by every day at HousingHub.</p>
   <div class="values-grid">
-    <div class="val-card"><span class="val-icon">🎯</span><div class="val-title">Accountability</div><div class="val-desc">We own our work. When something goes wrong we fix it, learn from it, and do better next time.</div></div>
-    <div class="val-card"><span class="val-icon">🤝</span><div class="val-title">Respect</div><div class="val-desc">Every tenant, every colleague, every property owner deserves to be treated with dignity and care.</div></div>
-    <div class="val-card"><span class="val-icon">💡</span><div class="val-title">Innovation</div><div class="val-desc">We are always looking for smarter, faster, better ways to do our work. Your ideas are welcome here.</div></div>
-    <div class="val-card"><span class="val-icon">🏆</span><div class="val-title">Excellence</div><div class="val-desc">We do not settle for average. HousingHub staff take pride in doing every task to the highest standard.</div></div>
+    <div class="val-card"><span class="val-icon">ðŸŽ¯</span><div class="val-title">Accountability</div><div class="val-desc">We own our work. When something goes wrong we fix it, learn from it, and do better next time.</div></div>
+    <div class="val-card"><span class="val-icon">ðŸ¤</span><div class="val-title">Respect</div><div class="val-desc">Every tenant, every colleague, every property owner deserves to be treated with dignity and care.</div></div>
+    <div class="val-card"><span class="val-icon">ðŸ’¡</span><div class="val-title">Innovation</div><div class="val-desc">We are always looking for smarter, faster, better ways to do our work. Your ideas are welcome here.</div></div>
+    <div class="val-card"><span class="val-icon">ðŸ†</span><div class="val-title">Excellence</div><div class="val-desc">We do not settle for average. HousingHub staff take pride in doing every task to the highest standard.</div></div>
   </div>
 </section>
 
@@ -248,28 +248,28 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <p class="section-sub">HousingHub is a place where ambition is rewarded. Every great manager here started exactly where you would.</p>
   <div class="growth-grid">
     <div class="growth-card">
-      <span class="growth-icon">🌱</span>
+      <span class="growth-icon">ðŸŒ±</span>
       <div class="growth-level">Level 1</div>
       <div class="growth-title">Junior Staff</div>
       <div class="growth-desc">Start here. Learn the systems, the properties, and the tenants. Build your foundation.</div>
-      <span class="growth-arrow">→</span>
+      <span class="growth-arrow">â†’</span>
     </div>
     <div class="growth-card">
-      <span class="growth-icon">⭐</span>
+      <span class="growth-icon">â­</span>
       <div class="growth-level">Level 2</div>
       <div class="growth-title">Senior Staff</div>
       <div class="growth-desc">Handle complex tasks independently. Mentor junior team members. Take on more responsibility.</div>
-      <span class="growth-arrow">→</span>
+      <span class="growth-arrow">â†’</span>
     </div>
     <div class="growth-card">
-      <span class="growth-icon">👑</span>
+      <span class="growth-icon">ðŸ‘‘</span>
       <div class="growth-level">Level 3</div>
       <div class="growth-title">Team Lead</div>
       <div class="growth-desc">Lead a team. Coordinate inspections, maintenance schedules, and weekly reporting for your zone.</div>
-      <span class="growth-arrow">→</span>
+      <span class="growth-arrow">â†’</span>
     </div>
     <div class="growth-card">
-      <span class="growth-icon">🏢</span>
+      <span class="growth-icon">ðŸ¢</span>
       <div class="growth-level">Level 4</div>
       <div class="growth-title">Property Manager</div>
       <div class="growth-desc">Oversee full property operations. Work directly with owners and management to drive results.</div>
@@ -282,12 +282,12 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <h2 class="section-title">We Take Care of <em>Our People</em></h2>
   <p class="section-sub">Great work deserves great rewards. Here's what HousingHub staff enjoy beyond their monthly salary.</p>
   <div class="perks-grid">
-    <div class="perk"><span class="perk-icon">💳</span><div><div class="perk-title">Competitive Monthly Salary</div><div class="perk-desc">Salaries paid on time every last day of the month. Performance bonuses for outstanding task completion and tenant satisfaction scores.</div></div></div>
-    <div class="perk"><span class="perk-icon">📱</span><div><div class="perk-title">Full Digital Toolkit</div><div class="perk-desc">Your own staff portal account with access to all tools you need — no personal subscriptions, no extra apps to buy.</div></div></div>
-    <div class="perk"><span class="perk-icon">🎓</span><div><div class="perk-title">Training & Development</div><div class="perk-desc">Regular training sessions on property management, tenant relations, and digital tools to help you grow in your role.</div></div></div>
-    <div class="perk"><span class="perk-icon">⏰</span><div><div class="perk-title">Structured Working Hours</div><div class="perk-desc">Clear, defined working hours with no unexpected overtime demands. Your schedule is organised and predictable.</div></div></div>
-    <div class="perk"><span class="perk-icon">🏆</span><div><div class="perk-title">Staff Recognition Program</div><div class="perk-desc">Top performers are recognised monthly. Staff of the Month awards, public recognition, and tangible rewards for excellence.</div></div></div>
-    <div class="perk"><span class="perk-icon">📈</span><div><div class="perk-title">Clear Promotion Path</div><div class="perk-desc">Every staff member has a defined career ladder. Junior staff can progress to Senior, then Team Lead, then Management based purely on performance.</div></div></div>
+    <div class="perk"><span class="perk-icon">ðŸ’³</span><div><div class="perk-title">Competitive Monthly Salary</div><div class="perk-desc">Salaries paid on time every last day of the month. Performance bonuses for outstanding task completion and tenant satisfaction scores.</div></div></div>
+    <div class="perk"><span class="perk-icon">ðŸ“±</span><div><div class="perk-title">Full Digital Toolkit</div><div class="perk-desc">Your own staff portal account with access to all tools you need â€” no personal subscriptions, no extra apps to buy.</div></div></div>
+    <div class="perk"><span class="perk-icon">ðŸŽ“</span><div><div class="perk-title">Training & Development</div><div class="perk-desc">Regular training sessions on property management, tenant relations, and digital tools to help you grow in your role.</div></div></div>
+    <div class="perk"><span class="perk-icon">â°</span><div><div class="perk-title">Structured Working Hours</div><div class="perk-desc">Clear, defined working hours with no unexpected overtime demands. Your schedule is organised and predictable.</div></div></div>
+    <div class="perk"><span class="perk-icon">ðŸ†</span><div><div class="perk-title">Staff Recognition Program</div><div class="perk-desc">Top performers are recognised monthly. Staff of the Month awards, public recognition, and tangible rewards for excellence.</div></div></div>
+    <div class="perk"><span class="perk-icon">ðŸ“ˆ</span><div><div class="perk-title">Clear Promotion Path</div><div class="perk-desc">Every staff member has a defined career ladder. Junior staff can progress to Senior, then Team Lead, then Management based purely on performance.</div></div></div>
   </div>
 </section>
 
@@ -321,7 +321,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <p class="section-sub">Getting hired and onboarded as a HousingHub staff member is fast and fully digital.</p>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative">
     <div style="position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gb),transparent)"></div>
-    <?php $steps=[['1','Apply Online','Browse open positions on our Employment page and submit your application in minutes.'],['2','Get Reviewed','Our HR team reviews all applications within 3–5 business days and notifies you by email.'],['3','Receive Login','Once approved, you automatically receive your staff login email and temporary password.'],['4','Start Working','Log in to your staff dashboard and begin managing tasks, maintenance, and inspections right away.']];foreach($steps as $s):?>
+    <?php $steps=[['1','Apply Online','Browse open positions on our Employment page and submit your application in minutes.'],['2','Get Reviewed','Our HR team reviews all applications within 3â€“5 business days and notifies you by email.'],['3','Receive Login','Once approved, you automatically receive your staff login email and temporary password.'],['4','Start Working','Log in to your staff dashboard and begin managing tasks, maintenance, and inspections right away.']];foreach($steps as $s):?>
     <div style="text-align:center;position:relative;z-index:1">
       <div style="width:56px;height:56px;border-radius:50%;background:rgba(200,164,60,.1);border:1px solid var(--gb);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><?=$s[0]?></div>
       <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px"><?=$s[1]?></div>
@@ -336,9 +336,9 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="section-eyebrow">Questions</div>
   <h2 class="section-title">Staff <em>FAQs</em></h2>
   <div class="faq-list">
-    <div class="faq-item"><div class="faq-q">How do I apply to become HousingHub staff?</div><div class="faq-a">Visit our Employment page, browse open positions, and submit your application online. You will receive a confirmation email immediately and a decision within 3–5 business days.</div></div>
+    <div class="faq-item"><div class="faq-q">How do I apply to become HousingHub staff?</div><div class="faq-a">Visit our Employment page, browse open positions, and submit your application online. You will receive a confirmation email immediately and a decision within 3â€“5 business days.</div></div>
     <div class="faq-item"><div class="faq-q">What happens after I am hired?</div><div class="faq-a">You will receive an email with your staff login credentials. Log in to the portal, change your temporary password, and your manager will assign your first tasks.</div></div>
-    <div class="faq-item"><div class="faq-q">Can I access the portal from my phone?</div><div class="faq-a">Yes. The HousingHub staff portal is fully responsive and works on any device — desktop, tablet, or smartphone.</div></div>
+    <div class="faq-item"><div class="faq-q">Can I access the portal from my phone?</div><div class="faq-a">Yes. The HousingHub staff portal is fully responsive and works on any device â€” desktop, tablet, or smartphone.</div></div>
     <div class="faq-item"><div class="faq-q">When are staff salaries paid?</div><div class="faq-a">Staff salaries are processed on the last day of each month. Ensure all task updates and reports are submitted before the payroll cut-off date.</div></div>
     <div class="faq-item"><div class="faq-q">What if I have an issue with my account or tasks?</div><div class="faq-a">Contact your line manager directly through the portal notifications, or email HR at careers@housinghuborg.ug for account-related issues.</div></div>
   </div>
@@ -349,7 +349,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="cta-block">
     <h2>Ready to <em>Join</em> the Team?</h2>
     <p>Browse our open positions and apply today. We are always looking for dedicated, hardworking people to grow with us.</p>
-    <a href="employment.php" class="btn-primary">View Open Positions</a>
+    <a href="Employment.php" class="btn-primary">View Open Positions</a>
   </div>
 </section>
  
@@ -366,26 +366,26 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
     <div class="quick-col">
       <h3>Features</h3>
       <a href="virtual.php">Virtual Property Tours</a>
-      <a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a>
-      <a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a>
-      <a href="maintenance.php">Maintenance</a>
+      <a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a>
+      <a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a>
+      <a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a>
       <a href="notifications.php">Smart Notification Center</a>
       <a href="complaints.php">Complaints &amp; Feedback HUB</a>
-      <a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
  
     <div class="quick-col">
       <h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a>
+      <a href="Tenant.php">Tenants</a>
       <a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a>
+      <a href="Employment.php">Employment</a>
     </div>
  
     <div class="quick-col">

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Who We Are – Housing Hub</title>
+<title>Who We Are â€“ Housing Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -115,7 +115,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 .wt-text p{font-size:15px;font-weight:300;color:var(--muted);line-height:1.85;margin-bottom:28px}
 .wt-highlights{list-style:none;padding:0;margin:0}
 .wt-highlights li{padding:10px 0;font-size:14px;color:rgba(255,255,255,.75);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.wt-highlights li::before{content:'✦';color:var(--gold);font-size:11px;flex-shrink:0}
+.wt-highlights li::before{content:'âœ¦';color:var(--gold);font-size:11px;flex-shrink:0}
 .slideshow{position:relative;border-radius:16px;overflow:hidden;height:260px;box-shadow:0 24px 64px rgba(0,0,0,.4);border:1px solid var(--border)}
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .7s ease;pointer-events:none}
 .slide.active{opacity:1;pointer-events:auto}
@@ -154,19 +154,19 @@ body.cursor-click #cur-ring{width:28px;height:28px}
       <a href="index.html#welcome">Welcome</a><a href="works.php">How It Works</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-      <a href="tenant.php">Tenant</a><a href="staff.php">Staff</a>
+      <a href="Tenant.php">Tenant</a><a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
+      <a href="Propertyowners.php">Property Owners</a>
       <a href="Broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
       <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -190,15 +190,15 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   <div class="story-text">
     <span class="story-label">Our Origin</span>
     <h2>Built to Solve a <em>Real Problem</em></h2>
-    <p>Housing Hub was founded in Kampala, Uganda, with one clear goal — to eliminate the stress and confusion that comes with managing and finding property. We saw landlords buried in paperwork, tenants struggling to communicate issues, and property owners unable to track their investments in real time.</p>
-    <p>Housing Hub is a modern, all-in-one housing management platform that connects landlords, tenants, brokers, and property owners in a single seamless ecosystem — from listing a property to collecting rent online, from filing a complaint to signing a lease.</p>
+    <p>Housing Hub was founded in Kampala, Uganda, with one clear goal â€” to eliminate the stress and confusion that comes with managing and finding property. We saw landlords buried in paperwork, tenants struggling to communicate issues, and property owners unable to track their investments in real time.</p>
+    <p>Housing Hub is a modern, all-in-one housing management platform that connects landlords, tenants, brokers, and property owners in a single seamless ecosystem â€” from listing a property to collecting rent online, from filing a complaint to signing a lease.</p>
     <p>Today, Housing Hub serves hundreds of property managers and thousands of tenants across Uganda, with a growing presence in East Africa.</p>
   </div>
   <div class="story-visual">
-    <div class="story-card"><span class="icon">🏠</span><h4>Founded in Kampala</h4><p>Born from firsthand experience with Uganda's property market challenges.</p></div>
-    <div class="story-card"><span class="icon">🤝</span><h4>Community First</h4><p>Built for landlords, tenants, brokers, and owners — all in one place.</p></div>
-    <div class="story-card"><span class="icon">📱</span><h4>Fully Digital</h4><p>Every process — from leasing to maintenance — handled online.</p></div>
-    <div class="story-card"><span class="icon">🌍</span><h4>East Africa Focus</h4><p>Growing presence beyond Uganda into the wider East African region.</p></div>
+    <div class="story-card"><span class="icon">ðŸ </span><h4>Founded in Kampala</h4><p>Born from firsthand experience with Uganda's property market challenges.</p></div>
+    <div class="story-card"><span class="icon">ðŸ¤</span><h4>Community First</h4><p>Built for landlords, tenants, brokers, and owners â€” all in one place.</p></div>
+    <div class="story-card"><span class="icon">ðŸ“±</span><h4>Fully Digital</h4><p>Every process â€” from leasing to maintenance â€” handled online.</p></div>
+    <div class="story-card"><span class="icon">ðŸŒ</span><h4>East Africa Focus</h4><p>Growing presence beyond Uganda into the wider East African region.</p></div>
   </div>
 </section>
 <section class="milestones z reveal">
@@ -239,7 +239,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     <div class="wt-text">
       <span class="wt-eyebrow">See It In Action</span>
       <h2>A Quick Tour of <em>Housing Hub</em></h2>
-      <p>Watch how landlords list properties, tenants apply online, and owners track income — all in under 60 seconds.</p>
+      <p>Watch how landlords list properties, tenants apply online, and owners track income â€” all in under 60 seconds.</p>
       <ul class="wt-highlights">
         <li>List &amp; manage properties in minutes</li>
         <li>Collect rent without cash or queues</li>
@@ -249,10 +249,10 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     </div>
     <div class="wt-media">
       <div class="slideshow" id="slideshow">
-        <div class="slide active" style="background:linear-gradient(135deg,rgba(14,90,200,.4),rgba(200,164,60,.2))"><div class="slide-content"><div class="slide-icon">🏠</div><h3>List Your Property</h3><p>Add photos, set rent, publish — live in under 5 minutes.</p></div></div>
-        <div class="slide" style="background:linear-gradient(135deg,rgba(15,118,110,.4),rgba(200,164,60,.15))"><div class="slide-content"><div class="slide-icon">📝</div><h3>Tenant Applications</h3><p>Tenants apply, you review and approve online. No paperwork.</p></div></div>
-        <div class="slide" style="background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(200,164,60,.15))"><div class="slide-content"><div class="slide-icon">💳</div><h3>Rent Collection</h3><p>Auto-reminders, mobile money, instant receipts.</p></div></div>
-        <div class="slide" style="background:linear-gradient(135deg,rgba(180,83,9,.35),rgba(200,164,60,.25))"><div class="slide-content"><div class="slide-icon">📊</div><h3>Owner Dashboard</h3><p>See income, vacancies, and expenses — live, any time.</p></div></div>
+        <div class="slide active" style="background:linear-gradient(135deg,rgba(14,90,200,.4),rgba(200,164,60,.2))"><div class="slide-content"><div class="slide-icon">ðŸ </div><h3>List Your Property</h3><p>Add photos, set rent, publish â€” live in under 5 minutes.</p></div></div>
+        <div class="slide" style="background:linear-gradient(135deg,rgba(15,118,110,.4),rgba(200,164,60,.15))"><div class="slide-content"><div class="slide-icon">ðŸ“</div><h3>Tenant Applications</h3><p>Tenants apply, you review and approve online. No paperwork.</p></div></div>
+        <div class="slide" style="background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(200,164,60,.15))"><div class="slide-content"><div class="slide-icon">ðŸ’³</div><h3>Rent Collection</h3><p>Auto-reminders, mobile money, instant receipts.</p></div></div>
+        <div class="slide" style="background:linear-gradient(135deg,rgba(180,83,9,.35),rgba(200,164,60,.25))"><div class="slide-content"><div class="slide-icon">ðŸ“Š</div><h3>Owner Dashboard</h3><p>See income, vacancies, and expenses â€” live, any time.</p></div></div>
         <div class="slide-dots" id="slideDots"></div>
         <button class="slide-prev" onclick="moveSlide(-1)">&#8249;</button>
         <button class="slide-next" onclick="moveSlide(1)">&#8250;</button>
@@ -262,24 +262,24 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 </section>
 <section class="cta z reveal">
   <h3>Ready to Join the <em>Housing Hub Family?</em></h3>
-  <p>Whether you're a landlord, tenant, or broker — we have a place for you.</p>
+  <p>Whether you're a landlord, tenant, or broker â€” we have a place for you.</p>
   <a href="index.php">Get Started Today</a>
 </section>
 <section class="quick-links z reveal">
   <div class="quick-container">
     <div class="quick-col"><h3>Home</h3><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div>
     <div class="quick-col"><h3>Features</h3>
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
     <div class="quick-col"><h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
+      <a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a><a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a><a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a>
     </div>
     <div class="quick-col"><h3>Properties</h3>
       <a href="properties.php">All Properties</a><a href="properties.php?type=Commercial">Commercial</a>

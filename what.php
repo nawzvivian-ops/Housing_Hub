@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>What We Do – Housing Hub</title>
+<title>What We Do â€“ Housing Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -123,19 +123,19 @@ body.cursor-click #cur-ring{width:28px;height:28px}
       <a href="index.html#welcome">Welcome</a><a href="works.php">How It Works</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Features &#9660;</button><div class="dd-menu">
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Use Cases &#9660;</button><div class="dd-menu">
-      <a href="tenant.php">Tenant</a><a href="staff.php">Staff</a>
+      <a href="Tenant.php">Tenant</a><a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
+      <a href="Propertyowners.php">Property Owners</a>
       <a href="Broker.php">Brokers</a>
-      <a href="employment.php">Employment</a>
+      <a href="Employment.php">Employment</a>
     </div></div>
     <div class="dropdown"><button class="dd-btn">Properties &#9660;</button><div class="dd-menu">
       <a href="properties.php">All Properties</a><div class="dd-divider"></div>
@@ -153,22 +153,22 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 <div class="about-hero z">
   <div class="eyebrow">Our Services</div>
   <h1>What We <em>Do</em></h1>
-  <p>We simplify property management from end to end — so you can focus on what matters most.</p>
+  <p>We simplify property management from end to end â€” so you can focus on what matters most.</p>
 </div>
 <section class="services-intro z reveal">
   <h2>A Complete Property Management <em>Ecosystem</em></h2>
-  <p>Housing Hub is more than a platform — it's a complete solution designed to handle every aspect of property management. Whether you're listing a single apartment or overseeing a portfolio of commercial properties, we give you the tools, automation, and support to do it efficiently and confidently.</p>
+  <p>Housing Hub is more than a platform â€” it's a complete solution designed to handle every aspect of property management. Whether you're listing a single apartment or overseeing a portfolio of commercial properties, we give you the tools, automation, and support to do it efficiently and confidently.</p>
 </section>
 <section class="services-grid z reveal">
-  <div class="service-card"><div class="service-icon">🏠</div><h3>Property Listing &amp; Management</h3><p>List residential, commercial, industrial, and agricultural properties with ease. Manage availability, pricing, and tenant details from one dashboard.</p></div>
-  <div class="service-card"><div class="service-icon">💳</div><h3>Online Rent Collection</h3><p>Accept rent payments digitally, track payment history, send automated reminders, and generate receipts — no more chasing tenants.</p></div>
-  <div class="service-card"><div class="service-icon">📋</div><h3>Tenant Applications</h3><p>Receive and process tenant applications online. Screen applicants, review documents, and approve leases from anywhere.</p></div>
-  <div class="service-card"><div class="service-icon">🔧</div><h3>Maintenance Management</h3><p>Tenants can log maintenance requests digitally. Track, assign, and resolve issues 3x faster with our structured workflow.</p></div>
-  <div class="service-card"><div class="service-icon">📄</div><h3>Online Lease Management</h3><p>Create, sign, and store leases digitally. Set automatic renewal reminders and maintain a full audit trail of all agreements.</p></div>
-  <div class="service-card"><div class="service-icon">🔔</div><h3>Smart Notifications</h3><p>Keep everyone informed with automated alerts for rent due dates, lease renewals, maintenance updates, and more.</p></div>
-  <div class="service-card"><div class="service-icon">📊</div><h3>Owner Reporting &amp; Analytics</h3><p>Get real-time insights into your property portfolio — income, occupancy rates, expenses, and tenant history at a glance.</p></div>
-  <div class="service-card"><div class="service-icon">🏛️</div><h3>Legal &amp; Compliance Support</h3><p>Stay compliant with local property laws. Access legal document templates, compliance checklists, and guided dispute resolution.</p></div>
-  <div class="service-card"><div class="service-icon">💬</div><h3>Complaints &amp; Feedback Hub</h3><p>A dedicated channel for tenants to raise concerns and for landlords to respond — professional and fully documented.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ </div><h3>Property Listing &amp; Management</h3><p>List residential, commercial, industrial, and agricultural properties with ease. Manage availability, pricing, and tenant details from one dashboard.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ’³</div><h3>Online Rent Collection</h3><p>Accept rent payments digitally, track payment history, send automated reminders, and generate receipts â€” no more chasing tenants.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ“‹</div><h3>Tenant Applications</h3><p>Receive and process tenant applications online. Screen applicants, review documents, and approve leases from anywhere.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ”§</div><h3>Maintenance Management</h3><p>Tenants can log maintenance requests digitally. Track, assign, and resolve issues 3x faster with our structured workflow.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ“„</div><h3>Online Lease Management</h3><p>Create, sign, and store leases digitally. Set automatic renewal reminders and maintain a full audit trail of all agreements.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ””</div><h3>Smart Notifications</h3><p>Keep everyone informed with automated alerts for rent due dates, lease renewals, maintenance updates, and more.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ“Š</div><h3>Owner Reporting &amp; Analytics</h3><p>Get real-time insights into your property portfolio â€” income, occupancy rates, expenses, and tenant history at a glance.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ›ï¸</div><h3>Legal &amp; Compliance Support</h3><p>Stay compliant with local property laws. Access legal document templates, compliance checklists, and guided dispute resolution.</p></div>
+  <div class="service-card"><div class="service-icon">ðŸ’¬</div><h3>Complaints &amp; Feedback Hub</h3><p>A dedicated channel for tenants to raise concerns and for landlords to respond â€” professional and fully documented.</p></div>
 </section>
 <section class="how-it-works z reveal">
   <h2>How It <em>Works</em></h2>
@@ -176,16 +176,16 @@ body.cursor-click #cur-ring{width:28px;height:28px}
     <div class="step"><div class="step-number">1</div><h4>Create an Account</h4><p>Sign up as a landlord, tenant, or broker in minutes.</p></div>
     <div class="step"><div class="step-number">2</div><h4>List or Find a Property</h4><p>Landlords add properties; tenants browse and apply online.</p></div>
     <div class="step"><div class="step-number">3</div><h4>Sign &amp; Move In</h4><p>Complete lease agreements digitally and finalize onboarding.</p></div>
-    <div class="step"><div class="step-number">4</div><h4>Manage Everything</h4><p>Collect rent, handle maintenance, and track reports — all in one place.</p></div>
+    <div class="step"><div class="step-number">4</div><h4>Manage Everything</h4><p>Collect rent, handle maintenance, and track reports â€” all in one place.</p></div>
   </div>
 </section>
 <section class="who-we-serve z reveal">
   <h2>Who We <em>Serve</em></h2>
   <div class="serve-grid">
-    <div class="serve-card"><div class="icon">🏘️</div><h4>Landlords</h4><p>Manage tenants, collect rent, and handle maintenance without the headaches.</p></div>
-    <div class="serve-card"><div class="icon">🔑</div><h4>Tenants</h4><p>Find a home, pay rent, and raise issues — all from your phone.</p></div>
-    <div class="serve-card"><div class="icon">🤝</div><h4>Brokers</h4><p>List properties, earn commissions, and grow your client base.</p></div>
-    <div class="serve-card"><div class="icon">💼</div><h4>Property Owners</h4><p>Get full visibility into your portfolio performance and income.</p></div>
+    <div class="serve-card"><div class="icon">ðŸ˜ï¸</div><h4>Landlords</h4><p>Manage tenants, collect rent, and handle maintenance without the headaches.</p></div>
+    <div class="serve-card"><div class="icon">ðŸ”‘</div><h4>Tenants</h4><p>Find a home, pay rent, and raise issues â€” all from your phone.</p></div>
+    <div class="serve-card"><div class="icon">ðŸ¤</div><h4>Brokers</h4><p>List properties, earn commissions, and grow your client base.</p></div>
+    <div class="serve-card"><div class="icon">ðŸ’¼</div><h4>Property Owners</h4><p>Get full visibility into your portfolio performance and income.</p></div>
   </div>
 </section>
 <section class="cta z reveal">
@@ -197,18 +197,18 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   <div class="quick-container">
     <div class="quick-col"><h3>Home</h3><a href="index.html">Welcome</a><a href="works.php">How It Works</a></div>
     <div class="quick-col"><h3>Features</h3>
-      <a href="virtual.php">Virtual Property Tours</a><a href="visitor.php">Visitor/Guest Management</a>
-      <a href="applications.php">Online Tenant Applications</a><a href="reporting.php">Rent/Buy Reporting</a>
-      <a href="lease.php">Online Lease</a><a href="maintenance.php">Maintenance</a>
+      <a href="virtual.php">Virtual Property Tours</a><a href="Visitor.php">Visitor/Guest Management</a>
+      <a href="Applications.php">Online Tenant Applications</a><a href="Reporting.php">Rent/Buy Reporting</a>
+      <a href="Lease.php">Online Lease</a><a href="Maintenance.php">Maintenance</a>
       <a href="rent_collection.php">Rent Collection</a><a href="notifications.php">Smart Notification Center</a>
-      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="owner_portal.php">Owner Portal &amp; Reporting</a>
+      <a href="complaints.php">Complaints &amp; Feedback HUB</a><a href="Owner_portal.php">Owner Portal &amp; Reporting</a>
       <a href="policies.html">Policies</a>
     </div>
     <div class="quick-col"><h3>Use Cases</h3>
-      <a href="tenant.php">Tenants</a><a href="staff.php">Staff</a>
+      <a href="Tenant.php">Tenants</a><a href="staff.php">Staff</a>
       <a href="Visitor.php">Guests</a>
-      <a href="propertyowners.php">Property Owners</a>
-      <a href="broker.php">Brokers</a><a href="employment.php">Employment</a>
+      <a href="Propertyowners.php">Property Owners</a>
+      <a href="Broker.php">Brokers</a><a href="Employment.php">Employment</a>
     </div>
     <div class="quick-col"><h3>Properties</h3>
       <a href="properties.php">All Properties</a><a href="properties.php?type=Commercial">Commercial</a>

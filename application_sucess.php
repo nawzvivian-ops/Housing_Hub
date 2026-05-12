@@ -28,7 +28,7 @@ header{position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:9999;
 .logo-text{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
 .logo-slogan{font-size:12px;color:rgba(0,0,80,.7);font-style:italic;display:block;margin-top:3px}
  
-/* ── CENTER the content right below the header, no extra gap ── */
+/* â”€â”€ CENTER the content right below the header, no extra gap â”€â”€ */
 .wrap{
   position:relative;z-index:10;
   min-height:calc(100vh - var(--hh));
@@ -82,21 +82,21 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
  
 <div class="wrap">
   <div class="card">
-    <span class="emoji">🎉</span>
+    <span class="emoji">ðŸŽ‰</span>
     <h1>Application <em>Submitted!</em></h1>
     <p class="sub">Thank you, <strong style="color:var(--white)"><?= $name ?></strong>! Your application for <strong style="color:var(--gold)"><?= $position ?></strong> has been received.</p>
     <?php if ($email): ?>
-    <p class="email-note">📧 A confirmation email has been sent to <strong><?= $email ?></strong></p>
+    <p class="email-note">ðŸ“§ A confirmation email has been sent to <strong><?= $email ?></strong></p>
     <?php endif; ?>
  
     <div class="timeline">
       <div class="t-step done">
-        <div class="t-num">✓</div>
+        <div class="t-num">âœ“</div>
         <div><div class="t-title">Application Received</div><div class="t-desc">Your application is recorded in our system.</div></div>
       </div>
       <div class="t-step now">
         <div class="t-num">2</div>
-        <div><div class="t-title">Under Review</div><div class="t-desc">Our HR team will review your application within 3–5 business days.</div></div>
+        <div><div class="t-title">Under Review</div><div class="t-desc">Our HR team will review your application within 3â€“5 business days.</div></div>
       </div>
       <div class="t-step">
         <div class="t-num">3</div>
@@ -108,7 +108,7 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
       </div>
     </div>
  
-    <a href="employment.php" class="btn-gold">← Back to Careers</a>
+    <a href="Employment.php" class="btn-gold">â† Back to Careers</a>
   </div>
 </div>
  
