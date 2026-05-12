@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         // Redirect back to dashboard with success message
-        header("Location: tenants.php?msg=Message+sent+successfully");
+        header("Location: Tenant.php?msg=Message+sent+successfully");
         exit();
     } else {
         die("Error sending message: " . $conn->error);

@@ -9,4 +9,3 @@ vendor/* linguist-vendored
 node_modules/* linguist-vendored
 # Ignore database dumps from language statistics
 database/* linguist-detectable=false
-*.mp4 filter=lfs diff=lfs merge=lfs -text
