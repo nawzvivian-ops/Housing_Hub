@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Servers often prefer index.php over index.html for the bare domain.
+// Send plain site visits to the main public home page.
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+if ($requestPath === '/' || $requestPath === '') {
+    header("Location: index.html");
+    exit();
+}
+
 // If already logged in, redirect to dashboard
 if(isset($_SESSION['user_id'])){
     header("Location: dashboard.php");
