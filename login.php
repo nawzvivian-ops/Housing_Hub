@@ -210,7 +210,7 @@ function sendReset(e) {
     const msg   = document.getElementById('forgot-msg');
     btn.disabled = true; btn.textContent = 'Sending...';
     msg.innerHTML = '';
-    fetch('forgot_password.php', {
+    fetch('forgotpassword.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'email=' + encodeURIComponent(email)
@@ -244,7 +244,7 @@ function submitNewPw(e) {
     btn.disabled = true; btn.textContent = 'Updating...';
     msg.innerHTML = '';
  
-    fetch('reset_password.php', {
+    fetch('resetpassword.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'token=' + encodeURIComponent(token) + '&password=' + encodeURIComponent(newpw)

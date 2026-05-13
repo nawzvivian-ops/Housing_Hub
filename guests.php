@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "You have a visitor request from $fullname.";
 
         $notif_stmt = mysqli_prepare($conn, "
-            INSERT INTO notifications (tenant_id, title, message)
-            VALUES (?, ?, ?)
+            INSERT INTO notifications (user_id, tenant_id, title, message, status, date)
+            VALUES (0, ?, ?, ?, 'unread', NOW())
         ");
 
         mysqli_stmt_bind_param($notif_stmt, "iss",
@@ -75,7 +75,7 @@ $staff_result = mysqli_query($conn, "SELECT id FROM users WHERE role='staff'");
 $title = "New Visitor Request";
 $message = "$fullname submitted a visit request.";
 while($staff = mysqli_fetch_assoc($staff_result)){
-    $notif_stmt = mysqli_prepare($conn, "INSERT INTO notifications (staff_id, title, message) VALUES (?, ?, ?)");
+    $notif_stmt = mysqli_prepare($conn, "INSERT INTO notifications (user_id, tenant_id, title, message, status, date) VALUES (?, 0, ?, ?, 'unread', NOW())");
     mysqli_stmt_bind_param($notif_stmt, "iss", $staff['id'], $title, $message);
     mysqli_stmt_execute($notif_stmt);
 }

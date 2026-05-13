@@ -2,7 +2,7 @@
 session_start();
 include "db_connect.php";
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'broker') {
+if (!isset($_SESSION['user_id']) || strtolower(trim($_SESSION['role'] ?? '')) !== 'broker') {
     header("Location: index.php"); exit();
 }
 
@@ -14,6 +14,13 @@ $u_q = mysqli_prepare($conn, "SELECT * FROM users WHERE id=? LIMIT 1");
 mysqli_stmt_bind_param($u_q, "i", $user_id);
 mysqli_stmt_execute($u_q);
 $user     = mysqli_fetch_assoc(mysqli_stmt_get_result($u_q));
+if (!$user || strtolower(trim($user['role'] ?? '')) !== 'broker') {
+    header("Location: login.php"); exit();
+}
+if (strtolower(trim($user['status'] ?? 'active')) === 'suspended') {
+    $_SESSION['error'] = "Your broker account is suspended. Please contact HousingHub support.";
+    header("Location: login.php"); exit();
+}
 $fullname = htmlspecialchars($user['fullname'] ?? $user_name);
 $email    = htmlspecialchars($user['email']    ?? '');
 $phone    = htmlspecialchars($user['phone']    ?? 'Not set');

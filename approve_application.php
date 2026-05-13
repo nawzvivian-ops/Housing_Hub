@@ -38,13 +38,17 @@ $new_user_id = 0;
 if (!empty($email)) {
     // Check if user already exists
     $existing = mysqli_fetch_assoc(mysqli_query($conn,
-        "SELECT id FROM users WHERE email = '" . mysqli_real_escape_string($conn, $email) . "' LIMIT 1"));
+        "SELECT id, role FROM users WHERE email = '" . mysqli_real_escape_string($conn, $email) . "' LIMIT 1"));
  
     if ($existing) {
         // User exists — just update their role to staff
         $new_user_id = (int)$existing['id'];
+        if (strtolower(trim($existing['role'] ?? '')) === 'admin') {
+            $_SESSION['admin_error'] = "This application email belongs to an admin account and cannot be converted to staff.";
+            header("Location: admin_dashboard.php?page=jobs"); exit();
+        }
         mysqli_query($conn,
-            "UPDATE users SET role='staff', fullname='" . mysqli_real_escape_string($conn, $name) . "'
+            "UPDATE users SET role='staff', status='active', fullname='" . mysqli_real_escape_string($conn, $name) . "'
              WHERE id = $new_user_id");
         $account_action = "existing account updated to staff role";
     } else {
@@ -59,8 +63,8 @@ if (!empty($email)) {
         $safe_phone = mysqli_real_escape_string($conn, $phone);
  
         mysqli_query($conn,
-            "INSERT INTO users (fullname, email, phone, password, role, created_at)
-             VALUES ('$safe_name', '$safe_email', '$safe_phone', '$hashed', 'staff', NOW())");
+            "INSERT INTO users (fullname, email, phone, password, role, status, created_at)
+             VALUES ('$safe_name', '$safe_email', '$safe_phone', '$hashed', 'staff', 'active', NOW())");
         $new_user_id  = (int)mysqli_insert_id($conn);
         $account_action = "new staff account created";
     }

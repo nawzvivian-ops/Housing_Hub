@@ -153,12 +153,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $tenant_id    = (int)$_POST['tenant_id'];
     $link_user_id = (int)$_POST['link_user_id'];
     if ($tenant_id > 0 && $link_user_id > 0) {
+        $link_user = mysqli_fetch_assoc(mysqli_query($conn,"SELECT role FROM users WHERE id='$link_user_id' LIMIT 1"));
+        $link_role = strtolower(trim($link_user['role'] ?? ''));
         $check = mysqli_query($conn,"SELECT id FROM tenants WHERE user_id='$link_user_id' AND id!='$tenant_id' LIMIT 1");
-        if (mysqli_num_rows($check) > 0) {
+        if (!$link_user || in_array($link_role, ['admin','staff','broker','propertyowner','owner'])) {
+            $_SESSION['admin_error'] = "Only tenant or guest accounts can be linked to tenant records.";
+        } elseif (mysqli_num_rows($check) > 0) {
             $_SESSION['admin_error'] = "This user account is already linked to another tenant.";
         } else {
             mysqli_query($conn,"UPDATE tenants SET user_id='$link_user_id' WHERE id='$tenant_id'");
-            $_SESSION['admin_success'] = "Account linked successfully!";
+            mysqli_query($conn,"UPDATE users SET role='tenant', status='active' WHERE id='$link_user_id'");
+            $_SESSION['admin_success'] = "Account linked successfully and tenant dashboard access is active.";
         }
     }
     header("Location: admin_dashboard.php?page=tenants"); exit();
@@ -182,16 +187,22 @@ if (isset($_GET['auto_link'])) {
             $al_name  = mysqli_real_escape_string($conn, $al_tenant['fullname']);
             $al_phone = mysqli_real_escape_string($conn, $al_tenant['phone'] ?? '');
             // Check if email already exists
-            $al_exists = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id FROM users WHERE email='$al_email' LIMIT 1"));
+            $al_exists = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id, role FROM users WHERE email='$al_email' LIMIT 1"));
             if ($al_exists) {
                 // Just link to existing user
                 $al_uid = (int)$al_exists['id'];
-                mysqli_query($conn, "UPDATE tenants SET user_id=$al_uid WHERE id=$al_tid");
-                $_SESSION['admin_success'] = "Linked tenant <strong>" . htmlspecialchars($al_tenant['fullname']) . "</strong> to existing account.";
+                $al_role = strtolower(trim($al_exists['role'] ?? ''));
+                if (in_array($al_role, ['admin','staff','broker','propertyowner','owner'])) {
+                    $_SESSION['admin_error'] = "That email belongs to a " . htmlspecialchars($al_role) . " account. Use a tenant or guest email instead.";
+                } else {
+                    mysqli_query($conn, "UPDATE tenants SET user_id=$al_uid WHERE id=$al_tid");
+                    mysqli_query($conn, "UPDATE users SET role='tenant', status='active' WHERE id=$al_uid");
+                    $_SESSION['admin_success'] = "Linked tenant <strong>" . htmlspecialchars($al_tenant['fullname']) . "</strong> to existing account and activated tenant dashboard access.";
+                }
             } else {
                 // Create new user account
                 $al_pass = password_hash('housing123', PASSWORD_DEFAULT);
-                mysqli_query($conn, "INSERT INTO users (fullname, email, phone, password, role, created_at) VALUES ('$al_name','$al_email','$al_phone','$al_pass','tenant',NOW())");
+                mysqli_query($conn, "INSERT INTO users (fullname, email, phone, password, role, status, created_at) VALUES ('$al_name','$al_email','$al_phone','$al_pass','tenant','active',NOW())");
                 $al_uid = mysqli_insert_id($conn);
                 if ($al_uid > 0) {
                     mysqli_query($conn, "UPDATE tenants SET user_id=$al_uid WHERE id=$al_tid");
@@ -431,6 +442,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assign_property_broke
         $brow = mysqli_fetch_assoc(mysqli_query($conn,"SELECT fullname FROM users WHERE id=$b_id LIMIT 1"));
         $prow = mysqli_fetch_assoc(mysqli_query($conn,"SELECT property_name FROM properties WHERE id=$pr_id LIMIT 1"));
         mysqli_query($conn,"UPDATE properties SET broker_id=$b_id WHERE id=$pr_id");
+        mysqli_query($conn,"UPDATE users SET status='active' WHERE id=$b_id AND role='broker'");
         $pname_s = mysqli_real_escape_string($conn, $prow['property_name'] ?? '');
         mysqli_query($conn,"INSERT INTO notifications (user_id,tenant_id,title,message,status,date)
             VALUES ($b_id,0,'Property Assigned','The property $pname_s has been assigned to your broker account.','unread',NOW())");
@@ -1188,12 +1200,12 @@ endif;
   <?php endif; ?>
   <div style="text-align:center;margin-bottom:20px"><a href="add_tenant.php" class="action-btn" style="background:rgba(14,90,200,.4);border:1px solid rgba(14,90,200,.4)">+++ ADD NEW TENANT</a></div>
   <?php
-  // All tenant-role users not yet linked to any tenant record
+  // All non-admin users not yet linked to any tenant record. Linking promotes the chosen account to tenant.
   $linked_user_ids_q = mysqli_query($conn,"SELECT user_id FROM tenants WHERE user_id IS NOT NULL AND user_id > 0");
   $linked_ids = [];
   while($lid = mysqli_fetch_assoc($linked_user_ids_q)) $linked_ids[] = (int)$lid['user_id'];
   $excl = !empty($linked_ids) ? implode(',', $linked_ids) : '0';
-  $tenant_users = mysqli_query($conn,"SELECT id,fullname,email FROM users WHERE role='tenant' AND id NOT IN ($excl) ORDER BY fullname ASC");
+  $tenant_users = mysqli_query($conn,"SELECT id,fullname,email,role FROM users WHERE LOWER(role) IN ('tenant','guest','visitor','') AND id NOT IN ($excl) ORDER BY fullname ASC");
   $available_users = [];
   while($tu = mysqli_fetch_assoc($tenant_users)) $available_users[] = $tu;
   $tenants_q = mysqli_query($conn,"SELECT t.*,p.property_name,u.fullname AS linked_username,u.email AS linked_email FROM tenants t LEFT JOIN properties p ON t.property_id=p.id LEFT JOIN users u ON t.user_id=u.id ORDER BY t.created_at DESC");
@@ -1202,7 +1214,7 @@ endif;
   <div style="background:rgba(14,90,200,.06);border:1px solid rgba(14,90,200,.2);border-radius:10px;padding:14px 20px;margin-bottom:20px;font-size:13px;color:var(--muted);line-height:1.8">
     <strong style="color:#5b9cff">ℹ️ How Tenant Linking Works:</strong><br>
     Every tenant in this list needs a <strong style="color:var(--white)">login account</strong> to access their dashboard.<br>
-    <strong style="color:var(--white)">Option A:</strong> Go to <a href="add_user.php" style="color:var(--gold)">Add User</a>, create an account with role <em>tenant</em>, then come back here and link them from the dropdown.<br>
+    <strong style="color:var(--white)">Option A:</strong> Go to <a href="add_user.php" style="color:var(--gold)">Add User</a>, create an account with role <em>tenant</em>, or link an existing guest account from the dropdown. Linked guest accounts are promoted to tenant access automatically.<br>
     <strong style="color:var(--white)">Option B:</strong> Click <strong style="color:#86efac">⚡ Auto-Create &amp; Link</strong> below to instantly create a login account for that tenant using their email and a default password, then link them automatically.
   </div>
 

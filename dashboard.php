@@ -8,8 +8,15 @@ mysqli_report(MYSQLI_REPORT_OFF);
 if (!isset($_SESSION['user_id'])) { header("Location: login.php"); exit(); }
  
 // ── GATE 2: Must be tenant role ──
-if ($_SESSION['role'] !== 'tenant') {
-    header("Location: " . ($_SESSION['role'] === 'admin' ? 'admin_dashboard.php' : ($_SESSION['role'] === 'staff' ? 'staff_dashboard.php' : 'login.php')));
+if (strtolower(trim($_SESSION['role'] ?? '')) !== 'tenant') {
+    $session_role = strtolower(trim($_SESSION['role'] ?? ''));
+    $redirect = 'login.php';
+    if ($session_role === 'admin') $redirect = 'admin_dashboard.php';
+    elseif ($session_role === 'staff') $redirect = 'staff_dashboard.php';
+    elseif ($session_role === 'broker') $redirect = 'broker_dashboard.php';
+    elseif ($session_role === 'guest') $redirect = 'guests.php';
+    elseif ($session_role === 'propertyowner' || $session_role === 'owner') $redirect = 'propertyowner_dashboard.php';
+    header("Location: " . $redirect);
     exit();
 }
  

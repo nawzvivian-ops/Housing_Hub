@@ -9,9 +9,19 @@ if ($requestPath === '/' || $requestPath === '') {
     exit();
 }
 
-// If already logged in, redirect to dashboard
+function dashboard_for_role($role) {
+    $role = strtolower(trim((string)$role));
+    if ($role === 'admin') return 'admin_dashboard.php';
+    if ($role === 'staff') return 'staff_dashboard.php';
+    if ($role === 'broker') return 'broker_dashboard.php';
+    if ($role === 'guest') return 'guests.php';
+    if ($role === 'propertyowner' || $role === 'owner') return 'propertyowner_dashboard.php';
+    return 'dashboard.php';
+}
+
+// If already logged in, redirect to the dashboard for their role
 if(isset($_SESSION['user_id'])){
-    header("Location: dashboard.php");
+    header("Location: " . dashboard_for_role($_SESSION['role'] ?? 'tenant'));
     exit();
 }
 ?>
