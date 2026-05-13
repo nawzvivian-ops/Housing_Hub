@@ -30,7 +30,7 @@ $currentSearch= isset($_GET['search']) ? htmlspecialchars($_GET['search'])     :
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--ink:#04091a;--gold:#c8a43c;--gold-l:#e0c06a;--white:#fff;--muted:rgba(255,255,255,.45);--border:rgba(255,255,255,.07);--gb:rgba(200,164,60,.25)}
 
-/* â”€â”€ CURSOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── CURSOR ───────────────────────────────────────────────────── */
 #cur-dot,#cur-ring,#cur-trail,#cur-label{
   position:fixed;pointer-events:none;z-index:999999;
   top:0;left:0;
@@ -69,7 +69,7 @@ body.cur-click #cur-ring{width:30px;height:30px}
 @media(pointer:coarse){#cur-dot,#cur-ring,#cur-trail,#cur-label{display:none}body{cursor:auto}}
 @media(pointer:fine){body{cursor:none}}
 
-/* â”€â”€ BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── BASE ─────────────────────────────────────────────────────── */
 body{font-family:'Outfit',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;padding-top:106px}
 .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(ellipse 100% 60% at 80% 10%,rgba(14,90,200,.18),transparent 55%),
@@ -92,7 +92,7 @@ nav{position:relative!important;z-index:100000!important}
 .dd-menu{z-index:100002!important}
 @media(max-width:900px){body{padding-top:80px!important}}
 
-/* â”€â”€ HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── HEADER ───────────────────────────────────────────────────── */
 header{
   position:fixed;top:0;left:0;right:0;width:100%;
   z-index:99999;
@@ -121,7 +121,7 @@ nav>a:hover{opacity:.75}
 .dd-menu a:hover{color:var(--gold);background:rgba(200,164,60,.08)}
 .dd-divider{height:1px;background:var(--border);margin:5px 0}
 
-/* â”€â”€ LANDING PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── LANDING PAGE ─────────────────────────────────────────────── */
 .lp-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 60% at 75% 20%,rgba(14,90,200,.2),transparent 55%),radial-gradient(ellipse 50% 70% at 15% 90%,rgba(180,140,40,.13),transparent 50%),var(--ink);animation:atmo 14s ease-in-out infinite alternate}
 .lp-grid{position:fixed;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:72px 72px}
 .hero-section{min-height:100vh;display:flex;align-items:center;padding:60px 68px 80px;gap:60px;position:relative;z-index:10}
@@ -223,7 +223,7 @@ nav>a:hover{opacity:.75}
 .cta-s{background:transparent;color:var(--white);padding:18px 52px;border:1px solid rgba(255,255,255,.2);border-radius:3px;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
 .cta-s:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
 
-/* â”€â”€ BROWSE VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── BROWSE VIEW ──────────────────────────────────────────────── */
 .browse-wrap{position:relative;z-index:10;min-height:100vh}
 .browse-header{padding:60px 60px 40px;border-bottom:1px solid var(--border)}
 .browse-header-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
@@ -260,7 +260,7 @@ nav>a:hover{opacity:.75}
 .prop-card-body{padding:20px 28px 0;flex:1}
 .prop-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.2}
 .prop-address{font-size:13px;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:6px}
-.prop-address::before{content:'ðŸ“';font-size:12px}
+.prop-address::before{content:'📍';font-size:12px}
 .prop-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
 .prop-meta-item{background:rgba(255,255,255,.025);border-radius:6px;padding:10px 14px}
 .prop-meta-label{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
@@ -303,7 +303,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
-/* â”€â”€ AGREEMENT MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── AGREEMENT MODAL ──────────────────────────────────────────── */
 #agreementModal{
   display:none; /* JS will set to flex */
   position:fixed;inset:0;
@@ -329,7 +329,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 .modal-decline{padding:11px 24px;background:#dc2626;color:#fff;border:none;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:background .2s}
 .modal-decline:hover{background:#b91c1c}
 
-/* â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── RESPONSIVE ───────────────────────────────────────────────── */
 @media(max-width:900px){
   body{padding-top:80px}
   header{padding:14px 20px}
@@ -354,7 +354,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 </head>
 <body>
 
-<!-- â”€â”€ CURSOR ELEMENTS â”€â”€ -->
+<!-- ── CURSOR ELEMENTS ── -->
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
 <div id="cur-trail"></div>
@@ -363,7 +363,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <div class="page-bg"></div>
 <div class="page-grid"></div>
 
-<!-- â”€â”€ HEADER â”€â”€ -->
+<!-- ── HEADER ── -->
 <header class="z">
   <div class="header-logo">
     <img src="image/hub.jpg" alt="Logo" class="logo-circle">
@@ -375,16 +375,16 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   <nav>
     <a href="properties.php#features-section">Features</a>
     <div class="dropdown">
-      <button class="dd-btn">Properties â–¾</button>
+      <button class="dd-btn">Properties &#9660;</button>
       <div class="dd-menu">
         <a href="properties.php?browse=1">All Properties</a>
         <div class="dd-divider"></div>
-        <a href="properties.php?type=Commercial">ðŸ¢ Commercial</a>
-        <a href="properties.php?type=Residential">ðŸ  Residential</a>
-        <a href="properties.php?type=Industrial">ðŸ­ Industrial</a>
-        <a href="properties.php?type=Agricultural">ðŸŒ¾ Agricultural</a>
-        <a href="properties.php?type=Special+Purpose">ðŸ›ï¸ Special Purpose</a>
-        <a href="properties.php?type=Land">ðŸ—ºï¸ Land</a>
+        <a href="properties.php?type=Commercial">🏢 Commercial</a>
+        <a href="properties.php?type=Residential">🏠 Residential</a>
+        <a href="properties.php?type=Industrial">🏭 Industrial</a>
+        <a href="properties.php?type=Agricultural">🌾 Agricultural</a>
+        <a href="properties.php?type=Special+Purpose">🏛️ Special Purpose</a>
+        <a href="properties.php?type=Land">🗺️ Land</a>
       </div>
     </div>
     <a href="properties.php#how">How It Works</a>
@@ -393,7 +393,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 </header>
 
 <?php if($showLanding): ?>
-<!-- â•â•â• LANDING PAGE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ═══ LANDING PAGE ══════════════════════════════════════════ -->
 <div class="lp-bg"></div>
 <div class="lp-grid"></div>
 
@@ -403,7 +403,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h1 class="lp-h1">Find Your<br><em>Perfect</em><br><em>Space</em></h1>
     <p class="lp-sub">From Kampala offices to to any place of choice, HousingHub connects you to the best commercial, residential, industrial, and agricultural properties across Uganda. Rent, buy, or lease with total confidence.</p>
     <form class="lp-search" action="properties.php" method="GET">
-      <input type="text" name="search" placeholder="Search by name, address, typeâ€¦">
+      <input type="text" name="search" placeholder="Search by name, address, type...">
       <div class="lp-sdiv"></div>
       <select name="type">
         <option value="">All Types</option>
@@ -414,7 +414,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <option value="Special Purpose">Special Purpose</option>
         <option value="Land">Land</option>
       </select>
-      <button type="submit" class="lp-sbtn">Search â†’</button>
+      <button type="submit" class="lp-sbtn">Search →</button>
     </form>
     <div class="lp-stats">
       <div><div class="lp-sn" id="sn1">0</div><div class="lp-sl">Properties</div></div>
@@ -431,7 +431,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <div class="marquee-section z">
   <div class="marquee-track">
     <?php
-    $items = ['Commercial Properties','Residential Homes','Industrial Spaces','Agricultural Land','Special Purpose Buildings','Open Land Plots','Rent Â· Buy Â· Lease','Verified Listings','Transparent Pricing'];
+    $items = ['Commercial Properties','Residential Homes','Industrial Spaces','Agricultural Land','Special Purpose Buildings','Open Land Plots','Rent &middot; Buy &middot; Lease','Verified Listings','Transparent Pricing'];
     for($r=0;$r<2;$r++) foreach($items as $item) echo '<div class="marquee-item"><span class="marquee-dot"></span>'.$item.'</div>';
     ?>
   </div>
@@ -443,23 +443,23 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
     <h2 class="sec-title">Built for Uganda's<br><em>Property Market</em></h2>
   </div>
   <div class="features-grid reveal">
-    <div class="feat-card"><div class="feat-num">01</div><span class="feat-icon">âœ…</span><div class="feat-title">Verified Listings</div><div class="feat-desc">Every property on HousingHub is reviewed before going live. You browse real, available properties, no ghosts, no scams.</div></div>
-    <div class="feat-card"><div class="feat-num">02</div><span class="feat-icon">ðŸ’Ž</span><div class="feat-title">Transparent Pricing</div><div class="feat-desc">Rent amounts, sale prices and lease terms are displayed upfront in UGX. No hidden fees, no nasty surprises at signing.</div></div>
-    <div class="feat-card"><div class="feat-num">03</div><span class="feat-icon">ðŸ·ï¸</span><div class="feat-title">Full Amenity Details</div><div class="feat-desc">See every included amenity; parking, generator, water, security with cost type clearly marked before you commit.</div></div>
-    <div class="feat-card"><div class="feat-num">04</div><span class="feat-icon">âš¡</span><div class="feat-title">Instant Transactions</div><div class="feat-desc">Rent, buy or lease directly through the platform. Our seamless payment flow gets you from browsing to secured in minutes.</div></div>
-    <div class="feat-card"><div class="feat-num">05</div><span class="feat-icon">ðŸ”</span><div class="feat-title">Smart Search &amp; Filter</div><div class="feat-desc">Find exactly what you need filter by type, search by name or address, and browse by purpose: rent, buy, or lease.</div></div>
-    <div class="feat-card"><div class="feat-num">06</div><span class="feat-icon">ðŸ‡ºðŸ‡¬</span><div class="feat-title">Uganda-Focused</div><div class="feat-desc">Prices in UGX, locations you know, property types that match the local market. Built specifically for Ugandan real estate.</div></div>
+    <div class="feat-card"><div class="feat-num">01</div><span class="feat-icon">✅</span><div class="feat-title">Verified Listings</div><div class="feat-desc">Every property on HousingHub is reviewed before going live. You browse real, available properties, no ghosts, no scams.</div></div>
+    <div class="feat-card"><div class="feat-num">02</div><span class="feat-icon">💎</span><div class="feat-title">Transparent Pricing</div><div class="feat-desc">Rent amounts, sale prices and lease terms are displayed upfront in UGX. No hidden fees, no nasty surprises at signing.</div></div>
+    <div class="feat-card"><div class="feat-num">03</div><span class="feat-icon">🏷️</span><div class="feat-title">Full Amenity Details</div><div class="feat-desc">See every included amenity; parking, generator, water, security with cost type clearly marked before you commit.</div></div>
+    <div class="feat-card"><div class="feat-num">04</div><span class="feat-icon">⚡</span><div class="feat-title">Instant Transactions</div><div class="feat-desc">Rent, buy or lease directly through the platform. Our seamless payment flow gets you from browsing to secured in minutes.</div></div>
+    <div class="feat-card"><div class="feat-num">05</div><span class="feat-icon">🔍</span><div class="feat-title">Smart Search &amp; Filter</div><div class="feat-desc">Find exactly what you need filter by type, search by name or address, and browse by purpose: rent, buy, or lease.</div></div>
+    <div class="feat-card"><div class="feat-num">06</div><span class="feat-icon">🇺🇬</span><div class="feat-title">Uganda-Focused</div><div class="feat-desc">Prices in UGX, locations you know, property types that match the local market. Built specifically for Ugandan real estate.</div></div>
   </div>
 </section>
 
 <section class="showcase-section z" id="showcase">
   <div class="reveal"><div class="sec-label">Property Types</div><h2 class="sec-title">Spaces <em>You Could Need</em></h2></div>
   <div class="showcase-grid reveal">
-    <a href="properties.php?type=Commercial" class="showcase-card big" data-label="Browse"><span class="sc-emoji">ðŸ¢</span><div class="sc-type">Commercial</div><div class="sc-title">Offices, Shops &amp; Business Premises</div><div class="sc-desc">Prime commercial spaces in Kampala and beyond. Whether opening a shop, setting up a head office, or expanding your business â€” we have the space.</div><span class="sc-tag">Available for Rent Â· Buy Â· Lease</span><div class="sc-link">Explore Commercial â†’</div></a>
-    <a href="properties.php?type=Residential" class="showcase-card" data-label="Browse"><span class="sc-emoji">ðŸ¢</span><div class="sc-type">Residential</div><div class="sc-title">Homes &amp; Apartments</div><div class="sc-desc">Comfortable, secure homes for families and individuals across Uganda.</div><div class="sc-link">Explore â†’</div></a>
-    <a href="properties.php?type=Land" class="showcase-card" data-label="Browse"><span class="sc-emoji">ðŸ—ºï¸</span><div class="sc-type">Land</div><div class="sc-title">Open Plots &amp; Development Land</div><div class="sc-desc">Raw land and titled plots ready for development or investment.</div><div class="sc-link">Explore â†’</div></a>
-    <a href="properties.php?type=Industrial" class="showcase-card" data-label="Browse"><span class="sc-emoji">ðŸ­</span><div class="sc-type">Industrial</div><div class="sc-title">Warehouses &amp; Factories</div><div class="sc-desc">Large-scale industrial facilities built for heavy operations.</div><div class="sc-link">Explore â†’</div></a>
-    <a href="properties.php?type=Agricultural" class="showcase-card" data-label="Browse"><span class="sc-emoji">ðŸŒ¾</span><div class="sc-type">Agricultural</div><div class="sc-title">Farmland &amp; Plantations</div><div class="sc-desc">Fertile land across Uganda's most productive regions.</div><div class="sc-link">Explore â†’</div></a>
+    <a href="properties.php?type=Commercial" class="showcase-card big" data-label="Browse"><span class="sc-emoji">🏢</span><div class="sc-type">Commercial</div><div class="sc-title">Offices, Shops &amp; Business Premises</div><div class="sc-desc">Prime commercial spaces in Kampala and beyond. Whether opening a shop, setting up a head office, or expanding your business — we have the space.</div><span class="sc-tag">Available for Rent &middot; Buy &middot; Lease</span><div class="sc-link">Explore Commercial →</div></a>
+    <a href="properties.php?type=Residential" class="showcase-card" data-label="Browse"><span class="sc-emoji">🏢</span><div class="sc-type">Residential</div><div class="sc-title">Homes &amp; Apartments</div><div class="sc-desc">Comfortable, secure homes for families and individuals across Uganda.</div><div class="sc-link">Explore →</div></a>
+    <a href="properties.php?type=Land" class="showcase-card" data-label="Browse"><span class="sc-emoji">🗺️</span><div class="sc-type">Land</div><div class="sc-title">Open Plots &amp; Development Land</div><div class="sc-desc">Raw land and titled plots ready for development or investment.</div><div class="sc-link">Explore →</div></a>
+    <a href="properties.php?type=Industrial" class="showcase-card" data-label="Browse"><span class="sc-emoji">🏭</span><div class="sc-type">Industrial</div><div class="sc-title">Warehouses &amp; Factories</div><div class="sc-desc">Large-scale industrial facilities built for heavy operations.</div><div class="sc-link">Explore →</div></a>
+    <a href="properties.php?type=Agricultural" class="showcase-card" data-label="Browse"><span class="sc-emoji">🌾</span><div class="sc-type">Agricultural</div><div class="sc-title">Farmland &amp; Plantations</div><div class="sc-desc">Fertile land across Uganda's most productive regions.</div><div class="sc-link">Explore →</div></a>
   </div>
 </section>
 
@@ -476,9 +476,9 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <section class="testi-section z">
   <div class="reveal"><div class="sec-label">What People Say</div><h2 class="sec-title">Real <em>Feedback</em></h2></div>
   <div class="testi-grid reveal">
-    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">I found and secured my office space in Kampala within two days. The listings are real and the pricing was exactly as shown.</div><div class="testi-author"><div class="testi-avatar">ðŸ‘¨ðŸ¾â€ðŸ’¼</div><div><div class="testi-name">David Okullo</div><div class="testi-role">Business Owner Â· Kampala</div><div class="testi-stars">â˜…â˜…â˜…â˜…â˜…</div></div></div></div>
-    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">Finally a property platform that shows amenities upfront. I knew exactly what I was getting before I even contacted anyone.</div><div class="testi-author"><div class="testi-avatar">ðŸ‘©ðŸ¾â€ðŸ«</div><div><div class="testi-name">Grace Namukasa</div><div class="testi-role">Teacher Â· Entebbe</div><div class="testi-stars">â˜…â˜…â˜…â˜…â˜…</div></div></div></div>
-    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">The industrial listings are detailed and verified. We leased our warehouse through HousingHub and the whole process was seamless.</div><div class="testi-author"><div class="testi-avatar">ðŸ‘¨ðŸ¾â€ðŸ­</div><div><div class="testi-name">Robert Tumwebaze</div><div class="testi-role">Operations Manager Â· Jinja</div><div class="testi-stars">â˜…â˜…â˜…â˜…â˜…</div></div></div></div>
+    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">I found and secured my office space in Kampala within two days. The listings are real and the pricing was exactly as shown.</div><div class="testi-author"><div class="testi-avatar">👨🏾‍💼</div><div><div class="testi-name">David Okullo</div><div class="testi-role">Business Owner - Kampala</div><div class="testi-stars">★★★★★</div></div></div></div>
+    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">Finally a property platform that shows amenities upfront. I knew exactly what I was getting before I even contacted anyone.</div><div class="testi-author"><div class="testi-avatar">👩🏾‍🏫</div><div><div class="testi-name">Grace Namukasa</div><div class="testi-role">Teacher - Entebbe</div><div class="testi-stars">★★★★★</div></div></div></div>
+    <div class="testi-card"><div class="testi-qm">"</div><div class="testi-text">The industrial listings are detailed and verified. We leased our warehouse through HousingHub and the whole process was seamless.</div><div class="testi-author"><div class="testi-avatar">👨🏾‍🏭</div><div><div class="testi-name">Robert Tumwebaze</div><div class="testi-role">Operations Manager - Jinja</div><div class="testi-stars">★★★★★</div></div></div></div>
   </div>
 </section>
 
@@ -494,7 +494,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 <footer>&copy; 2026 HousingHub | All Rights Reserved</footer>
 
 <?php else: ?>
-<!-- â•â•â• BROWSE / FILTER VIEW â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ═══ BROWSE / FILTER VIEW ══════════════════════════════════ -->
 <div class="browse-wrap z">
   <div class="browse-header">
     <div class="browse-header-inner">
@@ -512,27 +512,27 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <p class="browse-count">
           <strong><?= mysqli_num_rows($properties) ?></strong>
           <?= mysqli_num_rows($properties) === 1 ? 'property' : 'properties' ?> found
-          <?php if($currentType): ?>Â· filtered by <strong><?= htmlspecialchars($currentType) ?></strong><?php endif; ?>
+          <?php if($currentType): ?> filtered by <strong><?= htmlspecialchars($currentType) ?></strong><?php endif; ?>
         </p>
       </div>
-      <a href="properties.php" style="font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color .3s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">â† Back to Landing</a>
+      <a href="properties.php" style="font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color .3s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">← Back to Landing</a>
     </div>
   </div>
 
   <div class="browse-controls">
     <form class="browse-search-box" method="GET" action="properties.php">
       <?php if($currentType): ?><input type="hidden" name="type" value="<?= htmlspecialchars($currentType) ?>"><?php endif; ?>
-      <input type="text" name="search" placeholder="Search by name, address, or typeâ€¦" value="<?= $currentSearch ?>">
+      <input type="text" name="search" placeholder="Search by name, address, or type..." value="<?= $currentSearch ?>">
       <button type="submit">Search</button>
     </form>
     <div class="type-filters">
       <a href="properties.php?browse=1<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= !$currentType?'active':'' ?>">All</a>
-      <a href="properties.php?type=Commercial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Commercial'?'active':'' ?>"><span class="type-pill-icon">ðŸ¢</span>Commercial</a>
-      <a href="properties.php?type=Residential<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Residential'?'active':'' ?>"><span class="type-pill-icon">ðŸ¢</span>Residential</a>
-      <a href="properties.php?type=Industrial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Industrial'?'active':'' ?>"><span class="type-pill-icon">ðŸ­</span>Industrial</a>
-      <a href="properties.php?type=Agricultural<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Agricultural'?'active':'' ?>"><span class="type-pill-icon">ðŸŒ¾</span>Agricultural</a>
-      <a href="properties.php?type=Special+Purpose<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Special Purpose'?'active':'' ?>"><span class="type-pill-icon">ðŸ›ï¸</span>Special Purpose</a>
-      <a href="properties.php?type=Land<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Land'?'active':'' ?>"><span class="type-pill-icon">ðŸ—ºï¸</span>Land</a>
+      <a href="properties.php?type=Commercial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Commercial'?'active':'' ?>"><span class="type-pill-icon">🏢</span>Commercial</a>
+      <a href="properties.php?type=Residential<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Residential'?'active':'' ?>"><span class="type-pill-icon">🏢</span>Residential</a>
+      <a href="properties.php?type=Industrial<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Industrial'?'active':'' ?>"><span class="type-pill-icon">🏭</span>Industrial</a>
+      <a href="properties.php?type=Agricultural<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Agricultural'?'active':'' ?>"><span class="type-pill-icon">🌾</span>Agricultural</a>
+      <a href="properties.php?type=Special+Purpose<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Special Purpose'?'active':'' ?>"><span class="type-pill-icon">🏛️</span>Special Purpose</a>
+      <a href="properties.php?type=Land<?= $currentSearch?'&search='.urlencode($currentSearch):'' ?>" class="type-pill <?= $currentType==='Land'?'active':'' ?>"><span class="type-pill-icon">🗺️</span>Land</a>
     </div>
   </div>
 
@@ -599,7 +599,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <?php endwhile; ?>
       <?php else: ?>
         <div class="empty-state">
-          <div class="empty-icon">ðŸ </div>
+          <div class="empty-icon">🏠</div>
           <h3>No Properties Found</h3>
           <p>Try a different search term or browse all available properties.</p>
           <a href="properties.php?browse=1">Browse All Properties</a>
@@ -669,7 +669,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 </div>
 <?php endif; ?>
 
-<!-- â•â•â• AGREEMENT MODAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ═══ AGREEMENT MODAL ═══════════════════════════════════════ -->
 <div id="agreementModal">
   <div class="modal-box">
     <h3>Terms and Conditions</h3>
@@ -691,7 +691,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 </div>
 
 <script>
-/* â”€â”€ CURSOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── CURSOR ────────────────────────────────────────────────── */
 (function(){
   const dot   = document.getElementById('cur-dot');
   const ring  = document.getElementById('cur-ring');
@@ -742,7 +742,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
 })();
 
-/* â”€â”€ DROPDOWN NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── DROPDOWN NAV ──────────────────────────────────────────── */
 function closeAllMenus(){
   document.querySelectorAll('.dd-menu.open').forEach(m => m.classList.remove('open'));
   document.querySelectorAll('.dd-btn.open').forEach(b => b.classList.remove('open'));
@@ -762,13 +762,13 @@ document.querySelectorAll('.dropdown').forEach(dd => {
 document.addEventListener('click', closeAllMenus);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeAllMenus(); });
 
-/* â”€â”€ SCROLL REVEAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── SCROLL REVEAL ─────────────────────────────────────────── */
 const ro = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); } });
 }, { threshold: .12 });
 document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-/* â”€â”€ COUNTER ANIMATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── COUNTER ANIMATION ─────────────────────────────────────── */
 function count(id, target, suffix){
   const el = document.getElementById(id);
   if(!el) return;
@@ -782,7 +782,7 @@ function count(id, target, suffix){
 }
 setTimeout(() => { count('sn1',500,'+'); count('sn2',6,''); count('sn3',40,'+'); count('sn4',1200,'+'); }, 800);
 
-/* â”€â”€ PARTICLES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── PARTICLES ─────────────────────────────────────────────── */
 for(let i=0;i<16;i++){
   const p = document.createElement('div');
   p.classList.add('ptcl');
@@ -791,7 +791,7 @@ for(let i=0;i<16;i++){
   document.body.appendChild(p);
 }
 
-/* â”€â”€ AGREEMENT MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── AGREEMENT MODAL ───────────────────────────────────────── */
 const modal    = document.getElementById('agreementModal');
 const agreeBtn = document.getElementById('agreeBtn');
 const noBtn    = document.getElementById('notAgreeBtn');

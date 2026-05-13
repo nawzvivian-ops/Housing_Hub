@@ -24,7 +24,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 .z{position:relative;z-index:10}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;

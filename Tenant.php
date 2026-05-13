@@ -95,7 +95,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .testi-name{font-size:13px;font-weight:600;color:var(--white)}
 .testi-role{font-size:11px;color:var(--muted)}
  
-/* STATS STRIP â€” count-up numbers */
+/* STATS STRIP — count-up numbers */
 .stats-strip{background:rgba(200,164,60,.05);border:1px solid var(--border);border-radius:14px;padding:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
 .stat-num{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:700;color:var(--gold);transition:color .3s;cursor:default;user-select:none}
 .stat-num.counting{color:var(--gold-l)}
@@ -280,7 +280,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
 </section>
  
-<!-- STATS STRIP â€” count-up on scroll -->
+<!-- STATS STRIP — count-up on scroll -->
 <section class="z reveal" id="stats-section">
   <div class="stats-strip">
     <div>
@@ -347,7 +347,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
 <footer class="z">&copy; 2026 HousingHub | All Rights Reserved</footer>
  
 <script>
-/* â”€â”€ DROPDOWN MENUS â”€â”€ */
+/* ── DROPDOWN MENUS ── */
 function closeAllMenus(){document.querySelectorAll('.dd-menu.open').forEach(m=>m.classList.remove('open'));document.querySelectorAll('.dd-btn.open').forEach(b=>b.classList.remove('open'))}
 document.querySelectorAll('.dropdown').forEach(dd=>{
   const btn=dd.querySelector('.dd-btn'),menu=dd.querySelector('.dd-menu');
@@ -359,7 +359,7 @@ document.querySelectorAll('.dropdown').forEach(dd=>{
 document.addEventListener('click',closeAllMenus);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllMenus()});
  
-/* â”€â”€ CURSOR â”€â”€ */
+/* ── CURSOR ── */
 const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'),trail=document.getElementById('cur-trail');
 let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
@@ -371,14 +371,14 @@ document.querySelectorAll('a,button,.feat-card,.testi-card,.step-card').forEach(
 document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
  
-/* â”€â”€ PARTICLES â”€â”€ */
+/* ── PARTICLES ── */
 for(let i=0;i<18;i++){const p=document.createElement('div');p.classList.add('ptcl');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:rgba(200,164,60,${(Math.random()*.5+.15).toFixed(2)});animation-duration:${Math.random()*22+10}s;animation-delay:${Math.random()*18}s;`;document.body.appendChild(p)}
  
-/* â”€â”€ REVEAL ON SCROLL â”€â”€ */
+/* ── REVEAL ON SCROLL ── */
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
  
-/* â”€â”€ COUNT-UP ANIMATION â”€â”€ */
+/* ── COUNT-UP ANIMATION ── */
 function countUp(el) {
   const target   = parseInt(el.dataset.count, 10);
   const suffix   = el.dataset.suffix || '';
@@ -432,7 +432,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
   el.addEventListener('click', () => countUp(el));
 });
  
-/* â”€â”€ FAQ â”€â”€ */
+/* ── FAQ ── */
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
     const item=q.parentElement;

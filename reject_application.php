@@ -43,9 +43,9 @@ if (!empty($to)) {
     $body .= "moving forward with your application at this time. This was a difficult\n";
     $body .= "decision as we received many strong applications.\n\n";
     $body .= "We encourage you to:\n";
-    $body .= "  • Apply for other open positions at HousingHub in the future\n";
-    $body .= "  • Visit our careers page regularly for new opportunities\n";
-    $body .= "  • Contact us at careers@housinghuborg.ug\n\n";
+    $body .= "  - Apply for other open positions at HousingHub in the future\n";
+    $body .= "  - Visit our careers page regularly for new opportunities\n";
+    $body .= "  - Contact us at careers@housinghuborg.ug\n\n";
     $body .= "We wish you the very best in your job search.\n\n";
     $body .= "Kind regards,\n";
     $body .= "HousingHub HR Team\n";

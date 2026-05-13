@@ -274,7 +274,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="calc-result">
         <div class="calc-result-lbl">Estimated Monthly Earnings</div>
         <div class="calc-result-val" id="calc-result">UGX 32,000,000</div>
-        <div class="calc-result-sub">Based on <span id="calc-breakdown">4 deals Ã— UGX 80M Ã— 5%</span></div>
+        <div class="calc-result-sub">Based on <span id="calc-breakdown">4 deals × UGX 80M × 5%</span></div>
       </div>
     </div>
   </div>
@@ -335,19 +335,19 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
       <thead>
         <tr>
           <th>Feature</th>
-          <th>âœ¦ With HousingHub</th>
+          <th>✦ With HousingHub</th>
           <th>Without HousingHub</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Access to verified listings</td><td><span class="chk">âœ“ 500+ properties</span></td><td><span class="crs">âœ— Source yourself</span></td></tr>
-        <tr><td>Client lead generation</td><td><span class="chk">âœ“ Platform sends verified leads</span></td><td><span class="crs">âœ— Cold calls &amp; word of mouth</span></td></tr>
-        <tr><td>Commission tracking</td><td><span class="chk">âœ“ Automated, real-time</span></td><td><span class="crs">âœ— Manual spreadsheets</span></td></tr>
-        <tr><td>Commission payment</td><td><span class="chk">âœ“ Auto-processed on deal close</span></td><td><span class="crs">âœ— Wait and chase landlords</span></td></tr>
-        <tr><td>Virtual property tours</td><td><span class="chk">âœ“ Built-in 360Â° tours</span></td><td><span class="crs">âœ— Physical visits only</span></td></tr>
-        <tr><td>Digital lease &amp; applications</td><td><span class="chk">âœ“ Fully online</span></td><td><span class="crs">âœ— Paper-based process</span></td></tr>
-        <tr><td>Marketing materials</td><td><span class="chk">âœ“ Provided by HousingHub</span></td><td><span class="crs">âœ— Create and fund yourself</span></td></tr>
-        <tr><td>Dispute resolution</td><td><span class="chk">âœ“ HousingHub mediates</span></td><td><span class="crs">âœ— You're on your own</span></td></tr>
+        <tr><td>Access to verified listings</td><td><span class="chk">✓ 500+ properties</span></td><td><span class="crs">✕ Source yourself</span></td></tr>
+        <tr><td>Client lead generation</td><td><span class="chk">✓ Platform sends verified leads</span></td><td><span class="crs">× Cold calls &amp; word of mouth</span></td></tr>
+        <tr><td>Commission tracking</td><td><span class="chk">✓ Automated, real-time</span></td><td><span class="crs">✕ Manual spreadsheets</span></td></tr>
+        <tr><td>Commission payment</td><td><span class="chk">✓ Auto-processed on deal close</span></td><td><span class="crs">✕ Wait and chase landlords</span></td></tr>
+        <tr><td>Virtual property tours</td><td><span class="chk">✓ Built-in 360° tours</span></td><td><span class="crs">✕ Physical visits only</span></td></tr>
+        <tr><td>Digital lease &amp; applications</td><td><span class="chk">✓ Fully online</span></td><td><span class="crs">✕ Paper-based process</span></td></tr>
+        <tr><td>Marketing materials</td><td><span class="chk">✓ Provided by HousingHub</span></td><td><span class="crs">✕ Create and fund yourself</span></td></tr>
+        <tr><td>Dispute resolution</td><td><span class="chk">✓ HousingHub mediates</span></td><td><span class="crs">✕ You're on your own</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -360,7 +360,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="faq-list">
     <div class="faq-item"><div class="faq-q">Is it free to join HousingHub as a broker?</div><div class="faq-a">Yes, creating a broker account is completely free. HousingHub earns only when you earn: we take a small platform fee from each successful commission, so our interests are always aligned with yours.</div></div>
     <div class="faq-item"><div class="faq-q">What is the commission rate for brokers?</div><div class="faq-a">Commission rates start at 8% for new brokers and increase based on your deal volume and performance tier. Top-tier brokers earn up to 20% per deal. Rates are agreed upfront with each property owner.</div></div>
-    <div class="faq-item"><div class="faq-q">How quickly do I get paid after a deal closes?</div><div class="faq-a">Once a lease is signed and the first payment is received, your commission is released within 3â€“5 business days directly to your registered mobile money or bank account.</div></div>
+    <div class="faq-item"><div class="faq-q">How quickly do I get paid after a deal closes?</div><div class="faq-a">Once a lease is signed and the first payment is received, your commission is released within 3–5 business days directly to your registered mobile money or bank account.</div></div>
     <div class="faq-item"><div class="faq-q">Do I need to be a licensed real estate agent?</div><div class="faq-a">You do not need a formal license to sign up. However, brokers with professional credentials get a verified badge on their profile, which increases client trust and deal volume.</div></div>
     <div class="faq-item"><div class="faq-q">What areas does HousingHub currently cover?</div><div class="faq-a">We currently operate in Kampala, Jinja, and Mukono, with Entebbe, Wakiso, and Mbarara coming soon. Brokers operating in or near these areas will benefit most from the platform right now.</div></div>
     <div class="faq-item"><div class="faq-q">Can I bring my own property listings to the platform?</div><div class="faq-a">Yes. If you have existing relationships with property owners, you can recommend them to list on HousingHub. Once verified, those properties appear in your portfolio and you get first-match priority on client leads.</div></div>
@@ -459,7 +459,7 @@ function calcCommission(){
   document.getElementById('rate-val').textContent=rate+'%';
   var total=deals*(val*1000000)*(rate/100);
   document.getElementById('calc-result').textContent='UGX '+total.toLocaleString();
-  document.getElementById('calc-breakdown').textContent=deals+' deals Ã— UGX '+val+'M Ã— '+rate+'%';
+  document.getElementById('calc-breakdown').textContent=deals+' deals × UGX '+val+'M × '+rate+'%';
 }
 calcCommission();
 

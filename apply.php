@@ -13,7 +13,7 @@ $job = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM jobs WHERE id='$job
 if (!$job) {
     $job = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM jobs WHERE slug='$job_ref' LIMIT 1"));
 }
-if (!$job) { die("Job not found. <a href='Employment.php' style='color:#c8a43c;font-family:sans-serif'>â† Back to Careers</a>"); }
+if (!$job) { die("Job not found. <a href='Employment.php' style='color:#c8a43c;font-family:sans-serif'>← Back to Careers</a>"); }
  
 $message = "";
 $success = false;
@@ -36,7 +36,7 @@ if (isset($_POST['apply']) && $job['status'] === 'open') {
          VALUES ('$full_name','$email','$phone','$position_title','$resumeName','pending',NOW())");
  
     if ($insert) {
-        $subj  = "Application Received â€” " . $job['title'] . " | HousingHub";
+        $subj  = "Application Received — " . $job['title'] . " | HousingHub";
         $body  = "Dear " . $_POST['full_name'] . ",\n\n"
                . "Thank you for applying for " . $job['title'] . " at HousingHub.\n\n"
                . "We have received your application and will review it carefully.\n"
@@ -61,7 +61,7 @@ if (isset($_POST['apply']) && $job['status'] === 'open') {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply â€” <?= htmlspecialchars($job['title']) ?> | HousingHub</title>
+<title>Apply — <?= htmlspecialchars($job['title']) ?> | HousingHub</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -90,7 +90,7 @@ nav>a:hover{opacity:.75}
 .apply-card{width:100%;max-width:680px}
 .back-link{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:20px;transition:color .3s}
 .back-link:hover{color:var(--gold)}
-.back-link::before{content:"â†";font-size:15px}
+.back-link::before{content:"←";font-size:15px}
 .eyebrow{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .eyebrow::before{content:"";width:24px;height:1px;background:var(--gold)}
 .job-title{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:14px}
@@ -176,16 +176,16 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
     <div class="eyebrow">Career Opportunity</div>
     <h1 class="job-title">Apply for <em><?= htmlspecialchars($job['title']) ?></em></h1>
     <div class="job-tags">
-      <span class="job-tag loc">ðŸ“ <?= htmlspecialchars($job['location'] ?? 'Uganda') ?></span>
+      <span class="job-tag loc">📍 <?= htmlspecialchars($job['location'] ?? 'Uganda') ?></span>
       <span class="job-tag"><?= htmlspecialchars($job['type'] ?? 'Full Time') ?></span>
-      <span class="job-tag"><?= ($job['status']==='open') ? 'ðŸŸ¢ Open' : 'ðŸ”´ Filled' ?></span>
+      <span class="job-tag"><?= ($job['status']==='open') ? '🟢 Open' : '🔴 Filled' ?></span>
     </div>
     <div class="job-desc"><?= nl2br(htmlspecialchars($job['description'] ?? '')) ?></div>
     <?php endif; ?>
  
     <?php if ($job['status'] === 'taken'): ?>
       <div style="text-align:center;padding:40px 28px;background:rgba(255,59,48,.05);border:1px solid rgba(255,59,48,.15);border-radius:14px">
-        <div style="font-size:48px;margin-bottom:14px">ðŸš«</div>
+        <div style="font-size:48px;margin-bottom:14px">🚫</div>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--white);margin-bottom:10px">Position No Longer Available</h3>
         <p style="font-size:14px;color:var(--muted);margin-bottom:20px">This role has been filled. Check our other open positions.</p>
         <a href="Employment.php" class="btn-gold">View Other Positions</a>
@@ -193,17 +193,17 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
  
     <?php elseif ($success): ?>
       <div class="success-block">
-        <div style="font-size:52px;margin-bottom:14px">ðŸŽ‰</div>
+        <div style="font-size:52px;margin-bottom:14px">🎉</div>
         <h3>Application Submitted!</h3>
         <p><?= htmlspecialchars($message) ?></p>
         <div class="timeline">
           <div class="t-step done">
-            <div class="t-num">âœ“</div>
+            <div class="t-num">✓</div>
             <div><div class="t-title">Application Received</div><div class="t-desc">Your application is recorded and a confirmation email has been sent.</div></div>
           </div>
           <div class="t-step now">
             <div class="t-num">2</div>
-            <div><div class="t-title">Under Review</div><div class="t-desc">Our HR team will review your application within 3â€“5 business days.</div></div>
+            <div><div class="t-title">Under Review</div><div class="t-desc">Our HR team will review your application within 3–5 business days.</div></div>
           </div>
           <div class="t-step">
             <div class="t-num">3</div>
@@ -219,7 +219,7 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
  
     <?php else: ?>
       <?php if ($message): ?>
-        <div class="error-msg">âš ï¸ <?= htmlspecialchars($message) ?></div>
+        <div class="error-msg">⚠️ <?= htmlspecialchars($message) ?></div>
       <?php endif; ?>
       <div class="form-card">
         <h3>Your Application</h3>
@@ -237,10 +237,10 @@ body.ch #cur-ring{width:28px;height:28px;background:rgba(200,164,60,.06)}
           <div class="form-group">
             <label>Resume / CV <span>(optional)</span></label>
             <input type="file" name="resume" accept=".pdf,.doc,.docx">
-            <p class="file-hint">Accepted: PDF, DOC, DOCX Â· Max 5MB</p>
+            <p class="file-hint">Accepted: PDF, DOC, DOCX &middot; Max 5MB</p>
           </div>
           <div class="submit-row">
-            <button type="submit" name="apply" class="btn-gold">Submit Application â†’</button>
+            <button type="submit" name="apply" class="btn-gold">Submit Application →</button>
             <p class="form-note">By submitting you agree to our<br><a href="policies.html" style="color:var(--gold)">Terms &amp; Policies</a></p>
           </div>
         </form>

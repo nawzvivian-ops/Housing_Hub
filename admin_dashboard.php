@@ -3096,10 +3096,10 @@ support@housinghuborg.ug";
   <!-- SUMMARY LEGEND -->
   <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--muted);line-height:1.8">
     <strong style="color:var(--gold)">ℹ️ How user agreements work:</strong><br>
-    • Records are created automatically when a user accepts terms on the platform (lease_apply.php, register.php, etc.).<br>
-    • You can also add records manually using the form above for offline agreements.<br>
-    • <strong style="color:var(--white)">Mark Agreed</strong> lets you manually confirm an agreement that was accepted outside the platform.<br>
-    • <strong style="color:var(--white)">Property</strong> can be blank for platform-wide agreements (T&amp;Cs, privacy policy, etc.).
+    - Records are created automatically when a user accepts terms on the platform (lease_apply.php, register.php, etc.).<br>
+    - You can also add records manually using the form above for offline agreements.<br>
+    - <strong style="color:var(--white)">Mark Agreed</strong> lets you manually confirm an agreement that was accepted outside the platform.<br>
+    - <strong style="color:var(--white)">Property</strong> can be blank for platform-wide agreements (T&amp;Cs, privacy policy, etc.).
   </div>
 </section>
 

@@ -68,7 +68,7 @@ a { display:inline-block; margin-top:15px; text-decoration:none; color:#4f46e5; 
 
     <button type="submit">Update Password</button>
 </form>
-<a href="Tenant.php">â† Back to Dashboard</a>
+<a href="Tenant.php">← Back to Dashboard</a>
 </div>
 </body>
 </html>

@@ -88,7 +88,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .cta-block{background:linear-gradient(135deg,rgba(200,164,60,.12),rgba(14,90,200,.1));border:1px solid var(--border);border-radius:16px;padding:72px;text-align:center}
 .cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);margin-bottom:16px}
 .cta-block h2 em{color:var(--gold);font-style:italic}
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;

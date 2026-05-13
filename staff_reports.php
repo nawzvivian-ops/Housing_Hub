@@ -228,8 +228,8 @@ button{
             <div>
               <div class="report-title"><?= htmlspecialchars($r['title']) ?></div>
               <div class="meta">
-                <?= ucfirst(htmlspecialchars($r['report_type'])) ?> •
-                Priority: <?= ucfirst(htmlspecialchars($r['priority'])) ?> •
+                <?= ucfirst(htmlspecialchars($r['report_type'])) ?> -
+                Priority: <?= ucfirst(htmlspecialchars($r['priority'])) ?> -
                 <?= $r['created_at'] ? date('d M Y, H:i', strtotime($r['created_at'])) : '' ?>
               </div>
             </div>

@@ -86,9 +86,9 @@ if (!empty($email)) {
     }
  
     $body .= "Next steps:\n";
-    $body .= "  • Keep your phone (" . $phone . ") reachable\n";
-    $body .= "  • Check your email regularly for onboarding instructions\n";
-    $body .= "  • Log in to the staff portal when directed\n\n";
+    $body .= "  - Keep your phone (" . $phone . ") reachable\n";
+    $body .= "  - Check your email regularly for onboarding instructions\n";
+    $body .= "  - Log in to the staff portal when directed\n\n";
     $body .= "Welcome to the HousingHub team!\n\n";
     $body .= "Warm regards,\n";
     $body .= "HousingHub HR Team\n";

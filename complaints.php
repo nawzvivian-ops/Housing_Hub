@@ -15,7 +15,7 @@ body.cursor-hover #cur-dot{width:8px;height:8px;background:#fff}
 body.cursor-hover #cur-ring{width:20px;height:20px;border-color:var(--gold);background:rgba(200,164,60,.06)}
 body.cursor-click #cur-dot{width:8px;height:8px}
 body.cursor-click #cur-ring{width:20px;height:20px}
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -151,7 +151,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>Every Voice<br><em>Heard &amp;</em><br><span class="stroke">Resolved.</span></h1>
-    <p class="hero-sub">HousingHub's Complaints & Feedback system gives tenants a proper channel to raise issues â€” and gives landlords and admins a structured dashboard to track, respond to, and close every complaint.</p>
+    <p class="hero-sub">HousingHub's Complaints & Feedback system gives tenants a proper channel to raise issues — and gives landlords and admins a structured dashboard to track, respond to, and close every complaint.</p>
     <div class="hero-btns">
       <a href="index.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>

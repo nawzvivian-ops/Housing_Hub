@@ -189,7 +189,7 @@ body::before {
         <img src="image/hub.jpg" alt="Photo" class="logo-circle">
         <div class="logo-text-container">
             <h1 class="logo-text">HOUSING HUB</h1>
-            <h2 class="logo-slogan">“Your Property, Our Priority”</h2>
+            <h2 class="logo-slogan">"Your Property, Our Priority"</h2>
     </div>
     
         

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Core Values â€“ Housing Hub</title>
+<title>Core Values – Housing Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -174,23 +174,23 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   </div>
 </section>
 <section class="values-grid z reveal">
-  <div class="value-card"><div class="value-number">01</div><div class="value-icon">ðŸ”</div><h3>Transparency</h3><p>We believe in open, honest communication with every user. From pricing to policies to how data is used â€” nothing is hidden at Housing Hub.</p></div>
-  <div class="value-card"><div class="value-number">02</div><div class="value-icon">âš–ï¸</div><h3>Integrity</h3><p>We do what we say and say what we do. Our platform is built on trust â€” earned through honesty and accountability in every interaction.</p></div>
-  <div class="value-card"><div class="value-number">03</div><div class="value-icon">ðŸŒŸ</div><h3>Excellence</h3><p>We are committed to delivering the highest quality experience â€” whether it's the speed of our platform, the accuracy of our reports, or the responsiveness of our support.</p></div>
-  <div class="value-card"><div class="value-number">04</div><div class="value-icon">â¤ï¸</div><h3>People First</h3><p>Behind every property is a person â€” a landlord who has invested their savings, a tenant who calls it home. Every feature we build is designed with real people's lives in mind.</p></div>
-  <div class="value-card"><div class="value-number">05</div><div class="value-icon">ðŸ’¡</div><h3>Innovation</h3><p>We challenge the status quo. From virtual property tours to AI-driven analytics, we invest in technology that makes a real difference across Africa.</p></div>
-  <div class="value-card"><div class="value-number">06</div><div class="value-icon">ðŸ¤</div><h3>Community</h3><p>We are stronger together. Housing Hub fosters a community where landlords and tenants collaborate â€” creating a rental ecosystem built on mutual respect.</p></div>
-  <div class="value-card"><div class="value-number">07</div><div class="value-icon">ðŸ”’</div><h3>Security &amp; Privacy</h3><p>We take the protection of personal and financial data with the utmost seriousness. Your data is always safe, private, and under your control.</p></div>
-  <div class="value-card"><div class="value-number">08</div><div class="value-icon">â™¿</div><h3>Inclusivity</h3><p>Great property management tools should be available to everyone â€” regardless of location, property size, or technical skill.</p></div>
+  <div class="value-card"><div class="value-number">01</div><div class="value-icon">🔍</div><h3>Transparency</h3><p>We believe in open, honest communication with every user. From pricing to policies to how data is used — nothing is hidden at Housing Hub.</p></div>
+  <div class="value-card"><div class="value-number">02</div><div class="value-icon">⚖️</div><h3>Integrity</h3><p>We do what we say and say what we do. Our platform is built on trust — earned through honesty and accountability in every interaction.</p></div>
+  <div class="value-card"><div class="value-number">03</div><div class="value-icon">🌟</div><h3>Excellence</h3><p>We are committed to delivering the highest quality experience — whether it's the speed of our platform, the accuracy of our reports, or the responsiveness of our support.</p></div>
+  <div class="value-card"><div class="value-number">04</div><div class="value-icon">❤️</div><h3>People First</h3><p>Behind every property is a person — a landlord who has invested their savings, a tenant who calls it home. Every feature we build is designed with real people's lives in mind.</p></div>
+  <div class="value-card"><div class="value-number">05</div><div class="value-icon">💡</div><h3>Innovation</h3><p>We challenge the status quo. From virtual property tours to AI-driven analytics, we invest in technology that makes a real difference across Africa.</p></div>
+  <div class="value-card"><div class="value-number">06</div><div class="value-icon">🤝</div><h3>Community</h3><p>We are stronger together. Housing Hub fosters a community where landlords and tenants collaborate — creating a rental ecosystem built on mutual respect.</p></div>
+  <div class="value-card"><div class="value-number">07</div><div class="value-icon">🔒</div><h3>Security &amp; Privacy</h3><p>We take the protection of personal and financial data with the utmost seriousness. Your data is always safe, private, and under your control.</p></div>
+  <div class="value-card"><div class="value-number">08</div><div class="value-icon">♿</div><h3>Inclusivity</h3><p>Great property management tools should be available to everyone — regardless of location, property size, or technical skill.</p></div>
 </section>
 <section class="values-pledge z reveal">
   <h2>Our Pledge <em>to You</em></h2>
-  <p>When you use Housing Hub, you can always count on us to uphold these values â€” consistently and without compromise.</p>
+  <p>When you use Housing Hub, you can always count on us to uphold these values — consistently and without compromise.</p>
   <div class="pledge-points">
-    <div class="pledge-point"><div class="check">âœ…</div><p>We will always be transparent about our fees, features, and policies.</p></div>
-    <div class="pledge-point"><div class="check">âœ…</div><p>We will respond to support requests within 24 hours, every day.</p></div>
-    <div class="pledge-point"><div class="check">âœ…</div><p>We will never sell your personal data to third parties.</p></div>
-    <div class="pledge-point"><div class="check">âœ…</div><p>We will continuously improve our platform based on your feedback.</p></div>
+    <div class="pledge-point"><div class="check">✅</div><p>We will always be transparent about our fees, features, and policies.</p></div>
+    <div class="pledge-point"><div class="check">✅</div><p>We will respond to support requests within 24 hours, every day.</p></div>
+    <div class="pledge-point"><div class="check">✅</div><p>We will never sell your personal data to third parties.</p></div>
+    <div class="pledge-point"><div class="check">✅</div><p>We will continuously improve our platform based on your feedback.</p></div>
   </div>
 </section>
 <section class="cta z reveal">

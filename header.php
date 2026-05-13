@@ -3,13 +3,13 @@
         <img src="image/hub.jpg" alt="Photo" class="logo-circle">
         <div class="logo-text-container">
             <h1 class="logo-text">HOUSING HUB</h1>
-            <span class="logo-slogan">â€œYour Property, Our Priorityâ€</span>
+            <span class="logo-slogan">"Your Property, Our Priority"</span>
         </div>
     </div>
      <nav>
             
           <div class="dropdown">
-    <a href="javascript:void(0)" class="dropdown-toggle">Home â–¾</a>
+    <a href="javascript:void(0)" class="dropdown-toggle">Home &#9660;</a>
     <div class="dropdown-menu">
         <a href="#welcome"> Welcome</a>
         <a href="works.php"> How It Works</a>
@@ -18,7 +18,7 @@
 </div>
            <!-- Features Dropdown -->
 <div class="dropdown">
-    <a href="#" class="dropdown-toggle">Features â–¾</a>
+    <a href="#" class="dropdown-toggle">Features &#9660;</a>
 
     <div class="dropdown-menu">
         <a href="virtual.php">Virtual Property Tours</a>
@@ -36,7 +36,7 @@
 </div>
          <!-- Use Cases Dropdown -->
         <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases â–¾</a>
+            <a href="javascript:void(0)" class="dropdown-toggle">Use Cases &#9660;</a>
             <div class="dropdown-menu">
                 <a href="Tenant.php"> Tenant</a>
                 <a href="staff.php">Staff</a>
@@ -48,7 +48,7 @@
         </div>
         <!-- Properties Dropdown -->
         <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle">Properties â–¾</a>
+            <a href="javascript:void(0)" class="dropdown-toggle">Properties &#9660;</a>
             <div class="dropdown-menu">
                 <a href="properties.php" class="dropdown-all">All Properties</a>
                 <div class="dropdown-divider"></div>

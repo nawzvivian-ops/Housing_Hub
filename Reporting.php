@@ -88,7 +88,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .cta-block{background:linear-gradient(135deg,rgba(200,164,60,.12),rgba(14,90,200,.1));border:1px solid var(--border);border-radius:16px;padding:72px;text-align:center}
 .cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);margin-bottom:16px}
 .cta-block h2 em{color:var(--gold);font-style:italic}
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -174,7 +174,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
   <p class="section-sub">Simple steps to get up and running on HousingHub.</p>
-  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Connect Your Properties</div><div class="step-desc">Add your properties and units to your HousingHub landlord account.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Tenants Pay Online</div><div class="step-desc">Tenants pay via MoMo, card, or bank â€” all captured automatically.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Reports Auto-Generate</div><div class="step-desc">Monthly summaries and payment statuses update in real time.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Export Anytime</div><div class="step-desc">Download PDF or CSV reports for any date range with one click.</div></div></div>
+  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Connect Your Properties</div><div class="step-desc">Add your properties and units to your HousingHub landlord account.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Tenants Pay Online</div><div class="step-desc">Tenants pay via MoMo, card, or bank — all captured automatically.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Reports Auto-Generate</div><div class="step-desc">Monthly summaries and payment statuses update in real time.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Export Anytime</div><div class="step-desc">Download PDF or CSV reports for any date range with one click.</div></div></div>
 </section>
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>

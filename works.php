@@ -26,7 +26,7 @@ body.cursor-click #cur-ring{width:20px;height:20px}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -42,7 +42,7 @@ nav { position: relative !important; z-index: 100000 !important; }
 .dd-menu { z-index: 100002 !important; }
 @media(max-width:900px){ body { padding-top: 80px !important; } }
 
-/* â”€â”€ HEADER â”€â”€ */
+/* ── HEADER ── */
 header{position:sticky;top:0;z-index:9000;display:flex;justify-content:space-between;align-items:center;padding:18px 60px;background:var(--gold);border-bottom:1px solid var(--border);animation:fadeDown .8s ease both;overflow:visible}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
 .header-logo{display:flex;align-items:center;gap:14px}
@@ -61,7 +61,7 @@ nav>a:hover{opacity:.8}
 .dd-menu a:hover{color:var(--gold);background:rgba(200,164,60,.08)}
 .dd-divider{height:1px;background:var(--border);margin:5px 0}
 
-/* â”€â”€ HERO â”€â”€ */
+/* ── HERO ── */
 .page-hero{position:relative;z-index:10;text-align:center;padding:120px 60px 90px;border-bottom:1px solid var(--border)}
 .page-eyebrow{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:14px;margin-bottom:24px;opacity:0;animation:fadeUp .8s ease .2s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -73,7 +73,7 @@ nav>a:hover{opacity:.8}
 .tab-btn{padding:11px 28px;border:1px solid var(--border);border-radius:30px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;cursor:pointer;transition:all .3s}
 .tab-btn.active,.tab-btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
 
-/* â”€â”€ JOURNEY SECTIONS â”€â”€ */
+/* ── JOURNEY SECTIONS ── */
 .journey{position:relative;z-index:10;padding:80px 60px}
 .journey-label{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:48px}
 .journey-label::before{content:"";width:28px;height:1px;background:var(--gold)}
@@ -82,7 +82,7 @@ nav>a:hover{opacity:.8}
 .journey-sub{font-size:15px;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:64px}
 .journey-divider{height:1px;background:var(--border);margin:0 60px}
 
-/* â”€â”€ STEP CARDS â”€â”€ */
+/* ── STEP CARDS ── */
 .steps-flow{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;position:relative}
 .steps-flow::before{content:"";position:absolute;top:52px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gb),var(--gb),transparent);pointer-events:none;z-index:0}
 .step{position:relative;z-index:1;padding:0 28px 40px;text-align:center}
@@ -93,11 +93,11 @@ nav>a:hover{opacity:.8}
 .step-desc{font-size:13px;color:var(--muted);line-height:1.7}
 .step-arrow{position:absolute;top:32px;right:-12px;font-size:18px;color:var(--gold);opacity:.5;z-index:2}
 
-/* â”€â”€ ROLE PANELS â”€â”€ */
+/* ── ROLE PANELS ── */
 .role-panel{display:none;animation:fadeUp .5s ease both}
 .role-panel.active{display:block}
 
-/* â”€â”€ DETAIL STRIP â”€â”€ */
+/* ── DETAIL STRIP ── */
 .detail-strip{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:48px}
 .detail-col{padding:40px}
 .detail-col:first-child{border-right:1px solid var(--border);background:rgba(255,255,255,.02)}
@@ -105,7 +105,7 @@ nav>a:hover{opacity:.8}
 .detail-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;font-size:13px;color:var(--muted);line-height:1.6}
 .detail-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
 
-/* â”€â”€ COMPARISON TABLE â”€â”€ */
+/* ── COMPARISON TABLE ── */
 .compare-wrap{position:relative;z-index:10;padding:80px 60px}
 .compare-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .compare-table th{padding:16px 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;text-align:left}
@@ -118,7 +118,7 @@ nav>a:hover{opacity:.8}
 .compare-table td.after{color:rgba(200,220,100,.9);background:rgba(200,164,60,.02)}
 .compare-table tr:hover td{background:rgba(255,255,255,.03)}
 
-/* â”€â”€ FAQ â”€â”€ */
+/* ── FAQ ── */
 .faq-wrap{position:relative;z-index:10;padding:80px 60px}
 .faq-list{max-width:760px;margin:0 auto}
 .faq-item{border-bottom:1px solid var(--border);padding:22px 0}
@@ -129,7 +129,7 @@ nav>a:hover{opacity:.8}
 .faq-a{font-size:13px;color:var(--muted);line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
 .faq-item.open .faq-a{max-height:240px;padding-top:14px}
 
-/* â”€â”€ CTA â”€â”€ */
+/* ── CTA ── */
 .cta-block{position:relative;z-index:10;margin:0 60px 80px;background:linear-gradient(135deg,rgba(200,164,60,.12),rgba(14,90,200,.08));border:1px solid var(--border);border-radius:16px;padding:72px;text-align:center}
 .cta-block h2{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:var(--white);margin-bottom:16px}
 .cta-block h2 em{color:var(--gold);font-style:italic}
@@ -208,7 +208,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â• TENANT JOURNEY â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ════════════ TENANT JOURNEY ════════════ -->
 <div id="role-tenant" class="role-panel active">
 
   <div class="journey z reveal">
@@ -232,7 +232,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="step">
         <div class="step-bubble" data-num="3">&#128269;</div>
         <div class="step-title">Search &amp; Filter</div>
-        <div class="step-desc">Browse by location, type, price and size. Take 360Â° virtual tours before visiting in person.</div>
+        <div class="step-desc">Browse by location, type, price and size. Take 360° virtual tours before visiting in person.</div>
         <div class="step-arrow">&#8594;</div>
       </div><br>
       
@@ -259,7 +259,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
       <div class="detail-col">
         <h3>What You Can Do as a Tenant</h3>
         <div class="detail-item"><div class="detail-dot"></div>Browse and filter 1,200+ verified property listings</div>
-        <div class="detail-item"><div class="detail-dot"></div>Take virtual 360Â° property tours from your phone</div>
+        <div class="detail-item"><div class="detail-dot"></div>Take virtual 360° property tours from your phone</div>
         <div class="detail-item"><div class="detail-dot"></div>Submit applications with documents digitally</div>
         <div class="detail-item"><div class="detail-dot"></div>Sign your lease agreement online, no printing</div>
         <div class="detail-item"><div class="detail-dot"></div>Pay rent via MoMo, Airtel, card, or bank transfer</div>
@@ -283,7 +283,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â• propertyowner JOURNEY â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ════════════ propertyowner JOURNEY ════════════ -->
 <div id="role-PropertyOwner" class="role-panel">
 
   <div class="journey z reveal">
@@ -357,7 +357,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
 
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â• BROKER JOURNEY â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ════════════ BROKER JOURNEY ════════════ -->
 <div id="role-broker" class="role-panel">
 
   <div class="journey z reveal">
@@ -409,7 +409,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <div class="detail-item"><div class="detail-dot"></div>Create a verified broker profile with your badge</div>
         <div class="detail-item"><div class="detail-dot"></div>List properties on behalf of landlords and owners</div>
         <div class="detail-item"><div class="detail-dot"></div>Manage all tenant leads and enquiries in one place</div>
-        <div class="detail-item"><div class="detail-dot"></div>Offer 360Â° virtual tours to clients remotely</div>
+        <div class="detail-item"><div class="detail-dot"></div>Offer 360° virtual tours to clients remotely</div>
         <div class="detail-item"><div class="detail-dot"></div>Forward and track tenant applications digitally</div>
         <div class="detail-item"><div class="detail-dot"></div>Close deals and have commissions tracked automatically</div>
         <div class="detail-item"><div class="detail-dot"></div>Share professional property listings with direct links</div>
@@ -419,7 +419,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
         <h3>Your Broker Dashboard Includes</h3>
         <div class="detail-item"><div class="detail-dot"></div>Active listings with views, enquiries, and status</div>
         <div class="detail-item"><div class="detail-dot"></div>Lead manager with follow-up reminders per client</div>
-        <div class="detail-item"><div class="detail-dot"></div>Application tracker â€” submitted, pending, approved</div>
+        <div class="detail-item"><div class="detail-dot"></div>Application tracker — submitted, pending, approved</div>
         <div class="detail-item"><div class="detail-dot"></div>Commission history with full deal breakdown records</div>
         <div class="detail-item"><div class="detail-dot"></div>Verified broker badge visible on all your listings</div>
         <div class="detail-item"><div class="detail-dot"></div>Client communication history per property</div>

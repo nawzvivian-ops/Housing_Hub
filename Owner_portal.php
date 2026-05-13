@@ -68,7 +68,7 @@ section{padding:100px 60px;position:relative;z-index:10}
 .pain-col-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:8px}
 .before .pain-col-label{color:#ff6b6b}
 .after .pain-col-label{color:var(--gold)}
-/* â”€â”€ FIXED HEADER â€” cannot scroll with content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FIXED HEADER — cannot scroll with content ─────────────── */
 body { padding-top: 106px !important; }
 header {
   position: fixed !important;
@@ -151,7 +151,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="hero-content">
     <div class="hero-eyebrow">Platform Feature</div>
     <h1>Your Entire Portfolio,<br><em>One</em><br><span class="stroke">Dashboard.</span></h1>
-    <p class="hero-sub">The HousingHub Owner Portal gives property owners a complete command centre â€” see all your properties, tenants, payments, maintenance jobs, and reports in one secure real-time dashboard.</p>
+    <p class="hero-sub">The HousingHub Owner Portal gives property owners a complete command centre — see all your properties, tenants, payments, maintenance jobs, and reports in one secure real-time dashboard.</p>
     <div class="hero-btns">
       <a href="index.php" class="btn-primary">Get Started</a>
       <a href="properties.php" class="btn-secondary">Browse Properties</a>
@@ -176,7 +176,7 @@ footer{padding:32px 60px;border-top:1px solid var(--border);text-align:center;fo
   <div class="section-eyebrow">Getting Started</div>
   <h2 class="section-title">How It <em>Works</em></h2>
   <p class="section-sub">Simple steps to get up and running on HousingHub.</p>
-  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Add Your Properties</div><div class="step-desc">Register all your properties and units on HousingHub in minutes.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Add Tenants</div><div class="step-desc">Assign tenants to units â€” existing ones or new registrations.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Dashboard Goes Live</div><div class="step-desc">Your owner portal populates in real time with payments, maintenance, and activity.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Report &amp; Manage</div><div class="step-desc">Generate reports, track issues, and manage everything from one screen.</div></div></div>
+  <div class="steps-grid"><div class="step-card"><div class="step-num">01</div><div class="step-title">Add Your Properties</div><div class="step-desc">Register all your properties and units on HousingHub in minutes.</div></div><div class="step-card"><div class="step-num">02</div><div class="step-title">Add Tenants</div><div class="step-desc">Assign tenants to units — existing ones or new registrations.</div></div><div class="step-card"><div class="step-num">03</div><div class="step-title">Dashboard Goes Live</div><div class="step-desc">Your owner portal populates in real time with payments, maintenance, and activity.</div></div><div class="step-card"><div class="step-num">04</div><div class="step-title">Report &amp; Manage</div><div class="step-desc">Generate reports, track issues, and manage everything from one screen.</div></div></div>
 </section>
 <section class="z reveal">
   <div class="section-eyebrow">What You Get</div>

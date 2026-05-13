@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Vision â€“ Housing Hub</title>
+<title>Our Vision – Housing Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -176,27 +176,27 @@ body.cursor-click #cur-ring{width:28px;height:28px}
 </div>
 <section class="vision-statement z reveal">
   <h2>Where We're <em>Headed</em></h2>
-  <div class="vision-quote">"We envision a future where every landlord, tenant, and property owner in Africa has access to digital tools that make housing fair, transparent, and stress-free â€” regardless of where they live or how big their portfolio is."</div>
+  <div class="vision-quote">"We envision a future where every landlord, tenant, and property owner in Africa has access to digital tools that make housing fair, transparent, and stress-free — regardless of where they live or how big their portfolio is."</div>
   <p>At Housing Hub, we believe technology should work for everyone. Our vision is to democratize property management across East Africa and beyond.</p>
 </section>
 <section class="pillars z reveal">
   <h2>The Pillars of Our <em>Vision</em></h2>
   <div class="pillars-grid">
-    <div class="pillar-card"><div class="pillar-icon">ðŸŒ</div><h3>Pan-African Reach</h3><p>Growing beyond Uganda, aiming to serve landlords and tenants across East and Central Africa with localized, culturally relevant tools.</p></div>
-    <div class="pillar-card"><div class="pillar-icon">âš¡</div><h3>Digital-First Housing</h3><p>Every rental transaction â€” from application to lease signing to rent payment â€” happening online, seamlessly and securely.</p></div>
-    <div class="pillar-card"><div class="pillar-icon">ðŸ¤</div><h3>Community &amp; Trust</h3><p>A platform where landlords and tenants respect each other, supported by transparent records, fair policies, and real accountability.</p></div>
-    <div class="pillar-card"><div class="pillar-icon">ðŸš€</div><h3>Continuous Innovation</h3><p>Investing in AI, automation, and smart data to keep Housing Hub ahead â€” constantly improving to meet evolving user needs.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">🌍</div><h3>Pan-African Reach</h3><p>Growing beyond Uganda, aiming to serve landlords and tenants across East and Central Africa with localized, culturally relevant tools.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">⚡</div><h3>Digital-First Housing</h3><p>Every rental transaction — from application to lease signing to rent payment — happening online, seamlessly and securely.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">🤝</div><h3>Community &amp; Trust</h3><p>A platform where landlords and tenants respect each other, supported by transparent records, fair policies, and real accountability.</p></div>
+    <div class="pillar-card"><div class="pillar-icon">🚀</div><h3>Continuous Innovation</h3><p>Investing in AI, automation, and smart data to keep Housing Hub ahead — constantly improving to meet evolving user needs.</p></div>
   </div>
 </section>
 <section class="mission-standalone z reveal">
   <h2>Our <em>Mission</em></h2>
   <p class="section-sub">The purpose that drives every feature and every team member at Housing Hub.</p>
-  <div class="mission-quote">"To provide landlords, property managers, tenants, and brokers with an intelligent, easy-to-use platform that reduces manual work, improves communication, ensures timely rent collection, and delivers full visibility over every property â€” empowering smarter housing decisions across Africa."</div>
+  <div class="mission-quote">"To provide landlords, property managers, tenants, and brokers with an intelligent, easy-to-use platform that reduces manual work, improves communication, ensures timely rent collection, and delivers full visibility over every property — empowering smarter housing decisions across Africa."</div>
   <div class="mission-cards">
-    <div class="mission-card"><div class="m-icon">âš¡</div><h4>Reduce Manual Work</h4><p>Automate rent collection, lease renewals, maintenance tracking, and tenant communication so managers can focus on growth.</p></div>
-    <div class="mission-card"><div class="m-icon">ðŸ”—</div><h4>Connect Everyone</h4><p>Bring landlords, tenants, brokers, and owners onto one shared platform where communication is clear and fully documented.</p></div>
-    <div class="mission-card"><div class="m-icon">ðŸ“Š</div><h4>Deliver Full Visibility</h4><p>Real-time insights into income, occupancy, maintenance costs, and tenant satisfaction â€” anytime, from any device.</p></div>
-    <div class="mission-card"><div class="m-icon">ðŸŒ</div><h4>Empower Africa</h4><p>Make world-class property management tools accessible to every landlord and tenant in Africa â€” small or large portfolio.</p></div>
+    <div class="mission-card"><div class="m-icon">⚡</div><h4>Reduce Manual Work</h4><p>Automate rent collection, lease renewals, maintenance tracking, and tenant communication so managers can focus on growth.</p></div>
+    <div class="mission-card"><div class="m-icon">🔗</div><h4>Connect Everyone</h4><p>Bring landlords, tenants, brokers, and owners onto one shared platform where communication is clear and fully documented.</p></div>
+    <div class="mission-card"><div class="m-icon">📊</div><h4>Deliver Full Visibility</h4><p>Real-time insights into income, occupancy, maintenance costs, and tenant satisfaction — anytime, from any device.</p></div>
+    <div class="mission-card"><div class="m-icon">🌍</div><h4>Empower Africa</h4><p>Make world-class property management tools accessible to every landlord and tenant in Africa — small or large portfolio.</p></div>
   </div>
 </section>
 <section class="mission-section z reveal">
@@ -216,7 +216,7 @@ body.cursor-click #cur-ring{width:28px;height:28px}
   <div class="road-steps">
     <div class="road-step"><div class="year">2020</div><h4>Founded</h4><p>Launched in Kampala with core property listing features.</p></div>
     <div class="road-step"><div class="year">2022</div><h4>Expanded</h4><p>Added rent collection, maintenance, and tenant portals.</p></div>
-    <div class="road-step active"><div class="year">2026 âœ“</div><h4>Now</h4><p>Full-suite platform serving Kampala, Jinja &amp; Mukono.</p></div>
+    <div class="road-step active"><div class="year">2026 ✓</div><h4>Now</h4><p>Full-suite platform serving Kampala, Jinja &amp; Mukono.</p></div>
     <div class="road-step"><div class="year">2028</div><h4>Grow</h4><p>Expand to Kenya, Tanzania, and Rwanda.</p></div>
     <div class="road-step"><div class="year">2030</div><h4>Lead</h4><p>Africa's #1 property management platform.</p></div>
   </div>

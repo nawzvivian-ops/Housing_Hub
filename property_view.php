@@ -472,7 +472,7 @@ footer{padding:28px 60px;border-top:1px solid var(--border);text-align:center;fo
             </div>
           </div>
         </div>
-        <textarea class="review-textarea" name="comment" placeholder="Share your experience with this property…" required></textarea>
+        <textarea class="review-textarea" name="comment" placeholder="Share your experience with this property..." required></textarea>
         <div style="margin-top:14px"><button name="submit_review" class="btn-submit">Submit Review</button></div>
       </form>
       <?php else: ?><div class="login-prompt" style="margin-bottom:24px">Please <a href="login.php">login</a> to leave a review.</div><?php endif; ?>
