@@ -26,10 +26,8 @@ if (empty($transaction_id)) {
     die("Please provide the Transaction ID from your SMS.");
 }
 
-// 3. Update the payment record
-// We change the status to 'Pending Verification' 
-// We store the Transaction ID in a column (make sure this column exists in your DB!)
-$status = 'Pending Verification';
+// 3. Update the payment record for manual admin verification.
+$status = 'pending_verification';
 
 $stmt = $conn->prepare("UPDATE payments SET transaction_ref = ?, status = ?, payment_response = ? WHERE id = ?");
 
@@ -44,7 +42,7 @@ $stmt->bind_param("sssi", $transaction_id, $status, $response_data, $payment_id)
 
 if ($stmt->execute()) {
     // 4. Redirect to a success page that tells the user to wait for admin approval
-    header("Location: payment_success.php?ref=" . urlencode($transaction_id));
+    header("Location: payment_success.php?payment_id=" . $payment_id . "&method=mobile_money");
     exit();
 } else {
     echo "Error updating record: " . $conn->error;

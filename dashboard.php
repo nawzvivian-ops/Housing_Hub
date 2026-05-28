@@ -530,7 +530,7 @@ body.click #cr{width:28px;height:28px}
         <div class="pc-icon">📱</div>
         <div class="pc-title">MTN Mobile Money</div>
         <div class="pc-sub">MTN MoMo · Airtel Money</div>
-        <div class="pc-tag">Instant confirmation</div>
+        <div class="pc-tag">Powered by Pesapal</div>
         <form method="POST" action="process_payment.php">
           <input type="hidden" name="property_id" value="<?= $tenant_property_id ?>">
           <input type="hidden" name="action" value="rent">
@@ -548,15 +548,15 @@ body.click #cr{width:28px;height:28px}
       <div class="pc pc-card">
   <div class="pc-icon">💳</div>
   <div class="pc-title">Debit / Credit Card</div>
-  <div class="pc-sub">Visa · Mastercard · Verve</div>
-  <div class="pc-tag">Secured by Flutterwave</div>
-  <form method="POST" action="process_payment.php" onsubmit="return showAlert(event)">
+  <div class="pc-sub">Visa · Mastercard</div>
+  <div class="pc-tag">Powered by Pesapal</div>
+  <form method="POST" action="process_payment.php">
     <input type="hidden" name="property_id" value="<?= $tenant_property_id ?>">
     <input type="hidden" name="action" value="rent">
     <input type="hidden" name="method" value="card">
     <div class="pay-field">
-      <label>Card Number</label>
-      <input type="text" name="card_hint" placeholder="**** **** **** ****" maxlength="19">
+      <label>Secure Card Checkout</label>
+      <input type="text" value="Card details are entered on Pesapal" disabled>
     </div>
     <div style="font-size:12px;color:rgba(59,130,246,.7);margin-bottom:12px">
       Amount: <strong style="color:#93c5fd">UGX <?= $rent_amount ?></strong>
@@ -857,10 +857,6 @@ body.click #cr{width:28px;height:28px}
 <?php unset($_SESSION['error']); endif; ?>
  
 <script>
-  function showAlert(event) {
-  alert("Card Payment is coming soon! We are currently integrating this system. Please use Mobile Money or Bank Transfer for now.");
-  return false; // Prevent form submission
-}
 /* CURSOR */
 const cd=document.getElementById('cd'),cr=document.getElementById('cr'),ct=document.getElementById('ct');
 let mx=-200,my=-200,rx=-200,ry=-200,tx=-200,ty=-200;

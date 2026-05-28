@@ -19,7 +19,7 @@ A comprehensive web-based property management system designed for Uganda's real 
 - **Multi-Role User Management**: Admin, Property Owner, Staff, Tenant, Broker, and Visitor roles
 - **Property Management**: Complete CRUD operations for property listings with amenities, images, and pricing
 - **Tenant Management**: Lease agreements, tenant profiles, and status tracking
-- **Payment Processing**: Integrated with Flutterwave, Mobile Money, and Bank Transfer options
+- **Payment Processing**: Integrated with Pesapal live checkout, Mobile Money, card, and Bank Transfer options
 - **Maintenance Requests**: Submit, assign, and track maintenance work orders
 - **Guest/Visitor Management**: Registration and approval system for property viewings
 - **Complaints System**: Tenant feedback and resolution tracking
@@ -51,7 +51,7 @@ A comprehensive web-based property management system designed for Uganda's real 
 - **Google Fonts** (Typography)
 
 ### Payment Integration
-- **Flutterwave API** (Payment processing)
+- **Pesapal API 3.0** (live payment processing)
 - **Africa's Talking API** (SMS notifications)
 
 ### Development Environment
@@ -103,7 +103,7 @@ git clone https://github.com/yourusername/housinghub.git
    ```
 
 3. Configure payment gateways in `config.php`:
-   - Update Flutterwave API keys
+   - Update Pesapal live consumer key and consumer secret
    - Update Africa's Talking credentials
 
 ### 4. Install Dependencies
@@ -184,15 +184,16 @@ DB_NAME=housinghub
 MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-password
 
-FLUTTERWAVE_PUBLIC_KEY=your-public-key
-FLUTTERWAVE_SECRET_KEY=your-secret-key
+PESAPAL_CONSUMER_KEY=your-consumer-key
+PESAPAL_CONSUMER_SECRET=your-consumer-secret
+SITE_URL=https://your-domain.example
 ```
 
 ### Payment Gateway Setup
-1. Sign up for Flutterwave account
-2. Get API keys from dashboard
-3. Update webhook URLs in Flutterwave settings
-4. Test payments in sandbox mode
+1. Open a live Pesapal merchant account
+2. Add the live consumer key and consumer secret in `config.php`
+3. Deploy on a public HTTPS domain so Pesapal can reach `pesapal_ipn.php`
+4. Keep `PESAPAL_BASE_URL` pointed at `https://pay.pesapal.com/v3/api`
 
 ## 🐛 Known Issues & Limitations
 
@@ -235,5 +236,4 @@ For support and questions:
 
 ---
 
-**HousingHub** - Making property management simple and efficient in Uganda.</content>
-<parameter name="filePath">c:\wamp64\www\Housing_Hub\README.md
+**HousingHub** - Making property management simple and efficient in Uganda.

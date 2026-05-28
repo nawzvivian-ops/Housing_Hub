@@ -3,6 +3,7 @@ session_start();
 include "db_connect.php";
 require_once "send_mail.php";
 require_once "payment_receipt_helper.php";
+require_once "tenant_activation_helper.php";
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -65,6 +66,7 @@ if (isset($_GET['pay_action']) && isset($_GET['pay_id'])) {
         $receipt_sent = false;
         // Mark as paid
         mysqli_query($conn, "UPDATE payments SET status='paid', updated_at=NOW() WHERE id=$pay_id");
+        hh_activate_tenant_for_paid_payment($conn, $pay_id);
         
         // Fetch user and property info for notification
         $pay_info = mysqli_fetch_assoc(mysqli_query($conn, "SELECT p.*, u.fullname, u.email, pr.property_name 

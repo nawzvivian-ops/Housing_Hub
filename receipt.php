@@ -7,11 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$payment_id = intval($_POST['payment_id'] ?? 0);
+$payment_id = intval($_REQUEST['payment_id'] ?? 0);
 
 // Fetch payment details
 $stmt = $conn->prepare("
-    SELECT p.*, u.username, u.email, u.phone, pr.property_name, pr.address 
+    SELECT p.*, u.fullname, u.email, u.phone, pr.property_name, pr.address
     FROM payments p
     JOIN users u ON p.tenant_id = u.id
     JOIN properties pr ON p.property_id = pr.id
@@ -29,8 +29,10 @@ if (!$payment) {
 $status_color = [
     'paid' => '#22c55e',
     'pending' => '#f59e0b',
+    'pending_verification' => '#f59e0b',
     'failed' => '#ef4444'
 ];
+$badge_color = $status_color[$payment['status']] ?? '#64748b';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -173,7 +175,7 @@ $status_color = [
         
         <div class="receipt-body">
             <div style="text-align: center;">
-                <span class="status-badge" style="background: <?= $status_color[$payment['status']] ?>; color: #fff;">
+                <span class="status-badge" style="background: <?= $badge_color ?>; color: #fff;">
                     <?= strtoupper($payment['status']) ?>
                 </span>
             </div>
@@ -189,7 +191,7 @@ $status_color = [
                 </div>
                 <div class="info-item">
                     <div class="info-label">Tenant Name</div>
-                    <div class="info-value"><?= htmlspecialchars($payment['username']) ?></div>
+                    <div class="info-value"><?= htmlspecialchars($payment['fullname']) ?></div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Payment Method</div>

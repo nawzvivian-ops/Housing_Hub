@@ -25,6 +25,29 @@ $payment = $result->fetch_assoc();
 if (!$payment) {
     die("Payment record not found. Please contact support if your money was deducted.");
 }
+
+$status = strtolower((string)$payment['status']);
+$status_title = 'Payment Pending';
+$status_subtitle = 'We are checking the transaction status';
+$notice_title = 'Awaiting Confirmation:';
+$notice_text = 'Pesapal has not confirmed this payment yet. If money was deducted, the status will update automatically when the provider confirms it.';
+
+if ($status === 'paid') {
+    $status_title = 'Payment Confirmed';
+    $status_subtitle = 'Your transaction has been verified';
+    $notice_title = 'Confirmed:';
+    $notice_text = 'Your payment is complete and your receipt is ready.';
+} elseif ($status === 'failed') {
+    $status_title = 'Payment Failed';
+    $status_subtitle = 'The provider did not complete this transaction';
+    $notice_title = 'Not Completed:';
+    $notice_text = 'Please try again or contact support if you believe money was deducted.';
+} elseif ($status === 'pending_verification') {
+    $status_title = 'Payment Submitted';
+    $status_subtitle = 'Transaction is now being verified';
+    $notice_title = 'Awaiting Verification:';
+    $notice_text = 'Our administrators are matching this transaction with the payment records. Your status will update once confirmed.';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,8 +175,8 @@ if (!$payment) {
 <div class="receipt-card">
     <div class="status-header">
         <div class="icon-circle">✓</div>
-        <h2 style="margin:0">Payment Received</h2>
-        <p style="opacity:0.8; font-size: 14px; margin-top:5px">Transaction is now being verified</p>
+        <h2 style="margin:0"><?= htmlspecialchars($status_title) ?></h2>
+        <p style="opacity:0.8; font-size: 14px; margin-top:5px"><?= htmlspecialchars($status_subtitle) ?></p>
     </div>
 
     <div class="receipt-body">
@@ -184,7 +207,7 @@ if (!$payment) {
         <div class="verification-notice">
             <span class="notice-icon">⏳</span>
             <div class="notice-text">
-                <strong>Awaiting Verification:</strong> Our administrators are currently matching this transaction with the mobile money network records. Your status will update to "Paid" once confirmed.
+                <strong><?= htmlspecialchars($notice_title) ?></strong> <?= htmlspecialchars($notice_text) ?>
             </div>
         </div>
     </div>
